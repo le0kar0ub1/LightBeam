@@ -1,3 +1,7 @@
+build
+sample
+*.bin
+
 # Prerequisites
 *.d
 
@@ -22,7 +26,7 @@
 *.la
 *.lo
 
-# Shared objects (inc. Windows DLLs)
+# Shared objects
 *.dll
 *.so
 *.so.*
