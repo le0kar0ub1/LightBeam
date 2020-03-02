@@ -27,7 +27,6 @@ TARGET_BUILT_OBJECT	= 	$(shell find $(BUILDIR) -name '*$(EXTENSION_OBJ)')
 all:	build	$(KERNEL)
 
 build:
-	@make -C $(ROOT_SRC_DIR) --no-print-directory
 
 disassemble: $(KERNEL)
 	@objdump --no-show-raw-insn -d -Mintel $(KERNEL) | source-highlight -s asm -f esc256 | less -eRiMX

@@ -51,6 +51,7 @@ export  CFLAGS	=	$(INCLUDE_DIR)						\
 					-Werror
 
 export QEMU			:=	qemu-system-arm
+
 export QEMUFLAGS	:=	-no-reboot 		\
 						-serial stdio
 
