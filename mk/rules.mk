@@ -5,22 +5,13 @@
 include mk/arch.mk
 
 define RAISE
-
 	@echo -e "[\e[91;1mABORT\e[0m] $(1)"
 	@exit 1
-
 endef
 
 define INFO
-
 	@echo -e "[\e[0;34mLighBleam\e[0m] $(1)"
-
 endef
-
-# define	getDirFromProcessor
-# endef
-
-.PHONY: EvalTargetArch EvalTargetProcessor EvalTargetMachine
 
 define EvalTargetProcessor
 	$(if $(filter $(1),$(HANDLED_PROC)), $(call INFO, "Target processor $(1)"), $(call RAISE, "Invalid target processor"))

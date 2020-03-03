@@ -7,15 +7,16 @@ include mk/rules.mk
 
 export BUILDIR	:=	$(realpath .)/build
 
-export ROOT_SRC_DIR	:= src
-export ROOT_INC_DIR	:= inc
-export ROOT_ARC_DIR	:= arch
+export MKHELPER_DIR	:=	$(shell realpath .)/mk
+
+export ROOT_SRC_DIR	:=	src
+export ROOT_INC_DIR	:=	inc
+export ROOT_ARC_DIR	:=	arch
 
 export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
 
 INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						\
 						/																		\
-						$(TARGET)																\
 				)
 
 # Savage method
@@ -46,5 +47,9 @@ $(KERNEL):	$(.SECONDEXPANSION)
 	@-echo -e " LINKED      $@"
 
 run:	$(KERNEL)
-# Savage method
-	@$(QEMU) $(QEMUFLAGS) -M ast2500-evb -cpu arm1176 -kernel $(PROJECT)_$(ARCH_HOST)-$(VERSION)*
+ifeq ($(EXEC),)
+	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mYou must specify a kernel to exec\e[0m\n"
+	@exit 1
+else
+	@$(QEMU) $(QEMUFLAGS) -M ast2500-evb -cpu arm1176 -kernel $(EXEC)
+endif
