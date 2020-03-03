@@ -2,9 +2,26 @@
 # Inc make which define static variable
  #
 
-export ARMGNU	:=	arm-none-eabi-
-export CC		:=	$(ARMGNU)gcc
-export AS		:=	$(ARMGNU)as
+export BUILDIR	:=	$(realpath .)/build
+
+export MKHELPER_DIR	:=	$(shell realpath .)/mk
+
+export PROJECT_PATH	:=	$(shell realpath .)
+
+export ROOT_SRC_DIR	:=	src
+export ROOT_INC_DIR	:=	inc
+export ROOT_ARC_DIR	:=	arch
+
+export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
+
+INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						\
+						/																		\
+				)
+
+export ARMGNUDIR	:=	mktoolchain/toolchain/arm-none-eabi-gcc
+export ARMGNUBASE	:=	bin/arm-none-eabi-
+export CC			:=	$(ARMGNU)gcc
+export AS			:=	$(ARMGNU)as
 
 export REALPATH_PROJECT	:=	$(realpath .)
 export PROJECT			:=	LightBleam

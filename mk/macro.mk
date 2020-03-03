@@ -24,3 +24,7 @@ endef
 define EvalTargetMachine
 	$(if $(filter $(1),$(HANDLED_SYSTEM)), $(call INFO, "Target machine $(1)"), $(call RAISE, "Invalid target machine"))
 endef
+
+define EvalToolchain
+	$(if $(filter $(PROJECT_PATH)/$(ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM toolchain -- make toolchain"), $(call INFO, "GNU ARM toolchain found"))
+endef

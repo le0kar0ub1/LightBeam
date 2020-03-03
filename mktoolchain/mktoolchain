@@ -1,20 +1,21 @@
 #!/bin/sh
 
 ### Environment ################################################################
+MKTOOL=$(realpath $(dirname $0))
 SOURCE=$(dirname $(dirname $(realpath $0)))
 printf "[\e[36;1mTOOL\e[0m] Toolchain Builder\n"
 printf "[\e[34;1mINFO\e[0m] Building from $SOURCE...\n"
 
 ### Dependencies ###############################################################
-source build-helpers
+source $MKTOOL/build-helpers
 
 require make
 
-unfatalrequire qemu
+unfatalrequire qemu-system-arm
+unfatalrequire qemu-system-aarch64
 
-### Source Clone ###########################################################
-run "git Init submodules" git submodule init
-run "Git Update submodules" git submodule update
+### Source GNUARM ##############################################################
+run "Dowload gnu ARM toolchain" git submodule update --init --recursive
 
 ### We're done! ################################################################
 printf "[\e[91;1mN\e[93mI\e[92mC\e[94mE\e[0m] Toolchain built!\n"

@@ -3,21 +3,7 @@
  #
 
 include mk/def.mk
-include mk/rules.mk
-
-export BUILDIR	:=	$(realpath .)/build
-
-export MKHELPER_DIR	:=	$(shell realpath .)/mk
-
-export ROOT_SRC_DIR	:=	src
-export ROOT_INC_DIR	:=	inc
-export ROOT_ARC_DIR	:=	arch
-
-export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
-
-INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						\
-						/																		\
-				)
+include mk/macro.mk
 
 # Savage method
 .SECONDEXPANSION:
@@ -25,9 +11,13 @@ TARGET_BUILT_OBJECT	= 	$(shell find $(BUILDIR) -name '*$(EXTENSION_OBJ)')
 
 .PHONY: all build fclean debug clean $(KERNEL)
 
-all:	build	$(KERNEL)
+all:	prebuild	build	$(KERNEL)
+
+prebuild:
+	$(call EvalToolchain)
 
 build:
+	exit 1
 
 disassemble: $(KERNEL)
 	@objdump --no-show-raw-insn -d -Mintel $(KERNEL) | source-highlight -s asm -f esc256 | less -eRiMX
@@ -45,6 +35,9 @@ fclean:	clean
 $(KERNEL):	$(.SECONDEXPANSION)
 	@$(CC) -o $(KERNEL) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
 	@-echo -e " LINKED      $@"
+
+toolchain:
+	./mktoolchain/mktoolchain
 
 run:	$(KERNEL)
 ifeq ($(EXEC),)

@@ -2,7 +2,7 @@ require() {
 	if [ "${1: -3}" = ".so" ]; then
 		ldconfig -p | grep $1 > /dev/null
 	else
-		which $1 > /dev/null
+		which $1 &> /dev/null
 	fi
 
 	if [ $? = 0 ]; then
@@ -17,7 +17,7 @@ unfatalrequire() {
 	if [ "${1: -3}" = ".so" ]; then
 		ldconfig -p | grep $1 > /dev/null
 	else
-		which $1 > /dev/null
+		which $1 &> /dev/null
 	fi
 
 	if [ $? = 0 ]; then
