@@ -13,19 +13,6 @@ require() {
 	fi
 }
 
-download() {
-	local target=$(basename $1)
-
-	printf "[\e[93;1mWAIT\e[0m] Download $target\n"
-	curl -sL $1 -o $target
-	if [ $? = 0 ]; then
-		printf "\e[A\e[G\e[2K[\e[92;1mDONE\e[0m] Download $target\n"
-	else
-		printf "\e[A\e[G\e[2K[\e[91;1mFAIL\e[0m] Download $target\n"
-		exit 1
-	fi
-}
-
 run() {
 	local text="$1"
 	shift 1

@@ -1,86 +1,19 @@
 #!/bin/sh
 
 ### Environment ################################################################
-GNU_MIRROR="https://ftp.gnu.org/gnu"
-GCC_VERSION="9.2.0"
-BIN_VERSION="2.32"
-
 SOURCE=$(dirname $(dirname $(realpath $0)))
 printf "[\e[36;1mTOOL\e[0m] Toolchain Builder\n"
 printf "[\e[34;1mINFO\e[0m] Building from $SOURCE...\n"
-if [ -z "$PREFIX" ]; then
-	export PREFIX="$SOURCE/mktoolchain/toolchain"
-fi
-
-export SCRIPT="$SOURCE/mktoolchain"
-
-if [ -z "$TARGET" ]; then
-	TARGET=$(lscpu | head -n 1 | cut -d ' ' -f 2- | xargs)
-	printf "[\e[34;1mINFO\e[0m] TARGET unset, defaulting to %s\n" $TARGET
-else
-	printf "[\e[34;1mINFO\e[0m] TARGET set to %s\n" $TARGET
-fi
-
-export PATH="$PREFIX/bin:$PATH"
 
 ### Dependencies ###############################################################
-source $SCRIPT/build-helpers
+source build-helpers
 
-require gcc
+require bison
 require make
 
-### Exit Handler ###############################################################
-cleanup() {
-	if [ $? != 0 ]; then
-		rm -rf $PREFIX
-	fi
-	rm -rf $WORKSPACE
-}
-
-trap cleanup EXIT
-
-### Directories ################################################################
-WORKSPACE=$(mktemp -td build-toolchain.XXXXXXXXXX || exit 1)
-cd $WORKSPACE
-
-if [ -e "$PREFIX" ] && [ -v CLEAN_TOOLCHAIN ]; then
-	printf "[\e[34;1mINFO\e[0m] Prefix already exists, recreating...\n"
-	rm -rf $PREFIX || exit 1
-fi
-
-mkdir -p $PREFIX || exit 1
-
-
-### Source Downloads ###########################################################
-download "$GNU_MIRROR/binutils/binutils-$BIN_VERSION.tar.xz"
-download "$GNU_MIRROR/gcc/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.xz"
-
-# TODO: Checksums
-
-run "Extract binutils-$BIN_VERSION.tar.xz" tar xf binutils-$BIN_VERSION.tar.xz
-run "Extract gcc-$GCC_VERSION.tar.xz" tar xf gcc-$GCC_VERSION.tar.xz
-
-### Build Binutils #############################################################
-mkdir binutils-build || exit 1
-cd binutils-build
-
-../binutils-$BIN_VERSION/configure --target=$TARGET-elf --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
-
-make && make install || exit 1
-cd ..
-
-### Build GCC and libgcc #######################################################
-mkdir gcc-build || exit 1
-cd gcc-build
-
-../gcc-$GCC_VERSION/configure --target=$TARGET-elf --prefix="$PREFIX" --disable-nls --enable-languages=c || cleanup 1
-
-make all-gcc && make all-target-libgcc && make install-gcc && make install-target-libgcc || exit 1
-cd ..
-
-### Build the config file ######################################################
-echo "ARCH_HOST=$TARGET" > build-properties
-echo "CC=$(realpath toolchain)/bin/$TARGET-elf-gcc" >> build-properties
+### Source Clone ###########################################################
+run "git Init submodules" git submodule init
+run "Git Update submodules" git submodule update
 
 ### We're done! ################################################################
 printf "[\e[91;1mN\e[93mI\e[92mC\e[94mE\e[0m] Toolchain built!\n"
