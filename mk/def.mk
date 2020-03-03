@@ -2,9 +2,9 @@
 # Inc make which define static variable
  #
 
-export CROSS_PREFIX	:=	arm-none-eabi-
-export CROSS_CC		:=	$(CROSS_PREFIX)gcc
-export CROSS_AS		:=	$(CROSS_PREFIX)as
+export ARMGNU	:=	arm-none-eabi-
+export ARMCC	:=	$(ARMGNU)gcc
+export ARMAS	:=	$(ARMGNU)as
 
 export REALPATH_PROJECT	:=	$(realpath .)
 export PROJECT			:=	LightBleam

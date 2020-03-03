@@ -1,12 +1,8 @@
 # LightBleam
 
-The purpose of this project is to create a ARM kernel base for micro-system as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
-
-There will have some boot machine and a global hookpoint over architecture.
+The purpose of this project is to create some ARM kernel base (processor specific) for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
 
 ## PROLOGUE
-
-the base idea of the project is to create a kernel seed and later, maybe, use-case system from this base.
 
 ## INSTALL
 
@@ -15,3 +11,7 @@ the base idea of the project is to create a kernel seed and later, maybe, use-ca
 ## RUN
 
 ## EPILOGUE
+
+[ARM ABI specification.](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ihi0042f/index.html)
+
+Feel free to fork, use, improve.

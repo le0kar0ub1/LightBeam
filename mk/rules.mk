@@ -22,5 +22,5 @@ define EvalTargetArch
 endef
 
 define EvalTargetMachine
-	$(if $(filter $(1),$(HANDLED_MACHINE)), $(call INFO, "Target machine $(1)"), $(call RAISE, "Invalid target machine"))
+	$(if $(filter $(1),$(HANDLED_SYSTEM)), $(call INFO, "Target machine $(1)"), $(call RAISE, "Invalid target machine"))
 endef

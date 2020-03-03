@@ -1,6 +1,8 @@
 build
 sample
 *.bin
+.vscode
+*~
 
 # Prerequisites
 *.d

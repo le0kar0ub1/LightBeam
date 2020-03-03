@@ -6,7 +6,7 @@ export HANDLED_ARCH		:=	armv6
 
 export HANDLED_PROC		:=	arm1176
 
-export HANDLED_MACHINE	:=
+export HANDLED_SYSTEM	:=
 
 ##### QEMU SUPPORTED MACHINE #####
 #akita                # Sharp SL-C1000 (Akita) PDA (PXA270)
