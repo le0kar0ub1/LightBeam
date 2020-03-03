@@ -3,8 +3,8 @@
  #
 
 export ARMGNU	:=	arm-none-eabi-
-export ARMCC	:=	$(ARMGNU)gcc
-export ARMAS	:=	$(ARMGNU)as
+export CC		:=	$(ARMGNU)gcc
+export AS		:=	$(ARMGNU)as
 
 export REALPATH_PROJECT	:=	$(realpath .)
 export PROJECT			:=	LightBleam
@@ -16,12 +16,12 @@ export EXTENSION_SRC	:=	.c
 export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
 
-export	LDFLAGS	=	--trace
+export LDFLAGS	=	--trace
 
-export	RM	=	rm -rf
+export RM	=	rm -rf
 
 # Cleaner as possible
-export  CFLAGS	=	$(INCLUDE_DIR)						\
+export CFLAGS	=	$(INCLUDE_DIR)						\
 					-MMD								\
 					-MF		dep.d						\
 					-Wall								\

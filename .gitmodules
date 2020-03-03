@@ -1,0 +1,3 @@
+[submodule "gnuarm"]
+    path = mktoolchain/toolchain
+    url = https://github.com/nolanholden/arm-none-eabi-gcc
