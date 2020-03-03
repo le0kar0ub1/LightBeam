@@ -8,8 +8,9 @@ printf "[\e[34;1mINFO\e[0m] Building from $SOURCE...\n"
 ### Dependencies ###############################################################
 source build-helpers
 
-require bison
 require make
+
+unfatalrequire qemu
 
 ### Source Clone ###########################################################
 run "git Init submodules" git submodule init
