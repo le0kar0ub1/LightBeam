@@ -11,8 +11,8 @@ export PROJECT_PATH	:=	$(shell realpath .)
 export ROOT_SRC_DIR	:=	src
 export ROOT_INC_DIR	:=	inc
 
-export PLATEFORM_DIR	:=	platform
-export ARCH_DIR			:=	arch
+export TARGET_DIR	:=	target
+export ARCH_DIR		:=	arch
 
 export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
 
@@ -21,9 +21,13 @@ INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						
 				)
 
 export ARMGNUDIR	:=	mktoolchain/toolchain/arm-none-eabi-gcc
-export ARMGNUBASE	:=	bin/arm-none-eabi-
-export CC			:=	$(ARMGNU)gcc
-export AS			:=	$(ARMGNU)as
+export ARMGNUBASE	:=	$(ARMGNUDIR)/bin/arm-none-eabi-
+export CC			:=	$(ARMGNUBASE)gcc
+export AS			:=	$(ARMGNUBASE)as
+export LD			:=	$(ARMGNUBASE)ld
+export OBJCPY		:=	$(ARMGNUBASE)objcopy
+export OBJDMP		:=	$(ARMGNUBASE)objdump
+export READELF		:=	$(ARMGNUBASE)readelf
 
 export REALPATH_PROJECT	:=	$(realpath .)
 export PROJECT			:=	LightBleam

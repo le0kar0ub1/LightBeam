@@ -8,7 +8,7 @@ require() {
 	if [ $? = 0 ]; then
 		printf "[\e[95;1mDEPS\e[0m] Found $1\n"
 	else
-		printf "[\e[91;1mFAIL\e[0m] \e[31mDependency not found: $1\e[0m\n"
+		printf "[\e[91;1mFAIL\e[0m] \e[31mDependency not found: $1 (fatal)\e[0m\n"
 		exit 1
 	fi
 }

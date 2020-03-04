@@ -5,9 +5,6 @@
 include mkhelper/def.mk
 include mkhelper/macro.mk
 
-## COMPILTE-TIME ARGS ##
-export PLATEFORM := $(TARGET)
-
 .PHONY: all prebuld build fclean debug clean $(KERNEL)
 
 all:	prebuild	build	$(KERNEL)
@@ -16,15 +13,19 @@ all:	prebuild	build	$(KERNEL)
 prebuild:
 	$(call EvalToolchain)
 	$(call EvalTargetBuild)
+	@echo -e "\n *"
+	@echo -e "*  Building $(KERNEL)"
+	@echo -e " *\n"
 
+# additionnal checkup
 checkup:
-	# $(call EvalTargetMachine, $(PLATEFORM))
+	# $(call EvalTargetMachine, $(TARGET))
 	# $(call EvalTargetProcessor, $(PROCESSOR))
 	# $(call EvalTargetArch, $(ARCH))
 
 # Lauch the build
 build:
-	@make -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(PLATEFORM_DIR)/$(PLATEFORM) --no-print-directory
+	@make -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR) --no-print-directory
 
 # Disassemble the kernel (debug)
 disassemble: $(KERNEL)
@@ -44,7 +45,7 @@ fclean:	clean
 
 # Build & check toolchain
 toolchain:
-	./mktoolchain/mktoolchain
+	@./mktoolchain/mktoolchain
 
 # Running the target on qemu
 run:	$(KERNEL)
@@ -52,5 +53,5 @@ ifeq ($(EXEC),)
 	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mYou must specify a kernel to exec\e[0m\n"
 	@exit 1
 else
-	@$(QEMU) $(QEMUFLAGS) -M ast2500-evb -cpu arm1176 -kernel $(EXEC)
+	@$(QEMU) $(QEMUFLAGS) -m 256 -M $(MACHINE) -cpu $(CPU) -kernel $(EXEC)
 endif

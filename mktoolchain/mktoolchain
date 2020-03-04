@@ -11,12 +11,12 @@ source $MKTOOL/build-helpers
 
 require make
 require bc
-require sed
 require bison
 
-unfatalrequire require makeinfo
+unfatalrequire makeinfo
 unfatalrequire qemu-system-arm
 unfatalrequire qemu-system-aarch64
+unfatalrequire source-highlight
 
 ### Source GNUARM ##############################################################
 run "Dowload gnu ARM toolchain" git submodule update --init --recursive

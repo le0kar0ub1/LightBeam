@@ -10,7 +10,9 @@ The repository structure will change during the project work.
 
 LightBleam will check all dependencies and install the ARM GNU toolchain (if not already done).
 
-`./mktoolchain/mktoolchain`
+_Using make rule:_ `make toolchain`
+
+_Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 ## BUILD
 

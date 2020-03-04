@@ -5,24 +5,24 @@
 include mkhelper/arch.mk
 
 define RAISE
-	@echo -e "[$(BoldRed)ABORT$(Blank)] $(1)"
+	@echo -e "[$(BoldRed)ABORT$(Blank)]$(1)"
 	@exit 1
 endef
 
 define INFO
-	@echo -e "[$(BoldBlue)LighBleam$(Blank)] $(1)"
+	@echo -e "[$(BoldBlue)LighBleam$(Blank)]$(1)"
 endef
 
 define EvalTargetProcessor
-	$(if $(filter $(1),$(HANDLED_PROC)), $(call INFO, "Target processor $(1)"), $(call RAISE, "Invalid target processor"))
+	$(if $(filter $(1),$(HANDLED_PROC)), $(call INFO, "Target processor $(1)"), $(call RAISE, "Invalid target processor $(1)"))
 endef
 
 define EvalTargetArch
-	$(if $(filter $(1),$(HANDLED_ARCH)), $(call INFO, "Target architecture $(1)"), $(call RAISE, "Invalid target architecture"))
+	$(if $(filter $(1),$(HANDLED_ARCH)), $(call INFO, "Target architecture $(1)"), $(call RAISE, "Invalid target architecture $(1)"))
 endef
 
 define EvalTargetMachine
-	$(if $(filter $(1),$(HANDLED_SYSTEM)), $(call INFO, "Target machine $(1)"), $(call RAISE, "Invalid target machine"))
+	$(if $(filter $(1),$(HANDLED_SYSTEM)), $(call INFO, "Target machine $(1)"), $(call RAISE, "Invalid target machine $(1)"))
 endef
 
 define EvalToolchain
@@ -31,5 +31,5 @@ endef
 
 # Check if Plateform is valid (target arg)
 define EvalTargetBuild
-	$(if $(PLATEFORM), $(call INFO, "Build for $(PLATEFORM) plateform"), $(call RAISE, "Invalid target plateform"))
+	$(if $(TARGET), $(call INFO, "Build for $(TARGET) target"), $(call RAISE, "Invalid target target"))
 endef
