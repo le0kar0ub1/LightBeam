@@ -21,16 +21,6 @@ export ARCH_DIR		:=	arch
 # We Will provide the full path each time
 export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 
-# GNU ARM toolchain
-export ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/arm-none-eabi-gcc
-export ARMGNUBASE	:=	$(ARMGNUDIR)/bin/arm-none-eabi-
-export CC			:=	$(ARMGNUBASE)gcc
-export AS			:=	$(ARMGNUBASE)as
-export LD			:=	$(ARMGNUBASE)ld
-export OBJCPY		:=	$(ARMGNUBASE)objcopy
-export OBJDMP		:=	$(ARMGNUBASE)objdump
-export RDELF		:=	$(ARMGNUBASE)readelf
-
 # Norm the linker
 export TGTLINKER		:=	target.ld
 export TGTLINKER_BUILD	:=	$(KBUILD)
