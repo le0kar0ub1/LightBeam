@@ -10,7 +10,6 @@ export PROJECT_PATH	:=	$(shell realpath .)
 
 export ROOT_SRC_DIR	:=	src
 export ROOT_INC_DIR	:=	inc
-export ROOT_ARC_DIR	:=	arch
 
 export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
 

@@ -10,6 +10,7 @@ printf "[\e[34;1mINFO\e[0m] Building from $SOURCE...\n"
 source $MKTOOL/build-helpers
 
 require make
+require bc
 
 unfatalrequire qemu-system-arm
 unfatalrequire qemu-system-aarch64

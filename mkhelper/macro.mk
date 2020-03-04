@@ -2,7 +2,7 @@
 # Inc make which define macro for processus control
  #
 
-include mk/arch.mk
+include mkhelper/arch.mk
 
 define RAISE
 	@echo -e "[\e[91;1mABORT\e[0m] $(1)"
@@ -28,3 +28,11 @@ endef
 define EvalToolchain
 	$(if $(filter $(PROJECT_PATH)/$(ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM toolchain -- make toolchain"), $(call INFO, "GNU ARM toolchain found"))
 endef
+
+EvalTargetBuild:
+# Check if there is no target
+ifeq ($(PLATEFORM),$(PROCESSOR))
+	$(call RAISE, "Invalid target build")
+else
+	$(call INFO, "Build $(PLATEFORM) $(PROCESSOR)")
+endif
