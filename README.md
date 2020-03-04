@@ -8,7 +8,16 @@ The repository structure will change during the project work.
 
 ## INSTALL
 
+LightBleam will check all dependencies and install the ARM GNU toolchain (if not already done).
+
+`./mktoolchain/mktoolchain`
+
 ## BUILD
+
+LightBleam build kernel system-specific (we will provide a list later).
+
+`make TARGET=$SYSTEM`
+
 
 ## RUN
 
