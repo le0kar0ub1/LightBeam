@@ -2,11 +2,20 @@
 # Inc make which define ARM architecture and processor
  #
 
-export HANDLED_ARCH		:=	armv6
+export HANDLED_SYSTEM	:=	raspi2	\
+							raspi3	\
+							raspi4
 
 export HANDLED_PROC		:=	arm1176
 
-export HANDLED_SYSTEM	:=	raspi2
+export HANDLED_ARCH		:=	armv1	\
+							armv2	\
+							armv3	\
+							armv4	\
+							armv5	\
+							armv6	\
+							armv7	\
+							armv8
 
 ##### QEMU SUPPORTED MACHINE #####
 #akita                # Sharp SL-C1000 (Akita) PDA (PXA270)

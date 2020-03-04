@@ -5,12 +5,12 @@
 include mkhelper/arch.mk
 
 define RAISE
-	@echo -e "[\e[91;1mABORT\e[0m] $(1)"
+	@echo -e "[$(BoldRed)ABORT$(Blank)] $(1)"
 	@exit 1
 endef
 
 define INFO
-	@echo -e "[\e[0;34mLighBleam\e[0m] $(1)"
+	@echo -e "[$(BoldBlue)LighBleam$(Blank)] $(1)"
 endef
 
 define EvalTargetProcessor
@@ -29,10 +29,7 @@ define EvalToolchain
 	$(if $(filter $(PROJECT_PATH)/$(ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM toolchain -- make toolchain"), $(call INFO, "GNU ARM toolchain found"))
 endef
 
-EvalTargetBuild:
-# Check if there is no target
-ifeq ($(PLATEFORM),$(PROCESSOR))
-	$(call RAISE, "Invalid target build")
-else
-	$(call INFO, "Build $(PLATEFORM) $(PROCESSOR)")
-endif
+# Check if Plateform is valid (target arg)
+define EvalTargetBuild
+	$(if $(PLATEFORM), $(call INFO, "Build for $(PLATEFORM) plateform"), $(call RAISE, "Invalid target plateform"))
+endef

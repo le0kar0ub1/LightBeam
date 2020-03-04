@@ -20,11 +20,11 @@ ROOT_OBJECT 	= 	$(patsubst %$(EXTENSION_SRC), $(BUILDIR)/%$(EXTENSION_OBJ), $(RO
 all:	projectHeader	$(ROOT_OBJECT)	subBuild
 
 projectHeader:
-ifeq ($(TARGET),)
+ifeq ($(PLATEFORM),)
 	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mNo TARGET architecture given, processus stopped\e[0m\n"
 	@exit 1
-else ifeq ($(filter $(TARGET),$(ALLOWED_ARCH)),)
-	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mThe given TARGET $(TARGET) isn't allowed (must be $(ALLOWED_ARCH))\e[0m\n"
+else ifeq ($(filter $(PLATEFORM),$(ALLOWED_ARCH)),)
+	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mThe given TARGET $(PLATEFORM) isn't allowed (must be $(ALLOWED_ARCH))\e[0m\n"
 	@exit 1
 else
 	@echo -e "\n *"

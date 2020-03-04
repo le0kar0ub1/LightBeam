@@ -11,6 +11,9 @@ export PROJECT_PATH	:=	$(shell realpath .)
 export ROOT_SRC_DIR	:=	src
 export ROOT_INC_DIR	:=	inc
 
+export PLATEFORM_DIR	:=	platform
+export ARCH_DIR			:=	arch
+
 export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
 
 INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						\
@@ -84,3 +87,19 @@ debug ?= 0
 ifeq ($(debug), 1)
     CFLAGS += $(CFLAGSDEBUG)
 endif
+
+
+# Hide It
+export Red			:= \e[0;31m
+export BoldRed		:= \e[1;31m
+export Green		:= \e[0;32m
+export BoldGreen	:= \e[1;32m
+export Yellow		:= \e[0;33m
+export BoldYellow	:= \e[01;33m
+export Blue			:= \e[0;34m
+export BoldBlue		:= \e[1;34m
+export Magenta		:= \e[0;35m
+export BoldMagenta 	:= \e[1;35m
+export Cyan			:= \e[0;36m
+export BoldCyan		:= \e[1;36m
+export Blank		:= \e[0m

@@ -5,21 +5,26 @@
 include mkhelper/def.mk
 include mkhelper/macro.mk
 
-.PHONY: all build fclean debug clean $(KERNEL) EvalTargetBuild
+## COMPILTE-TIME ARGS ##
+export PLATEFORM := $(TARGET)
+
+.PHONY: all prebuld build fclean debug clean $(KERNEL)
 
 all:	prebuild	build	$(KERNEL)
 
 # Evaluate if the build is correct
 prebuild:
-	$(call EvalTargetBuild)
 	$(call EvalToolchain)
-	$(call EvalTargetMachine, $(PLATEFORM))
-	$(call EvalTargetProcessor, $(PROCESSOR))
-	$(call EvalTargetArch, $(ARCH))
+	$(call EvalTargetBuild)
+
+checkup:
+	# $(call EvalTargetMachine, $(PLATEFORM))
+	# $(call EvalTargetProcessor, $(PROCESSOR))
+	# $(call EvalTargetArch, $(ARCH))
 
 # Lauch the build
 build:
-	exit 21
+	@make -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(PLATEFORM_DIR)/$(PLATEFORM) --no-print-directory
 
 # Disassemble the kernel (debug)
 disassemble: $(KERNEL)

@@ -4,6 +4,8 @@ The purpose of this project is to create some ARM kernel base (processor specifi
 
 ## PROLOGUE
 
+The repository structure will change during the project work.
+
 ## INSTALL
 
 ## BUILD

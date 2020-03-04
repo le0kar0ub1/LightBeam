@@ -11,7 +11,10 @@ source $MKTOOL/build-helpers
 
 require make
 require bc
+require sed
+require bison
 
+unfatalrequire require makeinfo
 unfatalrequire qemu-system-arm
 unfatalrequire qemu-system-aarch64
 
