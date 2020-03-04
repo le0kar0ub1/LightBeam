@@ -4,6 +4,7 @@
 
 TARGET_DIR	:=	$(addprefix $(shell realpath .),	raspi)
 
+# TODO: target base always functionnal
 TARGET_BASE	:=	$(shell echo "$(TARGET)" | sed 's/[0-9\-_]//g')
 
 ROOT_PREFIX_BUILD	:=	$(shell realpath --relative-to $(TARGET_DIR) .)

@@ -2,6 +2,7 @@
 # Inc make which define static variable
  #
 
+# Built for link
 export BUILDIR	:=	$(realpath .)/build
 export KBUILD	:=	$(BUILDIR)/kbuild
 
@@ -9,17 +10,16 @@ export MKHELPER_DIR	:=	$(shell realpath .)/mk
 
 export PROJECT_PATH	:=	$(shell realpath .)
 
+# Root diretcories
 export ROOT_SRC_DIR	:=	src
 export ROOT_INC_DIR	:=	inc
 
+# Sub Source Directories
 export TARGET_DIR	:=	target
 export ARCH_DIR		:=	arch
 
-export INCLUDE_DIR =	$(addprefix -I$(realpath $(ROOT_INC_DIR))/,		.)
-
-INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						\
-						/																		\
-				)
+# We Will provide the full path each time
+export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 
 # GNU ARM toolchain
 export ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/arm-none-eabi-gcc
@@ -35,11 +35,13 @@ export RDELF		:=	$(ARMGNUBASE)readelf
 export TGTLINKER		:=	target.ld
 export TGTLINKER_BUILD	:=	$(KBUILD)
 
+# Binary definition
 export PROJECT			:=	LightBleam
 export VERSION			:=	0.1.0
 export BIN_EXTENSION	:=	bin
 export KERNEL			:=	$(PROJECT)-$(VERSION)-$(TARGET).$(BIN_EXTENSION)
 
+# Norm extension
 export EXTENSION_SRC	:=	.c
 export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
@@ -95,8 +97,8 @@ export QEMUFLAGS	:=	-no-reboot 		\
 
 
 # Compile-time Macro
-CFLAGS		+=	'-D PROJECT_NAME="$(PROJECT)"'			\
-				'-D TARGETED_ARCH="$(TARGET)"'
+CFLAGS		+=	'-D PROJECT="$(PROJECT)"'			\
+				'-D TARGET="$(TARGET)"'
 
 # Debug mode
 export 	CFLAGSDEBUG	= 	-D DEBUG \
@@ -107,7 +109,7 @@ ifeq ($(debug), 1)
     CFLAGS += $(CFLAGSDEBUG)
 endif
 
-# Output cleaner
+# Output coloration
 export Red			:= \e[0;31m
 export BoldRed		:= \e[1;31m
 export Green		:= \e[0;32m
