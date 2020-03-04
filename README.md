@@ -4,7 +4,7 @@ The purpose of this project is to create some ARM kernel base (processor specifi
 
 ## PROLOGUE
 
-The repository structure will change during the project work.
+The repository structure will evoluate during the project.
 
 ## INSTALL
 
@@ -14,7 +14,7 @@ _Using make rule:_ `make toolchain`
 
 _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
-Kernels are built using GNU ARM toolchain from submodule git.
+Kernels are built using GNU ARM toolchain from submodules git.
 
 ## BUILD
 
@@ -24,10 +24,21 @@ LightBleam build kernel system-specific.
 
 *SYSTEM targetable list:*
   - raspi2 (RaspberryPi2)
+  - raspi3 (RaspberryPi3)
 
 ## RUN
 
 I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for ARM systems.
+
+Check dependencies with the toolchain builder.
+
+## ROADMAP
+
+- [X] Toolchain (can evolve)
+- [ ] Kernel
+  - [X] Minimal raspi boot
+  - [ ] Advanced raspi kernel (probably for 3/4)
+  - [ ] AARCH64 advanced kernel
 
 ## EPILOGUE
 
