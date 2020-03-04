@@ -6,7 +6,7 @@
 export BUILDIR	:=	$(realpath .)/build
 export KBUILD	:=	$(BUILDIR)/kbuild
 
-export MKHELPER_DIR	:=	$(shell realpath .)/mk
+export MKHELPER_DIR	:=	$(shell realpath .)/mkhelper
 
 export PROJECT_PATH	:=	$(shell realpath .)
 
