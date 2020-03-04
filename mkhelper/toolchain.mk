@@ -14,7 +14,7 @@ export NEABI_RDELF		:=	$(NEABI_ARMGNUBASE)readelf
 
 # GNU AARCH64 toolchain
 export AARCH64_ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/aarch64-gnu-tool
-export AARCH64_ARMGNUBASE	:=	$(AARCH64_ARMGNUDIR)/bin/arm-none-eabi-
+export AARCH64_ARMGNUBASE	:=	$(AARCH64_ARMGNUDIR)/bin/aarch64-linux-gnu-
 export AARCH64_CC			:=	$(AARCH64_ARMGNUBASE)gcc
 export AARCH64_AS			:=	$(AARCH64_ARMGNUBASE)as
 export AARCH64_LD			:=	$(AARCH64_ARMGNUBASE)ld

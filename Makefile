@@ -4,6 +4,7 @@
 
 include mkhelper/def.mk
 include mkhelper/macro.mk
+include mkhelper/toolchain.mk
 
 .PHONY: all prebuld build fclean debug clean $(KERNEL)
 

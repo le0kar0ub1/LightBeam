@@ -17,14 +17,21 @@ TARGET_ASM_OBJECT 	= 	$(patsubst %$(EXTENSION_ASM), $(BUILDIR)/$(TARGET_PREFIX_B
 
 .PHONY: all
 
-all:	$(TARGET_C_OBJECT)	$(TARGET_ASM_OBJECT)
+.SECONDEXPANSION:
+TARGET_BUILT_OBJECT	=	$(TARGET_C_OBJECT) $(TARGET_ASM_OBJECT)
+
+all:	$(TARGET_C_OBJECT)	$(TARGET_ASM_OBJECT)	$(KERNEL)
 
 $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_SRC)
 	@mkdir -p $(shell dirname $@)
-	@$(CC) $(CCFLAGS) -c $< -o $@
+	@$(NEABI_CC) $(CCFLAGS) -c $< -o $@
 	@-echo -e "     CC      $(shell basename $(BUILDIR))/$(TARGET_PREFIX_BUILD)/$(shell basename $@)"
 
 $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_ASM)
 	@mkdir -p $(shell dirname $@)
-	@$(AS) $(ASFLAGS) -c $< -o $@
+	@$(NEABI_AS) $(ASFLAGS) -c $< -o $@
 	@-echo -e "     AS      $(shell basename $(BUILDIR))/$(TARGET_PREFIX_BUILD)/$(shell basename $@)"
+
+$(KERNEL):	$(.SECONDEXPANSION)
+	@$(NEABI_CC) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
+	@-echo -e " LINKED      $@"
