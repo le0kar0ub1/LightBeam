@@ -3,6 +3,7 @@
  #
 
 export BUILDIR	:=	$(realpath .)/build
+export KBUILD	:=	$(BUILDIR)/kbuild
 
 export MKHELPER_DIR	:=	$(shell realpath .)/mk
 
@@ -20,16 +21,20 @@ INCLUDE_DIR	+= $(addprefix -I$(realpath $(ROOT_INC_DIR)/$(ROOT_ARC_DIR))/,						
 						/																		\
 				)
 
-export ARMGNUDIR	:=	mktoolchain/toolchain/arm-none-eabi-gcc
+# GNU ARM toolchain
+export ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/arm-none-eabi-gcc
 export ARMGNUBASE	:=	$(ARMGNUDIR)/bin/arm-none-eabi-
 export CC			:=	$(ARMGNUBASE)gcc
 export AS			:=	$(ARMGNUBASE)as
 export LD			:=	$(ARMGNUBASE)ld
 export OBJCPY		:=	$(ARMGNUBASE)objcopy
 export OBJDMP		:=	$(ARMGNUBASE)objdump
-export READELF		:=	$(ARMGNUBASE)readelf
+export RDELF		:=	$(ARMGNUBASE)readelf
 
-export REALPATH_PROJECT	:=	$(realpath .)
+# Norm the linker
+export TGTLINKER		:=	target.ld
+export TGTLINKER_BUILD	:=	$(KBUILD)
+
 export PROJECT			:=	LightBleam
 export VERSION			:=	0.1.0
 export BIN_EXTENSION	:=	bin
@@ -39,20 +44,30 @@ export EXTENSION_SRC	:=	.c
 export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
 
-export LDFLAGS	=	--trace
+export LDFLAGS	=	--trace								\
+					-lgcc								\
+					-ffreestanding 						\
+					-O2 								\
+					-nostdlib							\
+					-o	$(PROJECT_PATH)/$(KERNEL)		\
+					-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
 
-export RM	=	rm -rf
+export RM	:=	rm -rf
+
+export BUILDEP	:=	dep.d
 
 # Cleaner as possible
-export CFLAGS	=	$(INCLUDE_DIR)						\
+export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-MMD								\
-					-MF		dep.d						\
+					-MF		$(BUILDEP)					\
 					-Wall								\
 					-Wextra				 				\
 					-Wnested-externs					\
 					-Winline							\
 					-Wpragmas							\
-					--std=gnu11							\
+					-fpic								\
+					-ffreestanding 						\
+					-std=gnu99							\
 					-Wuninitialized						\
 					-Wno-missing-braces					\
 					-Wcast-align						\
@@ -69,9 +84,9 @@ export CFLAGS	=	$(INCLUDE_DIR)						\
 					-Wmissing-prototypes				\
 					-Wstrict-prototypes					\
 					-Wpointer-arith						\
-					-lm									\
-					-mno-red-zone						\
-					-Werror
+					# -Werror
+
+export ASFLAGS	=	
 
 export QEMU			:=	qemu-system-arm
 
@@ -92,8 +107,7 @@ ifeq ($(debug), 1)
     CFLAGS += $(CFLAGSDEBUG)
 endif
 
-
-# Hide It
+# Output cleaner
 export Red			:= \e[0;31m
 export BoldRed		:= \e[1;31m
 export Green		:= \e[0;32m

@@ -41,7 +41,7 @@ clean:
 fclean:	clean
 	@$(RM) $(PROJECT)*.bin 
 	@$(RM) vgcore.*
-	@$(RM) $(shell $(realpath $(find . -name dep.d)))
+	@$(RM) $(shell find . -name $(BUILDEP))
 
 # Build & check toolchain
 toolchain:

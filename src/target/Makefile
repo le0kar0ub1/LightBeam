@@ -10,7 +10,7 @@ ROOT_PREFIX_BUILD	:=	$(shell realpath --relative-to $(TARGET_DIR) .)
 
 .PHONY: all	targetbuild
 
-all:	targetbuild
+all:	setup	targetbuild		$(KERNEL)
 
 targetbuild:
 	@make -C $(TARGET_BASE)/$(TARGET) --no-print-directory
@@ -20,8 +20,9 @@ targetbuild:
 TARGET_BUILT_OBJECT	= 	$(shell find $(BUILDIR) -name '*$(EXTENSION_OBJ)')
 
 $(KERNEL):	$(.SECONDEXPANSION)
-	@$(CC) -o $(KERNEL) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
+	@$(CC) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
 	@-echo -e " LINKED      $@"
 
-subBuild:
-	@make -C $(TARGET) --no-print-directory
+setup:
+	@mkdir -p $(KBUILD)
+	@cp $(TARGET_BASE)/$(TARGET)/$(TGTLINKER) $(TGTLINKER_BUILD)

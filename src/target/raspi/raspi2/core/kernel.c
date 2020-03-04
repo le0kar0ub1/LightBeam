@@ -1,6 +1,12 @@
 #include <stddef.h>
 #include <stdint.h>
  
+void kernel_main(uint32_t, uint32_t, uint32_t);
+void uart_init(void);
+void uart_putc(unsigned char);
+unsigned char uart_getc(void);
+void uart_puts(const char *);
+
 // board type, raspi2
 #define RASPI_SYS 2
  
@@ -62,8 +68,8 @@ enum
     UART0_ITOP   = (UART0_BASE + 0x88),
     UART0_TDR    = (UART0_BASE + 0x8C),
 };
- 
-void uart_init()
+
+void uart_init(void)
 {
 	// Disable UART0.
 	mmio_write(UART0_CR, 0x00000000);
