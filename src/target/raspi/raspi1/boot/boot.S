@@ -4,14 +4,6 @@
 
 .section ".text.boot"
 
-.equ RASPI_ENTRY_POINT, 0x8000
-.equ RASPI_RELEASE, 0x1
-.equ RASPI_MMIOBASE, 0x2000000
-
-.globl RASPI_ENTRY_POINT
-.globl RASPI_RELEASE
-.globl RASPI_MMIOBASE
-
 // r15 -> should begin execution at 0x8000.
 // r0 -> 0x00000000
 // r1 -> 0x00000C42 - machine id

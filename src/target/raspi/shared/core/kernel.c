@@ -1,3 +1,4 @@
+#include "def/typedef.h"
 #include <stddef.h>
 #include <stdint.h>
  
@@ -7,9 +8,6 @@ void uart_putc(unsigned char);
 unsigned char uart_getc(void);
 void uart_puts(const char *);
 
-// board type, raspi2
-#define RASPI_SYS 2
- 
 // Memory-Mapped I/O output
 static inline void mmio_write(uint32_t reg, uint32_t data)
 {
@@ -30,13 +28,8 @@ static inline void delay(int32_t count)
 
 enum
 {
-    #if RASPI_SYS == 2 || RASPI_SYS == 3
-        #define GPIO_BASE 0x3F200000
-    #elif RASPI_SYS == 4
-        #define GPIO_BASE 0xFE200000
-    #else
-        #define GPIO_BASE 0x20200000 // for raspi1, raspi zero etc.
-    #endif
+    /* define in compile time macro */
+    GPIO_BASE = ARCH_RASP_MMIOBASE + 0x200000, // for raspi1, raspi zero etc.
     // The offsets for reach register.
  
     // Controls actuation of pull up/down to ALL GPIO pins.

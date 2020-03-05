@@ -11,12 +11,12 @@ export TARGET_BASE	:=	$(shell echo "$(TARGET)" | sed 's/[0-9\-_]//g')
 
 export ROOT_PREFIX_BUILD	:=	$(shell realpath --relative-to $(TARGET_DIR) .)
 
-.PHONY: all	targetbuild
+.PHONY: all	targetbaseBuild
 
-all:	setup	targetbuild
+all:	setup	targetbaseBuild
 
-targetbuild:
-	@make -C $(TARGET_BASE)/$(TARGET) --no-print-directory
+targetbaseBuild:
+	@make -C $(TARGET_BASE) --no-print-directory
 
 setup:
 	@mkdir -p $(KBUILD)

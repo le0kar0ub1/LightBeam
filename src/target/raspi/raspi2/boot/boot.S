@@ -5,14 +5,6 @@
 .org 0x8000
 
 .section ".text.boot" 
- 
-.equ RASPI_ENTRY_POINT, 0x8000
-.equ RASPI_RELEASE, 0x2
-.equ RASPI_MMIOBASE, 0x3F00000
-
-.globl RASPI_ENTRY_POINT
-.globl RASPI_RELEASE
-.globl RASPI_MMIOBASE
 
 // Entry point for the kernel.
 // r15 -> should begin execution at 0x8000.

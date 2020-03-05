@@ -25,6 +25,10 @@ export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 export TGTLINKER		:=	target.ld
 export TGTLINKER_BUILD	:=	$(KBUILD)
 
+# Norm arch particular macro
+export TGTMACRO			:=	@archdef
+export TGTMACRO_BUILD	:=	$(KBUILD)
+
 # Binary definition
 export PROJECT			:=	LightBleam
 export VERSION			:=	0.1.0

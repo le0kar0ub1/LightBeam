@@ -5,14 +5,6 @@
  .org 0x80000
 
 .section ".text.boot"
- 
-.equ RASPI_ENTRY_POINT, 0x80000
-.equ RASPI_RELEASE, 0x3
-.equ RASPI_MMIOBASE, 0x3F00000
-
-.globl RASPI_ENTRY_POINT
-.globl RASPI_RELEASE
-.globl RASPI_MMIOBASE
 
 // Entry point for the kernel. Registers:
 // x0 -> 32 bit pointer to DTB in memory (primary core only) / 0 (secondary cores)
@@ -34,8 +26,7 @@ _start:
     cbnz    w6, 3b
  
 4:  
-    bl      kernel_main
-    b 1b
+    bl =kernel_main
 
 halt:
     wfe
