@@ -22,4 +22,4 @@ unfatalrequire source-highlight
 run "Dowload gnu ARM toolchain" git submodule update --init --recursive
 
 ### We're done! ################################################################
-printf "[\e[91;1mN\e[93mI\e[92mC\e[94mE\e[0m] Toolchain built!\n"
+printf "[\e[36;1mTOOL\e[0m] Toolchain built!\n"

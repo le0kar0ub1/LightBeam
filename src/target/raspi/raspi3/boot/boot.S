@@ -4,7 +4,7 @@
 
  .org 0x80000
 
-.section ".text.boot"
+.section .text.boot
 
 // Entry point for the kernel. Registers:
 // x0 -> 32 bit pointer to DTB in memory (primary core only) / 0 (secondary cores)
@@ -26,7 +26,7 @@ _start:
     cbnz    w6, 3b
  
 4:  
-    bl =kernel_main
+    bl =init_hook
 
 halt:
     wfe

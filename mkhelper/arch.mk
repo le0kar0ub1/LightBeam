@@ -2,13 +2,18 @@
 # Inc make which define ARM architecture and processor
  #
 
+# Used as target
 export HANDLED_SYSTEM	:=	raspi1	\
 							raspi2	\
 							raspi3	\
 							raspi4
 
+
+## For information #
 export HANDLED_PROC		:=	arm1176
 
+
+# Just a List
 export HANDLED_ARCH		:=	armv1	\
 							armv2	\
 							armv3	\

@@ -1,17 +1,13 @@
-// PI2
-
 .globl _start
 
 .org 0x8000
 
-.section ".text.boot" 
+/* Unused at time, we will change the linker */
+.section .init
+b _start
 
-// Entry point for the kernel.
-// r15 -> should begin execution at 0x8000.
-// r0 -> 0x00000000
-// r1 -> 0x00000C42 - machine id
-// r2 -> 0x00000100 - start of ATAGS
-// preserve these registers as argument for kernel_main
+.section .text.boot
+
 _start:
     // Shut off extra cores
     mrc p15, #0, r5, c0, c0, #5
@@ -41,8 +37,7 @@ _start:
     cmp r4, r9
     blo 1b
  
-    // Call kernel_main
-    ldr r3, =kernel_main
+    ldr r3, =init_hook
     blx r3
  
  halt:

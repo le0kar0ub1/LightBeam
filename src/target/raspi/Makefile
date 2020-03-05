@@ -4,10 +4,16 @@
 
 include $(MKHELPER_DIR)/macro.mk
 
-export TARGET_SOURCE_DIR	=	$(addprefix $(realpath shared)/,	\
-													.				\
-													core			\
-								)	\
+PREFIX_TARGET_DEPTH	:=	../
+
+export TARGET_SOURCE_DIR	=	$(addprefix $(PREFIX_TARGET_DEPTH)shared/,	\
+													.						\
+													core					\
+													driver					\
+													tool					\
+													lib						\
+													init					\
+								)
 
 
 all:	checkup	targetbuild
