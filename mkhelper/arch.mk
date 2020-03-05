@@ -2,7 +2,8 @@
 # Inc make which define ARM architecture and processor
  #
 
-export HANDLED_SYSTEM	:=	raspi2	\
+export HANDLED_SYSTEM	:=	raspi1	\
+							raspi2	\
 							raspi3	\
 							raspi4
 
