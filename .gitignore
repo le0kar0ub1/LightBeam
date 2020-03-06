@@ -2,6 +2,7 @@ build
 sample
 *.bin
 .vscode
+dev.sh
 *~
 
 # Prerequisites

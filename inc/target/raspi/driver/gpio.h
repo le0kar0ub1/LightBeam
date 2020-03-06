@@ -1,6 +1,8 @@
 #ifndef _GPIO_H_
 #define _GPIO_H_
 
+#include "def/typedef.h"
+
 #define GPIO_MODE_00_09 0x0 /* Address of the mode bits for GPIOs 0-9 */
 #define GPIO_MODE_10_19 0x4 /* Address of the mode bits for GPIOs 10-19 */
 #define GPIO_MODE_20_29 0x8 /* Address of the mode bits for GPIOs 20-29 */
@@ -20,5 +22,33 @@
 void gpio_init(void);
 int gpio_read(void);
 void gpio_write(int);
+
+#define MAIL0_READ   0x00
+#define MAIL0_PEAK   0x10
+#define MAIL0_SENDER 0x14
+#define MAIL0_STATUS 0x18
+#define MAIL0_CONFIG 0x1C
+#define MAIL0_WRITE  0x20
+
+#define SYSIO_POWER_MGMT  0
+#define SYSIO_FRAMEBUFFER 1
+#define SYSIO_UART_VIRT   2
+#define SYSIO_VCHIQ       3
+#define SYSIO_LEDS        4
+#define SYSIO_BUTTONS     5
+#define SYSIO_SCREEN      6
+
+struct MMIO_IO
+{
+    uint channel : 4;
+    uint data    : 28; 
+};
+
+struct MMIO_STATUS
+{
+    uint _unused : 30;
+    uint empty   : 1;
+    uint full    : 1; 
+};
 
 #endif
