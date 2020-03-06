@@ -9,10 +9,12 @@ void uart_putc(uchar);
 uchar uart_getc(void);
 void uart_puts(const char *);
 
+void delay(uint);
+
 enum
 {
     /* define in compile time macro */
-    GPIO_BASE = ARCH_RASP_MMIOBASE + 0x200000,
+    GPIO_BASE = 0x200000,
  
     // Controls actuation of pull up/down to ALL GPIO pins.
     GPPUD = (GPIO_BASE + 0x94),

@@ -5,8 +5,8 @@
 
 extern void membarrier(void);
 
-uint32 ReadMmReg32(uint32, uint32);
-void WriteMmReg32(uint32, uint32, uint32);
+uint32 mmioRead(uint32, uint32);
+void mmioWrite(uint32, uint32, uint32);
 
 void *memcpy(void *, const void *, size_t);
 
