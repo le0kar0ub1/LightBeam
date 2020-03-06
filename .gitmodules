@@ -4,3 +4,6 @@
 [submodule "mktoolchain/toolchain/aarch64-gnu-tool"]
 	path = mktoolchain/toolchain/aarch64-gnu-tool
 	url = https://github.com/Teamlions/aarch64-linux-gnu-7.3.git
+[submodule "mktoolchain/toolchain/aarch32-gnu-tool"]
+	path = mktoolchain/toolchain/aarch32-gnu-tool
+	url = https://github.com/nolanholden/arm-none-eabi-gcc
