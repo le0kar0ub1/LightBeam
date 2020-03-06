@@ -1,6 +1,6 @@
 # LightBleam
 
-The purpose of this project is to create some ARM kernel base (processor specific) for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
+The purpose of this project is to create some ARM kernel base for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
 
 ## PROLOGUE
 
@@ -23,6 +23,7 @@ LightBleam build kernel system-specific.
 `make TARGET=$SYSTEM`
 
 *SYSTEM targetable list:*
+  - raspi1 (same as raspi0 but the target is unified to raspi1)
   - raspi2 (RaspberryPi2)
   - raspi3 (RaspberryPi3)
 
@@ -33,6 +34,8 @@ I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for ARM s
 Check dependencies with the toolchain builder.
 
 ## ROADMAP
+
+The ROADMAP will be define later.
 
 - [X] Toolchain (can evolve)
 - [ ] Kernel

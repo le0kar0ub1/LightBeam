@@ -4,11 +4,6 @@
 
 .section .text.boot
 
-// r15 -> should begin execution at 0x8000.
-// r0 -> 0x00000000
-// r1 -> 0x00000C42 - machine id
-// r2 -> 0x00000100 - start of ATAGS
-// preserve these registers as argument for init_hook
 _start:
 	mov sp, #0x8000
  
