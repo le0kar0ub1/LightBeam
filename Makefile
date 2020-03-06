@@ -24,9 +24,11 @@ checkup:
 	# $(call EvalTargetProcessor, $(PROCESSOR))
 	# $(call EvalTargetArch, $(ARCH))
 
-# Lauch the build
+# Lauch the build, clean & exit if failed
 build:
-	@make -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR) --no-print-directory
+	@make -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR) --no-print-directory	\
+		|| \
+	(echo -e "[$(BoldRed)ABORT$(Blank)] Build Failed" && make fclean --no-print-directory && exit 0)
 
 # Disassemble the kernel (debug)
 disassemble: $(KERNEL)
@@ -34,7 +36,7 @@ disassemble: $(KERNEL)
 
 re:	fclean all
 
-# Clean the relocatable objects
+# Clean the relocatable objects & kbuild
 clean:
 	@$(RM) $(BUILDIR)
 
