@@ -2,15 +2,15 @@
 # Inc make which define static toolchain variable
  #
 
-# GNU ARM NONE EABI toolchain
-export NEABI_ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/arm-none-eabi-gcc
-export NEABI_ARMGNUBASE	:=	$(NEABI_ARMGNUDIR)/bin/arm-none-eabi-
-export NEABI_CC			:=	$(NEABI_ARMGNUBASE)gcc
-export NEABI_AS			:=	$(NEABI_ARMGNUBASE)as
-export NEABI_LD			:=	$(NEABI_ARMGNUBASE)ld
-export NEABI_OBJCPY		:=	$(NEABI_ARMGNUBASE)objcopy
-export NEABI_OBJDMP		:=	$(NEABI_ARMGNUBASE)objdump
-export NEABI_RDELF		:=	$(NEABI_ARMGNUBASE)readelf
+# GNU AARCH32 toolchain
+export AARCH32_ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/arm-none-eabi-gcc
+export AARCH32_ARMGNUBASE	:=	$(AARCH32_ARMGNUDIR)/bin/arm-none-eabi-
+export AARCH32_CC			:=	$(AARCH32_ARMGNUBASE)gcc
+export AARCH32_AS			:=	$(AARCH32_ARMGNUBASE)as
+export AARCH32_LD			:=	$(AARCH32_ARMGNUBASE)ld
+export AARCH32_OBJCPY		:=	$(AARCH32_ARMGNUBASE)objcopy
+export AARCH32_OBJDMP		:=	$(AARCH32_ARMGNUBASE)objdump
+export AARCH32_RDELF		:=	$(AARCH32_ARMGNUBASE)readelf
 
 # GNU AARCH64 toolchain
 export AARCH64_ARMGNUDIR	:=	$(PROJECT_PATH)/mktoolchain/toolchain/aarch64-gnu-tool

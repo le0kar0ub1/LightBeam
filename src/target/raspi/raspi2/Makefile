@@ -10,6 +10,6 @@ TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC
 
 .PHONY: all
 
-include $(MKHELPER_DIR)/builder/builder_neabi.mk
+include $(MKHELPER_DIR)/builder/builder_aarch32.mk
 
-all:	neabibuilder
+all:	aarch32builder

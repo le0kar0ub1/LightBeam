@@ -26,7 +26,7 @@ define EvalTargetMachine
 endef
 
 define EvalToolchain
-	$(if $(filter $(PROJECT_PATH)/$(NEABI_ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(NEABI_ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM NEABI toolchain -- make toolchain"), $(call INFO, "GNU ARM NEABI toolchain found"))
+	$(if $(filter $(PROJECT_PATH)/$(AARCH32_ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(AARCH32_ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM NEABI toolchain -- make toolchain"), $(call INFO, "GNU ARM NEABI toolchain found"))
 	$(if $(filter $(PROJECT_PATH)/$(AARCH64_ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(AARCH64_ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM AARCH toolchain -- make toolchain"), $(call INFO, "GNU ARM aarch64 toolchain found"))
 endef
 
