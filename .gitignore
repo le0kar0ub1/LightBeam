@@ -1,6 +1,7 @@
 build
 sample
 *.bin
+*.img
 .vscode
 dev.sh
 *~

@@ -11,6 +11,9 @@ void init_hook(void)
     uart_init();
 
     uart_puts("HELLO WORLD!\n");
+    lfb_init();
+
+    lfb_showpicture();
     // initialize EMMC and detect SD card type
     // if(sd_init() == SD_OK) {
     //     // read the second sector after our bss segment
