@@ -2,12 +2,16 @@ ENTRY(_start)
  
 SECTIONS
 {
-    . = 0x80000;
     .init :
     {
         *(.init)
     }
+    . = 0x80000;
     __start = .;
+    .text.boot :
+    {
+        *(.text.boot)
+    }
     __text_start = .;
     .text :
     {
@@ -43,4 +47,6 @@ SECTIONS
     __bss_end = .;
     __bss_size = __bss_end - __bss_start;
     __end = .;
+
+    /* /DISCARD/ : { *(.comment) *(.gnu*) *(.note*) *(.eh_frame*) } */
 }

@@ -58,3 +58,6 @@ ifeq ($(EXEC),)
 else
 	@$(QEMU) $(QEMUFLAGS) -m 256 -M $(MACHINE) -cpu $(CPU) -kernel $(EXEC)
 endif
+
+utils:
+	$(AARCH64_ARMGNUBASE)$(exec)

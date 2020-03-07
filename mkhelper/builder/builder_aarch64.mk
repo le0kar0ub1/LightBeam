@@ -32,5 +32,5 @@ ifeq ($(NOLINK),)
 	@$(AARCH64_CC) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
 	@-echo -e " LINKED      $@"
 	@$(AARCH64_OBJCPY) $(PROJECT_PATH)/$(KERNEL) -O binary $(PROJECT_PATH)/$(IMGKERN)
-	@-echo -e "    ISO      $(IMGKERN)"
+	@-echo -e "    IMG      $(IMGKERN)"
 endif

@@ -1,29 +1,37 @@
 .globl _start
 
+/* unused at time */
 .section .init
 b _start
 
-.globl _start
+.section .text.boot
+
 _start:
-    mrs x0, mpidr_el1
-    and x0, x0, #0xFF    // Check processor id
-    cbz x0, master       // Hang for all non-primary CPU
-    b   proc_hang
+    // read cpu id, stop slave cores
+    mrs     x1, mpidr_el1
+    and     x1, x1, #3
+    cbz     x1, 2f
 
+1:
+    wfe
+    b       1b
 
-master:
-    adr x0, __bss_start
-    adr x1, __bss_end
-    sub x1, x1, x0
-    bl  memzero
+2:
+    // set stack before our code (then we got from 0 to ENTRYPOINT stack size)
+    ldr     x1, =_start
+    mov     sp, x1
 
-    ldr x5, =stack
-    mov sp, x5
-    bl  init_hook
-    b   proc_hang
+    // clear bss
+    ldr     x1, =__bss_start
+    ldr     w2, =__bss_size
+3:
+    cbz     w2, 4f
+    str     xzr, [x1], #8
+    sub     w2, w2, #1
+    cbnz    w2, 3b
 
-proc_hang: 
-    b proc_hang
+4:
+    bl      init_hook
 
-.section .bss
-.lcomm stack, 0x10000
+    /* UNREACHEABLE */
+    b       1b
