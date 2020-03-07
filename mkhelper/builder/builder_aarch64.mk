@@ -31,6 +31,6 @@ $(KERNEL):	$(.SECONDEXPANSION)
 ifeq ($(NOLINK),)
 	@$(AARCH64_CC) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
 	@-echo -e " LINKED      $@"
-	@$(AARCH64_OBJCPY) $(PROJECT_PATH)/$(KERNEL) -O binary $(PROJECT_PATH)/$(IMGKERN)
+	@$(AARCH64_OBJCPY) -O binary $(PROJECT_PATH)/$(KERNEL) $(PROJECT_PATH)/$(IMGKERN)
 	@-echo -e "    IMG      $(IMGKERN)"
 endif

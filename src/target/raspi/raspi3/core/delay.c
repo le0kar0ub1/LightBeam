@@ -4,12 +4,12 @@
 #define SYSTMR_LO        ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00003004))
 #define SYSTMR_HI        ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00003008))
 
-/**
- * Wait N CPU cycles (ARM CPU only)
- */
+/* ARM processor allow a nop instruction usefull */
 void wait_cycles(uint n)
 {
-    if(n) while(n--) { asm volatile("nop"); }
+    if (n)
+        while(n--)
+            asm volatile("nop"); 
 }
 
 /**
@@ -17,32 +17,33 @@ void wait_cycles(uint n)
  */
 void wait_msec(uint n)
 {
-    register unsigned long f, t, r;
+    register ulong f, t, r;
     // get the current counter frequency
     asm volatile ("mrs %0, cntfrq_el0" : "=r"(f));
     // read the current counter
     asm volatile ("mrs %0, cntpct_el0" : "=r"(t));
     // calculate expire value for counter
-    t+=((f/1000)*n)/1000;
-    do{asm volatile ("mrs %0, cntpct_el0" : "=r"(r));}while(r<t);
+    t += ((f / 1000) * n) / 1000;
+    while(r < t)
+        asm volatile ("mrs %0, cntpct_el0" : "=r"(r));
 }
 
 /**
  * Get System Timer's counter
  */
-unsigned long get_system_timer()
+ulong get_system_timer()
 {
-    uint h=-1, l;
+    uint h = -1, l;
     // we must read MMIO area as two separate 32 bit reads
-    h=*SYSTMR_HI;
-    l=*SYSTMR_LO;
+    h =* SYSTMR_HI;
+    l =* SYSTMR_LO;
     // we have to repeat it if high word changed during read
-    if(h!=*SYSTMR_HI) {
-        h=*SYSTMR_HI;
-        l=*SYSTMR_LO;
+    if(h != *SYSTMR_HI) {
+        h = *SYSTMR_HI;
+        l = *SYSTMR_LO;
     }
     // compose long int value
-    return ((unsigned long) h << 32) | l;
+    return ((ulong) h << 32) | l;
 }
 
 /**
@@ -50,8 +51,9 @@ unsigned long get_system_timer()
  */
 void wait_msec_st(uint n)
 {
-    unsigned long t=get_system_timer();
+    ulong t=get_system_timer();
     // we must check if it's non-zero, because qemu does not emulate
     // system timer, and returning constant zero would mean infinite loop
-    if(t) while(get_system_timer() < t+n);
+    if (t)
+        while(get_system_timer() < t + n);
 }

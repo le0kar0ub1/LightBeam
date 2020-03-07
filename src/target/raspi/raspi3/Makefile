@@ -4,7 +4,9 @@
 
 
 TARGET_SOURCE_DIR	+=	boot	\
-						core
+						core	\
+						tool	\
+						driver	\
 
 TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 
