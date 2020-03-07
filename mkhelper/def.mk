@@ -26,14 +26,16 @@ export TGTLINKER		:=	target.ld
 export TGTLINKER_BUILD	:=	$(KBUILD)
 
 # Norm arch particular macro
-export TGTMACRO			:=	@archdef
+export TGTMACRO			:=	@config
 export TGTMACRO_BUILD	:=	$(KBUILD)
 
 # Binary definition
 export PROJECT			:=	LightBleam
 export VERSION			:=	0.1.0
 export BIN_EXTENSION	:=	bin
+export IMG_EXTENSION	:=	img
 export KERNEL			:=	$(PROJECT)-$(VERSION)-$(TARGET).$(BIN_EXTENSION)
+export IMGKERN			:=	$(PROJECT)-$(VERSION)-$(TARGET).$(IMG_EXTENSION)
 
 # Norm extension
 export EXTENSION_SRC	:=	.c

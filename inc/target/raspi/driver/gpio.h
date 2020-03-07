@@ -22,6 +22,8 @@
 void gpio_init(void);
 int gpio_read(void);
 void gpio_write(int);
+void Flash32(uint32);
+void Flash32_Value(uint32);
 
 #define MAIL0_READ   0x00
 #define MAIL0_PEAK   0x10

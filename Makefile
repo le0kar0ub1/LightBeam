@@ -42,8 +42,8 @@ clean:
 
 # Full clean the projet
 fclean:	clean
-	@$(RM) $(PROJECT)*.bin 
-	@$(RM) vgcore.*
+	@$(RM) $(PROJECT)*.bin $(PROJECT)*.img
+	@$(RM) vgcore.* qemu_*.core
 	@$(RM) $(shell find . -name $(BUILDEP))
 
 # Build & check toolchain

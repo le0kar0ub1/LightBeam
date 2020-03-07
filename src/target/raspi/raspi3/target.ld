@@ -3,6 +3,10 @@ ENTRY(_start)
 SECTIONS
 {
     . = 0x80000;
+    .init :
+    {
+        *(.init)
+    }
     __start = .;
     __text_start = .;
     .text :

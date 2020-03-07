@@ -26,5 +26,5 @@ ifeq ($(shell test -f $(TARGET)/$(TGTMACRO) && echo targetable), targetable)
 	@cp $(TARGET)/$(TGTMACRO) $(TGTMACRO_BUILD)
 	$(eval CCFLAGS += -imacros $(TGTMACRO_BUILD)/$(TGTMACRO))
 else
-	$(call RAISE, "Miss needed @archdef file for $(TARGET) target")
+	$(call RAISE, "Miss needed @config file for $(TARGET) target")
 endif

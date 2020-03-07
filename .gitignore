@@ -4,6 +4,7 @@ sample
 .vscode
 dev.sh
 *~
+*.core
 
 # Prerequisites
 *.d

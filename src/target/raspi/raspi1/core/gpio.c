@@ -29,3 +29,30 @@ void gpio_write(int val)
 
     mmioWrite(GPIO_BASE, GPIO_SET_0_31, set);
 }
+
+void Flash32_Value(uint32 value)
+{
+    for (uint8 i = 0; i < 4; i++){
+        gpio_write((value & 0xF));
+        gpio_write(0x10 | (value & 0xF));
+    }
+        
+    for (uint8 i = 4; i < 32; i += 4){
+        gpio_write((value >> i) & 0xF);
+        gpio_write(0x10 | ((value >> i) & 0xF));
+    }
+}
+
+void Flash32(uint32 value)
+{
+    if (!gpio_read()){
+        while (!gpio_read()){
+            Flash32_Value(value);
+        }
+    }
+    else {
+        while (gpio_read()){
+            Flash32_Value(value);
+        }
+    }
+}
