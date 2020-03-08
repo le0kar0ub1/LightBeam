@@ -10,7 +10,9 @@ void init_hook(void)
     // uint *counter = (uint*)(&__end + 508);
     uart_init();
 
+    fault();
     uart_puts("HELLO WORLD!\n");
+
     lfb_init();
 
     lfb_showpicture();

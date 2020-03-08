@@ -21,6 +21,8 @@ _start:
     ldr     x1, =_start
     mov     sp, x1
 
+    bl _setup
+
     // clear bss
     ldr     x1, =__bss_start
     ldr     w2, =__bss_size
@@ -35,3 +37,8 @@ _start:
 
     /* UNREACHEABLE */
     b       1b
+
+
+/* generate fault from scratch (u can do it?) */
+.globl fault
+fault:

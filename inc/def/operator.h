@@ -1,7 +1,7 @@
 #ifndef _PTR_OPERATOR_H_
 #define _PTR_OPERATOR_H_
 
-#include "./typedef.h"
+#include "typedef.h"
 
 static inline bool ARE_PTR_EQUAL(void *x, void *y)
 {
