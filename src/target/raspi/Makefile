@@ -15,6 +15,13 @@ export TARGET_SOURCE_DIR	=	$(addprefix $(PREFIX_TARGET_DEPTH)shared/,	\
 													init					\
 								)
 
+export TARGET_PREBUILD		=	$(wildcard \
+										$(addsuffix /*$(EXTENSION_OBJ),	\
+												$(addprefix $(realpath shared)/, \
+												font)						\
+										)								\
+								)
+
 
 all:	checkup	targetbuild
 
@@ -28,3 +35,6 @@ ifeq ($(shell test -f $(TARGET)/$(TGTMACRO) && echo targetable), targetable)
 else
 	$(call RAISE, "Miss needed @config file for $(TARGET) target")
 endif
+
+# fontbuild:
+#	 @$(AARCH64_LD) -r -b binary -o font.o font.psf

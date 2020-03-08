@@ -1,22 +1,13 @@
 #include "target/raspi/raspi3/uart.h"
 #include "target/raspi/raspi3/mbox.h"
+#include "target/raspi/raspi3/driver/lfb.h"
 
-static uint homer_width = 96;
-static uint homer_height = 64;
+extern volatile uchar _binary_font_psf_start;
 
-/*  Call this macro repeatedly.  After each use, the pixel data can be extracted  */
+uint width, height, pitch;
+uchar *lfb;
 
-#define HEADER_PIXEL(data,pixel) {\
-    pixel[0] = (((data[0] - 33) << 2) | ((data[1] - 33) >> 4)); \
-    pixel[1] = ((((data[1] - 33) & 0xF) << 4) | ((data[2] - 33) >> 2)); \
-    pixel[2] = ((((data[2] - 33) & 0x3) << 6) | ((data[3] - 33))); \
-    data += 4; \
-}
-
-uint width, height, pitch, isrgb;   /* dimensions and channel order */
-uchar *lfb;                         /* raw frame buffer address */
-
-void lfb_init()
+void lfb_init(void)
 {
     mbox[0] = 35 * 4;
     mbox[1] = MBOX_REQUEST;
@@ -67,28 +58,44 @@ void lfb_init()
         width = mbox[5];          //get actual physical width
         height = mbox[6];         //get actual physical height
         pitch = mbox[33];         //get number of bytes per line
-        isrgb = mbox[24];         //get the actual channel order
         lfb = (void*)((ulong)mbox[28]);
     } else {
         uart_puts("Unable to set screen resolution to 1024x768x32\n");
     }
 }
 
-void lfb_showpicture()
+void lfb_print(int x, int y, char const *s)
 {
-    uchar *ptr = lfb;
-    // char *data = (char *)homer_data;
-    // char pixel[4];
-
-    // ptr += (height - homer_height) / 2 * pitch + (width - homer_width) * 2;
-    // for(uint y = 0; y < homer_height; y++) {
-    //     for(uint x = 0; x < homer_width; x++) {
-    //         HEADER_PIXEL(data, pixel);
-    //         // the image is in RGB. So if we have an RGB framebuffer, we can copy the pixels
-    //         // directly, but for BGR we must swap R (pixel[0]) and B (pixel[2]) channels.
-    //         *((uint*)ptr) = isrgb ? *((uint *)&pixel) : (uint)(pixel[0]<<16 | pixel[1]<<8 | pixel[2]);
-    //         ptr+=4;
-    //     }
-    //     ptr+=pitch-homer_width*4;
-    // }
+    psf_t *font = (psf_t *)&_binary_font_psf_start;
+    for (; *s; s++) {
+        // get the offset of the glyph. Need to adjust this to support unicode table
+        uchar *glyph = (uchar*)&_binary_font_psf_start +
+         font->headersize + (*((uchar *)s) < font->numglyph ? *s : 0) * font->bytesperglyph;
+        // calculate the offset on screen
+        int offs = (y * font->height * pitch) + (x * (font->width + 1) * 4);
+        // variables
+        int i, j, line, mask, bytesperline = (font->width + 7) / 8;
+        if(*s == '\r')
+            x = 0;
+        else
+            if(*s == '\n') {
+                x = 0;
+                y++;
+            } else {
+                // display a character
+                for(j = 0; j < (int)font->height; j++) {
+                    // display one row
+                    line= offs;
+                    mask = 1 << (font->width - 1);
+                    for(i = 0; i < (int)font->width; i++){
+                        *((uint*)(lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
+                        mask>>=1;
+                        line+=4;
+                    }
+                    glyph += bytesperline;
+                    offs += pitch;
+                }
+                x++;
+            }
+    }
 }

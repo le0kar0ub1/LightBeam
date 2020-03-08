@@ -45,8 +45,8 @@ export EXTENSION_ASM	:=	.S
 export LDFLAGS	=	--trace								\
 					-lgcc								\
 					-ffreestanding 						\
-					-O2 								\
 					-nostdlib							\
+					-nostartfiles						\
 					-o	$(PROJECT_PATH)/$(KERNEL)		\
 					-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
 
@@ -63,7 +63,6 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wnested-externs					\
 					-Winline							\
 					-Wpragmas							\
-					-fpic								\
 					-ffreestanding 						\
 					-std=gnu99							\
 					-Wuninitialized						\
@@ -82,6 +81,10 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wmissing-prototypes				\
 					-Wstrict-prototypes					\
 					-Wpointer-arith						\
+					-nostartfiles						\
+					-O2 								\
+					-nostdlib							\
+					# -fpic								\
 					# -Werror
 
 export ASFLAGS	=	

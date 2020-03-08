@@ -1,5 +1,5 @@
  #
-# Makefile Compiling object for RASPI2 target
+# Makefile Compiling object for RASPI3 target
  #
 
 
@@ -14,6 +14,7 @@ TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC
 # Shared ARCH object
 .EXPANSION:
 TARGET_BUILT_OBJECT		=	$(shell find $(AARCH64_SHARED_OBJ_DIR) -name *$(EXTENSION_OBJ) 2> /dev/null)
+TARGET_BUILT_OBJECT		+=	$(TARGET_PREBUILD)
 
 .PHONY: all
 

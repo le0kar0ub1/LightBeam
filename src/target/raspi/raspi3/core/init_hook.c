@@ -1,4 +1,5 @@
 #include "target/raspi/raspi3/uart.h"
+#include "target/raspi/raspi3/driver/lfb.h"
 
 extern uchar __end;
 
@@ -10,12 +11,11 @@ void init_hook(void)
     // uint *counter = (uint*)(&__end + 508);
     uart_init();
 
-    fault();
     uart_puts("HELLO WORLD!\n");
 
     lfb_init();
 
-    lfb_showpicture();
+    lfb_print(10, 5, "Hello World!");
     // initialize EMMC and detect SD card type
     // if(sd_init() == SD_OK) {
     //     // read the second sector after our bss segment

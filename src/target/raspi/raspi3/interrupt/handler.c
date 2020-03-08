@@ -1,5 +1,10 @@
 #include "target/raspi/raspi3/uart.h"
 
+
+void int_handler(ulong, ulong, ulong, ulong, ulong);
+void processor_push(void);
+void processor_dump(void);
+
 void int_handler(ulong type, ulong esr, ulong elr, ulong spsr, ulong far)
 {
     processor_push();
@@ -43,7 +48,7 @@ void int_handler(ulong type, ulong esr, ulong elr, ulong spsr, ulong far)
         }
     }
     // dump registers
-    uart_puts(":\n  ESR_EL1 ");
+    uart_puts("\n  ESR_EL1 ");
     uart_hex(esr >> 32);
     uart_hex(esr);
     uart_puts(" ELR_EL1 ");
