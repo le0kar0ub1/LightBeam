@@ -2,14 +2,15 @@
 
 void int_handler(ulong type, ulong esr, ulong elr, ulong spsr, ulong far)
 {
-    // print out interruption type
+    processor_push();
+    uart_puts("Exception ");
     switch(type) {
         case 0: uart_puts("Synchronous"); break;
         case 1: uart_puts("IRQ"); break;
         case 2: uart_puts("FIQ"); break;
         case 3: uart_puts("SError"); break;
     }
-    uart_puts(": ");
+    uart_puts(" -> ");
     // decode exception type (some, not all. See ARM DDI0487B_b chapter D10.2.28)
     switch(esr >> 26) {
         case 0b000000: uart_puts("Unknown"); break;
@@ -55,7 +56,7 @@ void int_handler(ulong type, ulong esr, ulong elr, ulong spsr, ulong far)
     uart_hex(far >> 32);
     uart_hex(far);
     uart_puts("\n");
-    // no return from exception for now
     processor_dump();
+    // no return from exception for now
     while(1);
 }
