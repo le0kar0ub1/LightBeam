@@ -23,10 +23,10 @@ int mbox_call(uchar ch)
         asm volatile("nop");
     *MBOX_WRITE = r;
     while (1) {
-        while(*MBOX_STATUS & MBOX_EMPTY)
+        while (*MBOX_STATUS & MBOX_EMPTY)
             asm volatile("nop");
         if (r == *MBOX_READ)
-            return mbox[1] == MBOX_RESPONSE;
+            return (mbox[1] == MBOX_RESPONSE);
     }
     return (0);
 }

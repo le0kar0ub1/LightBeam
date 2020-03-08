@@ -1,6 +1,8 @@
 .globl _vectors
 
+
 .section .text
+
 
 .align 11
 _vectors:
