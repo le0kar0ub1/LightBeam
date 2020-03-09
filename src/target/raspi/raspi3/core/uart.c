@@ -46,10 +46,10 @@ void uart_init(void)
 void uart_send(uint c)
 {
     /* wait until we can send */
-    while(*UART0_FR& 0x20)
+    while(*UART0_FR & 0x20)
         asm volatile("nop");
     /* write the character to the buffer */
-    *UART0_DR=c;
+    *UART0_DR = c;
 }
 
 /**

@@ -1,4 +1,5 @@
 #include "target/raspi/raspi3/uart.h"
+#include "target/raspi/raspi3/interrupt.h"
 
 const char *entry_error_messages[] =
 {
@@ -25,12 +26,13 @@ const char *entry_error_messages[] =
 
 void enable_interrupt_controller(void)
 {
-    // put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1);
+    put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1);
 }
 
 void handle_except_msg(int type, uint64 esr, uint64 address)
 {
     uart_kprint("%s, ESR: %x, address: %x\r\n", entry_error_messages[type], esr, address);
+    while(1);
 }
 
 void handle_irq(void)

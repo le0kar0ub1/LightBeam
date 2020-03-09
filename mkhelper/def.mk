@@ -87,7 +87,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					# -fpic								\
 					# -Werror
 
-export ASFLAGS	=	
+export ASFLAGS	=	$(INCLUDE_DIR)						\
 
 export QEMU			:=	qemu-system-arm
 

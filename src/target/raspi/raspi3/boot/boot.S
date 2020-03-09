@@ -1,42 +1,54 @@
 .globl _start
 
+.include "target/raspi/raspi3/sysregs.inc"
+
 /* unused at time */
 .section .init
 b _start
 
 .section .text.boot
 
+.globl _start
 _start:
-    // read cpu id, stop slave cores
-    mrs     x1, mpidr_el1
-    and     x1, x1, #3
-    cbz     x1, 2f
+    mrs x0, mpidr_el1
+    and x0, x0,#0xFF    // Check processor id
+    cbz x0, master      // Hang for all non-primary CPU
+    b   proc_hang
 
-1:
-    wfe
-    b       1b
+proc_hang: 
+    b   proc_hang
 
-2:
-    // set stack before our code (then we got from 0 to ENTRYPOINT stack size)
-    ldr     x1, =_start
-    mov     sp, x1
+master:
+    ldr x0, =SCTLR_VALUE_MMU_DISABLED
+    msr sctlr_el1, x0
 
-    bl _setup
+    ldr x0, =HCR_VALUE
+    msr hcr_el2, x0
 
-    // clear bss
-    ldr     x1, =__bss_start
-    ldr     w2, =__bss_size
-3:
-    cbz     w2, 4f
-    str     xzr, [x1], #8
-    sub     w2, w2, #1
-    cbnz    w2, 3b
+    ldr x0, =SCR_VALUE
+    msr scr_el3, x0
 
-4:
-    bl      init_hook
+    ldr x0, =SPSR_VALUE
+    msr spsr_el3, x0
 
-    /* UNREACHEABLE */
-    b       1b
+    adr x0, el1_entry
+    msr elr_el3, x0
+
+    eret
+
+el1_entry:
+    adr x0, __bss_start
+    adr x1, __bss_end
+    sub x1, x1, x0
+    bl  memzero
+
+    ldr x0, =_start
+    mov sp, x0
+    bl  init_hook
+
+/* UNREACHEABLE */
+hang:
+    b hang
 
 
 /* generate fault from scratch (u can do it?) */
