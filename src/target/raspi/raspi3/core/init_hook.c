@@ -11,6 +11,8 @@ void init_hook(void)
     // uint *counter = (uint*)(&__end + 508);
     uart_init();
 
+    int *a = 0;
+    *a = 0;
     uart_puts("HELLO WORLD!\n");
 
     lfb_init();
