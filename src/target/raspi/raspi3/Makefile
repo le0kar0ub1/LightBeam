@@ -2,6 +2,8 @@
 # Makefile Compiling object for RASPI3 target
  #
 
+CCFLAGS		+=	-mcpu=cortex-a53
+
 
 TARGET_SOURCE_DIR	+=	boot		\
 						core		\

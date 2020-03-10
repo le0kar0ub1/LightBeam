@@ -89,8 +89,8 @@ void lfb_print(int x, int y, char const *s)
                     mask = 1 << (font->width - 1);
                     for(i = 0; i < (int)font->width; i++){
                         *((uint*)(lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
-                        mask>>=1;
-                        line+=4;
+                        mask >>= 1;
+                        line += 4;
                     }
                     glyph += bytesperline;
                     offs += pitch;
@@ -98,4 +98,16 @@ void lfb_print(int x, int y, char const *s)
                 x++;
             }
     }
+}
+
+void lfb_clear(void)
+{
+    mbox[0] = 7 * 4;
+    mbox[1] = MBOX_REQUEST;
+    mbox[2] = 0x00040002;
+    mbox[3] = 4;
+    mbox[4] = 4;
+    mbox[5] = 0;
+    mbox[6] = MBOX_TAG_LAST;
+    mbox_call(MBOX_CH_PROP);
 }

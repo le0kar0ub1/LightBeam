@@ -18,5 +18,6 @@ typedef struct {
 
 void lfb_init(void);
 void lfb_print(int, int, char const *);
+void lfb_clear(void);
 
 #endif
