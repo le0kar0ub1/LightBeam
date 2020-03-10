@@ -59,7 +59,7 @@ char uart_getc(void)
 {
     char r;
     /* wait until something is in the buffer */
-    while(*UART0_FR&0x10)
+    while(*UART0_FR & 0x10)
         asm volatile("nop");
     /* read it and return */
     r = (char)(*UART0_DR);
@@ -73,7 +73,7 @@ char uart_getc(void)
 void uart_puts(char const *s)
 {
     while(*s) {
-        if(*s =='\n')
+        if(*s == '\n')
             uart_send('\r');
         uart_send(*s++);
     }
@@ -115,8 +115,8 @@ void uart_dump(void *ptr)
             if(b % 4 == 3)
                 uart_send(' ');
         }
-        for (b = 0; b < 16;b++) {
-            c = *((uchar*)(a+b));
+        for (b = 0; b < 16; b++) {
+            c = *((uchar*)(a + b));
             uart_send(c < 32 || c >= 127 ? '.' : c);
         }
         uart_send('\r');

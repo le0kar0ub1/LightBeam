@@ -51,6 +51,6 @@ hang:
     b hang
 
 
-/* generate fault from scratch (u can do it?) */
-.globl fault
-fault:
+/* generate fault from scratch */
+.globl scratch
+scratch:

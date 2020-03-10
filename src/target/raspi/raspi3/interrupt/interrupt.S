@@ -26,18 +26,18 @@
     b   err_hang
 .endm
 
-.macro ventry label
+.macro ventry entry
 .align 7
-    b \label
+    b \entry
 .endm
 
 .macro kernel_entry
-    sub sp, sp, #INT_FRAME_SIZE
-    stp x0, x1, [sp, #16 * 0]
-    stp x2, x3, [sp, #16 * 1]
-    stp x4, x5, [sp, #16 * 2]
-    stp x6, x7, [sp, #16 * 3]
-    stp x8, x9, [sp, #16 * 4]
+    sub sp,  sp,  #INT_FRAME_SIZE
+    stp x0,  x1,  [sp, #16 * 0]
+    stp x2,  x3,  [sp, #16 * 1]
+    stp x4,  x5,  [sp, #16 * 2]
+    stp x6,  x7,  [sp, #16 * 3]
+    stp x8,  x9,  [sp, #16 * 4]
     stp x10, x11, [sp, #16 * 5]
     stp x12, x13, [sp, #16 * 6]
     stp x14, x15, [sp, #16 * 7]
@@ -52,11 +52,11 @@
 .endm
 
 .macro kernel_exit
-    ldp x0, x1, [sp, #16 * 0]
-    ldp x2, x3, [sp, #16 * 1]
-    ldp x4, x5, [sp, #16 * 2]
-    ldp x6, x7, [sp, #16 * 3]
-    ldp x8, x9, [sp, #16 * 4]
+    ldp x0,  x1,  [sp, #16 * 0]
+    ldp x2,  x3,  [sp, #16 * 1]
+    ldp x4,  x5,  [sp, #16 * 2]
+    ldp x6,  x7,  [sp, #16 * 3]
+    ldp x8,  x9,  [sp, #16 * 4]
     ldp x10, x11, [sp, #16 * 5]
     ldp x12, x13, [sp, #16 * 6]
     ldp x14, x15, [sp, #16 * 7]
@@ -147,5 +147,6 @@ el1_irq:
     kernel_exit 
 
 .globl err_hang
-err_hang: b err_hang
 
+err_hang:
+    b err_hang

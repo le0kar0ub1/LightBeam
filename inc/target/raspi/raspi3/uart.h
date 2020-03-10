@@ -2,6 +2,7 @@
 #define __UART_H_
 
 #include "def/typedef.h"
+#include "arch/aarch64/aarchutils.h"
 #include <stdarg.h>
 
 #define UART0_DR        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00201000))
@@ -30,7 +31,7 @@ void uart_bin_put(int64);
 void uart_int_put(int);
 void uart_long_put(int64);
 void uart_float_put(double, int);
-void uart_switch_types(char const *, va_list, int *);
+void uart_switch_types(char const **, __builtin_va_list);
 void uart_kprint(char const *, ...);
 
 #endif

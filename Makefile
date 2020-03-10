@@ -32,7 +32,7 @@ build:
 
 # Disassemble the kernel (debug)
 disassemble: $(KERNEL)
-	@objdump --no-show-raw-insn -d -Mintel $(KERNEL) | source-highlight -s asm -f esc256 | less -eRiMX
+	@$(AARCH64_OBJDMP) --no-show-raw-insn -d -Mintel $(PROJECT)-*$(BIN_EXTENSION) | source-highlight -s asm -f esc256 | less -eRiMX
 
 re:	fclean all
 

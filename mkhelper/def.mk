@@ -43,12 +43,12 @@ export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
 
 export LDFLAGS	=	--trace								\
-					-lgcc								\
 					-ffreestanding 						\
 					-nostdlib							\
 					-nostartfiles						\
 					-o	$(PROJECT_PATH)/$(KERNEL)		\
 					-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
+					-lgcc								\
 
 export RM	:=	rm -rf
 
@@ -69,7 +69,6 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wno-missing-braces					\
 					-Wcast-align						\
 					-Wwrite-strings						\
-					-static					 			\
 					-Wparentheses						\
 					-Wunreachable-code					\
 					-Wunused							\
@@ -82,8 +81,9 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wstrict-prototypes					\
 					-Wpointer-arith						\
 					-nostartfiles						\
-					-O2 								\
 					-nostdlib							\
+					# -O2 								\
+					# -static					 		\
 					# -fpic								\
 					# -Werror
 

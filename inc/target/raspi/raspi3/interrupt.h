@@ -4,6 +4,12 @@
 #include "def/typedef.h"
 
 void int_handler(ulong, ulong, ulong, ulong, ulong);
+void irq_vector_init(void);
+void enable_irq(void);
+void disable_irq(void);
+void enable_interrupt_controller(void);
+void handle_except_msg(int, uint64, uint64);
+void handle_irq(void);
 
 #define INT_TYPE_SYNC 0
 #define INT_TYPE_IRQ  1

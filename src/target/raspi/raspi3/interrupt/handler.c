@@ -31,13 +31,18 @@ void enable_interrupt_controller(void)
 
 void handle_except_msg(int type, uint64 esr, uint64 address)
 {
-    uart_kprint("%s, ESR: %x, address: %x\r\n", entry_error_messages[type], esr, address);
+    uart_puts(entry_error_messages[type]);
+    uart_puts(", ESR: ");
+    uart_hex(esr);
+    uart_puts(", address: ");
+    uart_hex(address);
+    uart_puts("\r\n");
     while(1);
 }
 
 void handle_irq(void)
 {
-    uart_puts("LALALALA");
+    uart_puts("INT TRIGGER");
     // unsigned int irq = get32(IRQ_PENDING_1);
     // switch (irq) {
     // case (SYSTEM_TIMER_IRQ_1):
