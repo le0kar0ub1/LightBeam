@@ -48,7 +48,9 @@ export LDFLAGS	=	--trace								\
 					-nostartfiles						\
 					-o	$(PROJECT_PATH)/$(KERNEL)		\
 					-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
+					-n									\
 					-lgcc								\
+					--builtin							\
 
 export RM	:=	rm -rf
 
@@ -82,7 +84,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wpointer-arith						\
 					-nostartfiles						\
 					-nostdlib							\
-					# -O2 								\
+					-O2 								\
 					# -static					 		\
 					# -fpic								\
 					# -Werror

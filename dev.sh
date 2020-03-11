@@ -3,6 +3,7 @@
 FLAG="-machine raspi3 -kernel LightBleam-raspi3.bin -serial stdio -m 256 -show-cursor"
 DEV="-usb -device usb-host,hostbus=2,hostaddr=1 -device usb-mouse -device usb-kbd"
 
+make fclean
 make TARGET=raspi3
 
 echo ""

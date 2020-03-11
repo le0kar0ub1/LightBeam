@@ -16,8 +16,16 @@ typedef struct {
     uchar glyphs;
 } __attribute__((packed)) psf_t;
 
+struct lfb_properties {
+    uchar *lfb;
+    uint width;
+    uint height;
+    uint pitch;
+} __attribute__((packed));
+
 void lfb_init(void);
 void lfb_print(int, int, char const *);
 void lfb_clear(void);
+void lfb_clear_rect(void);
 
 #endif

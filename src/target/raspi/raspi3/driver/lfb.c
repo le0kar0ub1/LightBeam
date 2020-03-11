@@ -4,8 +4,7 @@
 
 extern volatile uchar _binary_font_psf_start;
 
-uint width, height, pitch;
-uchar *lfb;
+struct lfb_properties properties;
 
 void lfb_init(void)
 {
@@ -55,10 +54,10 @@ void lfb_init(void)
 
     if(mbox_call(MBOX_CH_PROP) && mbox[20] == 32 && mbox[28] != 0) {
         mbox[28] &= 0x3FFFFFFF;   //convert GPU address to ARM address
-        width = mbox[5];          //get actual physical width
-        height = mbox[6];         //get actual physical height
-        pitch = mbox[33];         //get number of bytes per line
-        lfb = (void*)((ulong)mbox[28]);
+        properties.width = mbox[5];          //get actual physical width
+        properties.height = mbox[6];         //get actual physical height
+        properties.pitch = mbox[33];         //get number of bytes per line
+        properties.lfb = (void*)((ulong)mbox[28]);
     } else {
         uart_puts("Unable to set screen resolution to 1024x768x32\n");
     }
@@ -72,7 +71,7 @@ void lfb_print(int x, int y, char const *s)
         uchar *glyph = (uchar*)&_binary_font_psf_start +
          font->headersize + (*((uchar *)s) < font->numglyph ? *s : 0) * font->bytesperglyph;
         // calculate the offset on screen
-        int offs = (y * font->height * pitch) + (x * (font->width + 1) * 4);
+        int offs = (y * font->height * properties.pitch) + (x * (font->width + 1) * 4);
         // variables
         int i, j, line, mask, bytesperline = (font->width + 7) / 8;
         if(*s == '\r')
@@ -88,12 +87,12 @@ void lfb_print(int x, int y, char const *s)
                     line= offs;
                     mask = 1 << (font->width - 1);
                     for(i = 0; i < (int)font->width; i++){
-                        *((uint*)(lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
+                        *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
                         mask >>= 1;
                         line += 4;
                     }
                     glyph += bytesperline;
-                    offs += pitch;
+                    offs += properties.pitch;
                 }
                 x++;
             }
@@ -110,4 +109,17 @@ void lfb_clear(void)
     mbox[5] = 0;
     mbox[6] = MBOX_TAG_LAST;
     mbox_call(MBOX_CH_PROP);
+}
+
+void lfb_clear_rect(void)
+{
+    uchar *ptr = properties.lfb;
+
+    for (uint32 y = 0; y < properties.height; y++) {
+        for (uint32 x = 0; x < properties.width; x++) {
+            *((uint32*)ptr) = 0x0;
+            ptr += 4;
+        }
+        ptr += properties.pitch - properties.width * 4;
+    }
 }
