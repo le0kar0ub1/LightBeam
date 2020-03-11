@@ -1,5 +1,7 @@
 ENTRY(_start)
- 
+
+PROVIDE(__entry_point = 0x80000);
+
 SECTIONS
 {
     .init (NOLOAD):
@@ -7,7 +9,7 @@ SECTIONS
         *(.init)
     }
 
-    . = 0x80000;
+    . = __entry_point;
     __start = .;
 
     PROVIDE(__text_start = .);
