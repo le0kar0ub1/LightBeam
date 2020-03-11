@@ -10,6 +10,7 @@ TARGET_SOURCE_DIR	+=	boot		\
 						tool		\
 						driver		\
 						interrupt	\
+						cpus		\
 
 TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 

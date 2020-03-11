@@ -56,7 +56,7 @@ SECTIONS
         PROVIDE(__EL0_stack_core0 = .);
         . = . + 32768;  /* EL1 stack size */
         PROVIDE(__EL1_stack_core0 = .);
-        . = . + 4096;  /* EL2 stack size (start-up) */
+        . = . + 4096;   /* EL2 stack size (start-up) */
         PROVIDE(__EL2_stack_core0 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core0__ = .);
@@ -68,9 +68,9 @@ SECTIONS
         PROVIDE(__stack_start_core1__ = .);
         . = . + 512;    /* EL0 stack size */
         PROVIDE(__EL0_stack_core1 = .);
-        . = . + 32768;    /* EL1 stack size */
+        . = . + 32768;  /* EL1 stack size */
         PROVIDE(__EL1_stack_core1 = .);
-        . = . + 4096;  /* EL2 stack size (start-up) */
+        . = . + 4096;   /* EL2 stack size (start-up) */
         PROVIDE(__EL2_stack_core1 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core1__ = .);
@@ -82,9 +82,9 @@ SECTIONS
         PROVIDE(__stack_start_core2__ = .);
         . = . + 512;    /* EL0 stack size */
         PROVIDE(__EL0_stack_core2 = .);
-        . = . + 32768;    /* EL1 stack size */
+        . = . + 32768;  /* EL1 stack size */
         PROVIDE(__EL1_stack_core2 = .);
-        . = . + 4096;  /* EL2 stack size (start-up) */
+        . = . + 4096;   /* EL2 stack size (start-up) */
         PROVIDE(__EL2_stack_core2 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core2__ = .);
@@ -96,9 +96,9 @@ SECTIONS
         PROVIDE(__stack_start_core3__ = .);
         . = . + 512;    /* EL0 stack size */
         PROVIDE(__EL0_stack_core3 = .);
-        . = . + 32768;    /* EL1 stack size */
+        . = . + 32768;  /* EL1 stack size */
         PROVIDE(__EL1_stack_core3 = .);
-        . = . + 4096;  /* EL2 stack size (start-up) */
+        . = . + 4096;   /* EL2 stack size (start-up) */
         PROVIDE(__EL2_stack_core3 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core3__ = .);

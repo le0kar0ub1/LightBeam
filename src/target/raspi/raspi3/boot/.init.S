@@ -15,7 +15,7 @@ _init_cpus:
     mov x0, #3 << 20
     msr cpacr_el1, x0
 
-/*  Enable CNTP for EL1 */
+/* Enable CNTP for EL1 */
     mrs x0, cnthctl_el2
     orr x0, x0, #3
     msr cnthctl_el2, x0
@@ -25,14 +25,14 @@ _init_cpus:
     mov x0, #(1 << 31)
     msr hcr_el2, x0
 
-/*  Initialize SCTLR_EL1 for all Cores */
+/* Initialize SCTLR_EL1 for all Cores */
     mov  x0, #0x0800
     movk x0, #0x30d0, lsl #16
     orr  x0, x0, #(0x1 << 2)
     orr  x0, x0, #(0x1 << 12)
     msr  sctlr_el1, x0
 
-/*  Set up exception handlers */
+/* Set up exception handlers */
     ldr x0, =_vectors
     msr vbar_el1, x0
 
