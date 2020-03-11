@@ -11,11 +11,21 @@
 .balign 4
 .globl _start
 _start:
-    b _init_cpus
-    b __scratch
+    mrs x1, mpidr_el1
+    and x1, x1, #0x3
+    cmp x1, #0
+    beq cor0setupCall
+    beq coreXsetupJmp
 
-/*
-el1_entry:
+/* NO RETURN FOR OTHER CORES EXCEPT FOR THE 0 */
+coreXsetupJmp:
+    b _init_cpus
+
+cor0setupCall:
+    bl _init_cpus
+
+/* Only the cpu0 come here */
+_bss_clear:
     adr x0, __bss_start
     adr x1, __bss_end
     sub x1, x1, x0
@@ -23,11 +33,12 @@ el1_entry:
 
     ldr x0, =_start
     mov sp, x0
-*/
+
     bl  init_hook
 
 /* UNREACHEABLE */
     b __hang
+    b __scratch
 
 
 /* generate fault from scratch */
@@ -37,4 +48,5 @@ __scratch:
 /* generate infinite */
 .global __hang
 __hang:
+    wfe
     b __hang

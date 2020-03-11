@@ -13,7 +13,17 @@ _init_stacks:
     beq Core2StackPointers
     cmp x1, #3
     beq Core3StackPointers
+    /* if this happens, go on cow breeding */
     b   __hang
+
+Core0StackPointers:
+    ldr x1, =__EL0_stack_core0
+    ldr x2, =__EL1_stack_core0
+    ldr x3, =__EL2_stack_core0
+    msr sp_el0, x1
+    msr sp_el1, x2
+    mov sp, x3
+    b   cpus_el1back
 
 Core1StackPointers:
     ldr x1, =__EL0_stack_core1
@@ -37,15 +47,6 @@ Core3StackPointers:
     ldr x1, =__EL0_stack_core3
     ldr x2, =__EL1_stack_core3
     ldr x3, =__EL2_stack_core3
-    msr sp_el0, x1
-    msr sp_el1, x2
-    mov sp, x3
-    b   cpus_el1back
-
-Core0StackPointers:
-    ldr x1, =__EL0_stack_core0
-    ldr x2, =__EL1_stack_core0
-    ldr x3, =__EL2_stack_core0
     msr sp_el0, x1
     msr sp_el1, x2
     mov sp, x3

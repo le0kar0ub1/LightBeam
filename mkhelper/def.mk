@@ -66,7 +66,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Winline							\
 					-Wpragmas							\
 					-ffreestanding 						\
-					-std=gnu99							\
+					-std=gnu11							\
 					-Wuninitialized						\
 					-Wno-missing-braces					\
 					-Wcast-align						\
@@ -85,6 +85,8 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-nostartfiles						\
 					-nostdlib							\
 					-O2 								\
+					-fno-tree-loop-vectorize 			\
+					-fno-tree-slp-vectorize				\
 					# -static					 		\
 					# -fpic								\
 					# -Werror

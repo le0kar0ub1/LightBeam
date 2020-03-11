@@ -49,7 +49,6 @@ SECTIONS
 
 
 
-
     .stack_core0 :
     {
         . = ALIGN(16);  /* Stack must always be aligned to 8 byte boundary AAPCS64 call standard */
@@ -110,5 +109,6 @@ SECTIONS
 
     PROVIDE(__end = .);
 
-    /* /DISCARD/ : { *(.comment) *(.gnu*) *(.note*) *(.eh_frame*) } */
+    /* If we don't kick this sections, we are getting fault */
+    /DISCARD/ : { *(.comment) *(.gnu*) *(.note*) *(.eh_frame*) }
 }
