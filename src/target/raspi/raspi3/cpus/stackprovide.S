@@ -22,7 +22,7 @@ Core1StackPointers:
     msr sp_el0, x1
     msr sp_el1, x2
     mov sp, x3
-    b   EL2_ret
+    b   cpus_el1back
 
 Core2StackPointers:
     ldr x1, =__EL0_stack_core2
@@ -31,7 +31,7 @@ Core2StackPointers:
     msr sp_el0, x1
     msr sp_el1, x2
     mov sp, x3
-    b   EL2_ret
+    b   cpus_el1back
 
 Core3StackPointers:
     ldr x1, =__EL0_stack_core3
@@ -40,7 +40,7 @@ Core3StackPointers:
     msr sp_el0, x1
     msr sp_el1, x2
     mov sp, x3
-    b   EL2_ret
+    b   cpus_el1back
 
 Core0StackPointers:
     ldr x1, =__EL0_stack_core0
@@ -49,11 +49,11 @@ Core0StackPointers:
     msr sp_el0, x1
     msr sp_el1, x2
     mov sp, x3
-    b   EL2_ret
+    b   cpus_el1back
 
-EL2_ret:
-	mov	x0, #0x3c5					// EL1_SP1 | D | A | I | F
-	msr	spsr_el2, x0					// Set spsr_el2 with settings
-	adr	x0, exit_el1					// Address to exit EL2
-	msr	elr_el2, x0					// Set elevated return register
-	eret							// Call elevated return
+cpus_el1back:
+    mov x0, #0x3c5          // EL1_SP1 | D | A | I | F
+    msr spsr_el2, x0        // Set spsr_el2 with settings
+    adr x0, cpus_hookpoint  // Address to exit EL2
+    msr elr_el2, x0         // Set elevated return register
+    eret                    // Call elevated return

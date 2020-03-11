@@ -36,4 +36,4 @@ _init_cpus:
     ldr x0, =_vectors
     msr vbar_el1, x0
 
-    bl _init_stacks
+    b _init_stacks

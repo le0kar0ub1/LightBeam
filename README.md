@@ -27,6 +27,8 @@ LightBleam build kernel system-specific.
   - raspi2 (RaspberryPi2)
   - raspi3 (RaspberryPi3)
 
+for now, the only non dirty target kernel is `raspi3`.
+
 ## RUN
 
 I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for ARM systems.
@@ -39,9 +41,8 @@ The ROADMAP will be define later.
 
 - [X] Toolchain (can evolve)
 - [ ] Kernel
-  - [X] Minimal raspi boot
-  - [ ] Advanced raspi kernel (probably for 3/4)
-  - [ ] AARCH64 advanced kernel
+  - [ ] Minimal raspi(1/2) boot
+  - [ ] Advanced raspi(3/4) kernel
 
 ## EPILOGUE
 
