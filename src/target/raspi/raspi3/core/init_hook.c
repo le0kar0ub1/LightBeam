@@ -16,7 +16,6 @@ void init_hook(void)
     enable_irq();
 
     lfb_init();
-    lfb_clear_rect();
     lfb_print(0, 0, "Hello, framebuffer world!\n");
     while(1)
         uart_send(uart_getc());

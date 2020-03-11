@@ -47,10 +47,14 @@ el1_entry:
     bl  init_hook
 
 /* UNREACHEABLE */
-hang:
-    b hang
+    b __hang
 
 
 /* generate fault from scratch */
-.globl scratch
+.globl __scratch
 scratch:
+
+/* genreate infinite */
+.global __hang
+__hang:
+    b __hang
