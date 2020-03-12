@@ -24,9 +24,10 @@ void lfb_set_posy(uint y)
     attrib.y = y;
 }
 
-void lfb_set_color(uint clr)
+void lfb_set_color(uint back, uint front)
 {
-    attrib.color = clr;
+    attrib.back = back;
+    attrib.front = front;
 }
 
 void lfb_init(void)
@@ -85,8 +86,8 @@ void lfb_init(void)
         uart_puts("Unable to set screen resolution to 1024x768x32\n");
     }
     memzero(&attrib, sizeof(struct lfb_handler));
-    attrib.color = RGB_White;
-
+    attrib.back = RGB_Black;
+    attrib.front = RGB_White;
 }
 
 void lfb_print(int x, int y, char const *s)
@@ -113,7 +114,7 @@ void lfb_print(int x, int y, char const *s)
                     line = offs;
                     mask = 1 << (font->width - 1);
                     for(i = 0; i < (int)font->width; i++){
-                        *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.color : 0;
+                        *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
                         mask >>= 1;
                         line += 4;
                     }
@@ -156,7 +157,7 @@ void lfb_putchar(char c)
                 line= offs;
                 mask = 1 << (font->width - 1);
                 for (i = 0; i < (int)font->width; i++) {
-                    *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.color : 0;
+                    *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
                     mask >>= 1;
                     line += 4;
                 }

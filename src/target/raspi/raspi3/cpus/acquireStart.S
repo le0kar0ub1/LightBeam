@@ -1,3 +1,5 @@
+.include "arch/aarch64/archutils.inc"
+
 .global multicore_init
 .global multicoresX_start
 
@@ -8,6 +10,8 @@
 .section .text
 /* CPU 0 come here and then chek if other are alive */
 multicore_init:
+    prologue
+
     ldr x0, =_BRINGUPCORES
     bl uart_kprint
 
@@ -61,6 +65,7 @@ multicore_init:
     ldr x0, =_CHECKEDUP
     bl uart_kprint
 
+    epilogue
     ret
 
 .section .data

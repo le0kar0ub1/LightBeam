@@ -45,7 +45,8 @@ struct lfb_properties {
 struct lfb_handler {
     uint x;
     uint y;
-    uint color;
+    uint back;
+    uint front;
 } __attribute__((packed));
 
 void lfb_init(void);
@@ -64,6 +65,6 @@ void lfb_putchar(char);
 void lfb_set_pos(uint, uint);
 void lfb_set_posx(uint);
 void lfb_set_posy(uint);
-void lfb_set_color(uint);
+void lfb_set_color(uint, uint);
 
 #endif
