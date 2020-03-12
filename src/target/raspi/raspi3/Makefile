@@ -4,6 +4,7 @@
 
 CCFLAGS		+=	-mcpu=cortex-a53
 
+BUILDHEADER	:=	raspberry3 target
 
 TARGET_SOURCE_DIR	+=	boot		\
 						core		\

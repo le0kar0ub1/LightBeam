@@ -23,15 +23,10 @@ void uart_dump(void *ptr);
 
 void init_hook(void);
 
-int64 uart_power(int64, int);
-void uart_putchar(char);
-void uart_puts(char const *);
-void uart_hexa_put(int64);
-void uart_bin_put(int64);
-void uart_int_put(int);
-void uart_long_put(int64);
-void uart_float_put(double, int);
-void uart_switch_types(char const **, __builtin_va_list);
+void uart_kprint_switch_type(char const **, __builtin_va_list *);
 void uart_kprint(char const *, ...);
+void uart_base_intput(int, int);
+void uart_base_longput(long, int);
+
 
 #endif

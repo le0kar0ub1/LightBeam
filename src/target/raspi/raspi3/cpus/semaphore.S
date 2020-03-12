@@ -3,6 +3,9 @@
 
 .section .text
 
+/* 
+*/
+
 _semaphorei:
     b _semaphorei
 

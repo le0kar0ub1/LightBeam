@@ -42,15 +42,15 @@ export EXTENSION_SRC	:=	.c
 export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
 
-export LDFLAGS	=	--trace								\
-					-ffreestanding 						\
-					-nostdlib							\
-					-nostartfiles						\
-					-o	$(PROJECT_PATH)/$(KERNEL)		\
-					-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
-					-n									\
-					-lgcc								\
-					--builtin							\
+export LDFLAGS			=	-nostdlib							\
+							-nostartfiles						\
+							-o	$(BUILDIR)/$(KERNEL)			\
+							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
+							-n									\
+
+export LDFLAGS_DEBUG	=	--trace					\
+							--cref					\
+							--print-map				\
 
 export RM	:=	rm -rf
 
@@ -87,8 +87,6 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-O2 								\
 					-fno-tree-loop-vectorize 			\
 					-fno-tree-slp-vectorize				\
-					# -static					 		\
-					# -fpic								\
 					# -Werror
 
 export ASFLAGS	=	$(INCLUDE_DIR)						\
@@ -109,7 +107,8 @@ export 	CFLAGSDEBUG	= 	-D DEBUG \
 
 debug ?= 0
 ifeq ($(debug), 1)
-    CFLAGS += $(CFLAGSDEBUG)
+    CFLAGS 	+= $(CFLAGSDEBUG)
+	LDFLAGS	+= $(LDFLAGS_DEBUG)
 endif
 
 # Output coloration

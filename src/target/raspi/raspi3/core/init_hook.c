@@ -8,12 +8,13 @@ extern uchar __end;
 void init_hook(void)
 {
     uart_init();
-    uart_puts("Hello, serial world!\n");
 
     irq_vector_init();
     timer_init();
     enable_interrupt_controller();
     enable_irq();
+
+    uart_puts("Hello, serial world!\n");
 
     lfb_init();
     lfb_print(0, 0, "Hello, framebuffer world!\n");

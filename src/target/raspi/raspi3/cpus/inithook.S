@@ -8,13 +8,14 @@ cpus_hookpoint:
     mrs x1, mpidr_el1
     and x1, x1, #0x3
     cbz x1, hookcore0
-    /* Are we mad ? There is a surprise core, coming from scratch ? ^^ */
     b hookcoreX
 
+/* Return a bootcode */
 hookcore0:
     ret
     b hookcore0
 
+/* Waiting for instruction */
 hookcoreX:
     b hookcoreX
     b __hang

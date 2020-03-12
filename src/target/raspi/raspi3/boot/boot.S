@@ -24,7 +24,7 @@ coreXsetupJmp:
 cor0setupCall:
     bl _init_cpus
 
-/* Only the cpu0 come here */
+/* Only the core0 come here */
 _bss_clear:
     adr x0, __bss_start
     adr x1, __bss_end
@@ -40,13 +40,20 @@ _bss_clear:
     b __hang
     b __scratch
 
-
-/* generate fault from scratch */
-.globl __scratch
-__scratch:
-
-/* generate infinite */
+/* wait for event loop */
 .global __hang
 __hang:
     wfe
     b __hang
+
+/* Deadloop */
+.global __deadloop
+__deadloop:
+    nop
+    b __deadloop
+
+
+
+/* generate fault from scratch */
+.globl __scratch
+__scratch:
