@@ -20,12 +20,12 @@ aarch64builder:		buildheader	$(TARGET_C_OBJECT)	$(TARGET_ASM_OBJECT)	$(KERNEL)
 $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_SRC)
 	@mkdir -p $(shell dirname $@)
 	@$(AARCH64_CC) $(CCFLAGS) -c $< -o $@
-	@-echo -e "     CC      $(shell basename $(BUILDIR))/$(TARGET_PREFIX_BUILD)/$(shell basename $@)"
+	@-echo -e "     CC      $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
 
 $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_ASM)
 	@mkdir -p $(shell dirname $@)
 	@$(AARCH64_AS) $(ASFLAGS) -c $< -o $@
-	@-echo -e "     AS      $(shell basename $(BUILDIR))/$(TARGET_PREFIX_BUILD)/$(shell basename $@)"
+	@-echo -e "     AS      $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
 
 $(KERNEL):	$(.SECONDEXPANSION)
 ifeq ($(NOLINK),)
