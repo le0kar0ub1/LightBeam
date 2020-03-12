@@ -18,7 +18,7 @@
 .equ ERROR_INVALID_EL0_32,  15
 
 .macro handle_except type
-    kernel_entry
+    interrupt_entry
     mov x0, #\type
     mrs x1, esr_el1
     mrs x2, elr_el1
@@ -31,7 +31,7 @@
     b \entry
 .endm
 
-.macro kernel_entry
+.macro interrupt_entry
     sub sp,  sp,  #INT_FRAME_SIZE
     stp x0,  x1,  [sp, #16 * 0]
     stp x2,  x3,  [sp, #16 * 1]
@@ -51,7 +51,7 @@
     str x30, [sp, #16 * 15] 
 .endm
 
-.macro kernel_exit
+.macro interrupt_exit
     ldp x0,  x1,  [sp, #16 * 0]
     ldp x2,  x3,  [sp, #16 * 1]
     ldp x4,  x5,  [sp, #16 * 2]
@@ -142,9 +142,9 @@ error_invalid_el0_32:
     handle_except ERROR_INVALID_EL0_32
 
 el1_irq:
-    kernel_entry 
+    interrupt_entry 
     bl  handle_irq
-    kernel_exit 
+    interrupt_exit 
 
 .globl err_hang
 

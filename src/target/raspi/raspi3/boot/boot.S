@@ -15,11 +15,11 @@ _start:
     and x1, x1, #0x3
     cmp x1, #0
     beq cor0setupCall
-    beq coreXsetupJmp
 
 /* NO RETURN FOR OTHER CORES EXCEPT FOR THE 0 */
 coreXsetupJmp:
     b _init_cpus
+    b __scratch
 
 cor0setupCall:
     bl _init_cpus
@@ -30,9 +30,6 @@ _bss_clear:
     adr x1, __bss_end
     sub x1, x1, x0
     bl  memzero
-
-    ldr x0, =_start
-    mov sp, x0
 
     bl  init_hook
 

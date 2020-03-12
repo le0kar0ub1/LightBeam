@@ -4,10 +4,13 @@
 #include "def/typedef.h"
 
 int cpu_getid(void);
-void cpu_wait(void);
+void cpu_warbase(void);
 
-void cpu_log(void *);
-void cpu_wrn(void *);
-void cpu_err(void *);
+void cpu_log(char const *);
+void cpu_wrn(char const *);
+void cpu_err(char const *);
+
+void multicore_init(void);
+void multicoresX_start(void);
 
 #endif

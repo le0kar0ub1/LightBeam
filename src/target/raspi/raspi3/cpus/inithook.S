@@ -10,12 +10,12 @@ cpus_hookpoint:
     cbz x1, hookcore0
     b hookcoreX
 
-/* Return a bootcode */
+/* Return at bootcode */
 hookcore0:
     ret
     b hookcore0
 
 /* Waiting for instruction */
 hookcoreX:
-    b hookcoreX
+    b multicoresX_start
     b __hang

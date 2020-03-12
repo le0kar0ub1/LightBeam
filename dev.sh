@@ -13,4 +13,4 @@ if [ "$1" == "" ]; then
     exit 0
 fi
 
-qemu-system-aarch64 $FLAG -d in_asm,int
+qemu-system-aarch64 $FLAG -d in_asm,int,cpu
