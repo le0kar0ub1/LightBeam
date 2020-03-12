@@ -4,7 +4,25 @@
 
 extern volatile uchar _binary_font_psf_start;
 
-struct lfb_properties properties;
+static struct lfb_properties properties;
+
+static struct lfb_handler position;
+
+void lfb_set_pos(uint x, uint y)
+{
+    position.x = x;
+    position.y = y;
+}
+
+void lfb_set_posx(uint x)
+{
+    position.x = x;
+}
+
+void lfb_set_posy(uint y)
+{
+    position.y = y;
+}
 
 void lfb_init(void)
 {
@@ -61,6 +79,7 @@ void lfb_init(void)
     } else {
         uart_puts("Unable to set screen resolution to 1024x768x32\n");
     }
+    memzero(&position, sizeof(struct lfb_handler));
 }
 
 void lfb_print(int x, int y, char const *s)
@@ -97,6 +116,48 @@ void lfb_print(int x, int y, char const *s)
                 x++;
             }
     }
+}
+
+void lfb_puts(char const *s)
+{
+    while (*s) {
+        lfb_putchar(*s);
+        s++;
+    }
+}
+
+void lfb_putchar(char c)
+{
+    psf_t *font = (psf_t *)&_binary_font_psf_start;
+    // get the offset of the glyph. Need to adjust this to support unicode table
+    uchar *glyph = (uchar*)&_binary_font_psf_start +
+     font->headersize + ((uchar)c < font->numglyph ? c : 0) * font->bytesperglyph;
+    // calculate the offset on screen
+    int offs = (position.y * font->height * properties.pitch) + (position.x * (font->width + 1) * 4);
+    // variables
+    int i, j, line, mask, bytesperline = (font->width + 7) / 8;
+    if (c == '\r')
+        position.x = 0;
+    else
+        if (c == '\n') {
+            position.x = 0;
+            position.y++;
+        } else {
+            // display a character
+            for (j = 0; j < (int)font->height; j++) {
+                // display one row
+                line= offs;
+                mask = 1 << (font->width - 1);
+                for (i = 0; i < (int)font->width; i++) {
+                    *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
+                    mask >>= 1;
+                    line += 4;
+                }
+                glyph += bytesperline;
+                offs += properties.pitch;
+            }
+            position.x++;
+        }
 }
 
 void lfb_clear(void)

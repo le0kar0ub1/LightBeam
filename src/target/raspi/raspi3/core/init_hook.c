@@ -17,7 +17,7 @@ void init_hook(void)
     uart_puts("Hello, serial world!\n");
 
     lfb_init();
-    lfb_print(0, 0, "Hello, framebuffer world!\n");
+    lfb_puts("Hello, framebuffer world!\n");
     while(1)
         uart_send(uart_getc());
 }

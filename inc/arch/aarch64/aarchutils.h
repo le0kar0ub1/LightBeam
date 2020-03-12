@@ -8,7 +8,7 @@
 int  get32(int);
 void put32(int, int);
 
-void memzero(void *);
+void memzero(void *, int);
 void delay(void);
 int64 get_el(void);
 
