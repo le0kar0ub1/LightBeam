@@ -6,22 +6,27 @@ extern volatile uchar _binary_font_psf_start;
 
 static struct lfb_properties properties;
 
-static struct lfb_handler position;
+static struct lfb_handler attrib;
 
 void lfb_set_pos(uint x, uint y)
 {
-    position.x = x;
-    position.y = y;
+    attrib.x = x;
+    attrib.y = y;
 }
 
 void lfb_set_posx(uint x)
 {
-    position.x = x;
+    attrib.x = x;
 }
 
 void lfb_set_posy(uint y)
 {
-    position.y = y;
+    attrib.y = y;
+}
+
+void lfb_set_color(uint clr)
+{
+    attrib.color = clr;
 }
 
 void lfb_init(void)
@@ -79,7 +84,9 @@ void lfb_init(void)
     } else {
         uart_puts("Unable to set screen resolution to 1024x768x32\n");
     }
-    memzero(&position, sizeof(struct lfb_handler));
+    memzero(&attrib, sizeof(struct lfb_handler));
+    attrib.color = RGB_White;
+
 }
 
 void lfb_print(int x, int y, char const *s)
@@ -101,12 +108,12 @@ void lfb_print(int x, int y, char const *s)
                 y++;
             } else {
                 // display a character
-                for(j = 0; j < (int)font->height; j++) {
+                for (j = 0; j < (int)font->height; j++) {
                     // display one row
-                    line= offs;
+                    line = offs;
                     mask = 1 << (font->width - 1);
                     for(i = 0; i < (int)font->width; i++){
-                        *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
+                        *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.color : 0;
                         mask >>= 1;
                         line += 4;
                     }
@@ -133,15 +140,15 @@ void lfb_putchar(char c)
     uchar *glyph = (uchar*)&_binary_font_psf_start +
      font->headersize + ((uchar)c < font->numglyph ? c : 0) * font->bytesperglyph;
     // calculate the offset on screen
-    int offs = (position.y * font->height * properties.pitch) + (position.x * (font->width + 1) * 4);
+    int offs = (attrib.y * font->height * properties.pitch) + (attrib.x * (font->width + 1) * 4);
     // variables
     int i, j, line, mask, bytesperline = (font->width + 7) / 8;
     if (c == '\r')
-        position.x = 0;
+        attrib.x = 0;
     else
         if (c == '\n') {
-            position.x = 0;
-            position.y++;
+            attrib.x = 0;
+            attrib.y++;
         } else {
             // display a character
             for (j = 0; j < (int)font->height; j++) {
@@ -149,14 +156,14 @@ void lfb_putchar(char c)
                 line= offs;
                 mask = 1 << (font->width - 1);
                 for (i = 0; i < (int)font->width; i++) {
-                    *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? 0xFFFFFF : 0;
+                    *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.color : 0;
                     mask >>= 1;
                     line += 4;
                 }
                 glyph += bytesperline;
                 offs += properties.pitch;
             }
-            position.x++;
+            attrib.x++;
         }
 }
 

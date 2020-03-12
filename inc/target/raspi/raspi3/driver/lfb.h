@@ -3,6 +3,25 @@
 
 #include "def/typedef.h"
 
+enum RGBCOLORS {
+    RGB_Black   = 0x000000,
+    RGB_White   = 0xFFFFFF,
+    RGB_Red	    = 0xFF0000,
+    RGB_Lime    = 0x00FF00,
+    RGB_Blue    = 0x0000FF,
+    RGB_Yellow  = 0xFFFF00,
+    RGB_Cyan    = 0x00FFFF,
+    RGB_Magenta = 0xFF00FF,
+    RGB_Silver  = 0xC0C0C0,
+    RGB_Gray    = 0x808080,
+    RGB_Maroon  = 0x800000,
+    RGB_Olive   = 0x808000,
+    RGB_Green   = 0x008000,
+    RGB_Purple  = 0x800080,
+    RGB_Teal    = 0x008080,
+    RGB_Navy    = 0x000080
+};
+
 /* PC Screen Font as used by Linux Console */
 typedef struct {
     uint  magic;
@@ -26,6 +45,7 @@ struct lfb_properties {
 struct lfb_handler {
     uint x;
     uint y;
+    uint color;
 } __attribute__((packed));
 
 void lfb_init(void);
@@ -44,5 +64,6 @@ void lfb_putchar(char);
 void lfb_set_pos(uint, uint);
 void lfb_set_posx(uint);
 void lfb_set_posy(uint);
+void lfb_set_color(uint);
 
 #endif

@@ -52,6 +52,15 @@ void lfb_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
         case '%':
             lfb_putchar('%');
             break;
+        /* special use-case */
+        case '$':
+            (*fmt)++;
+            if (**fmt == 'A') {
+                lfb_set_color(__builtin_va_arg(*ap, uint));
+            } else if (**fmt == 'R') {
+                lfb_set_color(RGB_White);
+            }
+            break;
         default: // unknow flag => print this
             lfb_putchar('%');
             lfb_putchar(**fmt);
