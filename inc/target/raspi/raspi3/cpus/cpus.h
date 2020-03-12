@@ -6,4 +6,8 @@
 int cpu_getid(void);
 void cpu_wait(void);
 
+void cpu_log(void *);
+void cpu_wrn(void *);
+void cpu_err(void *);
+
 #endif
