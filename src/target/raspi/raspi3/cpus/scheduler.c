@@ -4,6 +4,4 @@
 void cpu_warbase(void)
 {
     while (1);
-    // uart_puts("READY MAN\n");
-    // cpu_log("IM READY FOR THE WAR\n");
 }

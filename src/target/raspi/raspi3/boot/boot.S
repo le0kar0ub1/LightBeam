@@ -14,14 +14,14 @@ _start:
     mrs x1, mpidr_el1
     and x1, x1, #0x3
     cmp x1, #0
-    beq cor0setupCall
+    beq core0setupCall
 
 /* NO RETURN FOR OTHER CORES EXCEPT FOR THE 0 */
 coreXsetupJmp:
     b _init_cpus
     b __scratch
 
-cor0setupCall:
+core0setupCall:
     bl _init_cpus
 
 /* Only the core0 come here */

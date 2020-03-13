@@ -1,5 +1,7 @@
 .global _init_stacks
 
+/* Stacks are provided by our linker (why not?) */
+
 .section .text
 
 _init_stacks:
