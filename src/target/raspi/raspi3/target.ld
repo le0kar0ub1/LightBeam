@@ -107,7 +107,7 @@ SECTIONS
 
 
 
-    PROVIDE(__end = .);
+    PROVIDE(__KEND = .);
 
     /* If we don't kick this sections, we are getting fault */
     /DISCARD/ : { *(.comment) *(.gnu*) *(.note*) *(.eh_frame*) }

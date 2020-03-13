@@ -80,23 +80,4 @@ static inline long absl(long x)
     return (x *= (x < 0x0) ? -0x1 : 0x1);
 }
 
-static inline void pexit(char const *s)
-{
-    if (s)
-        write(2, s, len(s));
-    exit(84);
-}
-
-static inline void criticalPtr(void *ptr)
-{
-    if (!ptr)
-        exit(0);
-}
-
-static inline void critical(int val, int must)
-{
-    if (val != must)
-        exit(0);
-}
-
 #endif

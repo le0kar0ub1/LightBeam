@@ -7,12 +7,11 @@
 
 static inline void CRASH(void)
 {
-    dprintf(2, "Program Crashed\n");
-    exit(84);
+    while(1);
 }
 
 #if ARE_ASSERT_FATAL
-    #define fatalAssert(expr) if (__unexpected(!(expr))) {dprintf(2, \
+    #define fatalAssert(expr) if (__unexpected(!(expr))) {lfb_kprint(2, \
         "assert(%s) failed\n    file: %s\n    function: %s\n    line: %d.\n", \
          #expr, __FILE__, __func__, __LINE__); CRASH();}
 #else

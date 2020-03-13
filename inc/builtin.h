@@ -23,9 +23,5 @@
 #include "def/bitfield.h"
 #include "def/fatalAssert.h"
 #include "def/operator.h"
-#include "control/config.h"
-#include "control/error.h"
-#include "control/memory.h"
-#include "prototypes.h"
 
 #endif
