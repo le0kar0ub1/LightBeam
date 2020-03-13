@@ -23,8 +23,6 @@ LightBleam build kernel system-specific.
 `make TARGET=$SYSTEM`
 
 *SYSTEM targetable list:*
-  - raspi1 (same as raspi0 but the target is unified to raspi1)
-  - raspi2 (RaspberryPi2)
   - raspi3 (RaspberryPi3)
 
 for now, the only non dirty target kernel is `raspi3`.
@@ -41,8 +39,6 @@ The ROADMAP will be define later.
 
 - [X] Toolchain (can evolve)
 - [ ] Kernel
-  - [ ] Minimal raspi(1/2) boot
-  - [ ] Advanced raspi(3/4) kernel
 
 ## EPILOGUE
 

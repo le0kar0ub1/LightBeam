@@ -20,20 +20,26 @@ aarch32builder:		buildheader	$(TARGET_C_OBJECT)	$(TARGET_ASM_OBJECT)	$(KERNEL)
 $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_SRC)
 	@mkdir -p $(shell dirname $@)
 	@$(AARCH32_CC) $(CCFLAGS) -c $< -o $@
-	@-echo -e "     CC      $(shell basename $(BUILDIR))/$(TARGET_PREFIX_BUILD)/$(shell basename $@)"
+	@-echo -e "     CC      $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
 
 $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_ASM)
 	@mkdir -p $(shell dirname $@)
 	@$(AARCH32_AS) $(ASFLAGS) -c $< -o $@
-	@-echo -e "     AS      $(shell basename $(BUILDIR))/$(TARGET_PREFIX_BUILD)/$(shell basename $@)"
+	@-echo -e "     AS      $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
 
 $(KERNEL):	$(.SECONDEXPANSION)
-ifeq ($(NOLINK),)
 	@echo ""
+ifeq ($(BUILDTYPE),$(BUILDTYPE_BINARY))
 	@$(AARCH32_LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
-	@-echo -e " LINKED      $@"
+	@-echo -e "    LNK      $@"
 	@$(AARCH32_OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(PROJECT_PATH)/$(IMGKERN)
 	@-echo -e "    IMG      $(IMGKERN)"
+else ifeq ($(BUILDTYPE),$(BUILDTYPE_PLTLIB))
+	@$(AARCH32_AR) rcs $(TGTSHARED_LIBPLT) $(TARGET_BUILT_OBJECT)
+	@-echo -e "    LIB      $(shell realpath --relative-to $(shell dirname $(BUILDIR)) $(TGTSHARED_LIBPLT))"
+else ifeq ($(BUILDTYPE),$(BUILDTYPE_ARCLIB))
+	@$(AARCH32_AR) rcs $(TGTSHARED_LIBARC) $(TARGET_BUILT_OBJECT)
+	@-echo -e "    LIB      $(shell realpath --relative-to $(shell dirname $(BUILDIR)) $(TGTSHARED_LIBARC))"
 endif
 
 buildheader:

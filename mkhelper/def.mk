@@ -21,14 +21,6 @@ export ARCH_DIR		:=	arch
 # We Will provide the full path each time
 export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 
-# Norm the linker
-export TGTLINKER		:=	target.ld
-export TGTLINKER_BUILD	:=	$(KBUILD)
-
-# Norm arch particular macro
-export TGTMACRO			:=	@config
-export TGTMACRO_BUILD	:=	$(KBUILD)
-
 # Binary definition
 export PROJECT			:=	LightBleam
 # export VERSION			:=	0.1.0
@@ -44,9 +36,12 @@ export EXTENSION_ASM	:=	.S
 
 export LDFLAGS			=	-nostdlib							\
 							-nostartfiles						\
+							-n									\
 							-o	$(BUILDIR)/$(KERNEL)			\
 							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
-							-n									\
+							-L	$(BUILDIR)						\
+							$(TGTSHARED_LIBARC)					\
+							$(TGTSHARED_LIBPLT)					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\

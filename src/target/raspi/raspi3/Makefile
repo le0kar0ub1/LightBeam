@@ -6,6 +6,8 @@ CCFLAGS		+=	-mcpu=cortex-a53
 
 BUILDHEADER	:=	raspberry3 target
 
+BUILDTYPE	:=	$(BUILDTYPE_BINARY)
+
 TARGET_SOURCE_DIR	+=	.			\
 						boot		\
 						tool		\
@@ -16,16 +18,11 @@ TARGET_SOURCE_DIR	+=	.			\
 
 TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 
-# Shared ARCH object
-.EXPANSION:
-TARGET_BUILT_OBJECT		=	$(shell find $(AARCH64_SHARED_OBJ_DIR) -name *$(EXTENSION_OBJ) 2> /dev/null)
-TARGET_BUILT_OBJECT		+=	$(TARGET_PREBUILD)
-
 .PHONY: all
 
-all:	sharedbuild	$(.EXPANSION)	aarch64builder
+all:	arcbuild	aarch64builder
 
 include $(MKHELPER_DIR)/builder/builder_aarch64.mk
 
-sharedbuild:
+arcbuild:
 	@make -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory

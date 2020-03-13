@@ -2,7 +2,7 @@
 #include "target/raspi/raspi3/mbox.h"
 #include "target/raspi/raspi3/driver/lfb.h"
 
-extern volatile uchar _binary_font_psf_start;
+extern volatile uchar _binary_font_font_psf_start;
 
 static struct lfb_properties properties;
 
@@ -92,10 +92,10 @@ void lfb_init(void)
 
 void lfb_print(int x, int y, char const *s)
 {
-    psf_t *font = (psf_t *)&_binary_font_psf_start;
+    psf_t *font = (psf_t *)&_binary_font_font_psf_start;
     for (; *s; s++) {
         // get the offset of the glyph. Need to adjust this to support unicode table
-        uchar *glyph = (uchar*)&_binary_font_psf_start +
+        uchar *glyph = (uchar*)&_binary_font_font_psf_start +
          font->headersize + (*((uchar *)s) < font->numglyph ? *s : 0) * font->bytesperglyph;
         // calculate the offset on screen
         int offs = (y * font->height * properties.pitch) + (x * (font->width + 1) * 4);
@@ -136,9 +136,9 @@ void lfb_puts(char const *s)
 
 void lfb_putchar(char c)
 {
-    psf_t *font = (psf_t *)&_binary_font_psf_start;
+    psf_t *font = (psf_t *)&_binary_font_font_psf_start;
     // get the offset of the glyph. Need to adjust this to support unicode table
-    uchar *glyph = (uchar*)&_binary_font_psf_start +
+    uchar *glyph = (uchar*)&_binary_font_font_psf_start +
      font->headersize + ((uchar)c < font->numglyph ? c : 0) * font->bytesperglyph;
     // calculate the offset on screen
     int offs = (attrib.y * font->height * properties.pitch) + (attrib.x * (font->width + 1) * 4);

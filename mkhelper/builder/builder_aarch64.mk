@@ -28,12 +28,18 @@ $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_ASM)
 	@-echo -e "     AS      $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
 
 $(KERNEL):	$(.SECONDEXPANSION)
-ifeq ($(NOLINK),)
 	@echo ""
+ifeq ($(BUILDTYPE),$(BUILDTYPE_BINARY))
 	@$(AARCH64_LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
-	@-echo -e " LINKED      $@"
+	@-echo -e "    LNK      $@"
 	@$(AARCH64_OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(PROJECT_PATH)/$(IMGKERN)
 	@-echo -e "    IMG      $(IMGKERN)"
+else ifeq ($(BUILDTYPE),$(BUILDTYPE_PLTLIB))
+	@$(AARCH64_AR) rcs $(TGTSHARED_LIBPLT) $(TARGET_BUILT_OBJECT)
+	@-echo -e "    LNK      $(shell realpath --relative-to $(shell dirname $(BUILDIR)) $(TGTSHARED_LIBPLT))"
+else ifeq ($(BUILDTYPE),$(BUILDTYPE_ARCLIB))
+	@$(AARCH64_AR) rcs $(TGTSHARED_LIBARC) $(TARGET_BUILT_OBJECT)
+	@-echo -e "    LNK      $(shell realpath --relative-to $(shell dirname $(BUILDIR)) $(TGTSHARED_LIBARC))"
 endif
 
 buildheader:

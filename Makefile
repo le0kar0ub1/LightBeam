@@ -5,6 +5,7 @@
 include mkhelper/def.mk
 include mkhelper/macro.mk
 include mkhelper/toolchain.mk
+include mkhelper/builder/build.mk
 
 .PHONY: all prebuld build fclean debug clean $(KERNEL)
 
@@ -56,7 +57,7 @@ ifeq ($(EXEC),)
 	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mYou must specify a kernel to exec\e[0m\n"
 	@exit 1
 else
-	@$(QEMU) $(QEMUFLAGS) -m 256 -M $(MACHINE) -cpu $(CPU) -kernel $(EXEC)
+	@$(QEMU) $(QEMUFLAGS) -M $(MACHINE) -cpu $(CPU) -kernel $(EXEC)
 endif
 
 utils:

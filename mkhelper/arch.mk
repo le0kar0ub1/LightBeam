@@ -3,10 +3,7 @@
  #
 
 # Used as target
-export HANDLED_SYSTEM	:=	raspi1	\
-							raspi2	\
-							raspi3	\
-							raspi4
+export HANDLED_SYSTEM	:=	raspi3
 
 
 ## For information #

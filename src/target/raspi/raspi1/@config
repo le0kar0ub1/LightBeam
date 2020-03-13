@@ -1,4 +1,0 @@
-#define ARCH_RASP_MMIOBASE    0x20000000
-#define ARCH_RASP_RELEASE     0x1
-#define ARCH_RASP_ENTRY_POINT 0x8000
-#define ARCH_RASP_NAME        "raspberry1"
