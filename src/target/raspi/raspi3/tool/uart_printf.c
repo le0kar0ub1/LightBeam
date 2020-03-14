@@ -58,10 +58,8 @@ void uart_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
     }
 }
 
-void uart_kprint(char const *fmt, ...)
+void __uart_kprint(char const *fmt, __builtin_va_list ap)
 {
-    __builtin_va_list ap;
-    __builtin_va_start(ap, fmt);
     while (*fmt) {
         if (*fmt != '%')
             uart_send(*fmt);
@@ -71,5 +69,12 @@ void uart_kprint(char const *fmt, ...)
         }
         fmt++;
     }
+}
+
+void uart_kprint(char const *fmt, ...)
+{
+    __builtin_va_list ap;
+    __builtin_va_start(ap, fmt);
+    __uart_kprint(fmt, ap);
     __builtin_va_end(ap);
 }

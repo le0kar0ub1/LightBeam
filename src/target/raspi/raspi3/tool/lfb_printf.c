@@ -67,10 +67,8 @@ void lfb_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
     }
 }
 
-void lfb_kprint(char const *fmt, ...)
+void __lfb_kprint(char const *fmt, __builtin_va_list ap)
 {
-    __builtin_va_list ap;
-    __builtin_va_start(ap, fmt);
     while (*fmt) {
         if (*fmt != '%')
             lfb_putchar(*fmt);
@@ -80,5 +78,12 @@ void lfb_kprint(char const *fmt, ...)
         }
         fmt++;
     }
+}
+
+void lfb_kprint(char const *fmt, ...)
+{
+    __builtin_va_list ap;
+    __builtin_va_start(ap, fmt);
+    __lfb_kprint(fmt, ap);
     __builtin_va_end(ap);
 }

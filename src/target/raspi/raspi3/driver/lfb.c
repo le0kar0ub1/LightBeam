@@ -14,14 +14,14 @@ void lfb_set_pos(uint x, uint y)
     attrib.y = y;
 }
 
-void lfb_set_posx(uint x)
+uint lfb_get_posx(void)
 {
-    attrib.x = x;
+    return (attrib.x);
 }
 
-void lfb_set_posy(uint y)
+uint lfb_get_posy(void)
 {
-    attrib.y = y;
+    return (attrib.y);
 }
 
 void lfb_set_color(uint back, uint front)

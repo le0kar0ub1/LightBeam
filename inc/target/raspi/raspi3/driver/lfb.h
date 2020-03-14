@@ -58,13 +58,14 @@ void lfb_base_intput(int, int);
 void lfb_base_longput(long, int);
 void lfb_kprint_switch_type(char const **, __builtin_va_list *);
 void lfb_kprint(char const *, ...);
+void __lfb_kprint(char const *, __builtin_va_list);
 
 void lfb_puts(char const *);
 void lfb_putchar(char);
 
 void lfb_set_pos(uint, uint);
-void lfb_set_posx(uint);
-void lfb_set_posy(uint);
+uint lfb_get_posx(void);
+uint lfb_get_posy(void);
 void lfb_set_color(uint, uint);
 
 #endif

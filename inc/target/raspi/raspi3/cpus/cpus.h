@@ -10,6 +10,10 @@ void cpu_log(char const *);
 void cpu_wrn(char const *);
 void cpu_err(char const *);
 
+void __deadloop(void);
+void __hang(void);
+void __scratch(void);
+
 void multicore_init(void);
 void multicoresX_start(void);
 

@@ -15,6 +15,7 @@ TARGET_SOURCE_DIR	+=	.			\
 						interrupt	\
 						cpus		\
 						memory		\
+						system		\
 
 TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 
