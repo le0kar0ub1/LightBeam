@@ -6,10 +6,10 @@
 
 #define SMPLOCK_INIT 0
 
-typedef uint smplock_t;
+typedef volatile uint smplock_t;
 
-void semaphore_inc(void *);
-void semaphore_dec(void *);
-bool unfatal_smp_lock(void *);
+void semaphore_inc(smplock_t *);
+void semaphore_dec(smplock_t *);
+bool unfatal_smp_lock(smplock_t *);
 
 #endif
