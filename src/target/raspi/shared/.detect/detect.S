@@ -1,7 +1,5 @@
 .global __detect__
 
-.equ __AARCH64__, 1
-
 .equ RASPI1_MAGIC, 0xB76
 .equ RASPI2_MAGIC, 0xC07
 .equ RASPI3_MAGIC, 0xD03
@@ -14,11 +12,7 @@
 
 .text
 
-__detect__:
-.if __AARCH64__ == 1
     mrs x9, midr_el1
-.else
-    mrc p15, 0, r0, c0, c0, 0
 .endif
     lsr x9, x9, 4
     and x9, x9, 0xFFF

@@ -86,10 +86,13 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 
 export ASFLAGS	=	$(INCLUDE_DIR)						\
 
-export QEMU			:=	qemu-system-arm
+export QEMU-AARCH64		:=	qemu-system-aarch64
+export QEMU-ARM			:=	qemu-system-arm
 
-export QEMUFLAGS	:=	-no-reboot 		\
-						-serial stdio
+export QEMUFLAGS	=	-serial stdio	\
+						-show-cursor
+
+export QEMUDEBUG	=	-d in_asm,int,cpu
 
 
 # Compile-time Macro

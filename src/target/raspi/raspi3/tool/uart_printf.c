@@ -1,5 +1,6 @@
 #include "def/typedef.h"
 #include "target/raspi/raspi3/uart.h"
+#include "target/raspi/raspi3/cpus/cpus.h"
 #include <stdarg.h>
 
 void uart_base_intput(int n, int base)
@@ -71,10 +72,14 @@ void __uart_kprint(char const *fmt, __builtin_va_list ap)
     }
 }
 
+smplock_t lock;
+
 void uart_kprint(char const *fmt, ...)
 {
+    semaphore_inc(&lock);
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
     __uart_kprint(fmt, ap);
     __builtin_va_end(ap);
+    semaphore_dec(&lock);
 }

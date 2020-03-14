@@ -57,7 +57,7 @@ ifeq ($(EXEC),)
 	@echo -e "[\e[91;1mFAIL\e[0m] \e[31mYou must specify a kernel to exec\e[0m\n"
 	@exit 1
 else
-	@$(QEMU) $(QEMUFLAGS) -M $(MACHINE) -cpu $(CPU) -kernel $(EXEC)
+	@$(QEMU) $(QEMUFLAGS) -M $(MACHINE) -kernel $(EXEC)
 endif
 
 utils:

@@ -13,7 +13,7 @@ void start_setup_log(char const *data)
 
 void end_setup_log(char const *data)
 {
-    lfb_kprint("    [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
+    lfb_kprint("   [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
 }
 
 void init_hook(void)

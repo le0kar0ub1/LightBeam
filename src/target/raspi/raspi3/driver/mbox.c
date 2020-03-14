@@ -1,5 +1,6 @@
 #include "target/raspi/raspi3/gpio.h"
 #include "target/raspi/raspi3/mbox.h"
+#include "target/raspi/raspi3/cpus/cpus.h"
 #include "def/keyword.h"
 
 volatile uint __aligned(16) mbox[36];
@@ -15,8 +16,11 @@ volatile uint __aligned(16) mbox[36];
 #define MBOX_FULL       0x80000000
 #define MBOX_EMPTY      0x40000000
 
+smplock_t lock;
+
 int mbox_call(uchar ch)
 {
+    semaphore_inc(&lock);
     uint r = (((uint)((ulong) & mbox) & ~0xF) | (ch & 0xF));
 
     while (*MBOX_STATUS & MBOX_FULL)
@@ -25,8 +29,11 @@ int mbox_call(uchar ch)
     while (1) {
         while (*MBOX_STATUS & MBOX_EMPTY)
             asm volatile("nop");
-        if (r == *MBOX_READ)
+        if (r == *MBOX_READ) {
+            semaphore_dec(&lock);
             return (mbox[1] == MBOX_RESPONSE);
+        }
     }
+    semaphore_dec(&lock);
     return (0);
 }
