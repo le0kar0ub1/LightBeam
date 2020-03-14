@@ -3,5 +3,6 @@
 
 void cpu_warbase(void)
 {
+    lfb_cpu_log("started");
     while (1);
 }

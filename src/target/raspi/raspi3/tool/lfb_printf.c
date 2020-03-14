@@ -1,5 +1,6 @@
 #include "def/typedef.h"
 #include "target/raspi/raspi3/driver/lfb.h"
+#include "target/raspi/raspi3/semaphore.h"
 #include <stdarg.h>
 
 void lfb_base_intput(int n, int base)
@@ -80,10 +81,14 @@ void __lfb_kprint(char const *fmt, __builtin_va_list ap)
     }
 }
 
+smplock_t lock = SMPLOCK_INIT;
+
 void lfb_kprint(char const *fmt, ...)
 {
+    semaphore_inc(&lock);
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
     __lfb_kprint(fmt, ap);
     __builtin_va_end(ap);
+    semaphore_dec(&lock);
 }

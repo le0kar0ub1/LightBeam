@@ -1,6 +1,7 @@
 #include "target/raspi/raspi3/uart.h"
 #include "target/raspi/raspi3/mbox.h"
 #include "target/raspi/raspi3/driver/lfb.h"
+#include "target/raspi/raspi3/semaphore.h"
 
 extern volatile uchar _binary_font_font_psf_start;
 

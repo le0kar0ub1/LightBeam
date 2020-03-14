@@ -8,6 +8,7 @@ void init_hook(void);
 void start_setup_log(char const *);
 void end_setup_log(char const *);
 
+/* Classical kernel PANIC */
 void PANIC(char const *, ...);
 
 #endif
