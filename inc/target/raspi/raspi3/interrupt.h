@@ -11,10 +11,11 @@ void enable_interrupt_controller(void);
 void handle_except_msg(int, uint64, uint64);
 void handle_irq(void);
 
-#define INT_TYPE_SYNC 0
-#define INT_TYPE_IRQ  1
-#define INT_TYPE_FIQ  2
-#define INT_TYPE_SERR 3
+/* Using with daif{clr/set} */
+#define INT_BIT_FIQ   0b0001
+#define INT_BIT_IRQ   0b0010
+#define INT_BIT_ABORT 0b0100
+#define INT_BIT_DEBUG 0b1000
 
 #define INT_FRAME_SIZE          256
 

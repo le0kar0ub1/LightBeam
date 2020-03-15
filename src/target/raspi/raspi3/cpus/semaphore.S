@@ -10,7 +10,7 @@
 
 /* Handle physical schedule */
 
-/* FATA LOCK */
+/* FATAL LOCK */
 .align 4
 semaphore_inc:
     mov w2, 1
@@ -37,6 +37,7 @@ unfatal_smp_lock:
     mov x0, 0
     ret
 
+/* UNLOCK */
 .align 4
 semaphore_dec:
     stlrb wzr, [x0]

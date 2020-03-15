@@ -37,7 +37,7 @@ void handle_except_msg(int type, uint64 esr, uint64 address)
 
 void handle_irq(void)
 {
-    uart_puts("INT TRIGGER");
+    uart_puts("INT TRIGGERED");
     // unsigned int irq = get32(IRQ_PENDING_1);
     // switch (irq) {
     // case (SYSTEM_TIMER_IRQ_1):

@@ -6,7 +6,7 @@
 enum RGBCOLORS {
     RGB_Black   = 0x000000,
     RGB_White   = 0xFFFFFF,
-    RGB_Red	    = 0xFF0000,
+    RGB_Red     = 0xFF0000,
     RGB_Lime    = 0x00FF00,
     RGB_Blue    = 0x0000FF,
     RGB_Yellow  = 0xFFFF00,

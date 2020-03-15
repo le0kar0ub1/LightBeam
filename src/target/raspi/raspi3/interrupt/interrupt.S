@@ -27,7 +27,7 @@
 .endm
 
 .macro ventry entry
-.align 7
+.balign 0x80
     b \entry
 .endm
 
@@ -74,7 +74,7 @@
 
 .globl _vectors
 
-.align 11
+.balign 0x800
 _vectors:
     ventry sync_invalid_el1t     // Synchronous EL1t
     ventry irq_invalid_el1t      // IRQ EL1t
