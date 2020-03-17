@@ -17,9 +17,13 @@ _init_cpus:
 
 /* Enable CNTP for EL1 */
     mrs x0, cnthctl_el2
-    orr x0, x0, #3
+    orr x0, x0, #0x3
     msr cnthctl_el2, x0
     msr cntvoff_el2, xzr
+/* the for el0 (util?) */
+    mrs x0, cntkctl_el1
+    orr x0, x0, #0x3
+    msr cntkctl_el1, x0
 
 /*  Initialize HCR_EL2 so EL1 is 64 bits for all Cores */
     mov x0, #(1 << 31)

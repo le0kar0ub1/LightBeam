@@ -3,9 +3,10 @@
 .global multicore_init
 .global multicoresX_start
 
-.equ COM_CPU1, 0xE0
-.equ COM_CPU2, 0xE8
-.equ COM_CPU3, 0xF0
+.equ SPIN_CPU0, 0xD8
+.equ SPIN_CPU1, 0xE0
+.equ SPIN_CPU2, 0xE8
+.equ SPIN_CPU3, 0xF0
 
 .section .text
 /* CPU 0 come here and then chek if other are alive */
@@ -15,7 +16,7 @@ multicore_init:
     ldr x0, =_BRINGUPCORES
     bl uart_kprint
 
-    mov x1, #COM_CPU1
+    mov x1, #SPIN_CPU1
     mov x2, #0x80000
     str x2, [x1]
     dc civac, x1
@@ -30,7 +31,7 @@ multicore_init:
     ldr x0, =CPU1_ACQUIRE_START
     bl uart_kprint
 
-    mov x1, #COM_CPU2
+    mov x1, #SPIN_CPU2
     mov x2, #0x80000
     str x2, [x1]
     dc civac, x1
@@ -46,7 +47,7 @@ multicore_init:
     ldr x0, =CPU2_ACQUIRE_START
     bl uart_kprint
 
-    mov x1, #COM_CPU3
+    mov x1, #SPIN_CPU3
     mov x2, #0x80000
     str x2, [x1]
     dc civac, x1

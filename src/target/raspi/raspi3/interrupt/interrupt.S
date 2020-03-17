@@ -143,7 +143,7 @@ error_invalid_el0_32:
 
 el1_irq:
     interrupt_entry 
-    bl  handle_irq
+    bl handle_irq
     interrupt_exit 
 
 .globl err_hang

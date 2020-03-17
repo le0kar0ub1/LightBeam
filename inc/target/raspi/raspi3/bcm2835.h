@@ -32,6 +32,19 @@
 /* Synopsys DesignWare Hi-Speed USB 2.0 On-The-Go Controller  */
 #define DWC_REGS_BASE          (PERIPHERALS_BASE + 0x980000)
 
+struct bcm2835_intregs
+{
+    uint IRQ_basic_pending;
+    uint IRQ_pending_1;
+    uint IRQ_pending_2;
+    uint FIQ_control;
+    uint Enable_IRQs_1;
+    uint Enable_IRQs_2;
+    uint Enable_Basic_IRQs;
+    uint Disable_IRQs_1;
+    uint Disable_IRQs_2;
+    uint Disable_Basic_IRQs;
+};
 
 /***************************************************************************
  * IRQ lines of selected BCM2835 peripherals.  Note about the numbering    *
@@ -103,5 +116,3 @@ extern void dmb(void);
 #define post_peripheral_access_mb dmb
 
 #endif /* _BCM2835_H_ */
-
-#endif

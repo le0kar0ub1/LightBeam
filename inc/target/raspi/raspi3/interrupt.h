@@ -3,7 +3,7 @@
 
 #include "def/typedef.h"
 
-void int_handler(ulong, ulong, ulong, ulong, ulong);
+void int_handler(uint64, uint64, uint64, uint64, uint64);
 void irq_vector_init(void);
 void enable_irq(void);
 void disable_irq(void);

@@ -5,6 +5,8 @@
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/system.h"
 #include "target/raspi/raspi3/memory/mmu.h"
+#include "target/raspi/raspi3/bcm2835.h"
+#include <limits.h>
 
 void start_setup_log(char const *data)
 {
@@ -32,6 +34,9 @@ void init_hook(void)
     enable_interrupt_controller();
     enable_irq();
     end_setup_log("interrupts are on");
+
+
+    struct bcm2835_intregs *regs = (struct bcm2835_intregs *)INTERRUPT_REGS_BASE;
 
     start_setup_log("Cores");
     multicore_init();

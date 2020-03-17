@@ -1,7 +1,8 @@
 #include "target/raspi/raspi3/uart.h"
 #include "target/raspi/raspi3/interrupt.h"
+#include "target/raspi/raspi3/cpus/cpus.h"
 
-const char *entry_error_messages[] =
+char const *entry_error_messages[] =
 {
     "SYNC_INVALID_EL1t",
     "IRQ_INVALID_EL1t",
@@ -32,12 +33,13 @@ void enable_interrupt_controller(void)
 void handle_except_msg(int type, uint64 esr, uint64 address)
 {
     uart_kprint("%s, ESR: 0x%X, address: 0x%X\n", entry_error_messages[type], esr, address);
-    while(1);
+    /* No return from fault  actually */
+    __hang();
 }
 
 void handle_irq(void)
 {
-    uart_puts("INT TRIGGERED");
+    uart_puts("INT TRIGGERED\n");
     // unsigned int irq = get32(IRQ_PENDING_1);
     // switch (irq) {
     // case (SYSTEM_TIMER_IRQ_1):
