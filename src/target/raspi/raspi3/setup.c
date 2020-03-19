@@ -6,6 +6,7 @@
 #include "target/raspi/raspi3/system.h"
 #include "target/raspi/raspi3/memory/mmu.h"
 #include "target/raspi/raspi3/bcm2835.h"
+#include "def/assert.h"
 #include <limits.h>
 
 void start_setup_log(char const *data)
@@ -37,6 +38,7 @@ void init_hook(void)
 
 
     struct bcm2835_intregs *regs = (struct bcm2835_intregs *)INTERRUPT_REGS_BASE;
+    assert(1 == 0);
 
     start_setup_log("Cores");
     multicore_init();

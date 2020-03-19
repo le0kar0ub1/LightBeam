@@ -21,7 +21,7 @@
 #include "def/typedef.h"
 #include "def/keyword.h"
 #include "def/bitfield.h"
-#include "def/fatalAssert.h"
+#include "def/assert.h"
 #include "def/operator.h"
 
 #endif

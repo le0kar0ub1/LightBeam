@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <limits.h>
-#include "fatalAssert.h"
+#include "assert.h"
 #include "typedef.h"
 
 #define decto(x) while (x --> 0)
