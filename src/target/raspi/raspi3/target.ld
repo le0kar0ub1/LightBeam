@@ -1,3 +1,4 @@
+OUTPUT(aarch64)
 ENTRY(_start)
 
 PROVIDE(__entry_point = 0x80000);
@@ -48,16 +49,16 @@ SECTIONS
     PROVIDE(__bss_size = __bss_end - __bss_start);
 
 
-
+    /* CORES STACK PROVIDING */
     .stack_core0 :
     {
-        . = ALIGN(16);  /* Stack must always be aligned to 8 byte boundary AAPCS64 call standard */
+        . = ALIGN(16);
         PROVIDE(__stack_start_core0__ = .);
-        . = . + 512;    /* EL0 stack size */
+        . = . + 512;
         PROVIDE(__EL0_stack_core0 = .);
-        . = . + 32768;  /* EL1 stack size */
+        . = . + 32768;
         PROVIDE(__EL1_stack_core0 = .);
-        . = . + 4096;   /* EL2 stack size (start-up) */
+        . = . + 4096;
         PROVIDE(__EL2_stack_core0 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core0__ = .);
@@ -65,13 +66,13 @@ SECTIONS
 
     .stack_core1 :
     {
-        . = ALIGN(16);  /* Stack must always be aligned to 8 byte boundary AAPCS64 call standard */
+        . = ALIGN(16);
         PROVIDE(__stack_start_core1__ = .);
-        . = . + 512;    /* EL0 stack size */
+        . = . + 512;
         PROVIDE(__EL0_stack_core1 = .);
-        . = . + 32768;  /* EL1 stack size */
+        . = . + 32768;
         PROVIDE(__EL1_stack_core1 = .);
-        . = . + 4096;   /* EL2 stack size (start-up) */
+        . = . + 4096;
         PROVIDE(__EL2_stack_core1 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core1__ = .);
@@ -79,13 +80,13 @@ SECTIONS
 
     .stack_core2 :
     {
-        . = ALIGN(16);  /* Stack must always be aligned to 8 byte boundary AAPCS call standard */
+        . = ALIGN(16);
         PROVIDE(__stack_start_core2__ = .);
-        . = . + 512;    /* EL0 stack size */
+        . = . + 512;
         PROVIDE(__EL0_stack_core2 = .);
-        . = . + 32768;  /* EL1 stack size */
+        . = . + 32768;
         PROVIDE(__EL1_stack_core2 = .);
-        . = . + 4096;   /* EL2 stack size (start-up) */
+        . = . + 4096;
         PROVIDE(__EL2_stack_core2 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core2__ = .);
@@ -93,22 +94,21 @@ SECTIONS
 
     .stack_core3 :
     {
-        . = ALIGN(16);  /* Stack must always be aligned to 8 byte boundary AAPCS call standard */
+        . = ALIGN(16);
         PROVIDE(__stack_start_core3__ = .);
-        . = . + 512;    /* EL0 stack size */
+        . = . + 512;
         PROVIDE(__EL0_stack_core3 = .);
-        . = . + 32768;  /* EL1 stack size */
+        . = . + 32768;
         PROVIDE(__EL1_stack_core3 = .);
-        . = . + 4096;   /* EL2 stack size (start-up) */
+        . = . + 4096;
         PROVIDE(__EL2_stack_core3 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core3__ = .);
     }
 
 
-
     PROVIDE(__KEND = .);
 
-    /* If we don't kick this sections, we are getting fault */
+    /* If we don't kick this sections, we are getting fault (kdev is a magic world) */
     /DISCARD/ : { *(.comment) *(.gnu*) *(.note*) *(.eh_frame*) }
 }

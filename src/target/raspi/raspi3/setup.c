@@ -25,6 +25,7 @@ void init_hook(void)
 
     lfb_init();
     helloFromLightBleam();
+
     lfb_kprint("[%$AInitialized%$R]: CPU config\n", RGB_Lime);
     lfb_kprint("[%$AInitialized%$R]: Uart\n", RGB_Lime);
     lfb_kprint("[%$AInitialized%$R]: Framebuffer\n\n", RGB_Lime);
@@ -37,15 +38,13 @@ void init_hook(void)
     end_setup_log("interrupts are on");
 
 
-    struct bcm2835_intregs *regs = (struct bcm2835_intregs *)INTERRUPT_REGS_BASE;
-    assert(1 == 0);
-
     start_setup_log("Cores");
     multicore_init();
     end_setup_log("All of them acquired start");
 
     start_setup_log("MMU");
-    mmu_init();
+    // mmu_init();
+    system_charging(2000);
     end_setup_log("MMU is operationnal");
 
     lfb_kprint("[%$ADONE%$R]: init step ended\n", RGB_Cyan);

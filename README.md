@@ -53,9 +53,11 @@ Check dependencies using the `make toolchain`.
 
 ## EPILOGUE
 
-[ARM ABI specification](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ihi0042f/index.html).
+[ARM ABI specification.](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ihi0042f/index.html).
 
-[ARM official developper documentation](https://developer.arm.com/docs).
+[ARM official developper documentation.](https://developer.arm.com/docs).
+
+[Raspberry github informations.](https://github.com/raspberrypi/firmware/wiki/)
 
 And, from the darkness, shine the light.
 

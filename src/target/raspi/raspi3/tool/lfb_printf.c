@@ -3,6 +3,8 @@
 #include "target/raspi/raspi3/semaphore.h"
 #include <stdarg.h>
 
+static volatile bool iserasing;
+
 void lfb_base_intput(int n, int base)
 {
     if (n < 0) {
@@ -70,15 +72,24 @@ void lfb_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
 
 void __lfb_kprint(char const *fmt, __builtin_va_list ap)
 {
+    int posx = lfb_get_posx();
+    int posy = lfb_get_posy();
+    iserasing = true;
+
     while (*fmt) {
         if (*fmt != '%')
-            lfb_putchar(*fmt);
+            if (*fmt == '\r')
+                iserasing = false;
+            else
+                lfb_putchar(*fmt);
         else {
             fmt++;
             lfb_kprint_switch_type(&fmt, &ap);
         }
         fmt++;
     }
+    if (!iserasing)
+        lfb_set_pos(posx, posy);
 }
 
 smplock_t lock = SMPLOCK_INIT;

@@ -1,6 +1,12 @@
 #ifndef __MMU_H_
 #define __MMU_H_
 
+#include "def/typedef.h"
+
+typedef uint64 mmuval_t;
+typedef uint64 physaddr_t;
+typedef void * virtaddr_t;
+
 #define PAGESIZE    0x1000
 
 // granularity
@@ -22,6 +28,12 @@
 #define PT_NC       (2 << 2)      // non-cachable
 
 #define TTBR_CNP    1
+
+#define MMU_DEVICE_NGNRNE  0
+#define MMU_DEVICE_NGNRE   1
+#define MMU_DEVICE_GRE     2
+#define MMU_NORMAL_NC      3
+#define MMU_NORMAL         4
 
 void mmu_init(void);
 

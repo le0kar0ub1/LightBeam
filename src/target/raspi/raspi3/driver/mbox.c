@@ -23,12 +23,10 @@ int mbox_call(uchar ch)
     semaphore_inc(&lock);
     uint r = (((uint)((ulong) & mbox) & ~0xF) | (ch & 0xF));
 
-    while (*MBOX_STATUS & MBOX_FULL)
-        asm volatile("nop");
+    while (*MBOX_STATUS & MBOX_FULL);
     *MBOX_WRITE = r;
     while (1) {
-        while (*MBOX_STATUS & MBOX_EMPTY)
-            asm volatile("nop");
+        while (*MBOX_STATUS & MBOX_EMPTY);
         if (r == *MBOX_READ) {
             semaphore_dec(&lock);
             return (mbox[1] == MBOX_RESPONSE);

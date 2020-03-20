@@ -25,7 +25,7 @@ void handle_timer_irq(void)
 
 void timer_init(void)
 {
-    uint  divisor;
+    // uint  divisor;
     // Make sure clock is stopped, illegal to change anything while running
     #define ARMTIMER_CONTROL ((volatile uint *)(ARCH_RASP_MMIOBASE + 0xB408))
     #define RPI_ARMTIMER_CTRL_ENABLE (1 << 7)
@@ -49,6 +49,6 @@ void timer_init(void)
       // The prescaler divider is set to 250 (based on GPU=250MHz to give 1Mhz clock)
       mbox[6] /= 250;
       // Divisor we would need at current clock speed
-      divisor = ((uint64)interval * mbox[6]) / 1000000;
+      // divisor = ((uint64)interval * mbox[6]) / 1000000;
     }
 }
