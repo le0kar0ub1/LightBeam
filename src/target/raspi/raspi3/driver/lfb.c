@@ -62,7 +62,7 @@ void lfb_init(void)
     mbox[21] = 0x48006; //set pixel order
     mbox[22] = 4;
     mbox[23] = 4;
-    mbox[24] = 1;           //RGB
+    mbox[24] = 0;           //RGB
 
     mbox[25] = 0x40001; //get framebuffer, gets alignment on request
     mbox[26] = 8;

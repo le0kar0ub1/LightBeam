@@ -11,7 +11,7 @@
 
 void start_setup_log(char const *data)
 {
-    lfb_kprint("[%$AInitializing%$R]: %s...\n", RGB_Maroon, data);
+    lfb_kprint("[%$AInitializing%$R]: %s...\n", RGB_Blue, data);
 }
 
 void end_setup_log(char const *data)

@@ -40,13 +40,16 @@ void lfb_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
         case 'x':
             lfb_base_intput(__builtin_va_arg(*ap, int), 16);
             break;
+        case 'b':
+            lfb_base_intput(__builtin_va_arg(*ap, int), 2);
+            break;
         case 'l':
             lfb_base_longput(__builtin_va_arg(*ap, long), 10);
             break;
         case 'X':
             lfb_base_longput(__builtin_va_arg(*ap, long), 16);
             break;
-        case 'b':
+        case 'B':
             lfb_base_longput(__builtin_va_arg(*ap, long), 2);
             break;
         case 'c':
