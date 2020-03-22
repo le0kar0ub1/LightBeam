@@ -2,6 +2,8 @@
 #define __MBOX_H_
 
 #include "def/typedef.h"
+#include <stdarg.h>
+#include <stdbool.h>
 
 /* a properly aligned buffer */
 extern volatile unsigned int mbox[36];
@@ -24,7 +26,8 @@ extern volatile unsigned int mbox[36];
 #define MBOX_TAG_SETCLKRATE 0x38002
 #define MBOX_TAG_LAST       0x0
 
-int mbox_call(uchar);
+#define MAIL_EMPTY	0x40000000		/* Mailbox Status Register: Mailbox Empty */
+#define MAIL_FULL	0x80000000		/* Mailbox Status Register: Mailbox Full  */
 
 typedef enum {
     MB_CHANNEL_POWER = 0x0,   // Mailbox Channel 0: Power Management Interface 
@@ -146,5 +149,10 @@ typedef enum {
     MBOX_TAG_SET_CURSOR_INFO            = 0x00008010,           // Set cursor info
     MBOX_TAG_SET_CURSOR_STATE           = 0x00008011,           // Set cursor state
 } TAG_CHANNEL_COMMAND;
+
+int mbox_call(uchar);
+bool mailbox_tag_message(uint32 *, uint8, ...);
+uint32 mailbox_read(MBOX_CHANNEL);
+bool mailbox_write(MBOX_CHANNEL, uint32);
 
 #endif

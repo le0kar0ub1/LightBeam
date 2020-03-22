@@ -4,7 +4,7 @@
 
 CCFLAGS		+=	-mcpu=cortex-a53
 
-BUILDHEADER	:=	raspberry3 target
+BUILDHEADER	:=	raspi3 target
 
 BUILDTYPE	:=	$(BUILDTYPE_BINARY)
 
@@ -16,8 +16,6 @@ TARGET_SOURCE_DIR	+=	.			\
 						cpus		\
 						memory		\
 						system		\
-
-TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 
 .PHONY: all
 

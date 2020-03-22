@@ -1,5 +1,5 @@
 #include "target/raspi/raspi3/gpio.h"
-#include "target/raspi/raspi3/mbox.h"
+#include "target/raspi/raspi3/driver/mbox.h"
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/driver/power.h"
 
@@ -33,7 +33,7 @@ void power_off()
     *GPFSEL3 = 0;
     *GPFSEL4 = 0;
     *GPFSEL5 = 0;
-    *GPPUD = 0;
+    *GPPUD0 = 0;
     wait_cycles(150);
     *GPPUDCLK0 = 0xffffffff;
     *GPPUDCLK1 = 0xffffffff;

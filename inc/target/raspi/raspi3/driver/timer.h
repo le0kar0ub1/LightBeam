@@ -1,6 +1,9 @@
 #ifndef __TIMER_H_
 #define __TIMER_H_
 
+#include <stdbool.h>
+#include "def/typedef.h"
+
 #define TIMER_CS   (ARCH_RASP_MMIOBASE + 0x00003000)
 #define TIMER_CLO  (ARCH_RASP_MMIOBASE + 0x00003004)
 #define TIMER_CHI  (ARCH_RASP_MMIOBASE + 0x00003008)
@@ -14,7 +17,7 @@
 #define TIMER_CS_M2 (1 << 2)
 #define TIMER_CS_M3 (1 << 3)
 
-void timer_init(void);
-void handle_timer_irq(void);
+bool timer_init(uint32);
+bool timerIrqSetup(uint32);
 
 #endif

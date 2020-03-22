@@ -12,30 +12,30 @@ typedef enum {
 
 struct __attribute__((__packed__, aligned(4))) GPIORegisters
 {
-	uint32 GPFSEL[6];												// 0x00  GPFSEL0 - GPFSEL5
-	uint32 reserved1;												// 0x18  reserved
-	uint32 GPSET[2];												// 0x1C  GPSET0 - GPSET1;
-	uint32 reserved2;												// 0x24  reserved
-	uint32 GPCLR[2];												// 0x28  GPCLR0 - GPCLR1
-	uint32 reserved3;												// 0x30  reserved
-	const uint32 GPLEV[2];										// 0x34  GPLEV0 - GPLEV1   ** Read only hence const
-	uint32 reserved4;												// 0x3C  reserved
-	uint32 GPEDS[2];												// 0x40  GPEDS0 - GPEDS1 
-	uint32 reserved5;												// 0x48  reserved
-	uint32 GPREN[2];												// 0x4C  GPREN0 - GPREN1;	 
-	uint32 reserved6;												// 0x54  reserved
-	uint32 GPFEN[2];												// 0x58  GPFEN0 - GPFEN1;
-	uint32 reserved7;												// 0x60  reserved
-	uint32 GPHEN[2];												// 0x64  GPHEN0 - GPHEN1;
-	uint32 reserved8;												// 0x6c  reserved
-	uint32 GPLEN[2];												// 0x70  GPLEN0 - GPLEN1;
-	uint32 reserved9;												// 0x78  reserved
-	uint32 GPAREN[2];												// 0x7C  GPAREN0 - GPAREN1;
-	uint32 reserved10;											// 0x84  reserved
-	uint32 GPAFEN[2]; 											// 0x88  GPAFEN0 - GPAFEN1;
-	uint32 reserved11;											// 0x90  reserved
-	uint32 GPPUD; 												// 0x94  GPPUD 
-	uint32 GPPUDCLK[2]; 											// 0x98  GPPUDCLK0 - GPPUDCLK1;
+	uint32 GPFSEL[6];									// 0x00  GPFSEL0 - GPFSEL5
+	uint32 reserved1;									// 0x18  reserved
+	uint32 GPSET[2];									// 0x1C  GPSET0 - GPSET1;
+	uint32 reserved2;									// 0x24  reserved
+	uint32 GPCLR[2];									// 0x28  GPCLR0 - GPCLR1
+	uint32 reserved3;									// 0x30  reserved
+	const uint32 GPLEV[2];								// 0x34  GPLEV0 - GPLEV1   ** Read only hence const
+	uint32 reserved4;									// 0x3C  reserved
+	uint32 GPEDS[2];									// 0x40  GPEDS0 - GPEDS1 
+	uint32 reserved5;									// 0x48  reserved
+	uint32 GPREN[2];									// 0x4C  GPREN0 - GPREN1;	 
+	uint32 reserved6;									// 0x54  reserved
+	uint32 GPFEN[2];									// 0x58  GPFEN0 - GPFEN1;
+	uint32 reserved7;									// 0x60  reserved
+	uint32 GPHEN[2];									// 0x64  GPHEN0 - GPHEN1;
+	uint32 reserved8;									// 0x6c  reserved
+	uint32 GPLEN[2];									// 0x70  GPLEN0 - GPLEN1;
+	uint32 reserved9;									// 0x78  reserved
+	uint32 GPAREN[2];									// 0x7C  GPAREN0 - GPAREN1;
+	uint32 reserved10;									// 0x84  reserved
+	uint32 GPAFEN[2]; 									// 0x88  GPAFEN0 - GPAFEN1;
+	uint32 reserved11;									// 0x90  reserved
+	uint32 GPPUD; 										// 0x94  GPPUD 
+	uint32 GPPUDCLK[2]; 								// 0x98  GPPUDCLK0 - GPPUDCLK1;
 };
 
 /*--------------------------------------------------------------------------}
@@ -43,13 +43,13 @@ struct __attribute__((__packed__, aligned(4))) GPIORegisters
 {--------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) SystemTimerRegisters
 {
-	uint32 ControlStatus;											// 0x00
-	uint32 TimerLo;												// 0x04
-	uint32 TimerHi;												// 0x08
-	uint32 Compare0;												// 0x0C
-	uint32 Compare1;												// 0x10
-	uint32 Compare2;												// 0x14
-	uint32 Compare3;												// 0x18
+	uint32 ControlStatus;								// 0x00
+	uint32 TimerLo;										// 0x04
+	uint32 TimerHi;										// 0x08
+	uint32 Compare0;									// 0x0C
+	uint32 Compare1;									// 0x10
+	uint32 Compare2;									// 0x14
+	uint32 Compare3;									// 0x18
 };
 
 /*--------------------------------------------------------------------------}
@@ -59,16 +59,16 @@ typedef union
 {
 	struct 
 	{
-		unsigned unused : 1;										// @0 Unused bit
-		unsigned Counter32Bit : 1;									// @1 Counter32 bit (16bit if false)
-		TIMER_PRESCALE Prescale : 2;								// @2-3 Prescale  
-		unsigned unused1 : 1;										// @4 Unused bit
-		unsigned TimerIrqEnable : 1;								// @5 Timer irq enable
-		unsigned unused2 : 1;										// @6 Unused bit
-		unsigned TimerEnable : 1;									// @7 Timer enable
-		unsigned reserved : 24;										// @8-31 reserved
+		unsigned unused : 1;							// @0 Unused bit
+		unsigned Counter32Bit : 1;						// @1 Counter32 bit (16bit if false)
+		TIMER_PRESCALE Prescale : 2;					// @2-3 Prescale  
+		unsigned unused1 : 1;							// @4 Unused bit
+		unsigned TimerIrqEnable : 1;					// @5 Timer irq enable
+		unsigned unused2 : 1;							// @6 Unused bit
+		unsigned TimerEnable : 1;						// @7 Timer enable
+		unsigned reserved : 24;							// @8-31 reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	uint32 Raw32;										// Union to access all 32 bits as a uint32
 } time_ctrl_reg_t;
 
 
@@ -77,11 +77,11 @@ typedef union
 {--------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) ArmTimerRegisters
 {
-	uint32 Load;													// 0x00
+	uint32 Load;												// 0x00
 	const uint32 Value;											// 0x04  ** Read only hence const
-	time_ctrl_reg_t Control;										// 0x08
-	uint32 Clear;													// 0x0C
-	const uint32 RawIRQ;											// 0x10  ** Read only hence const
+	time_ctrl_reg_t Control;									// 0x08
+	uint32 Clear;												// 0x0C
+	const uint32 RawIRQ;										// 0x10  ** Read only hence const
 	const uint32 MaskedIRQ;										// 0x14  ** Read only hence const
 	uint32 Reload;												// 0x18
 };
@@ -178,16 +178,16 @@ typedef union
 {--------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) IrqControlRegisters
 {
-	const irq_basic_pending_reg_t IRQBasicPending;					// 0x200   ** Read only hence const
+	const irq_basic_pending_reg_t IRQBasicPending;				// 0x200   ** Read only hence const
 	uint32 IRQPending1;											// 0x204
 	uint32 IRQPending2;											// 0x208
-	fiq_control_reg_t FIQControl;									// 0x20C
+	fiq_control_reg_t FIQControl;								// 0x20C
 	uint32 EnableIRQs1;											// 0x210
 	uint32 EnableIRQs2;											// 0x214
-	irq_enable_basic_reg_t EnableBasicIRQs;							// 0x218
-	uint32 DisableIRQs1;											// 0x21C
-	uint32 DisableIRQs2;											// 0x220
-	irq_disable_basic_reg_t DisableBasicIRQs;						// 0x224
+	irq_enable_basic_reg_t EnableBasicIRQs;						// 0x218
+	uint32 DisableIRQs1;										// 0x21C
+	uint32 DisableIRQs2;										// 0x220
+	irq_disable_basic_reg_t DisableBasicIRQs;					// 0x224
 };
 
 /*--------------------------------------------------------------------------}
@@ -196,14 +196,14 @@ struct __attribute__((__packed__, aligned(4))) IrqControlRegisters
 struct __attribute__((__packed__, aligned(4))) MailBoxRegisters
 {
 	const uint32 Read0;											// 0x00         Read data from VC to ARM
-	uint32 Unused[3];												// 0x04-0x0F
-	uint32 Peek0;													// 0x10
+	uint32 Unused[3];											// 0x04-0x0F
+	uint32 Peek0;												// 0x10
 	uint32 Sender0;												// 0x14
 	uint32 Status0;												// 0x18         Status of VC to ARM
 	uint32 Config0;												// 0x1C        
 	uint32 Write1;												// 0x20         Write data from ARM to VC
 	uint32 Unused2[3];											// 0x24-0x2F
-	uint32 Peek1;													// 0x30
+	uint32 Peek1;												// 0x30
 	uint32 Sender1;												// 0x34
 	uint32 Status1;												// 0x38         Status of ARM to VC
 	uint32 Config1;												// 0x3C 
@@ -560,21 +560,21 @@ typedef union
 {--------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) PL011UARTRegisters
 {
-	pl011_data_reg_t DR;											// +0x0
+	pl011_data_reg_t DR;										// +0x0
 	uint32 RSRECR;												// +0x4
 	uint32 _unused[4];											// +0x8, +0xC, +0x10, +0x14
-	pl011_fr_reg_t FR;												// +0x18
+	pl011_fr_reg_t FR;											// +0x18
 	uint32 _unused1[2];											// +0x1C, 0x20
-	pl011_ibrd_reg_t IBRD;											// +0x24
-	pl011_fbrd_reg_t FBRD;											// +0x28
-	pl011_lrch_reg_t LCRH;											// +0x2C
-	pl011_cr_reg_t CR;												// +0x30
-	uint32 IFLS;													// +0x34
-	uint32 IMSC;													// +0x38
+	pl011_ibrd_reg_t IBRD;										// +0x24
+	pl011_fbrd_reg_t FBRD;										// +0x28
+	pl011_lrch_reg_t LCRH;										// +0x2C
+	pl011_cr_reg_t CR;											// +0x30
+	uint32 IFLS;												// +0x34
+	uint32 IMSC;												// +0x38
 	uint32 RIS;													// +0x3C
 	uint32 MIS;													// +0x40
-	pl011_icr_reg_t ICR;											// +0x44
-	uint32 DMACR;													// +0x48
+	pl011_icr_reg_t ICR;										// +0x44
+	uint32 DMACR;												// +0x48
 };
 
 /*--------------------------------------------------------------------------}
@@ -702,12 +702,12 @@ typedef union
 struct __attribute__((__packed__, aligned(4))) QA7Registers
 {
 	local_timer_int_route_reg_t TimerRouting;						// 0x24
-	uint32 GPIORouting;											// 0x28
-	uint32 AXIOutstandingCounters;								// 0x2C
+	uint32 GPIORouting;												// 0x28
+	uint32 AXIOutstandingCounters;									// 0x2C
 	uint32 AXIOutstandingIrq;										// 0x30
 	local_timer_ctrl_status_reg_t TimerControlStatus;				// 0x34
 	local_timer_clr_reload_reg_t TimerClearReload;					// 0x38
-	uint32 unused;												// 0x3C
+	uint32 unused;													// 0x3C
 	generic_timer_int_ctrl_reg_t CoreTimerIntControl[4];			// 0x40, 0x44, 0x48, 0x4C  .. One per core
 	mailbox_int_ctrl_reg_t  CoreMailboxIntControl[4];				// 0x50, 0x54, 0x58, 0x5C  .. One per core
 	core_int_source_reg_t CoreIRQSource[4];							// 0x60, 0x64, 0x68, 0x6C  .. One per core

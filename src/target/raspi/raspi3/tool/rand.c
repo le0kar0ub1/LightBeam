@@ -16,8 +16,7 @@ void rand_init()
     // enable
     *RNG_CTRL |= 1;
     // wait for gaining some entropy
-    while(!((*RNG_STATUS) >> 24))
-        asm volatile("nop");
+    while(!((*RNG_STATUS) >> 24));
 }
 
 /**

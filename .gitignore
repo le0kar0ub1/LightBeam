@@ -2,7 +2,7 @@ build
 sample
 *.bin
 *.img
-.vscode
+*.vscode
 dev.sh
 *~
 *.core

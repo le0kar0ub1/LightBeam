@@ -18,7 +18,7 @@
 #define GPEDS1          ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00200044))
 #define GPHEN0          ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00200064))
 #define GPHEN1          ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00200068))
-#define GPPUD           ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00200094))
+#define GPPUD0          ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00200094))
 #define GPPUDCLK0       ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00200098))
 #define GPPUDCLK1       ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x0020009C))
 

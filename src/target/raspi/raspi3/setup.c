@@ -32,7 +32,7 @@ void init_hook(void)
 
     start_setup_log("interruptions (vectors, irq, etc.)");
     irq_vector_init();
-    timer_init();
+    timerIrqSetup(50000);
     enable_interrupt_controller();
     enable_irq();
     end_setup_log("interrupts are on");
@@ -47,7 +47,7 @@ void init_hook(void)
     system_charging(2000);
     end_setup_log("MMU is operationnal");
 
-    lfb_kprint("[%$ADONE%$R]: init step ended\n", RGB_Cyan);
+    lfb_kprint("[%$ADONE%$R]: init step ended\n", RGB_Yellow);
     while(1)
         uart_send(uart_getc());
 }

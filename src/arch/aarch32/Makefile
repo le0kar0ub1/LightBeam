@@ -3,11 +3,11 @@
  #
 
 # Builder will not link objects
-NOLINK	:= 1
+BUILDTYPE	:= $(BUILDTYPE_PLTLIB)
+
+BUILDHEADER	:=	aarch32 shared
 
 TARGET_SOURCE_DIR	:=	tools
-
-TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 
 .PHONY: all
 

@@ -3,8 +3,8 @@
 
 #include "def/typedef.h"
 
-typedef uint64 mmuval_t;
-typedef uint64 physaddr_t;
+typedef uintptr mmuval_t;
+typedef uintptr physaddr_t;
 typedef void * virtaddr_t;
 
 #define PAGESIZE    0x1000
@@ -36,5 +36,8 @@ typedef void * virtaddr_t;
 #define MMU_NORMAL         4
 
 void mmu_init(void);
+
+mmuval_t ARMToGPU(mmuval_t);
+mmuval_t GPUToARM(mmuval_t);
 
 #endif

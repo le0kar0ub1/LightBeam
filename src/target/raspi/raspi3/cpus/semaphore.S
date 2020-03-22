@@ -8,8 +8,6 @@
 
 .section .text
 
-/* Handle physical schedule */
-
 /* FATAL LOCK */
 .align 4
 semaphore_inc:

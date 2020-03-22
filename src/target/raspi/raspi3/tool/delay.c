@@ -1,8 +1,8 @@
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/gpio.h"
 
-#define SYSTMR_LO        ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00003004))
-#define SYSTMR_HI        ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00003008))
+#define SYSTMR_LO        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00003004))
+#define SYSTMR_HI        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00003008))
 
 /* ARM processor allow a nop instruction usefull */
 void wait_cycles(uint n)

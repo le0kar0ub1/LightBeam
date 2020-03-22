@@ -2,53 +2,41 @@
 #include "target/raspi/raspi3/interrupt.h"
 #include "target/raspi/raspi3/gpio.h"
 #include "target/raspi/raspi3/uart.h"
-#include "target/raspi/raspi3/mbox.h"
+#include "target/raspi/raspi3/driver/mbox.h"
 #include "target/raspi/raspi3/driver/timer.h"
+#include "target/raspi/raspi3/datastructure.h"
+#include "target/raspi/raspi3/system.h"
 
-const uint interval = 200000;
-uint curVal = 0;
-
-// void timer_init(void)
-// {
-//     curVal = get32(TIMER_CLO);
-//     curVal += interval;
-//     put32(TIMER_C1, curVal);
-// }
-
-void handle_timer_irq(void) 
+bool timer_init(uint32 period_in_us)                // Peripheral clock timer period in usec
 {
-    uart_puts("Timer interrupt received\n");
-    curVal += interval;
-    put32(TIMER_C1, curVal);
-    put32(TIMER_CS, TIMER_CS_M1);
+    uint32 Buffer[5] = { 0 };
+    bool resValue = false;
+    ARMTIMER->Control.TimerEnable = 0;                // Make sure clock is stopped, illegal to change anything while running
+    if (mailbox_tag_message(&Buffer[0], 5,              // Two uint32 responses being clock id and speed and 5 variadics passed
+      MBOX_TAG_GET_CLOCK_RATE, 8, 8, 4, 0))          // Get GPU clock (it varies between 200-450Mhz)
+    {
+      volatile uint32 divisor = Buffer[4] / 250;        // The prescaler divider is set to 250 (based on GPU=250MHz to give 1Mhz clock)
+      divisor /= 10000;                     // Divid by 10000 we are trying to hold some precision should be in low hundreds (160'ish)
+      divisor *= period_in_us;                  // Multiply by the micro seconds result
+      divisor /= 100;                       // This completes the division by 1000000 (done as /10000 and /100)
+      if (divisor != 0) {                     // Invalid divisor of zero will return with fail
+        ARMTIMER->Load = divisor;               // Set the load value to divisor
+        ARMTIMER->Control.Counter32Bit = 1;           // Counter in 32 bit mode
+        ARMTIMER->Control.Prescale = Clkdiv1;         // Clock divider = 1
+        resValue = true;                    // Set success result
+      }
+      ARMTIMER->Control.TimerEnable = 1;              // Now start the clock
+    }
+    return (resValue);                        // Return result value  
 }
 
-void timer_init(void)
+bool timerIrqSetup(uint32 period_in_us)              // Period between timer interrupts in usec
 {
-    // uint  divisor;
-    // Make sure clock is stopped, illegal to change anything while running
-    #define ARMTIMER_CONTROL ((volatile uint *)(ARCH_RASP_MMIOBASE + 0xB408))
-    #define RPI_ARMTIMER_CTRL_ENABLE (1 << 7)
-    #define MBOX_TAG_GET_CLOCK_RATE	0x00030002
-    *ARMTIMER_CONTROL &= ~(RPI_ARMTIMER_CTRL_ENABLE); 
-    // Get GPU clock (it varies between 200-450Mhz)
-    mbox[0] = (5 + 3) * 4;                  // length of the message
-    mbox[1] = MBOX_REQUEST;         // this is a request message
-    
-    mbox[2] = MBOX_TAG_GET_CLOCK_RATE;
-    mbox[3] = 8;                    // buffer size
-    mbox[4] = 8;
-    mbox[5] = 4;                    // CLOCK ID: CORE
-    mbox[6] = 0;                    // Clock Frequency
-
-    mbox[7] = MBOX_TAG_LAST;
-
-    // send the message to the GPU and receive answer
-    if (mbox_call(MBOX_CH_PROP)) {
-      uart_kprint("\nclock freq: %d Hz\n", mbox[6]);
-      // The prescaler divider is set to 250 (based on GPU=250MHz to give 1Mhz clock)
-      mbox[6] /= 250;
-      // Divisor we would need at current clock speed
-      // divisor = ((uint64)interval * mbox[6]) / 1000000;
+    if (timer_init(period_in_us))                 // Peripheral time set successful
+    {
+      IRQ->EnableBasicIRQs.Enable_Timer_IRQ = 1;          // Enable the timer interrupt IRQ
+      ARMTIMER->Control.TimerIrqEnable = 1;           // Enable timer irq
+      return (true);                        // Return success                 
     }
+    return (false);                         // Return failure 
 }

@@ -1,5 +1,5 @@
 #include "target/raspi/raspi3/gpio.h"
-#include "target/raspi/raspi3/mbox.h"
+#include "target/raspi/raspi3/driver/mbox.h"
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/uart.h"
 
@@ -27,7 +27,7 @@ void uart_init(void)
     r &= ~((7 << 12) | (7 << 15)); // gpio14, gpio15
     r |= (4 << 12) | (4 << 15);    // alt0
     *GPFSEL1 = r;
-    *GPPUD = 0;            // enable pins 14 and 15
+    *GPPUD0 = 0;            // enable pins 14 and 15
     wait_cycles(150);
     *GPPUDCLK0 = (1 << 14) | (1 << 15);
     wait_cycles(150);

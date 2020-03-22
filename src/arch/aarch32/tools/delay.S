@@ -1,6 +1,6 @@
 .global delay
 
-.equ DELAY, 0x80000
+.equ DELAY, 0x50000
 
 .section .text
 

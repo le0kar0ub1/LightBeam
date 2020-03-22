@@ -30,7 +30,7 @@ void system_charging(uint time)
     while (timer_getTickCount64() < endtime) {
         lfb_kprint("System charging... %c\r", spincharge[i]);
         timer_wait(50000);
-        i = i < 3 ? i + 1 : 0;
+        i = (i + 1) % 4;
     }
     lfb_kprint("System charging... %$ADONE%$R\n", RGB_Lime);
 }
