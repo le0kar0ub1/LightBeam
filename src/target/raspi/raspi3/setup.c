@@ -19,6 +19,11 @@ void end_setup_log(char const *data)
     lfb_kprint("   [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
 }
 
+void execme(void)
+{
+    end_setup_log("core executed");
+}
+
 void init_hook(void)
 {
     uart_init();
@@ -41,6 +46,7 @@ void init_hook(void)
     multicore_init();
     end_setup_log("All of them acquired start");
 
+    assert(cpuExecRoutine(3, execme) == true)
     start_setup_log("MMU");
     // mmu_init();
     system_charging(2000);

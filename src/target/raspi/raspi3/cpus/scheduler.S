@@ -36,8 +36,8 @@ cpuScheduler:
     mov x7, #0
     str x7, [x5, x6] // clear the called routine
 
-    ldr x30, =cpuScheduler          // Set link register to secondary spin address
-    blr x4                          // Call address in x4 
+    ldr x30, =cpuScheduler // Set link register
+    blr x4 // call the routine
 
     /* UNREACHABLE */
     b cpuScheduler
@@ -46,8 +46,14 @@ cpuScheduler:
 .global _cpuroutine
 .section .data
 /* CPUS Routines entry point */
-_cpuroutine:
-    __cpuroutine_core0: .8byte 0
-    __cpuroutine_core1: .8byte 0
-    __cpuroutine_core2: .8byte 0
-    __cpuroutine_core3: .8byte 0
+ _cpuroutine:
+     __cpu0Routine: .quad 0
+     __cpu1Routine: .quad 0
+     __cpu2Routine: .quad 0
+     __cpu3Routine: .quad 0
+
+    ._cpureturn:
+        __cpu0Return: .byte 0
+        __cpu1Return: .byte 0
+        __cpu2Return: .byte 0
+        __cpu3Return: .byte 0

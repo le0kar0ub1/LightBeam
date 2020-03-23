@@ -45,4 +45,6 @@ else ifeq ($(BUILDTYPE),$(BUILDTYPE_ARCLIB))
 endif
 
 buildheader:
+ifneq ($(BUILDHEADER),)
 	@echo -e "\nBuilding $(BUILDHEADER) objects...\n"
+endif
