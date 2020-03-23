@@ -22,7 +22,7 @@ cpuScheduler:
     mrs x6, MPIDR_EL1
     and x6, x6, #0x3
 
-    /* Yes, if core0 is here we are grave in the shit */
+    /* Yes, if cpu0 is here, we are grave in the shit */
     cmp x6, #0
     beq cpuScheduler
 
@@ -38,7 +38,8 @@ cpuScheduler:
 
     ldr x30, =cpuScheduler          // Set link register to secondary spin address
     blr x4                          // Call address in x4 
-    /* #UNREACHABLE */
+
+    /* UNREACHABLE */
     b cpuScheduler
 
 
