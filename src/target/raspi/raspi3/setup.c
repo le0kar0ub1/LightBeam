@@ -37,7 +37,6 @@ void init_hook(void)
     enable_irq();
     end_setup_log("interrupts are on");
 
-
     start_setup_log("Cores");
     multicore_init();
     end_setup_log("All of them acquired start");
