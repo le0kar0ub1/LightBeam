@@ -13,6 +13,7 @@ TARGET_SOURCE_DIR	+=	.			\
 						tool		\
 						driver		\
 						interrupt	\
+						cpus/init	\
 						cpus		\
 						memory		\
 						system		\

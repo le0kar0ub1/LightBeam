@@ -1,7 +1,12 @@
+.include "arch/aarch64/archutils.inc"
+.include "target/raspi/raspi3/cpus/cpus.inc"
+
 .global cpu_warbase
 .global cpuScheduler
 
 .extern lfb_cpu_log
+
+.extern _cpustate
 
 .section .text
 .balign 4
@@ -36,18 +41,64 @@ cpuScheduler:
     mov x7, #0
     str x7, [x5, x6] // clear the called routine
 
-    ldr x30, =cpuScheduler          // Set link register to secondary spin address
-    blr x4                          // Call address in x4 
+    //ldr x30, =cpuScheduler // Set link register
+    blr x4 // call the routine
 
-    /* UNREACHABLE */
+    .setCpuIsSleeping:
+        mrs x6, MPIDR_EL1
+        and x6, x6, #0x3
+    
+        ldr x7, =_cpustate
+        add x7, x7, x6
+
+        ldr x6, [x7]
+        orr x6, x6, #1
+        str x6, [x7]
+
     b cpuScheduler
 
 
 .global _cpuroutine
 .section .data
 /* CPUS Routines entry point */
-_cpuroutine:
-    __cpuroutine_core0: .8byte 0
-    __cpuroutine_core1: .8byte 0
-    __cpuroutine_core2: .8byte 0
-    __cpuroutine_core3: .8byte 0
+ _cpuroutine:
+     __cpu0Routine: .quad 0
+     __cpu1Routine: .quad 0
+     __cpu2Routine: .quad 0
+     __cpu3Routine: .quad 0
+
+    ._cpureturn:
+        __cpu0Return: .byte 0
+        __cpu1Return: .byte 0
+        __cpu2Return: .byte 0
+        __cpu3Return: .byte 0
+
+
+.section .text
+.global cpuGetSleepingOne
+.balign 4
+cpuGetSleepingOne:
+    prologue
+
+    mov x0, #1
+    bl cpuGetState
+    cmp x0, #CPU_IS_SLEEPING
+    beq  readyOneFound
+
+    mov x0, #2
+    bl cpuGetState
+    cmp x0, #CPU_IS_SLEEPING
+    beq  readyOneFound
+
+    mov x0, #3
+    bl cpuGetState
+    cmp x0, #CPU_IS_SLEEPING
+    beq  readyOneFound
+
+    mov x0, #0
+    epilogue
+    ret
+
+readyOneFound:
+    epilogue
+    ret
