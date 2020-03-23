@@ -6,6 +6,7 @@
 .global cpuGetState
 
 .section .text
+.balign 4
 /* bool cpuGetState(uint8 cpuid) */
 cpuGetState:
     prologue
@@ -17,6 +18,8 @@ cpuGetState:
     ldr x2, [x2]
 
     and x1, x1, x2
+
+    lsr x1, x1, x0
 
     cmp x1, #CPU_IS_SLEEPING
     beq .cpuIsSleeping 

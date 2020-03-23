@@ -21,16 +21,16 @@ _cpustart: .string "started"
 .section .text
 .balign 4
 cpuScheduler:
-.setCpuIsSleeping:
-    mrs x6, MPIDR_EL1
-    and x6, x6, #0x3
-
-    mov x7, #CPU_IS_SLEEPING
-    lsl x6, x7, x6
-    ldr x7, =_cpustate
-    ldrb w3, [x7]
-    orr w6, w6, w3
-    strb w6, [x7]
+    .setCpuIsSleeping:
+        mrs x6, MPIDR_EL1
+        and x6, x6, #0x3
+    
+        mov w7, #0x1
+        lsl w6, w7, w6
+        ldr x7, =_cpustate
+        ldrb w3, [x7]
+        orr w6, w6, w3
+        strb w6, [x7]
 
 
     wfe
@@ -53,24 +53,7 @@ cpuScheduler:
     mov x7, #0
     str x7, [x5, x6] // clear the called routine
 
-.setCpuIsWorking:
-    mrs x6, MPIDR_EL1
-    and x6, x6, #0x3
-    
-    mov x5, #0x1
-    lsl x6, x5, x6
-
-    ldr x5, =_cpustate
-    ldrb w7, [x5]
-
-    mov x8, #0b11111111
-    sub w6, w8, w6 
-
-    and w7, w7, w6
-    strb w7, [x5]
-
-
-    ldr x30, =cpuScheduler // Set link register
+    //ldr x30, =cpuScheduler // Set link register
     blr x4 // call the routine
 
     /* UNREACHABLE */
