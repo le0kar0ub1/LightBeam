@@ -27,7 +27,7 @@ cpuExecRoutine:
 
     str x1, [x3, x2] // the function to call
     
-    sev
+    sev // wakeup our cpus
 
     mov x0, #1 
     epilogue
