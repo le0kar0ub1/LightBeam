@@ -11,4 +11,12 @@
     add sp, sp, #8
 .endm
 
+.macro cpusWakeUp
+    sev
+.endm
+
+.macro cpuSleep
+    wfe
+.endm
+
 #endif

@@ -23,7 +23,7 @@ multicore_init:
     ic ivau, x1
     sev
 .hang_cpu1:
-    ldr x3, =cpustate
+    ldr x3, =_cpustate
     ldr x1, [x3]
     and x1, x1, 0b10
     cmp x1, 0
@@ -38,7 +38,7 @@ multicore_init:
     ic ivau, x1
     sev
 .hang_cpu2:
-    ldr x3, =cpustate
+    ldr x3, =_cpustate
     ldr x1, [x3]
     and x1, x1, 0b100
     cmp x1, 0
@@ -54,7 +54,7 @@ multicore_init:
     ic ivau, x1
     sev
 .hang_cpu3:
-    ldr x3, =cpustate
+    ldr x3, =_cpustate
     ldr x1, [x3]
     and x1, x1, 0b1000
     cmp x1, 0
@@ -83,12 +83,14 @@ multicoresX_start:
     bl cpu_getid
     mov x1, 1
     lsl x0, x1, x0
-    ldr x1, =cpustate
+    ldr x1, =_cpustate
     ldr x3, [x1]
     orr x0, x0, x3
     str x0, [x1]
 
     b cpu_warbase
 
+.global _cpustate
 .section .data
-cpustate: .int 0
+.balign 4
+_cpustate: .4byte 0
