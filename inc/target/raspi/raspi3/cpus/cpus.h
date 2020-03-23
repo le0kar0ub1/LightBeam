@@ -12,10 +12,18 @@ enum CPUS_ID
     CPU3 = 3
 };
 
-int cpu_getid(void);
+enum CPUS_STATE
+{
+    CPU_IS_SLEEPING = 0x1,
+    CPU_IS_WORKING  = 0x0
+};
+
+int cpuGetId(void);
 void cpu_warbase(void);
 
 bool cpuExecRoutine(enum CPUS_ID, void (*)(void));
+
+enum CPUS_STATE cpuGetState(enum CPUS_ID);
 
 void uart_cpu_log(char const *);
 void uart_cpu_wrn(char const *);

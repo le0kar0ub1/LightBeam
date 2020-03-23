@@ -5,7 +5,7 @@
 
 void PANIC(char const *fmt, ...)
 {
-    lfb_kprint("[CPU %d] [%$AERR%$R]: ", cpu_getid(), RGB_Magenta);
+    lfb_kprint("[CPU %d] [%$AERR%$R]: ", cpuGetId(), RGB_Magenta);
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
     __lfb_kprint(fmt, ap);

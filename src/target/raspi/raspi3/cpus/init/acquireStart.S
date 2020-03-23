@@ -4,13 +4,15 @@
 .global multicore_init
 .global multicoresX_start
 
+.extern _cpustate
+
 .equ SPIN_CPU0, 0xD8
 .equ SPIN_CPU1, 0xE0
 .equ SPIN_CPU2, 0xE8
 .equ SPIN_CPU3, 0xF0
 
 .section .text
-/* CPU 0 come here and then chek if other are alive */
+/* CPU 0 come here and then check if other are alive */
 multicore_init:
     prologue
 
@@ -81,7 +83,7 @@ _CHECKEDUP:         .string "All CPUS acquired start.\n"
 /* CoresX acquire their are alive here */
 .section .text
 multicoresX_start:
-    bl cpu_getid
+    bl cpuGetId
     mov x1, #CPU_IS_SLEEPING
     lsl x0, x1, x0
     ldr x1, =_cpustate
@@ -90,8 +92,3 @@ multicoresX_start:
     str x0, [x1]
 
     b cpu_warbase
-
-.global _cpustate
-.section .data
-.balign 4
-_cpustate: .4byte 0

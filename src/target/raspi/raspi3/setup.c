@@ -21,7 +21,8 @@ void end_setup_log(char const *data)
 
 void execme(void)
 {
-    lfb_kprint("core %d executed\n", cpu_getid());
+    lfb_kprint("core %d executed\n", cpuGetId());
+    while(1);
 }
 
 void init_hook(void)
@@ -48,6 +49,7 @@ void init_hook(void)
 
     assert(cpuExecRoutine(3, execme) == true)
     // assert(cpuExecRoutine(3, execme) == true)
+    while(cpuGetState(CPU3) == CPU_IS_WORKING);
     start_setup_log("MMU");
     // mmu_init();
     system_charging(2000);
