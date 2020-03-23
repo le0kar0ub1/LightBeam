@@ -1,4 +1,5 @@
 .include "arch/aarch64/archutils.inc"
+.include "target/raspi/raspi3/cpus/cpus.inc"
 
 .global cpuExecRoutine
 

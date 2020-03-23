@@ -21,7 +21,7 @@ void end_setup_log(char const *data)
 
 void execme(void)
 {
-    end_setup_log("core executed");
+    lfb_kprint("core %d executed\n", cpu_getid());
 }
 
 void init_hook(void)
@@ -47,9 +47,11 @@ void init_hook(void)
     end_setup_log("All of them acquired start");
 
     assert(cpuExecRoutine(3, execme) == true)
+    // assert(cpuExecRoutine(3, execme) == true)
     start_setup_log("MMU");
     // mmu_init();
     system_charging(2000);
+    assert(cpuExecRoutine(3, execme) == true)
     end_setup_log("MMU is operationnal");
 
     lfb_kprint("[%$ADONE%$R]: init step ended\n", RGB_Yellow);

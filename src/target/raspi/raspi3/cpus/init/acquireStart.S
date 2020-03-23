@@ -1,4 +1,5 @@
 .include "arch/aarch64/archutils.inc"
+.include "target/raspi/raspi3/cpus/cpus.inc"
 
 .global multicore_init
 .global multicoresX_start
@@ -81,7 +82,7 @@ _CHECKEDUP:         .string "All CPUS acquired start.\n"
 .section .text
 multicoresX_start:
     bl cpu_getid
-    mov x1, 1
+    mov x1, #CPU_IS_SLEEPING
     lsl x0, x1, x0
     ldr x1, =_cpustate
     ldr x3, [x1]

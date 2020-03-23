@@ -1,7 +1,12 @@
+.include "arch/aarch64/archutils.inc"
+.include "target/raspi/raspi3/cpus/cpus.inc"
+
 .global cpu_warbase
 .global cpuScheduler
 
 .extern lfb_cpu_log
+
+.extern _cpustate
 
 .section .text
 .balign 4
@@ -57,3 +62,15 @@ cpuScheduler:
         __cpu1Return: .byte 0
         __cpu2Return: .byte 0
         __cpu3Return: .byte 0
+
+
+.section .text
+.global cpu_getReadyOne
+.balign 4
+cpu_getReadyOne:
+    prologue
+
+    
+
+    epilogue
+    ret
