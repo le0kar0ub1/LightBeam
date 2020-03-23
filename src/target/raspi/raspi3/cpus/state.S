@@ -11,15 +11,11 @@
 cpuGetState:
     prologue
 
-    mov x1, #0x1
-    lsl x1, x1, x0
-
-    ldr x2, =_cpustate
-    ldr x2, [x2]
-
-    and x1, x1, x2
-
-    lsr x1, x1, x0
+    ldr x1, =_cpustate
+    add x1, x1, x0
+    
+    ldr x1, [x1]
+    and x1, x1, #1
 
     cmp x1, #CPU_IS_SLEEPING
     beq .cpuIsSleeping 
@@ -36,4 +32,4 @@ cpuGetState:
 .global _cpustate
 .section .data
 .balign 4
-_cpustate: .byte 0
+_cpustate: .4byte 0

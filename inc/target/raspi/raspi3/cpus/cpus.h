@@ -24,6 +24,7 @@ void cpu_warbase(void);
 bool cpuExecRoutine(enum CPUS_ID, void (*)(void));
 
 enum CPUS_STATE cpuGetState(enum CPUS_ID);
+enum CPUS_ID cpuGetSleepingOne(void);
 
 void uart_cpu_log(char const *);
 void uart_cpu_wrn(char const *);

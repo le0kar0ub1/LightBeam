@@ -19,14 +19,6 @@ void end_setup_log(char const *data)
     lfb_kprint("   [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
 }
 
-void execme(void)
-{
-    lfb_kprint("core %d executed\n", cpuGetId());
-    while(1);
-}
-
-extern uint8 _cpustate;
-
 void init_hook(void)
 {
     uart_init();
@@ -49,20 +41,9 @@ void init_hook(void)
     multicore_init();
     end_setup_log("All of them acquired start");
 
-    // lfb_kprint("CPU %d state: %d %s | global: %b\n", 3, cpuGetState(3), cpuGetState(3) == CPU_IS_WORKING ? "working" : "sleeping", _cpustate);
-    if (cpuExecRoutine(3, execme) == false)
-        lfb_kprint("FAILED\n");
-    lfb_kprint("CPU %d state: %d %s\n", 3, cpuGetState(3), cpuGetState(3) == CPU_IS_WORKING ? "working" : "sleeping");
-    while(1);
-    system_charging(2000);
-    lfb_kprint("CPU %d state: %d %s\n", 3, cpuGetState(3), cpuGetState(3) == CPU_IS_WORKING ? "working" : "sleeping");
-    if (cpuExecRoutine(3, execme) == false)
-        lfb_kprint("FAILED\n");
     start_setup_log("MMU");
     // mmu_init();
     system_charging(2000);
-    if (cpuExecRoutine(3, execme) == false)
-        lfb_kprint("FAILED\n");
     end_setup_log("MMU is operationnal");
 
     lfb_kprint("[%$ADONE%$R]: init step ended\n", RGB_Yellow);

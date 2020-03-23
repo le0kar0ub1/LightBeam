@@ -21,18 +21,6 @@ _cpustart: .string "started"
 .section .text
 .balign 4
 cpuScheduler:
-    .setCpuIsSleeping:
-        mrs x6, MPIDR_EL1
-        and x6, x6, #0x3
-    
-        mov w7, #0x1
-        lsl w6, w7, w6
-        ldr x7, =_cpustate
-        ldrb w3, [x7]
-        orr w6, w6, w3
-        strb w6, [x7]
-
-
     wfe
 
     ldr x5, =_cpuroutine
@@ -56,7 +44,17 @@ cpuScheduler:
     //ldr x30, =cpuScheduler // Set link register
     blr x4 // call the routine
 
-    /* UNREACHABLE */
+    .setCpuIsSleeping:
+        mrs x6, MPIDR_EL1
+        and x6, x6, #0x3
+    
+        ldr x7, =_cpustate
+        add x7, x7, x6
+
+        ldr x6, [x7]
+        orr x6, x6, #1
+        str x6, [x7]
+
     b cpuScheduler
 
 
@@ -77,12 +75,30 @@ cpuScheduler:
 
 
 .section .text
-.global cpu_getReadyOne
+.global cpuGetSleepingOne
 .balign 4
-cpu_getReadyOne:
+cpuGetSleepingOne:
     prologue
 
-    
+    mov x0, #1
+    bl cpuGetState
+    cmp x0, #CPU_IS_SLEEPING
+    beq  readyOneFound
 
+    mov x0, #2
+    bl cpuGetState
+    cmp x0, #CPU_IS_SLEEPING
+    beq  readyOneFound
+
+    mov x0, #3
+    bl cpuGetState
+    cmp x0, #CPU_IS_SLEEPING
+    beq  readyOneFound
+
+    mov x0, #0
+    epilogue
+    ret
+
+readyOneFound:
     epilogue
     ret
