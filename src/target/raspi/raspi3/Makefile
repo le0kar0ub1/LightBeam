@@ -2,13 +2,17 @@
 # Makefile Compiling object for RASPI3 target
  #
 
+export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
+
 CCFLAGS		+=	-mcpu=cortex-a53
 
-BUILDHEADER	:=	raspi3 target
+BUILDER_HEADER	:=	raspi3 target
 
-BUILDTYPE	:=	$(BUILDTYPE_BINARY)
+BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
-TARGET_SOURCE_DIR	+=	.			\
+BUILDER_TARGET	:= tktlecouz
+
+BUILDER_SOURCE_DIR	+=	.			\
 						boot		\
 						tool		\
 						driver		\
@@ -20,9 +24,11 @@ TARGET_SOURCE_DIR	+=	.			\
 
 .PHONY: all
 
-all:	arcbuild	aarch64builder
+all:	arcbuild	lauchbuilder
 
-include $(MKHELPER_DIR)/builder/builder_aarch64.mk
+include $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
+	@make -C $(OVERWORLD_SHARED_SRC_DIR) --no-print-directory
+	@make -C ../shared --no-print-directory
 	@make -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory

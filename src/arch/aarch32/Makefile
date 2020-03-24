@@ -2,15 +2,16 @@
 # Makefile we are using with a build prefix for shared architecture tools
  #
 
-# Builder will not link objects
-BUILDTYPE	:= $(BUILDTYPE_PLTLIB)
+BUILDER_TYPE		:= $(BUILDER_TYPE_STCLIB)
 
-BUILDHEADER	:=	aarch32 shared
+BUILDER_HEADER		:=	AARCH32 shared
 
-TARGET_SOURCE_DIR	:=	tools
+BUILDER_SOURCE_DIR	:=	tools
+
+BUILDER_TARGET		:=	$(TGTSHARED_LIBARC)
 
 .PHONY: all
 
-include $(MKHELPER_DIR)/builder/builder_aarch32.mk
+include $(MKHELPER_DIR)/builder/builder.mk
 
-all:	aarch32builder
+all:	lauchbuilder

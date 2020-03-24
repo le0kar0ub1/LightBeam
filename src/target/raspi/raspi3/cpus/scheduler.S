@@ -47,7 +47,7 @@ cpuScheduler:
     .setCpuIsSleeping:
         mrs x6, MPIDR_EL1
         and x6, x6, #0x3
-    
+
         ldr x7, =_cpustate
         add x7, x7, x6
 
@@ -82,16 +82,19 @@ cpuGetSleepingOne:
 
     mov x0, #1
     bl cpuGetState
+    mov x1, #1
     cmp x0, #CPU_IS_SLEEPING
     beq  readyOneFound
 
     mov x0, #2
     bl cpuGetState
+    mov x1, #2
     cmp x0, #CPU_IS_SLEEPING
     beq  readyOneFound
 
     mov x0, #3
     bl cpuGetState
+    mov x1, #3
     cmp x0, #CPU_IS_SLEEPING
     beq  readyOneFound
 
@@ -100,5 +103,6 @@ cpuGetSleepingOne:
     ret
 
 readyOneFound:
+    mov x0, x1
     epilogue
     ret

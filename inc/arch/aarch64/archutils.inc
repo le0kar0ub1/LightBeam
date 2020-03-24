@@ -2,13 +2,20 @@
 #define __ARCHUTILS_INC_
 
 .macro prologue
-    sub sp, sp, #8
-    str x30, [sp, #8]
+    str x30, [sp, #-16]!
 .endm
 
 .macro epilogue
-    ldr x30, [sp, #8]
-    add sp, sp, #8
+    ldr x30, [sp], #16
+.endm
+
+/* Stack ptr must be 16 Bytes aligned */
+.macro push reg
+    str \reg, [sp, #-16]!
+.endm
+
+.macro pop reg
+    ldr \reg, [sp], #16
 .endm
 
 .macro cpusWakeUp

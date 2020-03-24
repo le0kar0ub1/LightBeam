@@ -33,6 +33,7 @@ export IMGKERN			:=	$(PROJECT)-$(TARGET).$(IMG_EXTENSION)
 export EXTENSION_SRC	:=	.c
 export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
+export EXTENSION_LIB	:=	.a
 
 export LDFLAGS			=	-nostdlib							\
 							-nostartfiles						\
@@ -42,6 +43,7 @@ export LDFLAGS			=	-nostdlib							\
 							-L	$(BUILDIR)						\
 							$(TGTSHARED_LIBARC)					\
 							$(TGTSHARED_LIBPLT)					\
+							$(TGTSHARED_OVRLIB)					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\
