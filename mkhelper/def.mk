@@ -42,6 +42,7 @@ export LDFLAGS			=	-nostdlib							\
 							-L	$(BUILDIR)						\
 							$(TGTSHARED_LIBARC)					\
 							$(TGTSHARED_LIBPLT)					\
+							# $(TGTSHARED_OVRWLD)					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\

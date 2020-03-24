@@ -1,0 +1,17 @@
+ #
+# Makefile we are using with a build prefix for shared architecture tools
+ #
+
+# Builder will not link objects
+
+BUILDHEADER	:=	Over the world objects
+
+BUILDTYPE	:=	$(BUILDTYPE_ARCLIB)
+
+TARGET_SOURCE_DIR	:=	tools
+
+.PHONY: all
+
+include $(MKHELPER_DIR)/builder/builder_aarch64.mk
+
+all:	aarch64builder

@@ -47,7 +47,7 @@ cpuScheduler:
     .setCpuIsSleeping:
         mrs x6, MPIDR_EL1
         and x6, x6, #0x3
-    
+
         ldr x7, =_cpustate
         add x7, x7, x6
 

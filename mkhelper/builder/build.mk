@@ -13,6 +13,7 @@ export TGTMACRO_BUILD	:=	$(KBUILD)
 # Norm Libraries
 export TGTSHARED_LIBPLT	:=	$(BUILDIR)/pltlib.a
 export TGTSHARED_LIBARC	:=	$(BUILDIR)/arclib.a
+export TGTSHARED_OVRWLD	:=	$(BUILDIR)/ovrwld.a
 
 # Norm Assets
 export TGTASSETS_DIR	:=	$(BUILDIR)/assets

@@ -29,3 +29,6 @@ export AARCH64_RDELF		:=	$(AARCH64_ARMGNUBASE)readelf
 
 export AARCH64_SHARED_SRC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(ARCH_DIR)/aarch64
 export AARCH64_SHARED_OBJ_DIR	:=	$(BUILDIR)/$(ARCH_DIR)/aarch64
+
+# Norm Over the world build
+export OVERWORLD_SHARED_SRC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(ARCH_DIR)/overworld
