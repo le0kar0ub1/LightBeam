@@ -5,7 +5,7 @@
 include $(MKHELPER_DIR)/arch.mk
 
 define RAISE
-	@echo -e "[$(BoldRed)ABORT$(Blank)]$(1)"
+	@echo -e "[$(BoldRed)ABORTED$(Blank)]$(1)"
 	@exit 1
 endef
 

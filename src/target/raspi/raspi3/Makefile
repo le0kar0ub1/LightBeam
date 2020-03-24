@@ -30,5 +30,5 @@ include $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
 	@make -C $(OVERWORLD_SHARED_SRC_DIR) --no-print-directory
-	@make -C $(TARGET2SHARED_DIR) --no-print-directory
 	@make -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory
+	@make -C $(TARGET2SHARED_DIR) --no-print-directory

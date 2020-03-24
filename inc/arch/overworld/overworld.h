@@ -3,6 +3,6 @@
 
 #include "def/typedef.h"
 
-void memcpy(void *, void *, size_t);
+void *memcpy(void *, const void *, size_t);
 
 #endif

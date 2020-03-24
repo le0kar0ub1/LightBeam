@@ -2,7 +2,7 @@
 # Makefile at raspi shared object into library
  #
 
-BUILDER_HEADER	:=	raspi shared library
+BUILDER_HEADER	:=	raspi shared
 
 BUILDER_TYPE	:=	$(BUILDER_TYPE_STCLIB)
 
