@@ -7,6 +7,7 @@
 #include "target/raspi/raspi3/memory/mmu.h"
 #include "target/raspi/raspi3/bcm2835.h"
 #include "def/assert.h"
+#include "arch/overworld/overworld.h"
 #include <limits.h>
 
 void start_setup_log(char const *data)

@@ -13,7 +13,6 @@
 .text
 
     mrs x9, midr_el1
-.endif
     lsr x9, x9, 4
     and x9, x9, 0xFFF
     mov x0, 0 // MMIOBASE

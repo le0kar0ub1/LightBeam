@@ -12,9 +12,9 @@
 
 #define MASK_DETECT_RASPI(x) ((x >> 4) & 0xFFF)
 
-void __detect(void);
+void *__detect(void);
 
-void __detect(void)
+void *__detect(void)
 {
     uint32_t reg;
     uint32_t *mmio_base;
@@ -37,4 +37,5 @@ void __detect(void)
             mmio_base = (uint32_t *)0x0;
             break;
     }
+    return (mmio_base);
 }
