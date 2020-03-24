@@ -13,6 +13,15 @@ define INFO
 	@echo -e "[$(BoldBlue)LighBleam$(Blank)]$(1)"
 endef
 
+define BUILDERR
+	@echo -e "[$(BoldGreen)Builder$(Blank)]$(1)"
+	@exit 1
+endef
+
+define BUILDLOG
+	@echo -e "\n[$(BoldGreen)Builder$(Blank)]$(1)\n"
+endef
+
 define EvalTargetProcessor
 	$(if $(filter $(1),$(HANDLED_PROC)), $(call INFO, "Target processor $(1)"), $(call RAISE, "Invalid target processor $(1)"))
 endef

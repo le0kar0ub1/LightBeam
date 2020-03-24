@@ -7,7 +7,6 @@ include $(MKHELPER_DIR)/macro.mk
 all:	checkup	targetbuild
 
 targetbuild:
-	@make -C shared --no-print-directory
 	@make -C $(TARGET) --no-print-directory
 
 checkup:

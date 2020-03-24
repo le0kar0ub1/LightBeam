@@ -1,17 +1,17 @@
  #
-# Makefile we are using with a build prefix for shared architecture tools
+# Makefile we are using with a build prefix for shared over the world objects
  #
 
-# Builder will not link objects
+BUILDER_TYPE		:= $(BUILDER_TYPE_STCLIB)
 
-BUILDHEADER	:=	Over the world objects
+BUILDER_HEADER		:=	OverTheWorld shared
 
-BUILDTYPE	:=	$(BUILDTYPE_ARCLIB)
+BUILDER_SOURCE_DIR	:=	lib
 
-TARGET_SOURCE_DIR	:=	tools
+BUILDER_TARGET		:=	$(TGTSHARED_OVRWLD)
 
 .PHONY: all
 
-include $(MKHELPER_DIR)/builder/builder_aarch64.mk
+include $(MKHELPER_DIR)/builder/builder.mk
 
-all:	aarch64builder
+all:	lauchbuilder

@@ -18,7 +18,6 @@ export TGTSHARED_OVRWLD	:=	$(BUILDIR)/ovrwld.a
 # Norm Assets
 export TGTASSETS_DIR	:=	$(BUILDIR)/assets
 
-export BUILDTYPE_NOLINK		:=	0
-export BUILDTYPE_PLTLIB		:=	1
-export BUILDTYPE_SRDLIB		:=	2
-export BUILDTYPE_BINARY		:=	3
+export BUILDER_TYPE_NOLINK		:=	0
+export BUILDER_TYPE_STCLIB		:=	1
+export BUILDER_TYPE_BINARY		:=	2

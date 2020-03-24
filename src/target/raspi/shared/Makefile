@@ -2,11 +2,13 @@
 # Makefile at raspi shared object into library
  #
 
-BUILDHEADER	:=	raspi shared library
+BUILDER_HEADER	:=	raspi shared library
 
-BUILDTYPE	:=	$(BUILDTYPE_PLTLIB)
+BUILDER_TYPE	:=	$(BUILDER_TYPE_STCLIB)
 
-TARGET_SOURCE_DIR	+=	lib		\
+BUILDER_SOURCE_DIR	+=	lib		\
+
+BUILDER_TARGET	:=	$(TGTSHARED_LIBPLT)
 
 TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 
@@ -14,9 +16,9 @@ TARGET_BUILT_OBJECT :=  $(BUILDIR)/$(TARGET_PREFIX_BUILD)/font/font.o
 
 .PHONY: all
 
-all:	 fontbuild aarch64builder
+all:	 fontbuild lauchbuilder
 
-include $(MKHELPER_DIR)/builder/builder_aarch64.mk
+include $(MKHELPER_DIR)/builder/builder.mk
 
 fontbuild:
 	@mkdir -p $(BUILDIR)/$(TARGET_PREFIX_BUILD)/font
