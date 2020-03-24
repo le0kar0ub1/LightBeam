@@ -82,16 +82,19 @@ cpuGetSleepingOne:
 
     mov x0, #1
     bl cpuGetState
+    mov x1, #1
     cmp x0, #CPU_IS_SLEEPING
     beq  readyOneFound
 
     mov x0, #2
     bl cpuGetState
+    mov x1, #2
     cmp x0, #CPU_IS_SLEEPING
     beq  readyOneFound
 
     mov x0, #3
     bl cpuGetState
+    mov x1, #3
     cmp x0, #CPU_IS_SLEEPING
     beq  readyOneFound
 
@@ -100,5 +103,6 @@ cpuGetSleepingOne:
     ret
 
 readyOneFound:
+    mov x0, x1
     epilogue
     ret
