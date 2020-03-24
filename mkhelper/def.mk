@@ -18,6 +18,9 @@ export ROOT_INC_DIR	:=	inc
 export TARGET_DIR	:=	target
 export ARCH_DIR		:=	arch
 
+# Shared calculation
+export TARGET2SHARED_DIR	:=	../shared
+
 # We Will provide the full path each time
 export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 
@@ -38,7 +41,6 @@ export EXTENSION_LIB	:=	.a
 export LDFLAGS			=	-nostdlib							\
 							-nostartfiles						\
 							-n									\
-							-o	$(BUILDIR)/$(KERNEL)			\
 							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
 							-L	$(BUILDIR)						\
 							$(TGTSHARED_LIBARC)					\

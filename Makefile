@@ -17,7 +17,7 @@ prebuild:
 	$(call EvalTargetMachine, $(TARGET))
 	@echo -e "\n *"
 	@echo -e "*  Building $(KERNEL)"
-	@echo -e " *\n"
+	@echo -e " *"
 
 # additionnal checkup
 checkup:

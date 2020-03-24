@@ -10,7 +10,7 @@ BUILDER_HEADER	:=	raspi3 target
 
 BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
-BUILDER_TARGET	:= tktlecouz
+BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	+=	.			\
 						boot		\
@@ -30,5 +30,5 @@ include $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
 	@make -C $(OVERWORLD_SHARED_SRC_DIR) --no-print-directory
-	@make -C ../shared --no-print-directory
+	@make -C $(TARGET2SHARED_DIR) --no-print-directory
 	@make -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory

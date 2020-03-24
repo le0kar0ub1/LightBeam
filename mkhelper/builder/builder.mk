@@ -1,5 +1,5 @@
  #
-# Template Builder for AARCH64 target
+# Template Builder for XXX target
  #
 
 include $(MKHELPER_DIR)/macro.mk
@@ -34,7 +34,7 @@ $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_ASM)
 $(KERNEL):	$(.SECONDEXPANSION)
 ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_BINARY))
 	@echo ""
-	@$(GNUBASE)$(LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS)
+	@$(GNUBASE)$(LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS) -o $(BUILDER_TARGET)
 	@-echo -e "    $(BoldYellow)LNK$(Blank)      $@"
 	@$(GNUBASE)$(OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(PROJECT_PATH)/$(IMGKERN)
 	@-echo -e "    $(BoldYellow)IMG$(Blank)      $(IMGKERN)"
