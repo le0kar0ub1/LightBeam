@@ -8,7 +8,7 @@ void PANIC(char const *, ...);
 
 // #if ARE_ASSERT_FATAL
     #define assert(expr) if (__unexpected(!(expr))) { PANIC(    \
-        "\nassert(%s) failed\n    file: %s\n    function: %s\n    line: %d.\n", \
+        "assert(%s) failed\n    file: %s\n    function: %s\n    line: %d\n", \
          #expr, __FILE__, __func__, __LINE__);}
 // #else
     // #define assert(expr)
