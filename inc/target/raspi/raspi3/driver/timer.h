@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include "def/typedef.h"
 
+#define MS_TO_US(x) (x * 1000)
+#define S_TO_US(x)  (x * 1000000)
+
 #define TIMER_CS   (ARCH_RASP_MMIOBASE + 0x00003000)
 #define TIMER_CLO  (ARCH_RASP_MMIOBASE + 0x00003004)
 #define TIMER_CHI  (ARCH_RASP_MMIOBASE + 0x00003008)

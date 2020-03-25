@@ -5,10 +5,15 @@
 
 void int_handler(uint64, uint64, uint64, uint64, uint64);
 void vectors_init(void);
-void enable_interrupts(void);
-void disable_irq(void);
 void handle_except_msg(int, uint64, uint64);
 void handle_irq(void);
+
+void enable_interrupts(void);
+void disable_interrupts(void);
+void enable_fiq(void);
+void disable_fiq(void);
+uint64 getIntFlags(void);
+void setIntFlags(uint64);
 
 #define IRQ_BASIC_PENDING   (ARCH_RASP_MMIOBASE + 0x0000B200)
 #define IRQ_PENDING_1       (ARCH_RASP_MMIOBASE + 0x0000B204)

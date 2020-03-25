@@ -23,7 +23,8 @@
     mrs x1, esr_el1
     mrs x2, elr_el1
     bl  handle_except_msg
-    b   err_hang
+    interrupt_base_exit
+    b  __hang
 .endm
 
 .macro interrupt_base_entry
@@ -146,7 +147,3 @@ vectors_init:
     adr x0, _vectors
     msr vbar_el1, x0
     ret
-
-.globl err_hang
-err_hang:
-    b err_hang

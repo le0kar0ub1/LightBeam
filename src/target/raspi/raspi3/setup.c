@@ -21,7 +21,7 @@ void end_setup_log(char const *data)
 }
 
 void execme(void);
-void execme(void) { lfb_kprint("Cpu %d is excuting a routine\n", cpuGetId()); }
+void execme(void) { lfb_kprint("[CPU %d] is exceuting a routine\n", cpuGetId()); }
 
 void init_hook(void)
 {
@@ -34,15 +34,20 @@ void init_hook(void)
     lfb_kprint("[%$AInitialized%$R]: Uart\n", RGB_Lime);
     lfb_kprint("[%$AInitialized%$R]: Framebuffer\n\n", RGB_Lime);
 
-    start_setup_log("interruptions (vectors, irq, etc.)");
-    vectors_init();
-    timerIrqSetup(50000);
-    enable_interrupts();
-    end_setup_log("interrupts are on");
-
     start_setup_log("Cores");
     multicore_init();
     end_setup_log("All of them acquired start");
+
+    start_setup_log("interruptions (vectors, irq, etc.)");
+    vectors_init();
+    EL0_TimerIrqSetup();
+    if (timerIrqSetup(MS_TO_US(1000)) == false)
+        lfb_kprint("TIMER SETUP FAILED\n");
+    // setFiqFuncAddress(execme);
+    enable_interrupts();
+    // enable_fiq();
+    end_setup_log("interrupts are on");
+
 
     assert(cpuExecRoutine(1, execme) == true);
     system_charging(2000);

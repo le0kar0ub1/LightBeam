@@ -20,23 +20,23 @@ bool timer_init(uint32 period_in_us)                // Peripheral clock timer pe
       divisor *= period_in_us;                  // Multiply by the micro seconds result
       divisor /= 100;                       // This completes the division by 1000000 (done as /10000 and /100)
       if (divisor != 0) {                     // Invalid divisor of zero will return with fail
-        ARMTIMER->Load = divisor;               // Set the load value to divisor
+        ARMTIMER->Load = period_in_us;               // Set the load value to divisor
         ARMTIMER->Control.Counter32Bit = 1;           // Counter in 32 bit mode
         ARMTIMER->Control.Prescale = Clkdiv1;         // Clock divider = 1
         resValue = true;                    // Set success result
       }
       ARMTIMER->Control.TimerEnable = 1;              // Now start the clock
     }
-    return (resValue);                        // Return result value  
+    return (resValue);                        // Return result value
 }
 
 bool timerIrqSetup(uint32 period_in_us)              // Period between timer interrupts in usec
 {
     if (timer_init(period_in_us))                 // Peripheral time set successful
     {
-      IRQ->EnableBasicIRQs.Enable_Timer_IRQ = 1;          // Enable the timer interrupt IRQ
-      ARMTIMER->Control.TimerIrqEnable = 1;           // Enable timer irq
-      return (true);                        // Return success                 
+        IRQ->EnableBasicIRQs.Enable_Timer_IRQ = 1;          // Enable the timer interrupt IRQ
+        ARMTIMER->Control.TimerIrqEnable = 1;           // Enable timer irq
+        return (true);                        // Return success
     }
     return (false);                         // Return failure 
 }

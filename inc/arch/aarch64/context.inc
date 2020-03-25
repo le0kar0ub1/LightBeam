@@ -2,127 +2,119 @@
 #define __CONTEXT_INC_
 
 .macro contextSave
-    /* Save the entire context. */
-    STP     X0, X1, [SP, #-0x10]!
-    STP     X2, X3, [SP, #-0x10]!
-    STP     X4, X5, [SP, #-0x10]!
-    STP     X6, X7, [SP, #-0x10]!
-    STP     X8, X9, [SP, #-0x10]!
-    STP     X10, X11, [SP, #-0x10]!
-    STP     X12, X13, [SP, #-0x10]!
-    STP     X14, X15, [SP, #-0x10]!
-    STP     X16, X17, [SP, #-0x10]!
-    STP     X18, X19, [SP, #-0x10]!
-    STP     X20, X21, [SP, #-0x10]!
-    STP     X22, X23, [SP, #-0x10]!
-    STP     X24, X25, [SP, #-0x10]!
-    STP     X26, X27, [SP, #-0x10]!
-    STP     X28, X29, [SP, #-0x10]!
-    STP     X30, XZR, [SP, #-0x10]!
+    stp     x0, x1, [sp, #-0x10]!
+    stp     x2, x3, [sp, #-0x10]!
+    stp     x4, x5, [sp, #-0x10]!
+    stp     x6, x7, [sp, #-0x10]!
+    stp     x8, x9, [sp, #-0x10]!
+    stp     x10, x11, [sp, #-0x10]!
+    stp     x12, x13, [sp, #-0x10]!
+    stp     x14, x15, [sp, #-0x10]!
+    stp     x16, x17, [sp, #-0x10]!
+    stp     x18, x19, [sp, #-0x10]!
+    stp     x20, x21, [sp, #-0x10]!
+    stp     x22, x23, [sp, #-0x10]!
+    stp     x24, x25, [sp, #-0x10]!
+    stp     x26, x27, [sp, #-0x10]!
+    stp     x28, x29, [sp, #-0x10]!
+    stp     x30, XZR, [sp, #-0x10]!
 
-    /* Save the SPSR. */
-    MRS     X3, SPSR_EL1
-    MRS     X2, ELR_EL1
-    STP     X2, X3, [SP, #-0x10]!
-
-    /* Fetch core Id and multiply x8 as an offset */
-    MRS     X1, MPIDR_EL1
-    AND     X1, X1, #0x3
-    LSL     X1, X1, #3
-
-    /* Fetch current task stack top and add core id offset */
-    LDR     X0, =cpuBlockPtr
-    ADD     X0, X0, X1
-    LDR     X1, [X0]
-    LDR     X1, [X1]
-
-    /* Save FPU registers if task has FPU use flag set in pxflags */
-    LDR     X3, [x1, #8]            // Load pxFlags
-    CMP     X3, #0x0
-    BGE     1f
-    STP     Q0, Q1, [SP,#-0x20]!
-    STP     Q2, Q3, [SP,#-0x20]!
-    STP     Q4, Q5, [SP,#-0x20]!
-    STP     Q6, Q7, [SP,#-0x20]!
-    STP     Q8, Q9, [SP,#-0x20]!
-    STP     Q10, Q11, [SP,#-0x20]!
-    STP     Q12, Q13, [SP,#-0x20]!
-    STP     Q14, Q15, [SP,#-0x20]!
-    STP     Q16, Q17, [SP,#-0x20]!
-    STP     Q18, Q19, [SP,#-0x20]!
-    STP     Q20, Q21, [SP,#-0x20]!
-    STP     Q22, Q23, [SP,#-0x20]!
-    STP     Q24, Q25, [SP,#-0x20]!
-    STP     Q26, Q27, [SP,#-0x20]!
-    STP     Q28, Q29, [SP,#-0x20]!
-    STP     Q30, Q31, [SP,#-0x20]!
-1:
-
-    /* Now save the new SP value as core RPi_CurrentTaskStackTop */
-    MOV     X0, SP   /* Move SP into X0 for saving. */
-    STR     X0, [X1]
+    // /* Save the SPSR. */
+    // mrs     x3, SPSR_EL1
+    // mrs     x2, ELR_EL1
+    // stp     x2, x3, [sp, #-0x10]!
+    // /* Fetch core Id and multiply x8 as an offset */
+    // mrs     x1, MPIDR_EL1
+    // and     x1, x1, #0x3
+    // lsl     x1, x1, #3
+    // /* Fetch current task stack top and add core id offset */
+    // ldr     x0, =cpuBlockPtr
+    // add     x0, x0, x1
+    // ldr     x1, [X0]
+    // ldr     x1, [X1]
+    // /* Save FPU registers if task has FPU use flag set in pxflags */
+    // ldr     x3, [x1, #8]            // Load pxFlags
+    // cmp     x3, #0x0
+    // bge     contextSaveNoFpu
+    // stp     q0, q1, [sp,#-0x20]!
+    // stp     q2, q3, [sp,#-0x20]!
+    // stp     q4, q5, [sp,#-0x20]!
+    // stp     q6, q7, [sp,#-0x20]!
+    // stp     q8, q9, [sp,#-0x20]!
+    // stp     q10, q11, [sp,#-0x20]!
+    // stp     q12, q13, [sp,#-0x20]!
+    // stp     q14, q15, [sp,#-0x20]!
+    // stp     q16, q17, [sp,#-0x20]!
+    // stp     q18, q19, [sp,#-0x20]!
+    // stp     q20, q21, [sp,#-0x20]!
+    // stp     q22, q23, [sp,#-0x20]!
+    // stp     q24, q25, [sp,#-0x20]!
+    // stp     q26, q27, [sp,#-0x20]!
+    // stp     q28, q29, [sp,#-0x20]!
+    // stp     q30, q31, [sp,#-0x20]!
+contextSaveNoFpu:
+    // /* Now save the new sp value as core RPi_CurrentTaskStackTop */
+    // mov     x0, sp   /* Move sp into x0 for saving. */
+    // str     x0, [X1]
 .endm
 
 .macro contextRestore
-    /* Fetch core Id and multiply x8 as an offset */
-    MRS     X1, MPIDR_EL1
-    AND     X1, X1, #0x3
-    LSL     X1, X1, #0x3
+    // /* Fetch core Id and multiply x8 as an offset */
+    // mrs     x1, MPIDR_EL1
+    // and     x1, x1, #0x3
+    // lsl     x1, x1, #0x3
+    // /* Set the sp to point to the stack of the task being restored. */
+    // ldr     x0, =cpuBlockPtr
+    // add     x0, x0, x1
+    // ldr     x1, [X0]
+    // ldr     x1, [X1]
+    // ldr     x0, [X1]
+    // mov     sp, x0
+    // /* Restore FPU registers if task has FPU use flag set in pxflags */
+    // ldr     x3, [X1, #8]            // Load pxFlags
+    // cmp     x3, 0
+    // bge     contextRestoreNoFpu
+    // ldp     q30, q31, [sp], #0x20
+    // ldp     q28, q29, [sp], #0x20
+    // ldp     q26, q27, [sp], #0x20
+    // ldp     q24, q25, [sp], #0x20
+    // ldp     q22, q23, [sp], #0x20
+    // ldp     q20, q21, [sp], #0x20
+    // ldp     q18, q19, [sp], #0x20
+    // ldp     q16, q17, [sp], #0x20
+    // ldp     q14, q15, [sp], #0x20
+    // ldp     q12, q13, [sp], #0x20
+    // ldp     q10, q11, [sp], #0x20
+    // ldp     q8, q9, [sp], #0x20
+    // ldp     q6, q7, [sp], #0x20
+    // ldp     q4, q5, [sp], #0x20
+    // ldp     q2, q3, [sp], #0x20
+    // ldp     q0, q1, [sp], #0x20
+contextRestoreNoFpu:
+    // ldp     x2, x3, [sp], #0x10  /* SPSR and ELR. */
+    // /* Restore the SPSR. */
+    // msr     SPSR_EL1, x3
+    // /* Restore the ELR. */
+    // msr     ELR_EL1, x2
 
-    /* Set the SP to point to the stack of the task being restored. */
-    LDR     X0, =cpuBlockPtr
-    ADD     X0, X0, X1
-    LDR     X1, [X0]
-    LDR     X1, [X1]
-    LDR     X0, [X1]
-    MOV     SP, X0
+    ldp     x30, XZR, [sp], #0x10
+    ldp     x28, x29, [sp], #0x10
+    ldp     x26, x27, [sp], #0x10
+    ldp     x24, x25, [sp], #0x10
+    ldp     x22, x23, [sp], #0x10
+    ldp     x20, x21, [sp], #0x10
+    ldp     x18, x19, [sp], #0x10
+    ldp     x16, x17, [sp], #0x10
+    ldp     x14, x15, [sp], #0x10
+    ldp     x12, x13, [sp], #0x10
+    ldp     x10, x11, [sp], #0x10
+    ldp     x8, x9, [sp], #0x10
+    ldp     x6, x7, [sp], #0x10
+    ldp     x4, x5, [sp], #0x10
+    ldp     x2, x3, [sp], #0x10
+    ldp     x0, x1, [sp], #0x10
 
-    /* Restore FPU registers if task has FPU use flag set in pxflags */
-    LDR     X3, [X1, #8]            // Load pxFlags
-    CMP     X3, 0
-    BGE     1f
-    LDP     Q30, Q31, [SP], #0x20
-    LDP     Q28, Q29, [SP], #0x20
-    LDP     Q26, Q27, [SP], #0x20
-    LDP     Q24, Q25, [SP], #0x20
-    LDP     Q22, Q23, [SP], #0x20
-    LDP     Q20, Q21, [SP], #0x20
-    LDP     Q18, Q19, [SP], #0x20
-    LDP     Q16, Q17, [SP], #0x20
-    LDP     Q14, Q15, [SP], #0x20
-    LDP     Q12, Q13, [SP], #0x20
-    LDP     Q10, Q11, [SP], #0x20
-    LDP     Q8, Q9, [SP], #0x20
-    LDP     Q6, Q7, [SP], #0x20
-    LDP     Q4, Q5, [SP], #0x20
-    LDP     Q2, Q3, [SP], #0x20
-    LDP     Q0, Q1, [SP], #0x20
-1:
-    LDP     X2, X3, [SP], #0x10  /* SPSR and ELR. */
-
-    /* Restore the SPSR. */
-    MSR     SPSR_EL1, X3
-    /* Restore the ELR. */
-    MSR     ELR_EL1, X2
-
-    LDP     X30, XZR, [SP], #0x10
-    LDP     X28, X29, [SP], #0x10
-    LDP     X26, X27, [SP], #0x10
-    LDP     X24, X25, [SP], #0x10
-    LDP     X22, X23, [SP], #0x10
-    LDP     X20, X21, [SP], #0x10
-    LDP     X18, X19, [SP], #0x10
-    LDP     X16, X17, [SP], #0x10
-    LDP     X14, X15, [SP], #0x10
-    LDP     X12, X13, [SP], #0x10
-    LDP     X10, X11, [SP], #0x10
-    LDP     X8, X9, [SP], #0x10
-    LDP     X6, X7, [SP], #0x10
-    LDP     X4, X5, [SP], #0x10
-    LDP     X2, X3, [SP], #0x10
-    LDP     X0, X1, [SP], #0x10
-
-    ERET
+    eret
 .endm
 
 #endif

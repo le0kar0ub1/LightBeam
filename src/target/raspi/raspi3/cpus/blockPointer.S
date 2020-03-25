@@ -1,4 +1,4 @@
-.globl cpuBlockPtr;
+.globl cpuBlockPtr
 
 .section .data
 .balign 8
