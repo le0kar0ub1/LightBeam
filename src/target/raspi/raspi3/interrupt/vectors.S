@@ -18,7 +18,7 @@
 .equ ERROR_INVALID_EL0_32,  15
 
 .macro handle_except type
-    interrupt_entry
+    interrupt_base_entry
     mov x0, #\type
     mrs x1, esr_el1
     mrs x2, elr_el1
@@ -26,12 +26,7 @@
     b   err_hang
 .endm
 
-.macro ventry entry
-.balign 0x80
-    b \entry
-.endm
-
-.macro interrupt_entry
+.macro interrupt_base_entry
     sub sp,  sp,  #INT_FRAME_SIZE
     stp x0,  x1,  [sp, #16 * 0]
     stp x2,  x3,  [sp, #16 * 1]
@@ -51,7 +46,7 @@
     str x30, [sp, #16 * 15] 
 .endm
 
-.macro interrupt_exit
+.macro interrupt_base_exit
     ldp x0,  x1,  [sp, #16 * 0]
     ldp x2,  x3,  [sp, #16 * 1]
     ldp x4,  x5,  [sp, #16 * 2]
@@ -72,8 +67,12 @@
     eret
 .endm
 
-.globl _vectors
+.macro ventry entry
+.balign 0x80
+    b \entry
+.endm
 
+.globl _vectors
 .balign 0x800
 _vectors:
     ventry sync_invalid_el1t     // Synchronous EL1t
@@ -81,9 +80,9 @@ _vectors:
     ventry fiq_invalid_el1t      // FIQ EL1t
     ventry error_invalid_el1t    // Error EL1t
 
-    ventry sync_invalid_el1h     // Synchronous EL1h
-    ventry el1_irq               // IRQ EL1h
-    ventry fiq_invalid_el1h      // FIQ EL1h
+    ventry swi_handler_stub      // Synchronous EL1h
+    ventry irq_handler_stub      // IRQ EL1h
+    ventry fiq_handler_stub      // FIQ EL1h
     ventry error_invalid_el1h    // Error EL1h
 
     ventry sync_invalid_el0_64   // Synchronous 64-bit EL0
@@ -141,12 +140,13 @@ fiq_invalid_el0_32:
 error_invalid_el0_32:
     handle_except ERROR_INVALID_EL0_32
 
-el1_irq:
-    interrupt_entry 
-    bl handle_irq
-    interrupt_exit 
+
+.globl vectors_init
+vectors_init:
+    adr x0, _vectors
+    msr vbar_el1, x0
+    ret
 
 .globl err_hang
-
 err_hang:
     b err_hang

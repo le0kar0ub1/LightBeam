@@ -2,6 +2,7 @@
 #define __CPUS_H_
 
 #include "def/typedef.h"
+#include "def/keyword.h"
 #include "target/raspi/raspi3/semaphore.h"
 
 enum CPUS_ID
@@ -18,11 +19,10 @@ enum CPUS_STATE
     CPU_IS_WORKING  = 0x0
 };
 
-int cpuGetId(void);
-void cpu_warbase(void);
-
+void cpuSheduler(void) __noreturn;
 bool cpuExecRoutine(enum CPUS_ID, void (*)(void));
 
+int cpuGetId(void);
 enum CPUS_STATE cpuGetState(enum CPUS_ID);
 enum CPUS_ID cpuGetSleepingOne(void);
 

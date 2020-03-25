@@ -25,11 +25,6 @@ char const *entry_error_messages[] =
     "ERROR_INVALID_EL0_32"
 };
 
-void enable_interrupt_controller(void)
-{
-    put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1);
-}
-
 void handle_except_msg(int type, uint64 esr, uint64 address)
 {
     uart_kprint("%s, ESR: 0x%X, address: 0x%X\n", entry_error_messages[type], esr, address);

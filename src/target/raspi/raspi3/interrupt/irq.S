@@ -1,25 +1,24 @@
+.include "arch/aarch64/context.inc"
+
+.extern __deadloop
+
+.global irq_handler_stub
+
 .section .text
+.balign 4
+irq_handler_stub:
+    contextSave                                         // Save current task context
 
-.equ INT_BIT_FIQ,   0b0001
-.equ INT_BIT_IRQ,   0b0010
-.equ INT_BIT_ABORT, 0b0100
-.equ INT_BIT_DEBUG, 0b1000
+    mov x1, sp                                          // Fetch sp
+    and x1, x1, #0xF                                    // Ensure 16-byte stack alignment
+    sub sp, sp, x1                                      // adjust stack as necessary
+    stp x1, xzr, [sp, #-16]!                            // Store adjustment
 
-.globl irq_vector_init
+    bl handle_irq                                       // Timer tick ISR
 
-irq_vector_init:
-    adr x0, _vectors
-    msr vbar_el1, x0
-    ret
+    ldp x1, xzr, [sp], #16                              // Reload adjustment
+    add sp, sp, x1                                      // Un-adjust stack
 
-.globl enable_irq
+    contextRestore                                      // Restore new current task context and return
 
-enable_irq:
-    msr daifclr, #INT_BIT_IRQ
-    ret
-
-.globl disable_irq
-
-disable_irq:
-    msr daifset, #INT_BIT_IRQ
-    ret
+    b __deadloop

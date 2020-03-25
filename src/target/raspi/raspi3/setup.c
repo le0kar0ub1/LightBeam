@@ -21,7 +21,7 @@ void end_setup_log(char const *data)
 }
 
 void execme(void);
-void execme(void) {lfb_kprint("Cpu %d is excuting a routine\n", cpuGetId()); }
+void execme(void) { lfb_kprint("Cpu %d is excuting a routine\n", cpuGetId()); }
 
 void init_hook(void)
 {
@@ -35,10 +35,9 @@ void init_hook(void)
     lfb_kprint("[%$AInitialized%$R]: Framebuffer\n\n", RGB_Lime);
 
     start_setup_log("interruptions (vectors, irq, etc.)");
-    irq_vector_init();
+    vectors_init();
     timerIrqSetup(50000);
-    enable_interrupt_controller();
-    enable_irq();
+    enable_interrupts();
     end_setup_log("interrupts are on");
 
     start_setup_log("Cores");
