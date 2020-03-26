@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "def/typedef.h"
+#include "target/raspi/raspi3/cpus/cpus.h"
 
 #define MS_TO_US(x) (x * 1000)
 #define S_TO_US(x)  (x * 1000000)
@@ -20,7 +21,11 @@
 #define TIMER_CS_M2 (1 << 2)
 #define TIMER_CS_M3 (1 << 3)
 
-bool timer_init(uint32);
 bool timerIrqSetup(uint32);
+uintptr TimerFiqSetup(uint32, void(*)(void));
+
+void LocalTimerSetup(uint32);
+void LocalTimerIrqSetup(uint32, enum CPUS_ID);
+
 
 #endif

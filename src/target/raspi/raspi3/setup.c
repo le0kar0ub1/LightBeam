@@ -40,11 +40,12 @@ void init_hook(void)
 
     start_setup_log("interruptions (vectors, irq, etc.)");
     vectors_init();
-    EL0_TimerIrqSetup();
     if (timerIrqSetup(MS_TO_US(1000)) == false)
         lfb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);
+    lfb_kprint("Enabling interrupt...\n");
     enable_interrupts();
+    EL0_TimerIrqSetup();
     // enable_fiq();
     end_setup_log("interrupts are on");
 

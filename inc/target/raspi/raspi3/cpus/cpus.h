@@ -38,6 +38,7 @@ void __deadloop(void);
 void __hang(void);
 void __scratch(void);
 
+bool cpuARMmaxSpeed(void);
 void multicore_init(void);
 void multicoresX_start(void);
 

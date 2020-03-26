@@ -32,15 +32,19 @@ void handle_except_msg(int type, uint64 esr, uint64 address)
     __hang();
 }
 
+#define SYSTEM_TIMER_IRQ_1	(1 << 1)
 void handle_irq(void)
 {
     uart_puts("INT TRIGGERED\n");
-    // unsigned int irq = get32(IRQ_PENDING_1);
-    // switch (irq) {
-    // case (SYSTEM_TIMER_IRQ_1):
-    //     handle_timer_irq();
-    //     break;
-    // default:
-        // uart_kprint("Unknown pending irq: %x\r\n", irq);
-    // }
+    /*
+    unsigned int irq = get32(IRQ_PENDING_1);
+    switch (irq) {
+    case (SYSTEM_TIMER_IRQ_1):
+        uart_kprint("TIMER!\n");
+        // handle_timer_irq();
+        break;
+    default:
+        uart_kprint("Unknown pending irq: %x\r\n", irq);
+    }
+    */
 }

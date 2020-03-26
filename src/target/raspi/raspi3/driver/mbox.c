@@ -91,7 +91,7 @@ bool mailbox_tag_message(uint32* response_buf,                   // Pointer to r
 
     asm volatile("dc civac, %0" : : "r" (addr) : "memory");     // Ensure coherence
 
-    if (message[1] == 0x80000000) {                                 // Check success flag
+    if (message[1] == MBOX_FULL) {                                 // Check success flag
         if (response_buf) {                                         // If buffer NULL used then don't want response
             for (int i = 0; i < data_count; i++)
                 response_buf[i] = message[2 + i];                   // Transfer out each response message

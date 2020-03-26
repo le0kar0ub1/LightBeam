@@ -43,6 +43,10 @@ irq_handler_stub:
     msr     SPSR_EL1, x3
     msr     ELR_EL1, x2
 
+    ldr x0, =debug
+    mov x1, x2
+    bl uart_kprint
+
     ldp     x30, XZR, [sp], #0x10
     ldp     x28, x29, [sp], #0x10
     ldp     x26, x27, [sp], #0x10
@@ -60,16 +64,13 @@ irq_handler_stub:
     ldp     x2, x3, [sp], #0x10
     ldp     x0, x1, [sp], #0x10
 
-    ldr x0, =debug
-    bl uart_kprint
-
     eret
 
     /* should never come here */
     b __deadloop
 
 .section .data
-debug: .string "out ma boy\n"
+debug: .string "address: 0x%x\n"
 
 .section .text
 .global EL0_TimerIrqSetup
@@ -85,6 +86,13 @@ EL0_TimerIrqSetup:
     ldr   w2, [x3, #64]                   // Read Core? timer Interrupt control 
     orr   w2, w2, #2                      // nCNTPNSIRQ IRQ enable on core
     str   w2, [x3, #64]                   // Write Core? timer Interrupt control
+
     mov   x0, #1                          // Return true
     msr   CNTP_CTL_EL0, x0                // Enable EL0 timer
     ret
+
+fuckingHolyShit:
+    ldr x0, =debug
+    bl uart_kprint
+    wfe
+    b fuckingHolyShit
