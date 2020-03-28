@@ -9,12 +9,12 @@
 #include "arch/overworld/overworld.h"
 #include <limits.h>
 
-void start_setup_log(char const *data)
+static inline void start_setup_log(char const *data)
 {
     lfb_kprint("[%$AInitializing%$R]: %s...\n", RGB_Blue, data);
 }
 
-void end_setup_log(char const *data)
+static inline void end_setup_log(char const *data)
 {
     lfb_kprint("   [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
 }

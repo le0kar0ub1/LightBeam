@@ -28,34 +28,34 @@ SECTIONS
  
     .initcall ALIGN(8) :
     {
-        PROVIDE(__initcall_start = .);
-        KEEP(*(.initcall_0.text))
-        KEEP(*(.initcall_1.text))
-        KEEP(*(.initcall_2.text))
-        KEEP(*(.initcall_3.text))
-        KEEP(*(.initcall_4.text))
-        KEEP(*(.initcall_5.text))
-        KEEP(*(.initcall_6.text))
-        KEEP(*(.initcall_7.text))
-        KEEP(*(.initcall_8.text))
-        KEEP(*(.initcall_9.text))
-        PROVIDE(__initcall_end = .);
+        PROVIDE(__inithook_start = .);
+        KEEP(*(.inithook_0.text))
+        KEEP(*(.inithook_1.text))
+        KEEP(*(.inithook_2.text))
+        KEEP(*(.inithook_3.text))
+        KEEP(*(.inithook_4.text))
+        KEEP(*(.inithook_5.text))
+        KEEP(*(.inithook_6.text))
+        KEEP(*(.inithook_7.text))
+        KEEP(*(.inithook_8.text))
+        KEEP(*(.inithook_9.text))
+        PROVIDE(__inithook_end = .);
     }
 
     .exitcall ALIGN(8) :
     {
-        PROVIDE(__exitcall_start = .);
-        KEEP(*(.exitcall_9.text))
-        KEEP(*(.exitcall_8.text))
-        KEEP(*(.exitcall_7.text))
-        KEEP(*(.exitcall_6.text))
-        KEEP(*(.exitcall_5.text))
-        KEEP(*(.exitcall_4.text))
-        KEEP(*(.exitcall_3.text))
-        KEEP(*(.exitcall_2.text))
-        KEEP(*(.exitcall_1.text))
-        KEEP(*(.exitcall_0.text))
-        PROVIDE(__exitcall_end = .);
+        PROVIDE(__exithook_start = .);
+        KEEP(*(.exithook_9.text))
+        KEEP(*(.exithook_8.text))
+        KEEP(*(.exithook_7.text))
+        KEEP(*(.exithook_6.text))
+        KEEP(*(.exithook_5.text))
+        KEEP(*(.exithook_4.text))
+        KEEP(*(.exithook_3.text))
+        KEEP(*(.exithook_2.text))
+        KEEP(*(.exithook_1.text))
+        KEEP(*(.exithook_0.text))
+        PROVIDE(__exithook_end = .);
     }
 
     PROVIDE(__rodata_start = .);
