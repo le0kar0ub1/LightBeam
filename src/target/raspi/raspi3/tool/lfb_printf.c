@@ -95,7 +95,7 @@ void __lfb_kprint(char const *fmt, __builtin_va_list ap)
         lfb_set_pos(posx, posy);
 }
 
-smplock_t lock = SMPLOCK_INIT;
+static smplock_t lock = SMPLOCK_INIT;
 
 void lfb_kprint(char const *fmt, ...)
 {

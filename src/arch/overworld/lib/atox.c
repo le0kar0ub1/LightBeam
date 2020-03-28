@@ -1,29 +1,30 @@
 #include "def/typedef.h"
+#include "def/keyword.h"
 #include "arch/overworld/overworld.h"
+
+struct prefixBase {
+    char def;
+    uint8 base;
+} __packed;
+
+static struct prefixBase prefixBase[] = {
+    {'X', 0x10},
+    {'O', 0x8},
+    {'Q', 0x4},
+    {'T', 0x3},
+    {'B', 0x2},
+    {0, 0xA}
+};
 
 uint8 fromPrefixToBase(char const **s)
 {
-    if (strlen(*s) < 0x3)
+    if (strlen(*s) < 0x3 || **s != '0')
         return (0xA);
-    if (**s == '0')
-        switch (*(*s + 0x1)) {
-            case 'x':
-            case 'X':
-                *s = *s + 0x2;
-                return (0x10);
-                break;
-            case 'b':
-            case 'B':
-                *s = *s + 0x2;
-                return (0x2);
-                break;
-            case 'o':
-            case 'O':
-                *s = *s + 0x2;
-                return (0x8);
-                break;
-            default:
-                break;
+    for (uint i = 0x0; prefixBase[i].def != 0x0; i++)
+        if (*(*s + 0x1) == prefixBase[i].def || *
+        (*s + 0x1) == prefixBase[i].def + 0x20) {
+            *s = *s + 0x2;
+            return (prefixBase[i].base);
         }
     return (0xA);
 }

@@ -72,7 +72,7 @@ void __uart_kprint(char const *fmt, __builtin_va_list ap)
     }
 }
 
-smplock_t lock;
+static smplock_t lock = SMPLOCK_INIT;
 
 void uart_kprint(char const *fmt, ...)
 {

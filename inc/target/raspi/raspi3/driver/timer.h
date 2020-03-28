@@ -27,5 +27,4 @@ uintptr TimerFiqSetup(uint32, void(*)(void));
 void LocalTimerSetup(uint32);
 void LocalTimerIrqSetup(uint32, enum CPUS_ID);
 
-
 #endif
