@@ -4,13 +4,20 @@
 
 export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
 
-CCFLAGS		+=	-mcpu=cortex-a53
+CCFLAGS		+=	-march=armv8-a 		\
+				-mcpu=cortex-a53 	\
+				-mtune=cortex-a53 	\
+				#-mstrict-align
+
+CCFLAGS		+=	-D__ARM64_ARCH__ 	\
+				-D__CORTEX_A53__ 	\
+				-D__ARM64_NEON__
 
 BUILDER_HEADER	:=	raspi3 target
 
 BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
-BUILDER_TARGET	:= tktlecouz
+BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	+=	.			\
 						boot		\
@@ -29,6 +36,7 @@ all:	arcbuild	lauchbuilder
 include $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
-	@make -C $(OVERWORLD_SHARED_SRC_DIR) --no-print-directory
-	@make -C ../shared --no-print-directory
-	@make -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory
+	@make -s -C $(OVRWLD_SHARED_SRC_DIR) --no-print-directory
+	@make -s -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory
+	@make -s -C $(OVRKRN_SHARED_SEC_DIR) --no-print-directory
+	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory

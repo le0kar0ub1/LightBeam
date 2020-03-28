@@ -14,7 +14,7 @@ void set_ACT_LED(bool set)
     mbox[3] = 8;
     mbox[4] = 8;
     mbox[5] = 130;
-    mbox[6] = (uint32)set;
+    mbox[6] = (u32_t)set;
     mbox_call(0x8);
     ledState = set;
 }

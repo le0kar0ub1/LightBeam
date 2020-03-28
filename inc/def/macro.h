@@ -13,7 +13,7 @@
 #define incto(x, y) while (x ++< y)
 
 #define APPLY_AND_LOWER_MASK(x, y) (x & ((1 << y) - 1))
-#define APPLY_AND_UPPER_MASK(x, y) (x & ((UINT_MAX) - ((1 << y) - 1)))
+#define APPLY_AND_UPPER_MASK(x, y) (x & ((u32_t_MAX) - ((1 << y) - 1)))
 
 #define swap(x,y) (x ^= y ^= x ^= y)
 
@@ -25,12 +25,12 @@
 
 /* ALIGN ON A POWER OF 2 */
 #define ROUND_POWERUP(x) (pow(2, (int)log2(x)) * 2)
-static inline bool isTwoPower(uint64 x)
+static inline bool isTwoPower(u64_t x)
 {
     return ((x & (x - 1)) == 0);
 }
 
-static inline uint64 ROUND_POWER2(uint64 to)
+static inline u64_t ROUND_POWER2(u64_t to)
 {
     if (isTwoPower(to))
         return (to);

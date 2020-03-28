@@ -1,11 +1,11 @@
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/gpio.h"
 
-#define SYSTMR_LO        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00003004))
-#define SYSTMR_HI        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00003008))
+#define SYSTMR_LO        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00003004))
+#define SYSTMR_HI        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00003008))
 
 /* ARM processor allow a nop instruction usefull */
-void wait_cycles(uint n)
+void wait_cycles(u32_t n)
 {
     if (n)
         while(n--)
@@ -15,7 +15,7 @@ void wait_cycles(uint n)
 /**
  * Wait N microsec (ARM CPU only)
  */
-void wait_msec(uint n)
+void wait_msec(u32_t n)
 {
     register ulong f, t, r;
     // get the current counter frequency
@@ -33,7 +33,7 @@ void wait_msec(uint n)
  */
 ulong get_system_timer()
 {
-    uint h = -1, l;
+    u32_t h = -1, l;
     // we must read MMIO area as two separate 32 bit reads
     h =* SYSTMR_HI;
     l =* SYSTMR_LO;
@@ -49,7 +49,7 @@ ulong get_system_timer()
 /**
  * Wait N microsec (with BCM System Timer)
  */
-void wait_msec_st(uint n)
+void wait_msec_st(u32_t n)
 {
     ulong t=get_system_timer();
     // we must check if it's non-zero, because qemu does not emulate

@@ -18,6 +18,9 @@ export ROOT_INC_DIR	:=	inc
 export TARGET_DIR	:=	target
 export ARCH_DIR		:=	arch
 
+# Shared calculation
+export TARGET2SHARED_DIR	:=	../shared
+
 # We Will provide the full path each time
 export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 
@@ -38,12 +41,12 @@ export EXTENSION_LIB	:=	.a
 export LDFLAGS			=	-nostdlib							\
 							-nostartfiles						\
 							-n									\
-							-o	$(BUILDIR)/$(KERNEL)			\
 							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
 							-L	$(BUILDIR)						\
 							$(TGTSHARED_LIBARC)					\
 							$(TGTSHARED_LIBPLT)					\
-							$(TGTSHARED_OVRLIB)					\
+							$(TGTSHARED_OVRWLD)					\
+							$(TGTSHARED_OVRKRN)					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\
@@ -84,6 +87,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-O2 								\
 					-fno-tree-loop-vectorize 			\
 					-fno-tree-slp-vectorize				\
+					-Wno-override-init
 					# -Werror
 
 export ASFLAGS	=	$(INCLUDE_DIR)						\

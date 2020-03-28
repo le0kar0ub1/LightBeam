@@ -12,29 +12,30 @@
 
 #define MASK_DETECT_RASPI(x) ((x >> 4) & 0xFFF)
 
-void __detect(void);
+void *__detect(void);
 
-void __detect(void)
+void *__detect(void)
 {
-    uint32_t reg;
-    uint32_t *mmio_base;
+    unsigned int reg;
+    unsigned int *mmio_base;
 
     asm volatile ("mrs %0, midr_el1" : "=r" (reg));
     switch (MASK_DETECT_RASPI(reg)) {
         case RASPI1_MAGIC:
-            mmio_base = (uint32_t *)RASPI1_MMIOBASE;
+            mmio_base = (unsigned int *)RASPI1_MMIOBASE;
             break;
         case RASPI2_MAGIC:
-            mmio_base = (uint32_t *)RASPI2_MMIOBASE;
+            mmio_base = (unsigned int *)RASPI2_MMIOBASE;
             break;
         case RASPI3_MAGIC:
-            mmio_base = (uint32_t *)RASPI3_MMIOBASE;
+            mmio_base = (unsigned int *)RASPI3_MMIOBASE;
             break;
         case RASPI4_MAGIC:
-            mmio_base = (uint32_t *)RASPI4_MMIOBASE;
+            mmio_base = (unsigned int *)RASPI4_MMIOBASE;
             break;
         default:   
-            mmio_base = (uint32_t *)0x0;
+            mmio_base = (unsigned int *)0x0;
             break;
     }
+    return (mmio_base);
 }

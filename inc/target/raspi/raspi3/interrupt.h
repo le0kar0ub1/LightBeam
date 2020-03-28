@@ -3,38 +3,61 @@
 
 #include "def/typedef.h"
 
-void int_handler(uint64, uint64, uint64, uint64, uint64);
-void irq_vector_init(void);
-void enable_irq(void);
-void disable_irq(void);
-void enable_interrupt_controller(void);
-void handle_except_msg(int, uint64, uint64);
+struct rframe_t
+{
+    u64_t x30;
+    u64_t x29;
+    u64_t x28;
+    u64_t x27;
+    u64_t x26;
+    u64_t x25;
+    u64_t x24;
+    u64_t x23;
+    u64_t x22;
+    u64_t x21;
+    u64_t x20;
+    u64_t x19;
+    u64_t x18;
+    u64_t x17;
+    u64_t x16;
+    u64_t x15;
+    u64_t x14;
+    u64_t x13;
+    u64_t x12;
+    u64_t x11;
+    u64_t x10;
+    u64_t x9;
+    u64_t x8;
+    u64_t x7;
+    u64_t x6;
+    u64_t x5;
+    u64_t x4;
+    u64_t x3;
+    u64_t x2;
+    u64_t x1;
+    u64_t x0;
+
+    u64_t sp;
+    u64_t pc;
+    u64_t pstate;
+    u64_t origin;
+    u64_t syscall;
+};
+
+void arm64_invalid_exception(struct rframe_t *, int, u32_t);
+void arm64_sync_exception(struct rframe_t *);
+void arm64_irq_exception(struct rframe_t *);
+
+void dump_regs(struct rframe_t *);
 void handle_irq(void);
 
-/* Using with daif{clr/set} */
-#define INT_BIT_FIQ   0b0001
-#define INT_BIT_IRQ   0b0010
-#define INT_BIT_ABORT 0b0100
-#define INT_BIT_DEBUG 0b1000
-
-#define INT_FRAME_SIZE          256
-
-#define SYNC_INVALID_EL1t       0
-#define IRQ_INVALID_EL1t        1
-#define FIQ_INVALID_EL1t        2
-#define ERROR_INVALID_EL1t      3
-#define SYNC_INVALID_EL1h       4
-#define IRQ_INVALID_EL1h        5
-#define FIQ_INVALID_EL1h        6
-#define ERROR_INVALID_EL1h      7
-#define SYNC_INVALID_EL0_64     8
-#define IRQ_INVALID_EL0_64      9
-#define FIQ_INVALID_EL0_64      10
-#define ERROR_INVALID_EL0_64    11
-#define SYNC_INVALID_EL0_32     12
-#define IRQ_INVALID_EL0_32      13
-#define FIQ_INVALID_EL0_32      14
-#define ERROR_INVALID_EL0_32    15
+void vectors_init(void);
+void enable_interrupts(void);
+void disable_interrupts(void);
+void enable_fiq(void);
+void disable_fiq(void);
+u64_t getIntFlags(void);
+void setIntFlags(u64_t);
 
 #define IRQ_BASIC_PENDING   (ARCH_RASP_MMIOBASE + 0x0000B200)
 #define IRQ_PENDING_1       (ARCH_RASP_MMIOBASE + 0x0000B204)
@@ -47,11 +70,6 @@ void handle_irq(void);
 #define DISABLE_IRQS_2      (ARCH_RASP_MMIOBASE + 0x0000B220)
 #define DISABLE_BASIC_IRQS  (ARCH_RASP_MMIOBASE + 0x0000B224)
 
-#define SYSTEM_TIMER_IRQ_0  (1 << 0)
-#define SYSTEM_TIMER_IRQ_1  (1 << 1)
-#define SYSTEM_TIMER_IRQ_2  (1 << 2)
-#define SYSTEM_TIMER_IRQ_3  (1 << 3)
-
 #define INT_WHAT_UNKNOW          0b000000
 #define INT_WHAT_TRAPPED         0b000001
 #define INT_WHAT_ILLEGINSTR      0b001110
@@ -63,5 +81,7 @@ void handle_irq(void);
 #define INT_WHAT_DATA_ABORTSAME  0b100100
 #define INT_WHAT_STACKALOGN      0b100110
 #define INT_WHAT_FPU             0b101100
+
+void *setFiqFuncAddress(void *);
 
 #endif

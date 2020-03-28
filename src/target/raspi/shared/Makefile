@@ -2,13 +2,13 @@
 # Makefile at raspi shared object into library
  #
 
-BUILDER_HEADER	:=	raspi shared library
+BUILDER_HEADER		:=	raspi shared
 
-BUILDER_TYPE	:=	$(BUILDER_TYPE_STCLIB)
+BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
-BUILDER_SOURCE_DIR	+=	lib		\
+BUILDER_SOURCE_DIR	:=	detect		\
 
-BUILDER_TARGET	:=	$(TGTSHARED_LIBPLT)
+BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 
 TARGET_PREFIX_BUILD	:=	$(shell realpath --relative-to $(PROJECT_PATH)/$(ROOT_SRC_DIR) .)
 

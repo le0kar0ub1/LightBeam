@@ -18,6 +18,12 @@
     ldr \reg, [sp], #16
 .endm
 
+.macro alignstack reg
+    mov \reg, sp
+    and \reg, \reg, #0xF
+    sub sp, sp, \reg
+.endm
+
 .macro cpusWakeUp
     sev
 .endm

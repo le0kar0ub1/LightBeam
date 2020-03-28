@@ -34,16 +34,16 @@
 
 struct bcm2835_intregs
 {
-    uint IRQ_basic_pending;
-    uint IRQ_pending_1;
-    uint IRQ_pending_2;
-    uint FIQ_control;
-    uint Enable_IRQs_1;
-    uint Enable_IRQs_2;
-    uint Enable_Basic_IRQs;
-    uint Disable_IRQs_1;
-    uint Disable_IRQs_2;
-    uint Disable_Basic_IRQs;
+    u32_t IRQ_basic_pending;
+    u32_t IRQ_pending_1;
+    u32_t IRQ_pending_2;
+    u32_t FIQ_control;
+    u32_t Enable_IRQs_1;
+    u32_t Enable_IRQs_2;
+    u32_t Enable_Basic_IRQs;
+    u32_t Disable_IRQs_1;
+    u32_t Disable_IRQs_2;
+    u32_t Disable_Basic_IRQs;
 };
 
 /***************************************************************************

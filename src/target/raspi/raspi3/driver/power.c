@@ -3,9 +3,9 @@
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/driver/power.h"
 
-#define PM_RSTC         ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x0010001c))
-#define PM_RSTS         ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00100020))
-#define PM_WDOG         ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00100024))
+#define PM_RSTC         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0010001c))
+#define PM_RSTS         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00100020))
+#define PM_WDOG         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00100024))
 #define PM_WDOG_MAGIC   0x5a000000
 #define PM_RSTC_FULLRST 0x00000020
 
@@ -20,7 +20,7 @@ void power_off()
         mbox[2] = MBOX_TAG_SETPOWER; // set power state
         mbox[3] = 8;
         mbox[4] = 8;
-        mbox[5] = (uint)r;   // device id
+        mbox[5] = (u32_t)r;   // device id
         mbox[6] = 0;                 // bit 0: off, bit 1: no wait
         mbox[7] = MBOX_TAG_LAST;
         mbox_call(MBOX_CH_PROP);
@@ -55,7 +55,7 @@ void power_off()
  */
 void reset()
 {
-    uint r;
+    u32_t r;
     // trigger a restart by instructing the GPU to boot from partition 0
     r = *PM_RSTS;
     r &= ~0xfffffaaa;

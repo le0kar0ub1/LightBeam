@@ -25,29 +25,29 @@ enum RGBCOLORS {
 
 /* PC Screen Font as used by Linux Console */
 typedef struct {
-    uint  magic;
-    uint  version;
-    uint  headersize;
-    uint  flags;
-    uint  numglyph;
-    uint  bytesperglyph;
-    uint  height;
-    uint  width;
+    u32_t  magic;
+    u32_t  version;
+    u32_t  headersize;
+    u32_t  flags;
+    u32_t  numglyph;
+    u32_t  bytesperglyph;
+    u32_t  height;
+    u32_t  width;
     uchar glyphs;
 } __attribute__((packed)) psf_t;
 
 struct lfb_properties {
     uchar *lfb;
-    uint width;
-    uint height;
-    uint pitch;
+    u32_t width;
+    u32_t height;
+    u32_t pitch;
 } __attribute__((packed));
 
 struct lfb_handler {
-    uint x;
-    uint y;
-    uint back;
-    uint front;
+    u32_t x;
+    u32_t y;
+    u32_t back;
+    u32_t front;
 } __attribute__((packed));
 
 void lfb_init(void);
@@ -64,9 +64,9 @@ void __lfb_kprint(char const *, __builtin_va_list);
 void lfb_puts(char const *);
 void lfb_putchar(char);
 
-void lfb_set_pos(uint, uint);
-uint lfb_get_posx(void);
-uint lfb_get_posy(void);
-void lfb_set_color(uint, uint);
+void lfb_set_pos(u32_t, u32_t);
+u32_t lfb_get_posx(void);
+u32_t lfb_get_posy(void);
+void lfb_set_color(u32_t, u32_t);
 
 #endif

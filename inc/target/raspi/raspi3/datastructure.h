@@ -12,30 +12,30 @@ typedef enum {
 
 struct __attribute__((__packed__, aligned(4))) GPIORegisters
 {
-	uint32 GPFSEL[6];									// 0x00  GPFSEL0 - GPFSEL5
-	uint32 reserved1;									// 0x18  reserved
-	uint32 GPSET[2];									// 0x1C  GPSET0 - GPSET1;
-	uint32 reserved2;									// 0x24  reserved
-	uint32 GPCLR[2];									// 0x28  GPCLR0 - GPCLR1
-	uint32 reserved3;									// 0x30  reserved
-	const uint32 GPLEV[2];								// 0x34  GPLEV0 - GPLEV1   ** Read only hence const
-	uint32 reserved4;									// 0x3C  reserved
-	uint32 GPEDS[2];									// 0x40  GPEDS0 - GPEDS1 
-	uint32 reserved5;									// 0x48  reserved
-	uint32 GPREN[2];									// 0x4C  GPREN0 - GPREN1;	 
-	uint32 reserved6;									// 0x54  reserved
-	uint32 GPFEN[2];									// 0x58  GPFEN0 - GPFEN1;
-	uint32 reserved7;									// 0x60  reserved
-	uint32 GPHEN[2];									// 0x64  GPHEN0 - GPHEN1;
-	uint32 reserved8;									// 0x6c  reserved
-	uint32 GPLEN[2];									// 0x70  GPLEN0 - GPLEN1;
-	uint32 reserved9;									// 0x78  reserved
-	uint32 GPAREN[2];									// 0x7C  GPAREN0 - GPAREN1;
-	uint32 reserved10;									// 0x84  reserved
-	uint32 GPAFEN[2]; 									// 0x88  GPAFEN0 - GPAFEN1;
-	uint32 reserved11;									// 0x90  reserved
-	uint32 GPPUD; 										// 0x94  GPPUD 
-	uint32 GPPUDCLK[2]; 								// 0x98  GPPUDCLK0 - GPPUDCLK1;
+	u32_t GPFSEL[6];									// 0x00  GPFSEL0 - GPFSEL5
+	u32_t reserved1;									// 0x18  reserved
+	u32_t GPSET[2];									// 0x1C  GPSET0 - GPSET1;
+	u32_t reserved2;									// 0x24  reserved
+	u32_t GPCLR[2];									// 0x28  GPCLR0 - GPCLR1
+	u32_t reserved3;									// 0x30  reserved
+	const u32_t GPLEV[2];								// 0x34  GPLEV0 - GPLEV1   ** Read only hence const
+	u32_t reserved4;									// 0x3C  reserved
+	u32_t GPEDS[2];									// 0x40  GPEDS0 - GPEDS1 
+	u32_t reserved5;									// 0x48  reserved
+	u32_t GPREN[2];									// 0x4C  GPREN0 - GPREN1;	 
+	u32_t reserved6;									// 0x54  reserved
+	u32_t GPFEN[2];									// 0x58  GPFEN0 - GPFEN1;
+	u32_t reserved7;									// 0x60  reserved
+	u32_t GPHEN[2];									// 0x64  GPHEN0 - GPHEN1;
+	u32_t reserved8;									// 0x6c  reserved
+	u32_t GPLEN[2];									// 0x70  GPLEN0 - GPLEN1;
+	u32_t reserved9;									// 0x78  reserved
+	u32_t GPAREN[2];									// 0x7C  GPAREN0 - GPAREN1;
+	u32_t reserved10;									// 0x84  reserved
+	u32_t GPAFEN[2]; 									// 0x88  GPAFEN0 - GPAFEN1;
+	u32_t reserved11;									// 0x90  reserved
+	u32_t GPPUD; 										// 0x94  GPPUD 
+	u32_t GPPUDCLK[2]; 								// 0x98  GPPUDCLK0 - GPPUDCLK1;
 };
 
 /*--------------------------------------------------------------------------}
@@ -43,13 +43,13 @@ struct __attribute__((__packed__, aligned(4))) GPIORegisters
 {--------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) SystemTimerRegisters
 {
-	uint32 ControlStatus;								// 0x00
-	uint32 TimerLo;										// 0x04
-	uint32 TimerHi;										// 0x08
-	uint32 Compare0;									// 0x0C
-	uint32 Compare1;									// 0x10
-	uint32 Compare2;									// 0x14
-	uint32 Compare3;									// 0x18
+	u32_t ControlStatus;								// 0x00
+	u32_t TimerLo;										// 0x04
+	u32_t TimerHi;										// 0x08
+	u32_t Compare0;									// 0x0C
+	u32_t Compare1;									// 0x10
+	u32_t Compare2;									// 0x14
+	u32_t Compare3;									// 0x18
 };
 
 /*--------------------------------------------------------------------------}
@@ -68,7 +68,7 @@ typedef union
 		unsigned TimerEnable : 1;						// @7 Timer enable
 		unsigned reserved : 24;							// @8-31 reserved
 	};
-	uint32 Raw32;										// Union to access all 32 bits as a uint32
+	u32_t Raw32;										// Union to access all 32 bits as a u32_t
 } time_ctrl_reg_t;
 
 
@@ -77,13 +77,13 @@ typedef union
 {--------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) ArmTimerRegisters
 {
-	uint32 Load;												// 0x00
-	const uint32 Value;											// 0x04  ** Read only hence const
+	u32_t Load;												// 0x00
+	const u32_t Value;											// 0x04  ** Read only hence const
 	time_ctrl_reg_t Control;									// 0x08
-	uint32 Clear;												// 0x0C
-	const uint32 RawIRQ;										// 0x10  ** Read only hence const
-	const uint32 MaskedIRQ;										// 0x14  ** Read only hence const
-	uint32 Reload;												// 0x18
+	u32_t Clear;												// 0x0C
+	const u32_t RawIRQ;										// 0x10  ** Read only hence const
+	const u32_t MaskedIRQ;										// 0x14  ** Read only hence const
+	u32_t Reload;												// 0x18
 };
 
 /*--------------------------------------------------------------------------}
@@ -116,7 +116,7 @@ typedef union
 		const unsigned GPU_IRQ_62_pending : 1;						// @20 GPU irq 62 pending  ** Read only
 		unsigned reserved : 10;										// @21-31 reserved
 	};
-	const uint32 Raw32;											// Union to access all 32 bits as a uint32  ** Read only
+	const u32_t Raw32;											// Union to access all 32 bits as a u32_t  ** Read only
 } irq_basic_pending_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -130,7 +130,7 @@ typedef union
 		unsigned EnableFIQ : 1;										// @7 enable FIQ
 		unsigned reserved : 24;										// @8-31 reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } fiq_control_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -150,7 +150,7 @@ typedef union
 		unsigned Enable_Illegal_access_type0 : 1;					// @7 Illegal access type 0 IRQ enable
 		unsigned reserved : 24;										// @8-31 reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } irq_enable_basic_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -170,7 +170,7 @@ typedef union
 		unsigned Disable_Illegal_access_type0 : 1;					// @7 Illegal access type 0 IRQ disable
 		unsigned reserved : 24;										// @8-31 reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } irq_disable_basic_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -179,14 +179,14 @@ typedef union
 struct __attribute__((__packed__, aligned(4))) IrqControlRegisters
 {
 	const irq_basic_pending_reg_t IRQBasicPending;				// 0x200   ** Read only hence const
-	uint32 IRQPending1;											// 0x204
-	uint32 IRQPending2;											// 0x208
+	u32_t IRQPending1;											// 0x204
+	u32_t IRQPending2;											// 0x208
 	fiq_control_reg_t FIQControl;								// 0x20C
-	uint32 EnableIRQs1;											// 0x210
-	uint32 EnableIRQs2;											// 0x214
+	u32_t EnableIRQs1;											// 0x210
+	u32_t EnableIRQs2;											// 0x214
 	irq_enable_basic_reg_t EnableBasicIRQs;						// 0x218
-	uint32 DisableIRQs1;										// 0x21C
-	uint32 DisableIRQs2;										// 0x220
+	u32_t DisableIRQs1;										// 0x21C
+	u32_t DisableIRQs2;										// 0x220
 	irq_disable_basic_reg_t DisableBasicIRQs;					// 0x224
 };
 
@@ -195,18 +195,18 @@ struct __attribute__((__packed__, aligned(4))) IrqControlRegisters
 ;{-------------------------------------------------------------------------*/
 struct __attribute__((__packed__, aligned(4))) MailBoxRegisters
 {
-	const uint32 Read0;											// 0x00         Read data from VC to ARM
-	uint32 Unused[3];											// 0x04-0x0F
-	uint32 Peek0;												// 0x10
-	uint32 Sender0;												// 0x14
-	uint32 Status0;												// 0x18         Status of VC to ARM
-	uint32 Config0;												// 0x1C        
-	uint32 Write1;												// 0x20         Write data from ARM to VC
-	uint32 Unused2[3];											// 0x24-0x2F
-	uint32 Peek1;												// 0x30
-	uint32 Sender1;												// 0x34
-	uint32 Status1;												// 0x38         Status of ARM to VC
-	uint32 Config1;												// 0x3C 
+	const u32_t Read0;											// 0x00         Read data from VC to ARM
+	u32_t Unused[3];											// 0x04-0x0F
+	u32_t Peek0;												// 0x10
+	u32_t Sender0;												// 0x14
+	u32_t Status0;												// 0x18         Status of VC to ARM
+	u32_t Config0;												// 0x1C        
+	u32_t Write1;												// 0x20         Write data from ARM to VC
+	u32_t Unused2[3];											// 0x24-0x2F
+	u32_t Peek1;												// 0x30
+	u32_t Sender1;												// 0x34
+	u32_t Status1;												// 0x38         Status of ARM to VC
+	u32_t Config1;												// 0x3C 
 };
 
 /*--------------------------------------------------------------------------}
@@ -219,7 +219,7 @@ typedef union
 		unsigned DATA : 8;											// @0-7 Transmit Read/write data if DLAB=0, DLAB = 1 Lower 8 bits of 16 bit baud rate generator 
 		unsigned reserved : 24;										// @8-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_io_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -237,7 +237,7 @@ typedef union
 		unsigned MSI : 1;											// @3	 If this bit is set the Modem Status interrupt is asserted on a change To Send(CTS), Data Set Ready(DSR)
 		unsigned reserved : 28;										// @4-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_ie_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -263,7 +263,7 @@ typedef union
 		unsigned TXFIFO_CLEAR : 1;									// @2	 Clear the transmit fifo by writing a 1
 		unsigned reserved_wr : 29;									// @3-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_ii_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -279,7 +279,7 @@ typedef union
 		unsigned DLAB : 1;											// @7	 DLAB access control bit.
 		unsigned reserved1 : 24;									// @8-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_lcr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -293,7 +293,7 @@ typedef union
 		unsigned RTS : 1;											// @1	 If clear the UART1_RTS line is high, If set the UART1_RTS line is low 
 		unsigned reserved1 : 30;									// @2-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_mcr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -310,7 +310,7 @@ typedef union
 		unsigned TXIdle : 1;										// @6	 This bit is set if the transmit FIFO is empty and the transmitter is idle. (Finished shifting out the last bit). 
 		unsigned reserved1 : 25;									// @7-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_lsr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -324,7 +324,7 @@ typedef union
 		unsigned CTS : 1;											// @4	 This bit is the inverse of the CTS input, If set the UART1_CTS pin is low If clear the UART1_CTS pin is high 
 		unsigned reserved1 : 27;									// @5-31 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_msr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -337,7 +337,7 @@ typedef union
 		unsigned USER_DATA : 8;										// @0-7		One whole byte extra on top of the 134217728 provided by the SDC  
 		unsigned reserved : 24;										// @8-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_scratch_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -362,7 +362,7 @@ typedef union
 		unsigned CTSassertLevel : 1;								// @7		If set the CTS auto flow assert level is low, If clear the CTS auto flow assert level is high
 		unsigned reserved : 24;										// @8-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_cntl_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -388,7 +388,7 @@ typedef union
 		unsigned TXFIFOLEVEL : 4;									// @24-27	These bits shows how many symbols are stored in the transmit FIFO The value is in the range 0-8
 		unsigned reserved2 : 4;										// @28-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_stat_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -401,7 +401,7 @@ typedef union
 		unsigned DIVISOR : 16;										// @0-15	 Baudrate divisor  
 		unsigned reserved : 16;										// @16-31	 Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mu_baudrate_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -436,7 +436,7 @@ typedef union
 		unsigned OE : 1;											// @11		Overrun error
 		unsigned _reserved : 20;									// @12-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_data_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -456,7 +456,7 @@ typedef union
 		unsigned TXFE : 1;											// @7		Transmit FIFO empty. The meaning of this bit depends on the state of the FEN bit 
 		unsigned _reserved : 24;									// @8-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_fr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -469,7 +469,7 @@ typedef union
 		unsigned DIVISOR : 16;										// @0-15	Integer baud rate divisor
 		unsigned _reserved : 16;									// @12-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_ibrd_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -482,7 +482,7 @@ typedef union
 		unsigned DIVISOR : 6;										// @0-5		Factional baud rate divisor
 		unsigned _reserved : 26;									// @6-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_fbrd_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -507,7 +507,7 @@ typedef union
 		unsigned SPS : 1;											// @7		Stick parity select 1 = enabled, 0 = stick parity is disabled 
 		unsigned _reserved : 24;									// @8-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_lrch_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -529,7 +529,7 @@ typedef union
 		unsigned CTSEN : 1;											// @15		CTS hardware flow control enable if this bit is set to 1.
 		unsigned _reserved : 16;									// @16-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_cr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -552,7 +552,7 @@ typedef union
 		unsigned OEIC : 1;											// @10		Overrun error interrupt clear.
 		unsigned _reserved : 21;									// @11-31	Reserved - Write as 0, read as don't care 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } pl011_icr_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -561,20 +561,20 @@ typedef union
 struct __attribute__((__packed__, aligned(4))) PL011UARTRegisters
 {
 	pl011_data_reg_t DR;										// +0x0
-	uint32 RSRECR;												// +0x4
-	uint32 _unused[4];											// +0x8, +0xC, +0x10, +0x14
+	u32_t RSRECR;												// +0x4
+	u32_t _unused[4];											// +0x8, +0xC, +0x10, +0x14
 	pl011_fr_reg_t FR;											// +0x18
-	uint32 _unused1[2];											// +0x1C, 0x20
+	u32_t _unused1[2];											// +0x1C, 0x20
 	pl011_ibrd_reg_t IBRD;										// +0x24
 	pl011_fbrd_reg_t FBRD;										// +0x28
 	pl011_lrch_reg_t LCRH;										// +0x2C
 	pl011_cr_reg_t CR;											// +0x30
-	uint32 IFLS;												// +0x34
-	uint32 IMSC;												// +0x38
-	uint32 RIS;													// +0x3C
-	uint32 MIS;													// +0x40
+	u32_t IFLS;												// +0x34
+	u32_t IMSC;												// +0x38
+	u32_t RIS;													// +0x3C
+	u32_t MIS;													// +0x40
 	pl011_icr_reg_t ICR;										// +0x44
-	uint32 DMACR;												// +0x48
+	u32_t DMACR;												// +0x48
 };
 
 /*--------------------------------------------------------------------------}
@@ -597,7 +597,7 @@ typedef union
 		} Routing : 3;												// @0-2		Local Timer routing 
 		unsigned unused : 29;										// @3-31
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } local_timer_int_route_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -613,7 +613,7 @@ typedef union
 		unsigned unused : 1;										// @30		Unused
 		unsigned IntPending : 1;									// @31		Timer Interrupt flag (Read-Only) 
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } local_timer_ctrl_status_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -627,7 +627,7 @@ typedef union
 		unsigned Reload : 1;										// @30		Local timer-reloaded when written as 1 
 		unsigned IntClear : 1;										// @31		Interrupt flag clear when written as 1  
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } local_timer_clr_reload_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -647,7 +647,7 @@ typedef union
 		unsigned nCNTVIRQ_FIQ : 1;									// @7		Virtual physical timer event FIQ enabled, If set, this bit overrides the IRQ bit (3)
 		unsigned reserved : 24;										// @8-31	reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } generic_timer_int_ctrl_reg_t;
 
 
@@ -668,7 +668,7 @@ typedef union
 		unsigned Mailbox3_FIQ : 1;									// @7		Set FIQ enabled, If set, this bit overrides the IRQ bit (3)
 		unsigned reserved : 24;										// @8-31	reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } mailbox_int_ctrl_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -693,7 +693,7 @@ typedef union
 		unsigned GPIO_Int : 16;										// @12-27	Peripheral 1..15 interrupt (Currently not used
 		unsigned reserved : 4;										// @28-31	reserved
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } core_int_source_reg_t;
 
 /*--------------------------------------------------------------------------}
@@ -702,12 +702,12 @@ typedef union
 struct __attribute__((__packed__, aligned(4))) QA7Registers
 {
 	local_timer_int_route_reg_t TimerRouting;						// 0x24
-	uint32 GPIORouting;												// 0x28
-	uint32 AXIOutstandingCounters;									// 0x2C
-	uint32 AXIOutstandingIrq;										// 0x30
+	u32_t GPIORouting;												// 0x28
+	u32_t AXIOutstandingCounters;									// 0x2C
+	u32_t AXIOutstandingIrq;										// 0x30
 	local_timer_ctrl_status_reg_t TimerControlStatus;				// 0x34
 	local_timer_clr_reload_reg_t TimerClearReload;					// 0x38
-	uint32 unused;													// 0x3C
+	u32_t unused;													// 0x3C
 	generic_timer_int_ctrl_reg_t CoreTimerIntControl[4];			// 0x40, 0x44, 0x48, 0x4C  .. One per core
 	mailbox_int_ctrl_reg_t  CoreMailboxIntControl[4];				// 0x50, 0x54, 0x58, 0x5C  .. One per core
 	core_int_source_reg_t CoreIRQSource[4];							// 0x60, 0x64, 0x68, 0x6C  .. One per core
@@ -730,7 +730,7 @@ typedef union
 		unsigned new_revision : 1;									// @23			new style revision if set
 		unsigned _reserved : 8;										// @24-31		reserved for future use
 	};
-	uint32 Raw32;													// Union to access all 32 bits as a uint32
+	u32_t Raw32;													// Union to access all 32 bits as a u32_t
 } model_number_t;
 
 #endif

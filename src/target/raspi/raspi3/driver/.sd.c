@@ -8,7 +8,7 @@ unsigned long sd_scr[2], sd_ocr, sd_rca, sd_err, sd_hv;
 /**
  * Wait for data or command ready
  */
-int sd_status(uint mask)
+int sd_status(u32_t mask)
 {
     int cnt = 1000000; 
     while((*EMMC_STATUS & mask) && !(*EMMC_INTERRUPT & INT_ERROR_MASK) && cnt--) wait_msec(1);
@@ -18,9 +18,9 @@ int sd_status(uint mask)
 /**
  * Wait for interrupt
  */
-int sd_int(uint mask)
+int sd_int(u32_t mask)
 {
-    uint r, m=mask | INT_ERROR_MASK;
+    u32_t r, m=mask | INT_ERROR_MASK;
     int cnt = 1000000; while(!(*EMMC_INTERRUPT & m) && cnt--) wait_msec(1);
     r=*EMMC_INTERRUPT;
     if(cnt<=0 || (r & INT_CMD_TIMEOUT) || (r & INT_DATA_TIMEOUT) ) { *EMMC_INTERRUPT=r; return SD_TIMEOUT; } else
@@ -32,7 +32,7 @@ int sd_int(uint mask)
 /**
  * Send a command
  */
-int sd_cmd(uint code, uint arg)
+int sd_cmd(u32_t code, u32_t arg)
 {
     int r = 0;
     sd_err=SD_OK;
@@ -66,13 +66,13 @@ int sd_cmd(uint code, uint arg)
  * read a block from sd card and return the number of bytes read
  * returns 0 on error.
  */
-int sd_readblock(uint lba, unsigned char *buffer, uint num)
+int sd_readblock(u32_t lba, unsigned char *buffer, u32_t num)
 {
     int r,c=0,d;
     if(num<1) num=1;
     uart_puts("sd_readblock lba ");uart_hex(lba);uart_puts(" num ");uart_hex(num);uart_puts("\n");
     if(sd_status(SR_DAT_INHIBIT)) {sd_err=SD_TIMEOUT; return 0;}
-    uint *buf=(uint *)buffer;
+    u32_t *buf=(u32_t *)buffer;
     if(sd_scr[0] & SCR_SUPP_CCS) {
         if(num > 1 && (sd_scr[0] & SCR_SUPP_SET_BLKCNT)) {
             sd_cmd(CMD_SET_BLOCKCNT,num);
@@ -101,13 +101,13 @@ int sd_readblock(uint lba, unsigned char *buffer, uint num)
  * write a block to the sd card and return the number of bytes written
  * returns 0 on error.
  */
-int sd_writeblock(unsigned char *buffer, uint lba, uint num)
+int sd_writeblock(unsigned char *buffer, u32_t lba, u32_t num)
 {
     int r,c=0,d;
     if(num<1) num=1;
     uart_puts("sd_writeblock lba ");uart_hex(lba);uart_puts(" num ");uart_hex(num);uart_puts("\n");
     if(sd_status(SR_DAT_INHIBIT | SR_WRITE_AVAILABLE)) {sd_err=SD_TIMEOUT; return 0;}
-    uint *buf=(uint *)buffer;
+    u32_t *buf=(u32_t *)buffer;
     if(sd_scr[0] & SCR_SUPP_CCS) {
         if(num > 1 && (sd_scr[0] & SCR_SUPP_SET_BLKCNT)) {
             sd_cmd(CMD_SET_BLOCKCNT,num);
@@ -136,9 +136,9 @@ int sd_writeblock(unsigned char *buffer, uint lba, uint num)
 /**
  * set SD clock to frequency in Hz
  */
-int sd_clk(uint f)
+int sd_clk(u32_t f)
 {
-    uint d,c=41666666/f,x,s=32,h=0;
+    u32_t d,c=41666666/f,x,s=32,h=0;
     int cnt = 100000;
     while((*EMMC_STATUS & (SR_CMD_INHIBIT|SR_DAT_INHIBIT)) && cnt--) wait_msec(1);
     if(cnt<=0) {

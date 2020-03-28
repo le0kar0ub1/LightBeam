@@ -62,7 +62,7 @@ void lfb_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
         case '$':
             (*fmt)++;
             if (**fmt == 'A') {
-                lfb_set_color(RGB_Black, __builtin_va_arg(*ap, uint));
+                lfb_set_color(RGB_Black, __builtin_va_arg(*ap, u32_t));
             } else if (**fmt == 'R') {
                 lfb_set_color(RGB_Black, RGB_White);
             }
@@ -95,7 +95,7 @@ void __lfb_kprint(char const *fmt, __builtin_va_list ap)
         lfb_set_pos(posx, posy);
 }
 
-smplock_t lock = SMPLOCK_INIT;
+static smplock_t lock = SMPLOCK_INIT;
 
 void lfb_kprint(char const *fmt, ...)
 {

@@ -3,9 +3,7 @@
 
 #include "def/typedef.h"
 
-typedef uintptr mmuval_t;
-typedef uintptr physaddr_t;
-typedef void * virtaddr_t;
+typedef uintptr_t mmuval_t;
 
 #define PAGESIZE    0x1000
 

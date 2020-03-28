@@ -8,29 +8,29 @@
 #define SD_ERROR            -2
 
 int sd_init(void);
-int sd_readblock(uint, uchar *, uint);
-int sd_writeblock(uchar *, uint, uint);
-int sd_status(uint);
-int sd_int(uint);
-int sd_cmd(uint, uint);
+int sd_readblock(u32_t, uchar *, u32_t);
+int sd_writeblock(uchar *, u32_t, u32_t);
+int sd_status(u32_t);
+int sd_int(u32_t);
+int sd_cmd(u32_t, u32_t);
 
-#define EMMC_ARG2           ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300000))
-#define EMMC_BLKSIZECNT     ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300004))
-#define EMMC_ARG1           ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300008))
-#define EMMC_CMDTM          ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x0030000C))
-#define EMMC_RESP0          ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300010))
-#define EMMC_RESP1          ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300014))
-#define EMMC_RESP2          ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300018))
-#define EMMC_RESP3          ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x0030001C))
-#define EMMC_DATA           ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300020))
-#define EMMC_STATUS         ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300024))
-#define EMMC_CONTROL0       ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300028))
-#define EMMC_CONTROL1       ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x0030002C))
-#define EMMC_INTERRUPT      ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300030))
-#define EMMC_INT_MASK       ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300034))
-#define EMMC_INT_EN         ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x00300038))
-#define EMMC_CONTROL2       ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x0030003C))
-#define EMMC_SLOTISR_VER    ((volatile uint*)(ARCH_RASP_MMIOBASE + 0x003000FC))
+#define EMMC_ARG2           ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300000))
+#define EMMC_BLKSIZECNT     ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300004))
+#define EMMC_ARG1           ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300008))
+#define EMMC_CMDTM          ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x0030000C))
+#define EMMC_RESP0          ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300010))
+#define EMMC_RESP1          ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300014))
+#define EMMC_RESP2          ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300018))
+#define EMMC_RESP3          ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x0030001C))
+#define EMMC_DATA           ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300020))
+#define EMMC_STATUS         ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300024))
+#define EMMC_CONTROL0       ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300028))
+#define EMMC_CONTROL1       ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x0030002C))
+#define EMMC_INTERRUPT      ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300030))
+#define EMMC_INT_MASK       ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300034))
+#define EMMC_INT_EN         ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x00300038))
+#define EMMC_CONTROL2       ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x0030003C))
+#define EMMC_SLOTISR_VER    ((volatile u32_t*)(ARCH_RASP_MMIOBASE + 0x003000FC))
 
 // command flags
 #define CMD_NEED_APP        0x80000000

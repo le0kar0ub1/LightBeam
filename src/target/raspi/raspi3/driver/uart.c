@@ -5,7 +5,7 @@
 
 void uart_init(void)
 {
-    register uint r;
+    register u32_t r;
 
     /* initialize UART */
     *UART0_CR = 0;         // turn off UART0
@@ -43,7 +43,7 @@ void uart_init(void)
 /**
  * Send a character
  */
-void uart_send(uint c)
+void uart_send(u32_t c)
 {
     /* wait until we can send */
     while(*UART0_FR & 0x20)
@@ -82,9 +82,9 @@ void uart_puts(char const *s)
 /**
  * Display a binary value in hexadecimal
  */
-void uart_hex(uint d)
+void uart_hex(u32_t d)
 {
-    uint n;
+    u32_t n;
 
     for(int c = 28 ; c >= 0;c -= 4) {
         n = (d >> c) & 0xF;
@@ -105,10 +105,10 @@ void uart_dump(void *ptr)
         uart_hex(a); uart_puts(": ");
         for (b = 0; b < 16; b++) {
             c = *((uchar*)(a + b));
-            d = ((uint)c >> 4) & 0xF;
+            d = ((u32_t)c >> 4) & 0xF;
             d += d > 9 ? 0x37 : 0x30;
             uart_send(d);
-            d = (uint)c;
+            d = (u32_t)c;
             d &= 0xF; d += d > 9 ? 0x37 : 0x30;
             uart_send(d);
             uart_send(' ');
