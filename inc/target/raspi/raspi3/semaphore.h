@@ -6,7 +6,7 @@
 
 #define SMPLOCK_INIT 0
 
-typedef volatile uint smplock_t;
+typedef volatile u32_t smplock_t;
 
 void semaphore_inc(smplock_t *);
 void semaphore_dec(smplock_t *);

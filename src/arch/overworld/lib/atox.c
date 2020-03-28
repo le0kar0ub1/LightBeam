@@ -4,7 +4,7 @@
 
 struct prefixBase {
     char def;
-    uint8 base;
+    u8_t base;
 } __packed;
 
 static struct prefixBase prefixBase[] = {
@@ -16,11 +16,11 @@ static struct prefixBase prefixBase[] = {
     {0, 0xA}
 };
 
-uint8 fromPrefixToBase(char const **s)
+u8_t fromPrefixToBase(char const **s)
 {
     if (strlen(*s) < 0x3 || **s != '0')
         return (0xA);
-    for (uint i = 0x0; prefixBase[i].def != 0x0; i++)
+    for (u32_t i = 0x0; prefixBase[i].def != 0x0; i++)
         if (*(*s + 0x1) == prefixBase[i].def || *
         (*s + 0x1) == prefixBase[i].def + 0x20) {
             *s = *s + 0x2;
@@ -38,9 +38,9 @@ static inline bool isNbrStrNeg(char const **s)
     return (false);
 }
 
-int32 atoib(char const *s, uint8 base)
+s32_t atoib(char const *s, u8_t base)
 {
-    int32 val = 0x0;
+    s32_t val = 0x0;
     char cur;
 
     if (!s)
@@ -59,18 +59,18 @@ int32 atoib(char const *s, uint8 base)
     return (val);
 }
 
-int32 atoi(char const *s)
+s32_t atoi(char const *s)
 {
     if (!s)
         return (0x0);
-    int8 neg = isNbrStrNeg(&s) == false ? 1 : -1;
-    uint8 base = fromPrefixToBase(&s);
+    s8_t neg = isNbrStrNeg(&s) == false ? 1 : -1;
+    u8_t base = fromPrefixToBase(&s);
     return (atoib(s, base) * neg);
 }
 
-int64 atolb(char const *s, uint8 base)
+s64_t atolb(char const *s, u8_t base)
 {
-    int64 val = 0x0;
+    s64_t val = 0x0;
     char cur;
 
     if (!s)
@@ -89,11 +89,11 @@ int64 atolb(char const *s, uint8 base)
     return (val);
 }
 
-int64 atol(char const *s)
+s64_t atol(char const *s)
 {
     if (!s)
         return (0x0);
-    int8 neg = isNbrStrNeg(&s) == false ? 1 : -1;
-    uint8 base = fromPrefixToBase(&s);
+    s8_t neg = isNbrStrNeg(&s) == false ? 1 : -1;
+    u8_t base = fromPrefixToBase(&s);
     return (atoib(s, base) * neg);
 }

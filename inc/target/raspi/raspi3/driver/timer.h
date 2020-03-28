@@ -21,10 +21,10 @@
 #define TIMER_CS_M2 (1 << 2)
 #define TIMER_CS_M3 (1 << 3)
 
-bool timerIrqSetup(uint32);
-uintptr TimerFiqSetup(uint32, void(*)(void));
+bool timerIrqSetup(u32_t);
+uintptr_t TimerFiqSetup(u32_t, void(*)(void));
 
-void LocalTimerSetup(uint32);
-void LocalTimerIrqSetup(uint32, enum CPUS_ID);
+void LocalTimerSetup(u32_t);
+void LocalTimerIrqSetup(u32_t, enum CPUS_ID);
 
 #endif

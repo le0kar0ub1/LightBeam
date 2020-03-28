@@ -151,8 +151,8 @@ typedef enum {
 } TAG_CHANNEL_COMMAND;
 
 int mbox_call(uchar);
-bool mailbox_tag_message(uint32 *, uint8, ...);
-uint32 mailbox_read(MBOX_CHANNEL);
-bool mailbox_write(MBOX_CHANNEL, uint32);
+bool mailbox_tag_message(u32_t *, u8_t, ...);
+u32_t mailbox_read(MBOX_CHANNEL);
+bool mailbox_write(MBOX_CHANNEL, u32_t);
 
 #endif

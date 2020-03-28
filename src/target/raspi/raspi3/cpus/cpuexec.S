@@ -8,7 +8,7 @@
 .extern _cpustate
 .extern _cpuroutine
 
-/* bool cpuExecRoutine(uint8 core, void (*func)(void)) */
+/* bool cpuExecRoutine(u8_t core, void (*func)(void)) */
 .balign 4
 cpuExecRoutine:
     prologue

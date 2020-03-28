@@ -2,6 +2,7 @@
 #include "target/raspi/raspi3/driver/mbox.h"
 #include "target/raspi/raspi3/driver/lfb.h"
 #include "target/raspi/raspi3/semaphore.h"
+#include "arch/overworld/overworld.h"
 
 extern volatile uchar _binary_font_font_psf_start;
 
@@ -9,23 +10,23 @@ static struct lfb_properties properties;
 
 static struct lfb_handler attrib;
 
-void lfb_set_pos(uint x, uint y)
+void lfb_set_pos(u32_t x, u32_t y)
 {
     attrib.x = x;
     attrib.y = y;
 }
 
-uint lfb_get_posx(void)
+u32_t lfb_get_posx(void)
 {
     return (attrib.x);
 }
 
-uint lfb_get_posy(void)
+u32_t lfb_get_posy(void)
 {
     return (attrib.y);
 }
 
-void lfb_set_color(uint back, uint front)
+void lfb_set_color(u32_t back, u32_t front)
 {
     attrib.back = back;
     attrib.front = front;
@@ -86,7 +87,7 @@ void lfb_init(void)
     } else {
         uart_puts("Unable to set screen resolution to 1024x768x32\n");
     }
-    memzero(&attrib, sizeof(struct lfb_handler));
+    memset(&attrib, 0x0, sizeof(struct lfb_handler));
     attrib.back = RGB_Black;
     attrib.front = RGB_White;
 }
@@ -115,7 +116,7 @@ void lfb_print(int x, int y, char const *s)
                     line = offs;
                     mask = 1 << (font->width - 1);
                     for(i = 0; i < (int)font->width; i++){
-                        *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
+                        *((u32_t*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
                         mask >>= 1;
                         line += 4;
                     }
@@ -158,7 +159,7 @@ void lfb_putchar(char c)
                 line= offs;
                 mask = 1 << (font->width - 1);
                 for (i = 0; i < (int)font->width; i++) {
-                    *((uint*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
+                    *((u32_t*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
                     mask >>= 1;
                     line += 4;
                 }
@@ -185,9 +186,9 @@ void lfb_clear_rect(void)
 {
     uchar *ptr = properties.lfb;
 
-    for (uint32 y = 0; y < properties.height; y++) {
-        for (uint32 x = 0; x < properties.width; x++) {
-            *((uint32*)ptr) = 0x0;
+    for (u32_t y = 0; y < properties.height; y++) {
+        for (u32_t x = 0; x < properties.width; x++) {
+            *((u32_t*)ptr) = 0x0;
             ptr += 4;
         }
         ptr += properties.pitch - properties.width * 4;

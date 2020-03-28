@@ -7,7 +7,7 @@
 
 .section .text
 .balign 4
-/* bool cpuGetState(uint8 cpuid) */
+/* bool cpuGetState(u8_t cpuid) */
 cpuGetState:
     prologue
 

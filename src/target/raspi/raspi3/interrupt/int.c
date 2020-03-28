@@ -25,7 +25,7 @@ char const *entry_error_messages[] =
     "ERROR_INVALID_EL0_32"
 };
 
-void handle_except_msg(int type, uint64 esr, uint64 address)
+void handle_except_msg(int type, u64_t esr, u64_t address)
 {
     uart_kprint("%s, ESR: 0x%X, address: 0x%X\n", entry_error_messages[type], esr, address);
     /* No return from fault actually */

@@ -5,11 +5,11 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-uint32 strlen(char const *);
+u32_t strlen(char const *);
 
 /* Memory instrument */
 void *memcpy(void *, const void *, size_t);
-void *memcpyv(void *, const void *, size_t, uint8);
+void *memcpyv(void *, const void *, size_t, u8_t);
 bool memcmp(const void *, const void *, size_t);
 void *memset(void *, int, size_t);
 
@@ -18,11 +18,11 @@ bool strcmp(char const *, char const *);
 bool strncmp(char const *, char const *, size_t);
 
 /* Str to Nbr */
-uint8 fromPrefixToBase(char const **);
-int32 atoi(char const *);
-int32 atoib(char const *, uint8);
-int64 atol(char const *);
-int64 atolb(char const *, uint8);
+u8_t fromPrefixToBase(char const **);
+s32_t atoi(char const *);
+s32_t atoib(char const *, u8_t);
+s64_t atol(char const *);
+s64_t atolb(char const *, u8_t);
 
 /* Generic printf with assigned printer */
 void generic_printf(void (*)(char), char const *, ...);

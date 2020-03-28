@@ -4,6 +4,6 @@
 #include "def/typedef.h"
 
 void rand_init(void);
-uint rand(uint min, uint max);
+u32_t rand(u32_t min, u32_t max);
 
 #endif

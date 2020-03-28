@@ -3,17 +3,58 @@
 
 #include "def/typedef.h"
 
-void int_handler(uint64, uint64, uint64, uint64, uint64);
+struct rframe_t
+{
+    u64_t x30;
+    u64_t x29;
+    u64_t x28;
+    u64_t x27;
+    u64_t x26;
+    u64_t x25;
+    u64_t x24;
+    u64_t x23;
+    u64_t x22;
+    u64_t x21;
+    u64_t x20;
+    u64_t x19;
+    u64_t x18;
+    u64_t x17;
+    u64_t x16;
+    u64_t x15;
+    u64_t x14;
+    u64_t x13;
+    u64_t x12;
+    u64_t x11;
+    u64_t x10;
+    u64_t x9;
+    u64_t x8;
+    u64_t x7;
+    u64_t x6;
+    u64_t x5;
+    u64_t x4;
+    u64_t x3;
+    u64_t x2;
+    u64_t x1;
+    u64_t x0;
+
+    u64_t sp;
+    u64_t pc;
+    u64_t pstate;
+    u64_t origin;
+    u64_t syscall;
+};
+
+void int_handler(u64_t, u64_t, u64_t, u64_t, u64_t);
 void vectors_init(void);
-void handle_except_msg(int, uint64, uint64);
+void handle_except_msg(int, u64_t, u64_t);
 void handle_irq(void);
 
 void enable_interrupts(void);
 void disable_interrupts(void);
 void enable_fiq(void);
 void disable_fiq(void);
-uint64 getIntFlags(void);
-void setIntFlags(uint64);
+u64_t getIntFlags(void);
+void setIntFlags(u64_t);
 
 #define IRQ_BASIC_PENDING   (ARCH_RASP_MMIOBASE + 0x0000B200)
 #define IRQ_PENDING_1       (ARCH_RASP_MMIOBASE + 0x0000B204)

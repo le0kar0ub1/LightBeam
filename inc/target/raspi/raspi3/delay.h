@@ -3,9 +3,9 @@
 
 #include "def/typedef.h"
 
-void wait_cycles(uint);
-void wait_msec(uint);
+void wait_cycles(u32_t);
+void wait_msec(u32_t);
 unsigned long get_system_timer(void);
-void wait_msec_st(uint);
+void wait_msec_st(u32_t);
 
 #endif

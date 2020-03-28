@@ -11,11 +11,4 @@
 
 #define __AARCH64__ 1
 
-int  get32(int);
-void put32(int, int);
-
-void memzero(void *, int);
-void delay(void);
-uint get_el(void);
-
 #endif

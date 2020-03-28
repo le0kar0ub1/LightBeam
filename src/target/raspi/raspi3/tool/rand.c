@@ -1,9 +1,9 @@
 #include "target/raspi/raspi3/rand.h"
 
-#define RNG_CTRL        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00104000))
-#define RNG_STATUS      ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00104004))
-#define RNG_DATA        ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00104008))
-#define RNG_INT_MASK    ((volatile uint *)(ARCH_RASP_MMIOBASE + 0x00104010))
+#define RNG_CTRL        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00104000))
+#define RNG_STATUS      ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00104004))
+#define RNG_DATA        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00104008))
+#define RNG_INT_MASK    ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00104010))
 
 /**
  * Initialize the RNG
@@ -22,7 +22,7 @@ void rand_init()
 /**
  * Return a random number between [min..max]
  */
-uint rand(uint min, uint max)
+u32_t rand(u32_t min, u32_t max)
 {
     return (*RNG_DATA % (max - min) + min);
 }
