@@ -2,7 +2,7 @@
 #define __UART_H_
 
 #include "def/typedef.h"
-#include "arch/aarch64/aarchutils.h"
+#include "arch/aarch64/archutils.h"
 #include <stdarg.h>
 
 #define UART0_DR        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00201000))

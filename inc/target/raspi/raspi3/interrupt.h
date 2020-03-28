@@ -44,11 +44,14 @@ struct rframe_t
     u64_t syscall;
 };
 
-void int_handler(u64_t, u64_t, u64_t, u64_t, u64_t);
-void vectors_init(void);
-void handle_except_msg(int, u64_t, u64_t);
+void arm64_invalid_exception(struct rframe_t *, int, u32_t);
+void arm64_sync_exception(struct rframe_t *);
+void arm64_irq_exception(struct rframe_t *);
+
+void dump_regs(struct rframe_t *);
 void handle_irq(void);
 
+void vectors_init(void);
 void enable_interrupts(void);
 void disable_interrupts(void);
 void enable_fiq(void);

@@ -46,6 +46,7 @@ export LDFLAGS			=	-nostdlib							\
 							$(TGTSHARED_LIBARC)					\
 							$(TGTSHARED_LIBPLT)					\
 							$(TGTSHARED_OVRWLD)					\
+							$(TGTSHARED_OVRKRN)					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\
@@ -86,6 +87,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-O2 								\
 					-fno-tree-loop-vectorize 			\
 					-fno-tree-slp-vectorize				\
+					-Wno-override-init
 					# -Werror
 
 export ASFLAGS	=	$(INCLUDE_DIR)						\

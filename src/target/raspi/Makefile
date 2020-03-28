@@ -7,7 +7,7 @@ include $(MKHELPER_DIR)/macro.mk
 all:	checkup	targetbuild
 
 targetbuild:
-	@make -C $(TARGET) --no-print-directory
+	@make -s -C $(TARGET) --no-print-directory
 
 checkup:
 ifeq ($(shell test -f $(TARGET)/$(TGTMACRO) && echo targetable), targetable)

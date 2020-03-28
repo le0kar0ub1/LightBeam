@@ -6,7 +6,6 @@
 #include "atomic.h"
 #include "barrier.h"
 #include "irqflags.h"
-#include "regs.h"
 #include "types.h"
 
 #define __AARCH64__ 1

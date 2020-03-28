@@ -34,7 +34,7 @@ irq_handler_stub:
     // sub sp, sp, x1                                      // adjust stack as necessary
     // stp x1, xzr, [sp, #-16]!                            // Store adjustment
 
-    bl handle_irq                                       // Timer tick ISR
+    //bl handle_irq                                       // Timer tick ISR
 
     // ldp x1, xzr, [sp], #16                              // Reload adjustment
     // add sp, sp, x1                                      // Un-adjust stack

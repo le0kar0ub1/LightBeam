@@ -1,4 +1,4 @@
-#include "arch/aarch64/aarchutils.h"
+#include "arch/aarch64/archutils.h"
 #include "target/raspi/raspi3/interrupt.h"
 #include "target/raspi/raspi3/gpio.h"
 #include "target/raspi/raspi3/uart.h"

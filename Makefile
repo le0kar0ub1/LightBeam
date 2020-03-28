@@ -27,9 +27,9 @@ checkup:
 
 # Lauch the build, clean & exit if failed
 build:
-	@make -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR) --no-print-directory	\
+	@make -s -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR) --no-print-directory	\
 		|| \
-	(echo -e "[$(BoldRed)ABORT$(Blank)] Build Failed" && make fclean --no-print-directory && exit 0)
+	(echo -e "[$(BoldRed)ABORT$(Blank)] Build Failed" && make -s fclean --no-print-directory && exit 0)
 
 # Disassemble the kernel (debug)
 disassemble: $(KERNEL)

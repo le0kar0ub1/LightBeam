@@ -5,7 +5,6 @@
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/system.h"
 #include "target/raspi/raspi3/memory/mmu.h"
-#include "target/raspi/raspi3/bcm2835.h"
 #include "def/assert.h"
 #include "arch/overworld/overworld.h"
 #include <limits.h>
@@ -39,8 +38,6 @@ void init_hook(void)
     end_setup_log("All of them acquired start");
 
     start_setup_log("interruptions (vectors, irq, etc.)");
-    vectors_init();
-
     if (timerIrqSetup(MS_TO_US(1000)) == false)
         lfb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);

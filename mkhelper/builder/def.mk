@@ -10,10 +10,19 @@ export TGTLINKER_BUILD	:=	$(KBUILD)
 export TGTMACRO			:=	@config
 export TGTMACRO_BUILD	:=	$(KBUILD)
 
+# ARCH directories
+export AARCH32_SHARED_SRC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(ARCH_DIR)/aarch32
+export AARCH32_SHARED_OBJ_DIR	:=	$(BUILDIR)/$(ARCH_DIR)/aarch32
+export AARCH64_SHARED_SRC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(ARCH_DIR)/aarch64
+export AARCH64_SHARED_OBJ_DIR	:=	$(BUILDIR)/$(ARCH_DIR)/aarch64
+export OVRWLD_SHARED_SRC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(ARCH_DIR)/overworld
+export OVRKRN_SHARED_SEC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/kernel
+
 # Norm Libraries
 export TGTSHARED_LIBPLT	:=	$(BUILDIR)/pltlib.a
 export TGTSHARED_LIBARC	:=	$(BUILDIR)/arclib.a
 export TGTSHARED_OVRWLD	:=	$(BUILDIR)/ovrwld.a
+export TGTSHARED_OVRKRN	:=	$(BUILDIR)/ovrkrn.a
 
 # Norm Assets
 export TGTASSETS_DIR	:=	$(BUILDIR)/assets

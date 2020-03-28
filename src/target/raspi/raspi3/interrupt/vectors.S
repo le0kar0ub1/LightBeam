@@ -94,7 +94,7 @@ _vectors:
 el1_sync:
     kernel_entry 1
     mov x0, sp
-    // bl arm64_sync_exception
+    bl arm64_sync_exception
     kernel_exit 1
 
 .align 6
@@ -102,7 +102,7 @@ el1_irq:
     kernel_entry 1
     msr daifclr, #8
     mov x0, sp
-    // bl arm64_irq_exception
+    bl arm64_irq_exception
     kernel_exit 1
 
 .macro inv_entry, el, reason
@@ -110,7 +110,7 @@ el1_irq:
     mov x0, sp
     mov x1, #\reason
     mrs x2, esr_el1
-    // bl arm64_invalid_exception
+    bl arm64_invalid_exception
     kernel_exit el
 .endm
 

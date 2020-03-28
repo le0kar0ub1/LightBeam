@@ -16,7 +16,7 @@ export ROOT_PREFIX_BUILD	:=	$(shell realpath --relative-to $(TARGET_DIR) .)
 all:	setup	targetbaseBuild
 
 targetbaseBuild:
-	@make -C $(TARGET_BASE) --no-print-directory
+	@make -s -C $(TARGET_BASE) --no-print-directory
 
 setup:
 	@mkdir -p $(KBUILD)
