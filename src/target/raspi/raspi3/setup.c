@@ -56,5 +56,3 @@ void setup_level(void)
     while(1)
         uart_send(uart_getc());
 }
-
-pure_inithook(execme);
