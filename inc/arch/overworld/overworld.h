@@ -13,6 +13,10 @@ void *memcpyv(void *, const void *, size_t, uint8);
 bool memcmp(const void *, const void *, size_t);
 void *memset(void *, int, size_t);
 
+/* String instrument */
+bool strcmp(char const *, char const *);
+bool strncmp(char const *, char const *, size_t);
+
 /* Str to Nbr */
 uint8 fromPrefixToBase(char const **);
 int32 atoi(char const *);
