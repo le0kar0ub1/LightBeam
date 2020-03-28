@@ -32,9 +32,9 @@ define BUILDLOG
 endef
 
 define BUILDER_LOG_COMP
-	@echo -e "     $(BoldCyan)$(1)$(Blank)     $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
+	@echo -e "     [$(BoldCyan)$(1)$(Blank)]     $(shell basename $(BUILDIR))$(subst $(BUILDIR),,$@)"
 endef
 
 define BUILDER_LOG_LINK
-	@echo -e "    $(BoldYellow)$(1)$(Blank)     $(2)"
+	@echo -e "    [$(BoldYellow)$(1)$(Blank)]     $(2)"
 endef

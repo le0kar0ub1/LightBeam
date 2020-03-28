@@ -4,7 +4,14 @@
 
 export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
 
-CCFLAGS		+=	-mcpu=cortex-a53
+CCFLAGS		+=	-march=armv8-a 		\
+				-mcpu=cortex-a53 	\
+				-mtune=cortex-a53 	\
+				#-mstrict-align
+
+CCFLAGS		+=	-D__ARM64_ARCH__ 	\
+				-D__CORTEX_A53__ 	\
+				-D__ARM64_NEON__
 
 BUILDER_HEADER	:=	raspi3 target
 
