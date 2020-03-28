@@ -23,9 +23,7 @@
 #define QA7 ((volatile __aligned(4) struct QA7Registers *)(uintptr_t)(0x40000024))
 
 void helloFromLightBleam(void);
-void init_hook(void);
-void start_setup_log(char const *);
-void end_setup_log(char const *);
+void setup_level(void);
 
 u64_t timer_getTickCount64(void);
 void timer_wait(u64_t);

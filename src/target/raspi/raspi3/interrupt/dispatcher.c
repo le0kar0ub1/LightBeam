@@ -72,7 +72,7 @@ void arm64_sync_exception(struct rframe_t *regs)
     {
     case 0x3c:  /* BRK (AArch64) */
         if(iss == 0x401)
-            regs->pc += 4;
+            regs->pc += 0x4;
         return;
     default:
         break;
@@ -82,7 +82,7 @@ void arm64_sync_exception(struct rframe_t *regs)
     dump_regs(regs);
 }
 
-void arm64_irq_exception(struct rframe_t *regs)
+void arm64_irq_exception(struct rframe_t *regs __unused)
 {
     // interrupt_handle_exception(regs);
 }

@@ -29,7 +29,7 @@ _bss_clear:
     sub x1, x1, x0
     bl  memzero
 
-    bl  init_hook
+    bl  setup_level
 
 /* UNREACHEABLE */
     b __hang

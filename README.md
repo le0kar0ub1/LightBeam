@@ -41,6 +41,8 @@ Check dependencies using the `make toolchain`.
 
 - [X] Dependencies installer
 - [X] Scalable build & architecture
+- [X] Kernel
+  - [X] Init hooks
 - [ ] RaspberryPi3
   - [ ] Boot
     - [X] SMP init
