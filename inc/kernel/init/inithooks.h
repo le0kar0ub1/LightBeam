@@ -1,5 +1,5 @@
-#ifndef __INITHOOK_H__
-#define __INITHOOK_H__
+#ifndef __INITHOOKS_H__
+#define __INITHOOKS_H__
 
 typedef void (*inithook_t)(void);
 typedef void (*exithook_t)(void);
@@ -15,8 +15,10 @@ typedef void (*exithook_t)(void);
     static const exithook_t __exithook_##fn##id \
     __attribute__((__used__, __section__(".exithook_" level ".text"))) = fn
 
-#define pure_inithook(fn)       __define_inithook("0", fn, 0)
-#define machine_inithook(fn)    __define_inithook("1", fn, 1)
+#define __get_hooklevel(type, level, point) __##type##level##point
+
+#define boot_inithook(fn)       __define_inithook("0", fn, 0)
+#define pure_inithook(fn)       __define_inithook("1", fn, 1)
 #define core_inithook(fn)       __define_inithook("2", fn, 2)
 #define postcore_inithook(fn)   __define_inithook("3", fn, 3)
 #define driver_inithook(fn)     __define_inithook("4", fn, 4)
@@ -40,4 +42,7 @@ typedef void (*exithook_t)(void);
 void run_inithooks(void);
 void run_exithooks(void);
 
-#endif /* __INIThook_H__ */
+void run_inithooks_bylevel(void);
+void run_exithooks_bylevel(void);
+
+#endif

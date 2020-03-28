@@ -7,20 +7,22 @@
 #include "target/raspi/raspi3/memory/mmu.h"
 #include "def/assert.h"
 #include "arch/overworld/overworld.h"
-#include <limits.h>
+#include "kernel/init/inithooks.h"
 
-static inline void start_setup_log(char const *data)
+void start_setup_log(char const *data)
 {
     lfb_kprint("[%$AInitializing%$R]: %s...\n", RGB_Blue, data);
 }
 
-static inline void end_setup_log(char const *data)
+void end_setup_log(char const *data)
 {
     lfb_kprint("   [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
 }
 
 void execme(void);
 void execme(void) { lfb_kprint("[CPU %d] is exceuting a routine\n", cpuGetId()); }
+
+void execmetoo(void) { lfb_kprint("[CPU %d] is exceuting a second routine\n", cpuGetId()); }
 
 void init_hook(void)
 {
@@ -48,8 +50,7 @@ void init_hook(void)
 
     end_setup_log("interrupts are on");
 
-
-    assert(cpuExecRoutine(1, execme) == true);
+    // assert(cpuExecRoutine(1, execme) == true);
     system_charging(2000);
 
     start_setup_log("MMU");
@@ -60,3 +61,6 @@ void init_hook(void)
     while(1)
         uart_send(uart_getc());
 }
+
+pure_inithook(execme);
+pure_inithook(execmetoo);

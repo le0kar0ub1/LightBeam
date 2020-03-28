@@ -1,9 +1,13 @@
+/* plateform config */
 #define ARCH_RASP_MMIOBASE    0x3F000000
 #define ARCH_RASP_ENTRY_POINT 0x80000
 #define ARCH_RASP_RELEASE     0x3
 #define ARCH_RASP_NAME        "raspberry3"
 
+/* kconfig */
 #define KCONFIG_MAXCPUS     0x4
 #define KCONFIG_MAXTHREADS  0x20
 
 #define KCONFIG_MMU_PAGESIZE 0x1000
+
+#define KCONFIG_INITLEVEL    0x9
