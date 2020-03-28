@@ -1,7 +1,5 @@
 .globl _start
 
-.include "target/raspi/raspi3/sysregs.inc"
-
 /* unused at time */
 .section .init
     b _start

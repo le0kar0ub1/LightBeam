@@ -1,39 +1,14 @@
-.equ INT_FRAME_SIZE,        256
+.include "arch/aarch64/archutils.inc"
 
-.equ SYNC_INVALID_EL1t,     0
-.equ IRQ_INVALID_EL1t,      1
-.equ FIQ_INVALID_EL1t,      2
-.equ ERROR_INVALID_EL1t,    3
-.equ SYNC_INVALID_EL1h,     4
-.equ IRQ_INVALID_EL1h,      5
-.equ FIQ_INVALID_EL1h,      6
-.equ ERROR_INVALID_EL1h,    7
-.equ SYNC_INVALID_EL0_64,   8
-.equ IRQ_INVALID_EL0_64,    9
-.equ FIQ_INVALID_EL0_64,    10
-.equ ERROR_INVALID_EL0_64,  11
-.equ SYNC_INVALID_EL0_32,   12
-.equ IRQ_INVALID_EL0_32,    13
-.equ FIQ_INVALID_EL0_32,    14
-.equ ERROR_INVALID_EL0_32,  15
+.equ INT_FRAME_SIZE, (8 * 36)
 
-.macro handle_except type
-    interrupt_base_entry
-    mov x0, #\type
-    mrs x1, esr_el1
-    mrs x2, elr_el1
-    bl  handle_except_msg
-    interrupt_base_exit
-    b  __hang
-.endm
-
-.macro interrupt_base_entry
-    sub sp,  sp,  #INT_FRAME_SIZE
-    stp x0,  x1,  [sp, #16 * 0]
-    stp x2,  x3,  [sp, #16 * 1]
-    stp x4,  x5,  [sp, #16 * 2]
-    stp x6,  x7,  [sp, #16 * 3]
-    stp x8,  x9,  [sp, #16 * 4]
+.macro kernel_entry, el
+    sub sp, sp, #INT_FRAME_SIZE
+    stp x0, x1, [sp, #16 * 0]
+    stp x2, x3, [sp, #16 * 1]
+    stp x4, x5, [sp, #16 * 2]
+    stp x6, x7, [sp, #16 * 3]
+    stp x8, x9, [sp, #16 * 4]
     stp x10, x11, [sp, #16 * 5]
     stp x12, x13, [sp, #16 * 6]
     stp x14, x15, [sp, #16 * 7]
@@ -44,15 +19,34 @@
     stp x24, x25, [sp, #16 * 12]
     stp x26, x27, [sp, #16 * 13]
     stp x28, x29, [sp, #16 * 14]
-    str x30, [sp, #16 * 15] 
+    .if \el == 0
+        mrs x21, sp_el0
+    .else
+        add x21, sp, #INT_FRAME_SIZE
+    .endif
+    mrs x22, elr_el1
+    mrs x23, spsr_el1
+    stp x30, x21, [sp, #8 * 30]
+    stp x22, x23, [sp, #8 * 32]
+    .if \el == 0
+        mvn x21, xzr
+        str x21, [sp, #8 * 35]
+    .endif
 .endm
 
-.macro interrupt_base_exit
-    ldp x0,  x1,  [sp, #16 * 0]
-    ldp x2,  x3,  [sp, #16 * 1]
-    ldp x4,  x5,  [sp, #16 * 2]
-    ldp x6,  x7,  [sp, #16 * 3]
-    ldp x8,  x9,  [sp, #16 * 4]
+.macro kernel_exit, el
+    ldp x21, x22, [sp, #8 * 32]
+    .if \el == 0
+        ldr x23, [sp, #8 * 31]
+        msr sp_el0, x23
+    .endif
+    msr elr_el1, x21
+    msr spsr_el1, x22
+    ldp x0, x1, [sp, #16 * 0]
+    ldp x2, x3, [sp, #16 * 1]
+    ldp x4, x5, [sp, #16 * 2]
+    ldp x6, x7, [sp, #16 * 3]
+    ldp x8, x9, [sp, #16 * 4]
     ldp x10, x11, [sp, #16 * 5]
     ldp x12, x13, [sp, #16 * 6]
     ldp x14, x15, [sp, #16 * 7]
@@ -63,7 +57,7 @@
     ldp x24, x25, [sp, #16 * 12]
     ldp x26, x27, [sp, #16 * 13]
     ldp x28, x29, [sp, #16 * 14]
-    ldr x30, [sp, #16 * 15] 
+    ldr x30, [sp, #8 * 30]
     add sp, sp, #INT_FRAME_SIZE
     eret
 .endm
@@ -76,70 +70,73 @@
 .globl _vectors
 .balign 0x800
 _vectors:
-    ventry sync_invalid_el1t     // Synchronous EL1t
-    ventry irq_invalid_el1t      // IRQ EL1t
-    ventry fiq_invalid_el1t      // FIQ EL1t
-    ventry error_invalid_el1t    // Error EL1t
+    ventry el1_sync_invalid
+    ventry el1_irq_invalid
+    ventry el1_fiq_invalid
+    ventry el1_error_invalid
 
-    ventry swi_handler_stub      // Synchronous EL1h
-    ventry irq_handler_stub      // IRQ EL1h
-    ventry fiq_handler_stub      // FIQ EL1h
-    ventry error_invalid_el1h    // Error EL1h
+    ventry el1_sync
+    ventry el1_irq
+    ventry el1_fiq_invalid
+    ventry el1_error_invalid
 
-    ventry sync_invalid_el0_64   // Synchronous 64-bit EL0
-    ventry irq_invalid_el0_64    // IRQ 64-bit EL0
-    ventry fiq_invalid_el0_64    // FIQ 64-bit EL0
-    ventry error_invalid_el0_64  // Error 64-bit EL0
+    ventry el0_sync_invalid
+    ventry el0_irq_invalid
+    ventry el0_fiq_invalid
+    ventry el0_error_invalid
 
-    ventry sync_invalid_el0_32   // Synchronous 32-bit EL0
-    ventry irq_invalid_el0_32    // IRQ 32-bit EL0
-    ventry fiq_invalid_el0_32    // FIQ 32-bit EL0
-    ventry error_invalid_el0_32  // Error 32-bit EL0
+    ventry el0_sync_invalid
+    ventry el0_irq_invalid
+    ventry el0_fiq_invalid
+    ventry el0_error_invalid
 
-sync_invalid_el1t:
-    handle_except SYNC_INVALID_EL1t
+.align 6
+el1_sync:
+    kernel_entry 1
+    mov x0, sp
+    // bl arm64_sync_exception
+    kernel_exit 1
 
-irq_invalid_el1t:
-    handle_except IRQ_INVALID_EL1t
+.align 6
+el1_irq:
+    kernel_entry 1
+    msr daifclr, #8
+    mov x0, sp
+    // bl arm64_irq_exception
+    kernel_exit 1
 
-fiq_invalid_el1t:
-    handle_except FIQ_INVALID_EL1t
+.macro inv_entry, el, reason
+    kernel_entry el
+    mov x0, sp
+    mov x1, #\reason
+    mrs x2, esr_el1
+    // bl arm64_invalid_exception
+    kernel_exit el
+.endm
 
-error_invalid_el1t:
-    handle_except ERROR_INVALID_EL1t
+el1_sync_invalid:
+    inv_entry 1, 0
 
-sync_invalid_el1h:
-    handle_except SYNC_INVALID_EL1h
+el1_irq_invalid:
+    inv_entry 1, 1
 
-fiq_invalid_el1h:
-    handle_except FIQ_INVALID_EL1h
+el1_fiq_invalid:
+    inv_entry 1, 2
 
-error_invalid_el1h:
-    handle_except ERROR_INVALID_EL1h
+el1_error_invalid:
+    inv_entry 1, 3
 
-sync_invalid_el0_64:
-    handle_except SYNC_INVALID_EL0_64
+el0_sync_invalid:
+    inv_entry 0, 0
 
-irq_invalid_el0_64:
-    handle_except IRQ_INVALID_EL0_64
+el0_irq_invalid:
+    inv_entry 0, 1
 
-fiq_invalid_el0_64:
-    handle_except FIQ_INVALID_EL0_64
+el0_fiq_invalid:
+    inv_entry 0, 2
 
-error_invalid_el0_64:
-    handle_except ERROR_INVALID_EL0_64
-
-sync_invalid_el0_32:
-    handle_except SYNC_INVALID_EL0_32
-
-irq_invalid_el0_32:
-    handle_except IRQ_INVALID_EL0_32
-
-fiq_invalid_el0_32:
-    handle_except FIQ_INVALID_EL0_32
-
-error_invalid_el0_32:
-    handle_except ERROR_INVALID_EL0_32
+el0_error_invalid:
+    inv_entry 0, 3
 
 
 .globl vectors_init

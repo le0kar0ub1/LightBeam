@@ -44,9 +44,9 @@ void init_hook(void)
     if (timerIrqSetup(MS_TO_US(1000)) == false)
         lfb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);
-    lfb_kprint("Enabling interrupt...\n");
-    enable_interrupts();
-    EL0_TimerIrqSetup();
+    // lfb_kprint("Enabling interrupt...\n");
+    // enable_interrupts();
+    // EL0_TimerIrqSetup();
     // enable_fiq();
 
     end_setup_log("interrupts are on");
