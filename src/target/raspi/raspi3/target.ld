@@ -2,29 +2,32 @@ OUTPUT(aarch64)
 ENTRY(_start)
 
 PROVIDE(__entry_point = 0x80000);
+PROVIDE(ram_entry  = 0x00080000);
+PROVIDE(dma_entry  = 0x08000000);
+PROVIDE(heap_entry = 0x10000000);
+
+
+MEMORY
+{
+    ram  : org = 0x00080000, len = 128M - 512K
+    /*dma  : org = 0x08000000, len = 128M*/
+    heap : org = 0x10000000, len = 256M
+}
 
 SECTIONS
 {
-    .init (NOLOAD):
-    {
-        *(.init)
-    }
-
-    . = __entry_point;
-    __start = .;
-
-    PROVIDE(__text_start = .);
     .text :
     {
+        PROVIDE(__text_start = .);
         KEEP(*(.text.boot))
         *(.text)
         *(.init.text)
         *(.exit.text)
         *(.iplt)
         *(.text.*)
-    }
+        PROVIDE(__text_end = .);
+    } > ram
     . = ALIGN(4096);
-    PROVIDE(__text_end = .);
  
     .inithook ALIGN(8) :
     {
@@ -71,7 +74,7 @@ SECTIONS
         PROVIDE(__inithook9_end = .);
 
         PROVIDE(__inithook_end = .);
-    }
+    } > ram
 
     .exithook ALIGN(8) :
     {
@@ -118,37 +121,44 @@ SECTIONS
         PROVIDE(__exithook9_end = .);
 
         PROVIDE(__exithook_end = .);
-    }
+    } > ram
 
-    PROVIDE(__rodata_start = .);
-    .rodata :
+    .ksymtab ALIGN(16) :
     {
+        PROVIDE(__ksymtab_start = .);
+        KEEP(*(.ksymtab.text))
+        PROVIDE(__ksymtab_end = .);
+    } > ram
+
+    .rodata ALIGN(8) :
+    {
+        PROVIDE(__rodata_start = .);
         *(.rodata)
-    }
+        PROVIDE(__rodata_end = .);
+    } > ram
     . = ALIGN(4096);
-    PROVIDE(__rodata_end = .);
  
-    PROVIDE(__data_start = .);
-    .data :
+    .data ALIGN(8) :
     {
+        PROVIDE(__data_start = .);
         *(.data)
-    }
+        PROVIDE(__data_end = .);
+    } > ram
     . = ALIGN(4096);
-    PROVIDE(__data_end = .);
  
-    PROVIDE(__bss_start = .);
     .bss :
     {
+        PROVIDE(__bss_start = .);
         bss = .;
         *(.bss)
-    }
+        PROVIDE(__bss_end = .);
+        PROVIDE(__bss_size = __bss_end - __bss_start);
+    } > ram
     . = ALIGN(4096);
-    PROVIDE(__bss_end = .);
-    PROVIDE(__bss_size = __bss_end - __bss_start);
 
 
     /* CORES STACK PROVIDING */
-    .stack_core0 :
+    .stack_core0 ALIGN(16):
     {
         . = ALIGN(16);
         PROVIDE(__stack_start_core0__ = .);
@@ -160,9 +170,9 @@ SECTIONS
         PROVIDE(__EL2_stack_core0 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core0__ = .);
-    }
+    } > ram
 
-    .stack_core1 :
+    .stack_core1 ALIGN(16):
     {
         . = ALIGN(16);
         PROVIDE(__stack_start_core1__ = .);
@@ -174,9 +184,9 @@ SECTIONS
         PROVIDE(__EL2_stack_core1 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core1__ = .);
-    }
+    } > ram
 
-    .stack_core2 :
+    .stack_core2 ALIGN(16):
     {
         . = ALIGN(16);
         PROVIDE(__stack_start_core2__ = .);
@@ -188,9 +198,9 @@ SECTIONS
         PROVIDE(__EL2_stack_core2 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core2__ = .);
-    }
+    } > ram
 
-    .stack_core3 :
+    .stack_core3 ALIGN(16):
     {
         . = ALIGN(16);
         PROVIDE(__stack_start_core3__ = .);
@@ -202,7 +212,20 @@ SECTIONS
         PROVIDE(__EL2_stack_core3 = .);
         . = ALIGN(16);
         PROVIDE(__stack_end_core3__ = .);
-    }
+    } > ram
+
+
+    .heap ALIGN(8) (NOLOAD) :
+    {
+        PROVIDE(__heap_start = ORIGIN(heap));
+        PROVIDE(__heap_end = ORIGIN(heap) + LENGTH(heap));
+    } > heap
+
+    /*.dma ALIGN(8) (NOLOAD) :
+    {
+        PROVIDE(__dma_start = ORIGIN(dma));
+        PROVIDE(__dma_end = ORIGIN(dma) + LENGTH(dma));
+    } > dma*/
 
     PROVIDE(__KEND = .);
 
