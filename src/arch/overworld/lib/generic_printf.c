@@ -190,20 +190,20 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             break;
         case 'x':
             vint = __builtin_va_arg(*ap, int);
-            printf_handleIntegerFormatter((u64_t)vint, 16);
             printf_handleHashTag(16);
+            printf_handleIntegerFormatter((u64_t)vint, 16);
             multibase_put32(vint, 16);
             break;
         case 'o':
             vint = __builtin_va_arg(*ap, int);
-            printf_handleIntegerFormatter((u64_t)vint, 8);
             printf_handleHashTag(8);
+            printf_handleIntegerFormatter((u64_t)vint, 8);
             multibase_put32(vint, 8);
             break;
         case 'b':
             vint = __builtin_va_arg(*ap, int);
-            printf_handleIntegerFormatter((u64_t)vint, 2);
             printf_handleHashTag(2);
+            printf_handleIntegerFormatter((u64_t)vint, 2);
             multibase_put32(vint, 2);
             break;
         case 'l':
@@ -213,20 +213,20 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             break;
         case 'X':
             vlong = __builtin_va_arg(*ap, long);
-            printf_handleIntegerFormatter((u64_t)vlong, 16);
             printf_handleHashTag(16);
+            printf_handleIntegerFormatter((u64_t)vlong, 16);
             multibase_put64(vlong, 16);
             break;
         case 'O':
             vlong = __builtin_va_arg(*ap, long);
-            printf_handleIntegerFormatter((u64_t)vlong, 8);
             printf_handleHashTag(8);
+            printf_handleIntegerFormatter((u64_t)vlong, 8);
             multibase_put64(vlong, 8);
             break;
         case 'B':
             vlong = __builtin_va_arg(*ap, long);
-            printf_handleIntegerFormatter((u64_t)vlong, 2);
             printf_handleHashTag(2);
+            printf_handleIntegerFormatter((u64_t)vlong, 2);
             multibase_put64(vlong, 2);
             break;
         case 'c':
@@ -234,8 +234,8 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             break;
         case 'p':
             vulong = __builtin_va_arg(*ap, unsigned long);
-            printf_handleIntegerFormatter((u64_t)vulong, 16);
             printf_handleHashTag(16);
+            printf_handleIntegerFormatter((u64_t)vulong, 16);
             multibase_uput64((uintptr_t)__builtin_va_arg(*ap, void *), 16);
             break;
         case '%':

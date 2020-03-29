@@ -33,6 +33,8 @@ void setup_level(void)
     lfb_kprint("[%$AInitialized%$R]: Uart\n", RGB_Lime);
     lfb_kprint("[%$AInitialized%$R]: Framebuffer\n\n", RGB_Lime);
 
+    lfb_kprint("test %#014x\n", 0x234);
+
     start_setup_log("Cores");
     multicore_init();
     end_setup_log("All of them acquired start");
