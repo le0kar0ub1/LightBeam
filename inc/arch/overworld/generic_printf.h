@@ -13,13 +13,19 @@ struct printfhandlers_t
 };
 
 /* Generic printf with assigned printer */
-bool handle_caller_flg(char const **, __builtin_va_list *);
 void generic_vprintf(void (*)(char), struct printfhandlers_t *, char const *, __builtin_va_list);
 void generic_printf(void (*)(char), struct printfhandlers_t *, char const *, ...);
 void __generic_printf(char const *, __builtin_va_list);
-void generic_printf_switch_type(char const **, __builtin_va_list *);
-void generic_base_longput(long, int);
-void generic_base_intput(int, int);
+
+/* followed static declaration 
+** void generic_printf_hdlflg(char const **, __builtin_va_list *);
+** bool handle_caller_flg(char const **, __builtin_va_list *);
+*/
+
 void generic_puts(char const *);
+void multibase_put64(long, u8_t);
+void multibase_put32(int, u8_t);
+void multibase_uput32(unsigned int, u8_t);
+void multibase_uput64(unsigned long, u8_t);
 
 #endif

@@ -21,9 +21,9 @@ BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	+=	.			\
 						boot		\
-						tool		\
-						driver		\
-						interrupt	\
+						tools		\
+						drivers		\
+						interrupts	\
 						cpus/init	\
 						cpus		\
 						memory		\
