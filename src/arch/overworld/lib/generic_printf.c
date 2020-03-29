@@ -13,46 +13,78 @@ static struct printfhandlers_t *callerhandlers = NULL;
 static u32_t align  = false;
 static bool  hshtag = false;
 
+#ifdef PRINTF_BUFFERED
+/* Printf buffer */
+#define PRINTF_BUFFER_LENGHT 0x400
+    static uint incbuf;
+    static char prbuffer[PRINTF_BUFFER_LENGHT];
+
+    static void printf_writeBuffer(char c)
+    {
+        if (incbuf >= PRINTF_BUFFER_LENGHT)
+            return;
+        prbuffer[incbuf] = c;
+        incbuf += 0x1;
+    }
+
+    static void printf_dumpBuffer(void)
+    {
+        for (u32_t i = 0; i < incbuf; i++)
+            caller_putc(prbuffer[i]);
+        incbuf = 0x0;
+    }
+#endif
+
+static void printf_handleWrite(char c)
+{
+#ifdef PRINTF_BUFFERED
+    printf_writeBuffer(c);
+#else
+    caller_putc(c);
+#endif
+}
+
+
 void multibase_put32(int n, u8_t base)
 {
     if (n < 0) {
-        caller_putc('-');
+        printf_handleWrite('-');
         n = n * -1;
     }
     if (n >= base)
         multibase_put32(n / base, base);
-    caller_putc((n % base) + 0x30);
+    printf_handleWrite((n % base) + 0x30);
 }
 
 void multibase_put64(long n, u8_t base)
 {
     if (n < 0) {
-        caller_putc('-');
+        printf_handleWrite('-');
         n = n * -1;
     }
     if (n >= base)
         multibase_put64(n / base, base);
-    caller_putc((n % base) + 0x30);
+    printf_handleWrite((n % base) + 0x30);
 }
 
 void multibase_uput32(unsigned int n, u8_t base)
 {
     if (n >= base)
         multibase_put32(n / base, base);
-    caller_putc((n % base) + 0x30);
+    printf_handleWrite((n % base) + 0x30);
 }
 
 void multibase_uput64(unsigned long n, u8_t base)
 {
     if (n >= base)
         multibase_put64(n / base, base);
-    caller_putc((n % base) + 0x30);
+    printf_handleWrite((n % base) + 0x30);
 }
 
 void generic_puts(char const *s)
 {
     for (int i = 0; s[i]; i++)
-        caller_putc(s[i]);
+        printf_handleWrite(s[i]);
 }
 
 static bool handle_caller_flg(char const **fmt, __builtin_va_list *ap)
@@ -94,7 +126,7 @@ static inline void printf_AlignFormat(u32_t len)
         return;
     len = align - len;
     while (len > 1) {
-        caller_putc(0x30);
+        printf_handleWrite(0x30);
         len--;
     }
 }
@@ -230,7 +262,7 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             multibase_put64(vlong, 2);
             break;
         case 'c':
-            caller_putc((char)__builtin_va_arg(*ap, int));
+            printf_handleWrite((char)__builtin_va_arg(*ap, int));
             break;
         case 'p':
             vulong = __builtin_va_arg(*ap, unsigned long);
@@ -239,20 +271,20 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             multibase_uput64((uintptr_t)__builtin_va_arg(*ap, void *), 16);
             break;
         case '%':
-            caller_putc('%');
+            printf_handleWrite('%');
             break;
         default: // unknow flag => print this
-            caller_putc('%');
-            caller_putc(**fmt);
+            printf_handleWrite('%');
+            printf_handleWrite(**fmt);
     }
 }
 
 void __generic_printf(char const *fmt, __builtin_va_list ap)
 {
     while (*fmt) {
-        if (*fmt != '%')
-                caller_putc(*fmt);
-        else {
+        if (*fmt != '%') {
+            printf_handleWrite(*fmt);
+        } else {
             fmt++;
             generic_printf_hdlflg(&fmt, &ap);
         }
@@ -270,10 +302,16 @@ static smplock_t lock = SMPLOCK_INIT;
     } else                      \
         caller_putc = putc;     \
     callerhandlers = handlers;  \
-    align = false
+    align = false;
 
-#define GENERIC_PRINTF_EXIT()    \
-    semaphore_dec(&lock)
+#ifdef PRINTF_BUFFERED
+    #define GENERIC_PRINTF_EXIT()    \
+        printf_dumpBuffer();         \
+        semaphore_dec(&lock);
+#else
+    #define GENERIC_PRINTF_EXIT()    \
+        semaphore_dec(&lock);
+#endif
 
 void generic_vprintf(void (*putc)(char), struct printfhandlers_t *handlers, 
 char const *fmt, __builtin_va_list ap)
