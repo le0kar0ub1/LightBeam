@@ -44,7 +44,6 @@ static void printf_handleWrite(char c)
 #endif
 }
 
-
 void multibase_put32(int n, u8_t base)
 {
     if (n < 0) {
@@ -270,6 +269,11 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             printf_handleIntegerFormatter((u64_t)vulong, 16);
             multibase_uput64((uintptr_t)__builtin_va_arg(*ap, void *), 16);
             break;
+        #ifdef DEADLOCK_IS_SOFUNNY
+            case 'F': /* take care of DEADLOCK if the function called use this printf its' over */
+                __builtin_va_arg(*ap, void (*)(void))();
+                break;
+        #endif
         case '%':
             printf_handleWrite('%');
             break;

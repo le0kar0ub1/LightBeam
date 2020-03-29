@@ -11,7 +11,6 @@ u32_t strlen(char const *);
 /* Number instrument */
 u32_t numberlen(u64_t, u8_t);
 
-
 /* Memory instrument */
 void *memcpy(void *, const void *, size_t);
 void *memcpyv(void *, const void *, size_t, u8_t);
