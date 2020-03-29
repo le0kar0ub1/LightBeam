@@ -8,11 +8,14 @@
 struct printfhandlers_t
 {
     char const *flg;
-    void (*handler)(s64_t);
+    void (*handler0)(void);
+    void (*handler1)(u64_t);
 };
 
 /* Generic printf with assigned printer */
-void generic_printf(void (*)(char), struct printfhandlers_t *, char const *, __builtin_va_list);
+bool handle_caller_flg(char const **, __builtin_va_list *);
+void generic_vprintf(void (*)(char), struct printfhandlers_t *, char const *, __builtin_va_list);
+void generic_printf(void (*)(char), struct printfhandlers_t *, char const *, ...);
 void __generic_printf(char const *, __builtin_va_list);
 void generic_printf_switch_type(char const **, __builtin_va_list *);
 void generic_base_longput(long, int);

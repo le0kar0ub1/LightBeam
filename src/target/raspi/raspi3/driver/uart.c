@@ -43,7 +43,7 @@ void uart_init(void)
 /**
  * Send a character
  */
-void uart_send(u32_t c)
+void uart_send(char c)
 {
     /* wait until we can send */
     while(*UART0_FR & 0x20)

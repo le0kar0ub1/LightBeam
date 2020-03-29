@@ -15,7 +15,7 @@
 #define UART0_ICR       ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00201044))
 
 void uart_init(void);
-void uart_send(u32_t);
+void uart_send(char);
 char uart_getc(void);
 void uart_puts(char const *);
 void uart_hex(u32_t);

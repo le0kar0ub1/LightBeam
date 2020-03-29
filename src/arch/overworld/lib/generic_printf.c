@@ -36,19 +36,31 @@ void generic_puts(char const *s)
         caller_putc(s[i]);
 }
 
+bool handle_caller_flg(char const **fmt, __builtin_va_list *ap)
+{
+    for (u32_t i = 0; callerhandlers[i].flg; i++)
+        if (strncmp(callerhandlers[i].flg, *fmt, strlen(callerhandlers[i].flg))) {
+            if (callerhandlers[i].handler0)
+                callerhandlers[i].handler0();
+            else if (callerhandlers[i].handler1)
+                callerhandlers[i].handler1(__builtin_va_arg(*ap, long));
+            else
+                return (false);
+            *fmt += strlen(callerhandlers[i].flg) - 1;
+            return (true);
+        }
+    return (false);
+}
+
 void generic_printf_switch_type(char const **fmt, __builtin_va_list *ap)
 {
     /* Caller flag wich can override the next one */
-    if (callerhandlers)
-        for (u32_t i = 0; callerhandlers[i].handler; i++)
-            if (strncmp(callerhandlers[i].flg, *fmt, strlen(callerhandlers[i].flg))) {
-                callerhandlers[i].handler(__builtin_va_arg(*ap, long));
-                return;
-            }
+    if (callerhandlers && handle_caller_flg(fmt, ap))
+        return;
     /* handled by this generic printf */
     switch (**fmt) {
         case 's':
-            generic_puts(__builtin_va_arg(*ap, char *));
+            generic_puts(__builtin_va_arg(*ap, char const *));
             break;
         case 'd':
             generic_base_intput(__builtin_va_arg(*ap, int), 10);
@@ -93,13 +105,35 @@ void __generic_printf(char const *fmt, __builtin_va_list ap)
     }
 }
 
-void generic_printf(void (*putc)(char), struct printfhandlers_t *handlers, 
+static smplock_t lock = SMPLOCK_INIT;
+
+void generic_vprintf(void (*putc)(char), struct printfhandlers_t *handlers, 
 char const *fmt, __builtin_va_list ap)
 {
-    if (!putc)
+    semaphore_inc(&lock);
+    if (!putc) {
+        semaphore_dec(&lock);
         return;
-    else
+    } else
         caller_putc = putc;
     callerhandlers = handlers;
     __generic_printf(fmt, ap);
+    semaphore_dec(&lock);
+}
+
+void generic_printf(void (*putc)(char), struct printfhandlers_t *handlers, 
+char const *fmt, ...)
+{
+    semaphore_inc(&lock);
+    if (!putc) {
+        semaphore_dec(&lock);
+        return;
+    } else
+        caller_putc = putc;
+    callerhandlers = handlers;
+    __builtin_va_list ap;
+    __builtin_va_start(ap, fmt);
+    __generic_printf(fmt, ap);
+    __builtin_va_end(ap);
+    semaphore_dec(&lock);
 }

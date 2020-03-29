@@ -1,108 +1,53 @@
 #include "def/typedef.h"
+#include "def/keyword.h"
 #include "target/raspi/raspi3/driver/lfb.h"
 #include "target/raspi/raspi3/semaphore.h"
+#include "arch/overworld/generic_printf.h"
 #include <stdarg.h>
 
-static volatile bool iserasing;
+static bool iserasing;
 
-void lfb_base_intput(int n, int base)
+void lfb_printfhandler_modcolor(u64_t color)
 {
-    if (n < 0) {
-        lfb_putchar('-');
-        n = n * -1;
-    }
-    if (n >= base)
-        lfb_base_intput(n / base, base);
-    lfb_putchar((n % base) + 0x30);
+    lfb_set_color(RGB_Black, (u32_t)color);
 }
 
-void lfb_base_longput(long n, int base)
+void lfb_printfhandler_bckcolor(void)
 {
-    if (n < 0) {
-        lfb_putchar('-');
-        n = n * -1;
-    }
-    if (n >= base)
-        lfb_base_longput(n / base, base);
-    lfb_putchar((n % base) + 0x30);
+    lfb_set_color(RGB_Black, RGB_White);
 }
 
-void lfb_kprint_switch_type(char const **fmt, __builtin_va_list *ap)
+void lfb_printfhandler_noerasing(void)
 {
-    /* FLAGS HANDLE BY THIS PRINTF */
-    switch (**fmt) {
-        case 's':
-            lfb_puts(__builtin_va_arg(*ap, char *));
-            break;
-        case 'd':
-            lfb_base_intput(__builtin_va_arg(*ap, int), 10);
-            break;
-        case 'x':
-            lfb_base_intput(__builtin_va_arg(*ap, int), 16);
-            break;
-        case 'b':
-            lfb_base_intput(__builtin_va_arg(*ap, int), 2);
-            break;
-        case 'l':
-            lfb_base_longput(__builtin_va_arg(*ap, long), 10);
-            break;
-        case 'X':
-            lfb_base_longput(__builtin_va_arg(*ap, long), 16);
-            break;
-        case 'B':
-            lfb_base_longput(__builtin_va_arg(*ap, long), 2);
-            break;
-        case 'c':
-            lfb_putchar(__builtin_va_arg(*ap, int));
-            break;
-        case '%':
-            lfb_putchar('%');
-            break;
-        /* special use-case */
-        case '$':
-            (*fmt)++;
-            if (**fmt == 'A') {
-                lfb_set_color(RGB_Black, __builtin_va_arg(*ap, u32_t));
-            } else if (**fmt == 'R') {
-                lfb_set_color(RGB_Black, RGB_White);
-            }
-            break;
-        default: // unknow flag => print this
-            lfb_putchar('%');
-            lfb_putchar(**fmt);
-    }
+    iserasing = false;
 }
 
-void __lfb_kprint(char const *fmt, __builtin_va_list ap)
+static struct printfhandlers_t lfb_printfhandlers[] =
 {
-    int posx = lfb_get_posx();
-    int posy = lfb_get_posy();
-    iserasing = true;
+    {"$A", NULL, lfb_printfhandler_modcolor},
+    {"$R", lfb_printfhandler_bckcolor, NULL},
+    {"\r", lfb_printfhandler_noerasing, NULL},
+    {NULL, NULL, NULL}
+};
 
-    while (*fmt) {
-        if (*fmt != '%')
-            if (*fmt == '\r')
-                iserasing = false;
-            else
-                lfb_putchar(*fmt);
-        else {
-            fmt++;
-            lfb_kprint_switch_type(&fmt, &ap);
-        }
-        fmt++;
-    }
+static inline void lfb_endprint(int posx, int posy)
+{
     if (!iserasing)
         lfb_set_pos(posx, posy);
 }
 
-static smplock_t lock = SMPLOCK_INIT;
+smplock_t lock = SMPLOCK_INIT;
 
 void lfb_kprint(char const *fmt, ...)
 {
+    int posx = lfb_get_posx();
+    int posy = lfb_get_posy();
     semaphore_inc(&lock);
+    iserasing = true;
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
-    __lfb_kprint(fmt, ap);
+    generic_vprintf(lfb_putchar, &(*lfb_printfhandlers), fmt, ap);
     __builtin_va_end(ap);
+    lfb_endprint(posx, posy);
     semaphore_dec(&lock);
 }

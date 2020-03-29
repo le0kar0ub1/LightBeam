@@ -15,8 +15,11 @@ bool strncmp(char const *x, char const *y, size_t sz)
 {
     if (!x || !y)
         return (false);
-    while (*x++ && *y++ && sz-- > 1)
-        if (*x != *y)
+    size_t i = 0;
+    for (; x[i] && y[i] && i < sz; i++)
+        if (x[i] != y[i])
             return (false);
+    if (i != sz)
+        return (false);
     return (true);
 }
