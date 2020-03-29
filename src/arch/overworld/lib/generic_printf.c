@@ -142,17 +142,21 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
     align  = false;
     hshtag = false;
     /* Formatter */
-    switch (**fmt) {
-        case '0':
-            *fmt += 0x1;
-            align = printf_getAlignement(fmt);
-            break;
-        case '#':
-            *fmt += 0x1;
-            hshtag = true;
-            break;
-        default:
-            break;
+    bool flag = true;
+    while (flag) {
+        switch (**fmt) {
+            case '0':
+                *fmt += 0x1;
+                align = printf_getAlignement(fmt);
+                break;
+            case '#':
+                *fmt += 0x1;
+                hshtag = true;
+                break;
+            default:
+                flag = false;
+                break;
+        }
     }
     /* Init handled variable */
     static int vint;
