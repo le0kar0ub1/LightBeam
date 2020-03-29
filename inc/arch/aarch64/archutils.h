@@ -8,8 +8,6 @@
 #include "irqflags.h"
 #include "types.h"
 
-#define TODO(str) __pragma(message (__FILE__"("STR1_(__LINE__)"): TODO: " str))
-
 #define __AARCH64__ 1
 
 #endif

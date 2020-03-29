@@ -39,10 +39,10 @@ void setup_level(void)
 
     start_setup_log("interruptions (vectors, irq, etc.)");
 
-    if (timerIrqSetup(MS_TO_US(1000)) == false)
-        lfb_kprint("TIMER SETUP FAILED\n");
+    // if (timerIrqSetup(MS_TO_US(1000)) == false)
+        // lfb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);
-    enable_interrupts();
+    // enable_interrupts();
 
     end_setup_log("interrupts are on");
 

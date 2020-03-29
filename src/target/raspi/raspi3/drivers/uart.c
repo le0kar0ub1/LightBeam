@@ -1,5 +1,5 @@
 #include "target/raspi/raspi3/driver/gpio.h"
-#include "target/raspi/raspi3/driver/mbox.h"
+#include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/driver/uart.h"
 

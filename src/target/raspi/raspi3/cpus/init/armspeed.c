@@ -1,5 +1,5 @@
 #include "target/raspi/raspi3/cpus/cpus.h"
-#include "target/raspi/raspi3/driver/mbox.h"
+/driver/gpio.h"#include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/system.h"
 
 bool cpuARMmaxSpeed(void)
