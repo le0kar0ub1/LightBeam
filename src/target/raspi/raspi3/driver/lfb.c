@@ -1,4 +1,4 @@
-#include "target/raspi/raspi3/uart.h"
+#include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/driver/mbox.h"
 #include "target/raspi/raspi3/driver/lfb.h"
 #include "target/raspi/raspi3/semaphore.h"

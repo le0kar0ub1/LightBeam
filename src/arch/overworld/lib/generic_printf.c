@@ -107,33 +107,33 @@ void __generic_printf(char const *fmt, __builtin_va_list ap)
 
 static smplock_t lock = SMPLOCK_INIT;
 
+#define GENERIC_PRINTF_INIT()   \
+    semaphore_inc(&lock);       \
+    if (!putc) {                \
+        semaphore_dec(&lock);   \
+        return;                 \
+    } else                      \
+        caller_putc = putc;     \
+    callerhandlers = handlers;
+
+#define GENERIC_PRINTF_EXIT()    \
+    semaphore_dec(&lock)
+
 void generic_vprintf(void (*putc)(char), struct printfhandlers_t *handlers, 
 char const *fmt, __builtin_va_list ap)
 {
-    semaphore_inc(&lock);
-    if (!putc) {
-        semaphore_dec(&lock);
-        return;
-    } else
-        caller_putc = putc;
-    callerhandlers = handlers;
+    GENERIC_PRINTF_INIT();
     __generic_printf(fmt, ap);
-    semaphore_dec(&lock);
+    GENERIC_PRINTF_EXIT();
 }
 
 void generic_printf(void (*putc)(char), struct printfhandlers_t *handlers, 
 char const *fmt, ...)
 {
-    semaphore_inc(&lock);
-    if (!putc) {
-        semaphore_dec(&lock);
-        return;
-    } else
-        caller_putc = putc;
-    callerhandlers = handlers;
+    GENERIC_PRINTF_INIT();
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
     __generic_printf(fmt, ap);
     __builtin_va_end(ap);
-    semaphore_dec(&lock);
+    GENERIC_PRINTF_EXIT();
 }

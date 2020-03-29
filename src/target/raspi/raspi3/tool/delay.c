@@ -1,5 +1,5 @@
 #include "target/raspi/raspi3/delay.h"
-#include "target/raspi/raspi3/gpio.h"
+#include "target/raspi/raspi3/driver/gpio.h"
 
 #define SYSTMR_LO        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00003004))
 #define SYSTMR_HI        ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00003008))

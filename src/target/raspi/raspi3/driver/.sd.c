@@ -1,5 +1,5 @@
-#include "target/raspi/raspi3/gpio.h"
-#include "target/raspi/raspi3/uart.h"
+#include "target/raspi/raspi3/driver/gpio.h"
+#include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/sd.h"
 
