@@ -2,7 +2,7 @@
 # Inc make which define macro for processus control
  #
 
-include $(MKHELPER_DIR)/arch.mk
+sinclude $(MKHELPER_DIR)/arch.mk
 
 define RAISE
 	@echo -e "[$(BoldRed)ABORTED$(Blank)]$(1)"

@@ -2,7 +2,7 @@
 # Makefile at raspi target root, redirection from targetbase
  #
 
-include $(MKHELPER_DIR)/macro.mk
+sinclude $(MKHELPER_DIR)/macro.mk
 
 all:	checkup	targetbuild
 

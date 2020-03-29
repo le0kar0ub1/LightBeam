@@ -2,8 +2,8 @@
 # Template Builder for XXX target
  #
 
-include $(MKHELPER_DIR)/macro.mk
-include $(MKHELPER_DIR)/builder/def.mk
+sinclude $(MKHELPER_DIR)/macro.mk
+sinclude $(MKHELPER_DIR)/builder/def.mk
 
 TARGET_C_SOURCE 	:=	$(wildcard $(addsuffix /*$(EXTENSION_SRC), $(BUILDER_SOURCE_DIR)))
 

@@ -38,6 +38,7 @@ void setup_level(void)
     end_setup_log("All of them acquired start");
 
     start_setup_log("interruptions (vectors, irq, etc.)");
+
     if (timerIrqSetup(MS_TO_US(1000)) == false)
         lfb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);
@@ -45,10 +46,9 @@ void setup_level(void)
 
     end_setup_log("interrupts are on");
 
-    // assert(cpuExecRoutine(1, execme) == true);
-    system_charging(2000);
 
     start_setup_log("MMU");
+    system_charging(2000);
     // mmu_init();
     end_setup_log("MMU is operationnal");
 

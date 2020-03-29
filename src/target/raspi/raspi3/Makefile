@@ -33,7 +33,7 @@ BUILDER_SOURCE_DIR	+=	.			\
 
 all:	arcbuild	lauchbuilder
 
-include $(MKHELPER_DIR)/builder/builder.mk
+sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
 	@make -s -C $(OVRWLD_SHARED_SRC_DIR) --no-print-directory

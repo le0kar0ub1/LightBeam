@@ -12,6 +12,6 @@ BUILDER_SOURCE_DIR		:=	tools
 
 .PHONY: all
 
-include $(MKHELPER_DIR)/builder/builder.mk
+sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 all:	lauchbuilder

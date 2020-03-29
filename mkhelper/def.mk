@@ -58,7 +58,8 @@ export BUILDEP	:=	dep.d
 
 # Cleaner as possible
 export CCFLAGS	=	$(INCLUDE_DIR)						\
-					-MMD								\
+					-MD									\
+					-MP									\
 					-MF		$(BUILDEP)					\
 					-Wall								\
 					-Wextra				 				\
