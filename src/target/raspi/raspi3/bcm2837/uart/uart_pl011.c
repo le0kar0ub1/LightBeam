@@ -91,6 +91,55 @@ static struct uart_pl011_itip_t *_uartpl011_bcm2837_getptr_itip(void)
     return ((struct uart_pl011_itip_t *)&uartpl011regs->itip);
 }
 
+/*
+** Data register & sub Data register
+*/ 
+
+void uartpl011_bcm2837_send_data_nonfifo(char send)
+{
+    _uartpl011_bcm2837_getptr_dr()->data = send;
+}
+
+void uartpl011_bcm2837_send_data_fifo(char *send, size_t sz)
+{
+    for (u32_t i = 0x0; i < sz; i++)
+        _uartpl011_bcm2837_getptr_dr()->data = send[i];
+}
+
+char const *uartpl011_bcm2837_safesend_data_nonfifo(char send)
+{
+    while(uartpl011_bcm2837_isTransmiterFull());
+    _uartpl011_bcm2837_getptr_dr()->data = send;
+    return (uartpl011_bcm2837_error_checkup());
+}
+
+char const *uartpl011_bcm2837_safesend_data_fifo(char *send, size_t sz)
+{
+    while(uartpl011_bcm2837_isTransmiterFull());
+    for (u32_t i = 0x0; i < sz; i++)
+        _uartpl011_bcm2837_getptr_dr()->data = send[i];
+    return (uartpl011_bcm2837_error_checkup());
+}
+
+char const *uartpl011_bcm2837_error_checkup(void)
+{
+    struct uart_pl011_dr_t *dr = _uartpl011_bcm2837_getptr_dr();
+    struct uart_pl011_rsrecr_t *rsrecr = _uartpl011_bcm2837_getptr_rsrecr();
+    if (dr->err_framing || rsrecr->err_framing)
+        return ("framing");
+    if (dr->err_parity || rsrecr->err_parity)
+        return ("parity");
+    if (dr->err_break || rsrecr->err_break)
+        return ("break");
+    if (dr->err_overrun || rsrecr->err_overrun)
+        return ("overrun");
+    return (NULL);
+}
+
+/*
+** Control Register
+*/
+
 void uartpl011_bcm2837_disable(void)
 {
     _uartpl011_bcm2837_getptr_cr()->uarten = false;
@@ -106,7 +155,49 @@ void uartpl011_bcm2837_setstate(bool val)
     _uartpl011_bcm2837_getptr_cr()->uarten = val;
 }
 
-/* Already mapp conventionnal pins */
+void uartpl011_bcm2837_set_transmit_state(bool val)
+{
+    _uartpl011_bcm2837_getptr_cr()->txe = val;
+}
+
+void uartpl011_bcm2837_set_receive_state(bool val)
+{
+    _uartpl011_bcm2837_getptr_cr()->rxe = val;
+}
+
+void uartpl011_bcm2837_set_loopback_state(bool val)
+{
+    _uartpl011_bcm2837_getptr_cr()->lbe = val;
+}
+
+/*
+** Flag register
+*/ 
+
+bool uartpl011_bcm2837_isTransmiterEmpty(void)
+{
+    return (_uartpl011_bcm2837_getptr_fr()->txfe);
+}
+
+bool uartpl011_bcm2837_isReceiverEmpty(void)
+{
+    return (_uartpl011_bcm2837_getptr_fr()->rxfe);
+}
+
+bool uartpl011_bcm2837_isTransmiterFull(void)
+{
+    return (_uartpl011_bcm2837_getptr_fr()->txff);
+}
+
+bool uartpl011_bcm2837_isReceiverFull(void)
+{
+    return (_uartpl011_bcm2837_getptr_fr()->rxff);
+}
+
+/* 
+** Pin Mapping
+** Already [un]mapp conventionnal pins 
+*/
 void uartpl011_bcm2837_mappin(pin_t pin)
 {
     switch (pin)
@@ -152,4 +243,71 @@ void uartpl011_bcm2837_mappin(pin_t pin)
         default:
             break;
     }
+}
+
+
+/*
+** Interrupt clear register
+*/
+
+void uartpl011_bcm2837_clear_transmit_interrupt(void)
+{
+    _uartpl011_bcm2837_getptr_icr()->txic = true;
+}
+
+void uartpl011_bcm2837_clear_receive_interrupt(void)
+{
+    _uartpl011_bcm2837_getptr_icr()->rxic = true;
+}
+
+/*
+** baud rate divisor register
+*/
+
+u32_t uartpl011_bcm2837_get_baudrate_divisor(void)
+{
+    return (_uartpl011_bcm2837_getptr_ibrd()->ibrd);
+}
+
+void uartpl011_bcm2837_set_baudrate_divisor(u32_t div)
+{
+    _uartpl011_bcm2837_getptr_ibrd()->ibrd = (u16_t)div;
+}
+
+/*
+** fractionnal baud rate divisor register
+*/
+
+u32_t uartpl011_bcm2837_get_fractionnal_baudrate_divisor(void)
+{
+    return (_uartpl011_bcm2837_getptr_fbrd()->fbrd);
+}
+
+void uartpl011_bcm2837_set_fractionnal_baudrate_divisor(u32_t frctdiv)
+{
+    _uartpl011_bcm2837_getptr_ibrd()->ibrd = (u8_t)frctdiv;
+}
+
+/*
+** Line control register
+*/
+
+void uartpl011_bcm2837_send_break(void)
+{
+    _uartpl011_bcm2837_getptr_lcrh()->brk = true;
+}
+
+void uartpl011_bcm2837_set_parity(bool state)
+{
+    _uartpl011_bcm2837_getptr_lcrh()->pen= state;
+}
+
+void uartpl011_bcm2837_set_fifo(bool state)
+{
+    _uartpl011_bcm2837_getptr_lcrh()->fen = state;
+}
+
+void uartpl011_bcm2837_set_wlen(enum WLEN state)
+{
+    _uartpl011_bcm2837_getptr_lcrh()->wlen = state;
 }

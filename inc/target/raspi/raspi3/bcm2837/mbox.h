@@ -40,6 +40,7 @@ enum {
     MBOX_CLOCK_ID_PIXEL     = 9,
     MBOX_CLOCK_ID_PWM       = 10,
 };
+
 int bcm2837_mbox_clock_get_turbo(void);
 int bcm2837_mbox_clock_set_turbo(int level);
 int bcm2837_mbox_clock_get_state(int id);

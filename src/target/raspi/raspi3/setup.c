@@ -29,7 +29,10 @@ void PANIC(char const *fmt __unused, ...) {}
 
 void setup_level(void)
 {
+    gpio_bcm2837_init();
+    uartpl011_bcm2837_init();
     uart_init();
+    uart_puts("AAAAAAAAAAAAAAAAAAAAA\n");
     while(1);
     // lfb_init();
     // helloFromLightBleam();

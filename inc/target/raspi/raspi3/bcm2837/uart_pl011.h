@@ -184,13 +184,13 @@ struct uart_pl011_icr_t
     u8_t  ctsmmic          : 1; // nUARTCTS modem interrupt status.
     u8_t  _unused_DCDRmMIc : 1; // Unsupported, write zero
     u8_t  _unused_DSRRmMIc : 1; // Unsupported, write zero
-    u8_t  rxmic            : 1; // Receive interrupt status raw
-    u8_t  txmic            : 1; // Transmit interrupt status raw
-    u8_t  rtmic            : 1; // Receive timeout interrupt status
-    u8_t  femic            : 1; // Framing error interrupt status
-    u8_t  pemic            : 1; // Parity error interrupt status
-    u8_t  bemic            : 1; // Break error interrupt status
-    u8_t  oemic            : 1; // Overrun error interrupt status
+    u8_t  rxic             : 1; // Receive interrupt status raw
+    u8_t  txic             : 1; // Transmit interrupt status raw
+    u8_t  rtic             : 1; // Receive timeout interrupt status
+    u8_t  feic             : 1; // Framing error interrupt status
+    u8_t  peic             : 1; // Parity error interrupt status
+    u8_t  beic             : 1; // Break error interrupt status
+    u8_t  oeic             : 1; // Overrun error interrupt status
     u32_t _reserved        : 21;
 };
 
@@ -260,14 +260,65 @@ struct uart_pl011_regs_t
 void uartpl011_bcm2837_init(void);
 void *uartpl011_bcm2837_get_entrypoint(void);
 
+/*
+** Data register & sub Data register
+*/ 
+void uartpl011_bcm2837_send_data_nonfifo(char);
+void uartpl011_bcm2837_send_data_fifo(char *, size_t);
+char const *uartpl011_bcm2837_safesend_data_nonfifo(char);
+char const *uartpl011_bcm2837_safesend_data_fifo(char *, size_t);
+char const *uartpl011_bcm2837_error_checkup(void);
+
+
+/*
+** Control Register
+*/
 void uartpl011_bcm2837_disable(void);
 void uartpl011_bcm2837_enable(void);
 void uartpl011_bcm2837_setstate(bool);
+void uartpl011_bcm2837_set_transmit_state(bool);
+void uartpl011_bcm2837_set_receive_state(bool);
+void uartpl011_bcm2837_set_loopback_state(bool);
 
+/*
+** Flag register
+*/ 
+bool uartpl011_bcm2837_isTransmiterEmpty(void);
+bool uartpl011_bcm2837_isReceiverEmpty(void);
+bool uartpl011_bcm2837_isTransmiterFull(void);
+bool uartpl011_bcm2837_isReceiverFull(void);
+
+/*
+**  Clear interrupt register
+*/
+void uartpl011_bcm2837_clear_transmit_interrupt(void);
+void uartpl011_bcm2837_clear_receive_interrupt(void);
+
+/*
+** Pin mapp/unmapp
+*/
 void uartpl011_bcm2837_mappin(u32_t pin);
 
+/*
+** baud rate divisor register
+*/
+u32_t uartpl011_bcm2837_get_baudrate_divisor(void);
+void uartpl011_bcm2837_set_baudrate_divisor(u32_t);
+
+/*
+** fractionnal baud rate divisor register
+*/
+u32_t uartpl011_bcm2837_get_fractionnal_baudrate_divisor(void);
+void uartpl011_bcm2837_set_fractionnal_baudrate_divisor(u32_t);
+
+/*
+** Line control register
+*/
+void uartpl011_bcm2837_send_break(void);
+void uartpl011_bcm2837_set_parity(bool);
+void uartpl011_bcm2837_set_fifo(bool);
+void uartpl011_bcm2837_set_wlen(enum WLEN);
 
 void uart_kprint(char const *, ...);
-void __uart_kprint(char const *, __builtin_va_list);
 
 #endif

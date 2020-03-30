@@ -151,7 +151,7 @@ struct gpioreg_rw_t
     u32_t (*write)(void);
 } __packed;
 
-void gpio_init(void);
+void gpio_bcm2837_init(void);
 
 struct gpio_regs_t
 {
@@ -199,7 +199,7 @@ struct gpio_regs_t
     u32_t  _unused;
 };
 
-void gpio_init(void);
+void gpio_bcm2837_init(void);
 
 #define BCM2837_GPIO0       (0)
 #define BCM2837_GPIO1       (1)
