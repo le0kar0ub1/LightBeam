@@ -260,6 +260,13 @@ struct uart_pl011_regs_t
 void uartpl011_bcm2837_init(void);
 void *uartpl011_bcm2837_get_entrypoint(void);
 
+void uartpl011_bcm2837_disable(void);
+void uartpl011_bcm2837_enable(void);
+void uartpl011_bcm2837_setstate(bool);
+
+void uartpl011_bcm2837_mappin(u32_t pin);
+
+
 void uart_kprint(char const *, ...);
 void __uart_kprint(char const *, __builtin_va_list);
 

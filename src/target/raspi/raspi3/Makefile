@@ -29,8 +29,8 @@ BUILDER_SOURCE_DIR	+=	.				\
 						bcm2837/gpio	\
 						bcm2837/mbox	\
 						bcm2837/uart	\
+						drivers			\
 						#tools		\
-						drivers		\
 						memory		\
 						system		\
 

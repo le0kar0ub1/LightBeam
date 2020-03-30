@@ -1,9 +1,10 @@
-#include "target/raspi/raspi3/bcm2837/uart-pl011.h"
 #include "target/raspi/raspi3/bcm2837/mbox.h"
+#include "target/raspi/raspi3/bcm2837/uart_pl011.h"
+#include "target/raspi/raspi3/bcm2837/gpio.h"
 #include "target/raspi/raspi3/cpus/semaphore.h"
 #include "arch/overworld/overworld.h"
 
-extern volatile struct uart_pl011_regs_t *uartpl011regs;
+extern struct uart_pl011_regs_t *uartpl011regs;
 
 /* 
 ** We will provide step by step the uart pl011 bcs it is really long
@@ -90,12 +91,65 @@ static struct uart_pl011_itip_t *_uartpl011_bcm2837_getptr_itip(void)
     return ((struct uart_pl011_itip_t *)&uartpl011regs->itip);
 }
 
-void *uartpl011_bcm2837_disable(void)
+void uartpl011_bcm2837_disable(void)
 {
     _uartpl011_bcm2837_getptr_cr()->uarten = false;
 }
 
-void *uartpl011_bcm2837_enable(void)
+void uartpl011_bcm2837_enable(void)
 {
     _uartpl011_bcm2837_getptr_cr()->uarten = true;
+}
+
+void uartpl011_bcm2837_setstate(bool val)
+{
+    _uartpl011_bcm2837_getptr_cr()->uarten = val;
+}
+
+/* Already mapp conventionnal pins */
+void uartpl011_bcm2837_mappin(pin_t pin)
+{
+    switch (pin)
+    {
+        case 14:
+            gpio_bcm2837_set_mode(14, GPIO_ALTFUNC0);
+            gpio_bcm2837_set_pullClock(14, GGPPUD_OFF);
+            break;
+        case 15:
+            gpio_bcm2837_set_mode(14, GPIO_ALTFUNC0);
+            gpio_bcm2837_set_pullClock(14, GGPPUD_OFF);
+            break;
+        case 16:
+            
+            break;
+        case 17:
+            
+            break;
+        case 30:
+            
+            break;
+        case 31:
+            
+            break;
+        case 32:
+            
+            break;
+        case 33:
+            
+            break;
+        case 36:
+            
+            break;
+        case 37:
+            
+            break;
+        case 38:
+            
+            break;
+        case 39:
+            
+            break;
+        default:
+            break;
+    }
 }

@@ -1,4 +1,4 @@
-#include "target/raspi/raspi3/bcm2837/uart-pl011.h"
+#include "target/raspi/raspi3/bcm2837/uart_pl011.h"
 #include "lightbleam.h"
 #include "def/keyword.h"
 // #include "target/raspi/raspi3/driver/lfb.h"
@@ -26,7 +26,6 @@
 void lfb_kprint(char const *fmt __unused, ...) {}
 void uart_kprint(char const *fmt __unused, ...) {}
 void PANIC(char const *fmt __unused, ...) {}
-void uart_init(void) {}
 
 void setup_level(void)
 {

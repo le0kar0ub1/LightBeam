@@ -4,12 +4,16 @@
 #include "def/typedef.h"
 #include "def/keyword.h"
 
-enum GPIO_PIN_LVL {
+typedef u32_t pin_t;
+
+enum GPIO_PIN_LVL
+{
     LOW  = 0x0,
     HIGH = 0x1
 };
 
-enum GPIOMODE {
+enum GPIOMODE
+{
     GPIO_INPUT    = 0b000,   // 0
     GPIO_OUTPUT   = 0b001,   // 1
     GPIO_ALTFUNC5 = 0b010,   // 2
@@ -20,12 +24,12 @@ enum GPIOMODE {
     GPIO_ALTFUNC3 = 0b111    // 7
 };
 
-enum GPPUDMODE {
+enum GPPUDMODE
+{
     GGPPUD_OFF      = 0b00,
     GGPPUD_PULLDOWN = 0b01,
     GGPPUD_PULLUP   = 0b10
 };
-
 
 bool gpio_bcm2837_set_mode(pin_t pin, enum GPIOMODE);
 
