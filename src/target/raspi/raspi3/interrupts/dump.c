@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/interrupts/interrupt.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
-#include "target/raspi/raspi3/bcm2837/uart.h"
+#include "target/raspi/raspi3/bcm2837/uart-pl011.h"
 #include "arch/aarch64/archutils.h"
 
 void dump_regs(struct rframe_t *regs)

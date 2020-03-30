@@ -1,4 +1,4 @@
-#include "target/raspi/raspi3/bcm2837/uart.h"
+#include "target/raspi/raspi3/bcm2837/uart-pl011.h"
 #include "lightbleam.h"
 #include "def/keyword.h"
 // #include "target/raspi/raspi3/driver/lfb.h"
