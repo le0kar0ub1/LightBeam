@@ -3,6 +3,16 @@
 #include "target/raspi/raspi3/delay.h"
 #include "target/raspi/raspi3/driver/uart.h"
 
+static inline void disable_uartpl011(void)
+{
+    *UART0_CR = 0x0;
+}
+
+static inline void enable_uartpl011(u32_t val)
+{
+    *UART0_CR = val;
+}
+
 void uart_init(void)
 {
     register u32_t r;

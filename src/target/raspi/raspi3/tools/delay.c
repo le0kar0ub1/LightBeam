@@ -7,9 +7,7 @@
 /* ARM processor allow a nop instruction usefull */
 void wait_cycles(u32_t n)
 {
-    if (n)
-        while(n--)
-            asm volatile("nop"); 
+    while(n--) asm volatile("nop"); 
 }
 
 /**

@@ -28,7 +28,7 @@ static inline u16_t SET_WORD(u16_t val, u8_t bit)
 
 static inline u32_t CLEAR_DOUBLE(u32_t val, u8_t bit)
 {
-    return (val & (u32_t_MAX - (1 << bit)));
+    return (val & (UINT_MAX - (1 << bit)));
 }
 
 static inline u32_t SET_DOUBLE(u32_t val, u8_t bit)

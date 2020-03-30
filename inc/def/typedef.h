@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 /* Defines some shortcuts types */
 typedef unsigned char       uchar;

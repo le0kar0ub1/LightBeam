@@ -8,6 +8,8 @@
 #include "irqflags.h"
 #include "types.h"
 
+void cycle_delay(u32_t);
+
 #define __AARCH64__ 1
 
 #endif

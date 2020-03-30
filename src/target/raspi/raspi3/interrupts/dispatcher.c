@@ -1,4 +1,4 @@
-#include "target/raspi/raspi3/interrupt.h"
+#include "target/raspi/raspi3/interrupts/interrupt.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/driver/lfb.h"
 #include "arch/aarch64/archutils.h"

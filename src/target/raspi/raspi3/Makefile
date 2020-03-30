@@ -2,6 +2,8 @@
 # Makefile Compiling object for RASPI3 target
  #
 
+export TGTARCH	:=	aarch64
+
 export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
 
 CCFLAGS		+=	-march=armv8-a 		\
@@ -21,11 +23,12 @@ BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	+=	.			\
 						boot		\
-						tools		\
-						drivers		\
-						interrupts	\
-						cpus/init	\
 						cpus		\
+						cpus/init	\
+						interrupts	\
+						bcm2837/gpio
+						#tools		\
+						drivers		\
 						memory		\
 						system		\
 

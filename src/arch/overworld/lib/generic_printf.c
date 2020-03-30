@@ -1,7 +1,7 @@
 #include "def/typedef.h"
 #include "arch/overworld/overworld.h"
 #include "arch/overworld/generic_printf.h"
-#include "target/raspi/raspi3/semaphore.h"
+#include "target/raspi/raspi3/cpus/semaphore.h"
 #include <stdarg.h>
 
 /* Caller printer */

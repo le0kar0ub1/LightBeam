@@ -1,281 +1,374 @@
-#include "lighbleam.h"
+#include "lightbleam.h"
 #include "target/raspi/raspi3/bcm2837/gpio.h"
 #include "target/raspi/raspi3/bcm2837/mbox.h"
-#include "target/raspi/raspi3/semaphore.h"
 #include "arch/overworld/overworld.h"
 
-#define GPIO_FSEL(x)    (0x00 + (x) * 4)
-#define GPIO_SET(x)     (0x1c + (x) * 4)
-#define GPIO_CLR(x)     (0x28 + (x) * 4)
-#define GPIO_LEV(x)     (0x34 + (x) * 4)
-#define GPIO_EDS(x)     (0x40 + (x) * 4)
-#define GPIO_REN(x)     (0x4c + (x) * 4)
-#define GPIO_FEN(x)     (0x58 + (x) * 4)
-#define GPIO_HEN(x)     (0x64 + (x) * 4)
-#define GPIO_LEN(x)     (0x70 + (x) * 4)
-#define GPIO_ARE(x)     (0x7c + (x) * 4)
-#define GPIO_AFE(x)     (0x88 + (x) * 4)
-#define GPIO_UD(x)      (0x94 + (x) * 4)
-#define GPIO_UDCLK(x)   (0x98 + (x) * 4)
+extern volatile struct gpio_regs_t *gpioregs __aligned(4);
 
-enum {
-    ALT_FUNC0 = 0x4,
-    ALT_FUNC1 = 0x5,
-    ALT_FUNC2 = 0x6,
-    ALT_FUNC3 = 0x7,
-    ALT_FUNC4 = 0x3,
-    ALT_FUNC5 = 0x2,
-    ALT_FUNC6_GPIO_OUTPUT = 0x1,
-    ALT_FUNC7_GPIO_INPUT = 0x0,
-};
-
-struct gpio_bcm2837_pdata_t
+bool gpio_bcm2837_set_mode(pin_t pin, enum GPIOMODE mode)
 {
-    virtaddr_t virt;
-    int base;
-    int ngpio;
-    int oirq;
-};
+    if (pin > 54 || mode < 0 || mode > 7)
+        return (false);
+    struct gpio_fnctSlctReg_t *reg;
+    switch (pin / 10) {
+        case 0:
+            reg = (struct gpio_fnctSlctReg_t *)&gpioregs->gpfsel0;
+            break;
+        case 1:
+            reg = (struct gpio_fnctSlctReg_t *)&gpioregs->gpfsel1;
+            break;
+        case 2:
+            reg = (struct gpio_fnctSlctReg_t *)&gpioregs->gpfsel2;
+            break;
+        case 3:
+            reg = (struct gpio_fnctSlctReg_t *)&gpioregs->gpfsel3;
+            break;
+        case 4:
+            reg = (struct gpio_fnctSlctReg_t *)&gpioregs->gpfsel4;
+            break;
+        case 5:
+            reg = (struct gpio_fnctSlctReg_t *)&gpioregs->gpfsel5;
+            break;
+        default:
+            return (false);
+    }
+    switch (pin % 10) {
+        case 0:
+            reg->fnctslct0 = mode;
+            break;
+        case 1:
+            reg->fnctslct1 = mode;
+            break;
+        case 2:
+            reg->fnctslct2 = mode;
+            break;
+        case 3:
+            reg->fnctslct3 = mode;
+            break;
+        case 4:
+            reg->fnctslct4 = mode;
+            break;
+        case 5:
+            reg->fnctslct5 = mode;
+            break;
+        case 6:
+            reg->fnctslct6 = mode;
+            break;
+        case 7:
+            reg->fnctslct7 = mode;
+            break;
+        case 8:
+            reg->fnctslct8 = mode;
+            break;
+        case 9:
+            reg->fnctslct9 = mode;
+            break;
+    }
+    return (true);
+}
 
-static void gpio_bcm2837_set_cfg(struct gpiochip_t * chip, int offset, int cfg)
+static bool _gpio_bcm2837_get_bitpin_value(pin_t pin, u32_t *ptr)
 {
-    struct gpio_bcm2837_pdata_t * pdat = (struct gpio_bcm2837_pdata_t *)chip->priv;
-    int bank = offset / 10;
-    int field = (offset - 10 * bank) * 3;
-    u32_t val;
+    if (pin > 54)
+        return (false);
+    if (pin > 31) {
+        ptr += 0x4;
+        pin -= 32;
+    }
+    struct gpio_StateReg0_t *state = (struct gpio_StateReg0_t *)ptr;
+    switch (pin) {
+        case 0:
+            return (state->pin0);
+        case 1:
+            return (state->pin1);
+        case 2:
+            return (state->pin2);
+        case 3:
+            return (state->pin3);
+        case 4:
+            return (state->pin4);
+        case 5:
+            return (state->pin5);
+        case 6:
+            return (state->pin6);
+        case 7:
+            return (state->pin7);
+        case 8:
+            return (state->pin8);
+        case 9:
+            return (state->pin9);
+        case 10:
+            return (state->pin10);
+        case 11:
+            return (state->pin11);
+        case 12:
+            return (state->pin12);
+        case 13:
+            return (state->pin13);
+        case 14:
+            return (state->pin14);
+        case 15:
+            return (state->pin15);
+        case 16:
+            return (state->pin16);
+        case 17:
+            return (state->pin17);
+        case 18:
+            return (state->pin18);
+        case 19:
+            return (state->pin19);
+        case 20:
+            return (state->pin20);
+        case 21:
+            return (state->pin21);
+        case 22:
+            return (state->pin22);
+        case 23:
+            return (state->pin23);
+        case 24:
+            return (state->pin24);
+        case 25:
+            return (state->pin25);
+        case 26:
+            return (state->pin26);
+        case 27:
+            return (state->pin27);
+        case 28:
+            return (state->pin28);
+        case 29:
+            return (state->pin29);
+        case 30:
+            return (state->pin30);
+        case 31:
+            return (state->pin31);
+        default:
+        return (false);
+            break;
+    }
+}
 
-    if(offset >= chip->ngpio)
+static void _gpio_bcm2837_set_bitpin_value(pin_t pin, u32_t *ptr, bool val)
+{
+    if (pin > 54)
         return;
-
-    switch(cfg & 0x7)
-    {
-    case 0: cfg = ALT_FUNC0; break;
-    case 1: cfg = ALT_FUNC1; break;
-    case 2: cfg = ALT_FUNC2; break;
-    case 3: cfg = ALT_FUNC3; break;
-    case 4: cfg = ALT_FUNC4; break;
-    case 5: cfg = ALT_FUNC5; break;
-    case 6: cfg = ALT_FUNC6_GPIO_OUTPUT; break;
-    case 7: cfg = ALT_FUNC7_GPIO_INPUT; break;
-    default: break;
+    if (pin > 31) {
+        ptr += 0x4;
+        pin -= 32;
     }
-
-    val = read32(pdat->virt + GPIO_FSEL(bank));
-    val &= ~(0x7 << field);
-    val |= cfg << field;
-    write32(pdat->virt + GPIO_FSEL(bank), val);
-}
-
-static int gpio_bcm2837_get_cfg(struct gpiochip_t * chip, int offset)
-{
-    struct gpio_bcm2837_pdata_t * pdat = (struct gpio_bcm2837_pdata_t *)chip->priv;
-    int bank = offset / 10;
-    int field = (offset - 10 * bank) * 3;
-    int cfg;
-    u32_t val;
-
-    val = read32(pdat->virt + GPIO_FSEL(bank));
-    switch((val >> field) & 0x7)
-    {
-    case ALT_FUNC0: cfg = 0; break;
-    case ALT_FUNC1: cfg = 1; break;
-    case ALT_FUNC2: cfg = 2; break;
-    case ALT_FUNC3: cfg = 3; break;
-    case ALT_FUNC4: cfg = 4; break;
-    case ALT_FUNC5: cfg = 5; break;
-    case ALT_FUNC6_GPIO_OUTPUT: cfg = 6; break;
-    case ALT_FUNC7_GPIO_INPUT: cfg = 7; break;
-    default: break;
-    }
-    return cfg;
-}
-
-static void gpio_bcm2837_set_pull(struct gpiochip_t * chip, int offset, enum gpio_pull_t pull)
-{
-    struct gpio_bcm2837_pdata_t * pdat = (struct gpio_bcm2837_pdata_t *)chip->priv;
-    int bank = offset / 32;
-    int field = (offset - 32 * bank);
-
-    if(offset >= chip->ngpio)
-        return;
-
-    switch(pull)
-    {
-    case GPIO_PULL_UP:
-        write32(pdat->virt + GPIO_UD(0), 2);
-        break;
-
-    case GPIO_PULL_DOWN:
-        write32(pdat->virt + GPIO_UD(0), 1);
-        break;
-
-    case GPIO_PULL_NONE:
-        write32(pdat->virt + GPIO_UD(0), 0);
-        break;
-
-    default:
-        return;
-    }
-
-    udelay(5);
-    write32(pdat->virt + GPIO_UDCLK(bank), 1 << field);
-    udelay(5);
-    write32(pdat->virt + GPIO_UD(0), 0);
-    write32(pdat->virt + GPIO_UDCLK(bank), 0 << field);
-}
-
-static enum gpio_pull_t gpio_bcm2837_get_pull(struct gpiochip_t * chip, int offset)
-{
-    if(offset >= chip->ngpio)
-        return GPIO_PULL_NONE;
-    return GPIO_PULL_NONE;
-}
-
-static void gpio_bcm2837_set_drv(struct gpiochip_t * chip, int offset, enum gpio_drv_t drv)
-{
-}
-
-static enum gpio_drv_t gpio_bcm2837_get_drv(struct gpiochip_t * chip, int offset)
-{
-    return GPIO_DRV_WEAK;
-}
-
-static void gpio_bcm2837_set_rate(struct gpiochip_t * chip, int offset, enum gpio_rate_t rate)
-{
-}
-
-static enum gpio_rate_t gpio_bcm2837_get_rate(struct gpiochip_t * chip, int offset)
-{
-    return GPIO_RATE_SLOW;
-}
-
-static void gpio_bcm2837_set_dir(struct gpiochip_t * chip, int offset, enum gpio_direction_t dir)
-{
-    if(offset >= chip->ngpio)
-        return;
-
-    switch(dir)
-    {
-    case GPIO_DIRECTION_INPUT:
-        gpio_bcm2837_set_cfg(chip, offset, 7);
-        break;
-
-    case GPIO_DIRECTION_OUTPUT:
-        gpio_bcm2837_set_cfg(chip, offset, 6);
-        break;
-
-    default:
-        break;
+    struct gpio_StateReg0_t *state = (struct gpio_StateReg0_t *)ptr;
+    switch (pin) {
+        case 0:
+            state->pin0  = val;
+            break;
+        case 1:
+            state->pin1  = val;
+            break;
+        case 2:
+            state->pin2  = val;
+            break;
+        case 3:
+            state->pin3  = val;
+            break;
+        case 4:
+            state->pin4  = val;
+            break;
+        case 5:
+            state->pin5  = val;
+            break;
+        case 6:
+            state->pin6  = val;
+            break;
+        case 7:
+            state->pin7  = val;
+            break;
+        case 8:
+            state->pin8  = val;
+            break;
+        case 9:
+            state->pin9  = val;
+            break;
+        case 10:
+            state->pin10 = val;
+            break;
+        case 11:
+            state->pin11 = val;
+            break;
+        case 12:
+            state->pin12 = val;
+            break;
+        case 13:
+            state->pin13 = val;
+            break;
+        case 14:
+            state->pin14 = val;
+            break;
+        case 15:
+            state->pin15 = val;
+            break;
+        case 16:
+            state->pin16 = val;
+            break;
+        case 17:
+            state->pin17 = val;
+            break;
+        case 18:
+            state->pin18 = val;
+            break;
+        case 19:
+            state->pin19 = val;
+            break;
+        case 20:
+            state->pin20 = val;
+            break;
+        case 21:
+            state->pin21 = val;
+            break;
+        case 22:
+            state->pin22 = val;
+            break;
+        case 23:
+            state->pin23 = val;
+            break;
+        case 24:
+            state->pin24 = val;
+            break;
+        case 25:
+            state->pin25 = val;
+            break;
+        case 26:
+            state->pin26 = val;
+            break;
+        case 27:
+            state->pin27 = val;
+            break;
+        case 28:
+            state->pin28 = val;
+            break;
+        case 29:
+            state->pin29 = val;
+            break;
+        case 30:
+            state->pin30 = val;
+            break;
+        case 31:
+            state->pin31 = val;
+            break;
+        default:
+            break;
     }
 }
 
-static enum gpio_direction_t gpio_bcm2837_get_dir(struct gpiochip_t * chip, int offset)
+enum GPIO_PIN_LVL gpio_bcm2837_get_pinlvl(pin_t pin)
 {
-    if(offset >= chip->ngpio)
-        return GPIO_DIRECTION_INPUT;
-
-    switch(gpio_bcm2837_get_cfg(chip, offset))
-    {
-    case 6:
-        return GPIO_DIRECTION_OUTPUT;
-    case 7:
-        return GPIO_DIRECTION_INPUT;
-    default:
-        break;
-    }
-    return GPIO_DIRECTION_INPUT;
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gplev0));
 }
 
-static void gpio_bcm2837_set_value(struct gpiochip_t * chip, int offset, int value)
+
+void gpio_bcm2837_set_output(pin_t pin)
 {
-    struct gpio_bcm2837_pdata_t * pdat = (struct gpio_bcm2837_pdata_t *)chip->priv;
-    int bank = offset / 32;
-    int field = (offset - 32 * bank);
-
-    if(offset >= chip->ngpio)
-        return;
-
-    if(value)
-        write32(pdat->virt + GPIO_SET(bank), 1 << field);
-    else
-        write32(pdat->virt + GPIO_CLR(bank), 1 << field);
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpset0, 1);
 }
 
-static int gpio_bcm2837_get_value(struct gpiochip_t * chip, int offset)
+void gpio_bcm2837_clear_output(pin_t pin)
 {
-    struct gpio_bcm2837_pdata_t * pdat = (struct gpio_bcm2837_pdata_t *)chip->priv;
-    int bank = offset / 32;
-    int field = (offset - 32 * bank);
-    u32_t lev;
-
-    if(offset >= chip->ngpio)
-        return 0;
-
-    lev = read32(pdat->virt + GPIO_LEV(bank));
-    return (lev & (1 << field)) ? 1 : 0;
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpclr0, 1);
 }
 
-static int gpio_bcm2837_to_irq(struct gpiochip_t * chip, int offset)
-{
-    struct gpio_bcm2837_pdata_t * pdat = (struct gpio_bcm2837_pdata_t *)chip->priv;
 
-    if((offset >= chip->ngpio) || (pdat->oirq < 0))
-        return -1;
-    return pdat->oirq + offset;
+bool gpio_bcm2837_get_eventdetectStatus(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gpeds0));
 }
 
-static struct device_t * gpio_bcm2837_probe(struct driver_t * drv, struct dtnode_t * n)
+void gpio_bcm2837_set_eventdetectStatus(pin_t pin, bool val)
 {
-    struct gpio_bcm2837_pdata_t * pdat;
-    struct gpiochip_t * chip;
-    struct device_t * dev;
-    virtaddr_t virt = phys_to_virt(dt_read_address(n));
-    int base = dt_read_int(n, "gpio-base", -1);
-    int ngpio = dt_read_int(n, "gpio-count", -1);
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpeds0, val);
+}
 
-    if((base < 0) || (ngpio <= 0))
-        return NULL;
 
-    pdat = malloc(sizeof(struct gpio_bcm2837_pdata_t));
-    if(!pdat)
-        return NULL;
+bool gpio_bcm2837_get_risingEdgeDetect(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gpren0));
+}
 
-    chip = malloc(sizeof(struct gpiochip_t));
-    if(!chip)
-    {
-        free(pdat);
-        return NULL;
-    }
+void gpio_bcm2837_set_risingEdgeDetect(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpren0, val);
+}
 
-    pdat->virt = virt;
-    pdat->base = base;
-    pdat->ngpio = ngpio;
-    pdat->oirq = dt_read_int(n, "interrupt-offset", -1);
 
-    chip->name = alloc_device_name(dt_read_name(n), -1);
-    chip->base = pdat->base;
-    chip->ngpio = pdat->ngpio;
-    chip->set_cfg = gpio_bcm2837_set_cfg;
-    chip->get_cfg = gpio_bcm2837_get_cfg;
-    chip->set_pull = gpio_bcm2837_set_pull;
-    chip->get_pull = gpio_bcm2837_get_pull;
-    chip->set_drv = gpio_bcm2837_set_drv;
-    chip->get_drv = gpio_bcm2837_get_drv;
-    chip->set_rate = gpio_bcm2837_set_rate;
-    chip->get_rate = gpio_bcm2837_get_rate;
-    chip->set_dir = gpio_bcm2837_set_dir;
-    chip->get_dir = gpio_bcm2837_get_dir;
-    chip->set_value = gpio_bcm2837_set_value;
-    chip->get_value = gpio_bcm2837_get_value;
-    chip->to_irq = gpio_bcm2837_to_irq;
-    chip->priv = pdat;
+bool gpio_bcm2837_get_fallingEdgeDetect(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gpfen0));
+}
 
-    if(!(dev = register_gpiochip(chip, drv)))
-    {
-        free_device_name(chip->name);
-        free(chip->priv);
-        free(chip);
-        return NULL;
-    }
-    return dev;
+void gpio_bcm2837_set_fallingEdgeDetect(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpfen0, val);
+}
+
+
+bool gpio_bcm2837_get_highDetect(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gphen0));
+}
+
+void gpio_bcm2837_set_highDetect(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gphen0, val);
+}
+
+
+bool gpio_bcm2837_get_lowDetect(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gplen0));
+}
+
+void gpio_bcm2837_set_lowDetect(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gplen0, val);
+}
+
+
+bool gpio_bcm2837_get_asyncRisingEdgeDetect(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gparen0));
+}
+
+void gpio_bcm2837_set_asyncRisingEdgeDetect(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gparen0, val);
+}
+
+
+bool gpio_bcm2837_get_asyncFallingEdgeDetect(pin_t pin)
+{
+    return (_gpio_bcm2837_get_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0));
+}
+
+void gpio_bcm2837_set_asyncFallingEdgeDetect(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
+}
+
+
+static void _gpio_bcm2837_set_pullMode(enum GPPUDMODE mode)
+{
+    _gpio_bcm2837_set_bitpin_value(0, (u32_t *)&gpioregs->gppud, mode & 0b01);
+    _gpio_bcm2837_set_bitpin_value(1, (u32_t *)&gpioregs->gppud, mode & 0b10);
+}
+
+static void _gpio_bcm2837_set_pullClock(pin_t pin, bool val)
+{
+    _gpio_bcm2837_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
+}
+
+void gpio_bcm2837_set_pullClock(pin_t pin, enum GPPUDMODE mode)
+{
+    _gpio_bcm2837_set_pullMode(mode);
+    cycle_delay(150);
+    _gpio_bcm2837_set_pullClock(pin, 1);
+    cycle_delay(150);
+    _gpio_bcm2837_set_pullMode(GGPPUD_OFF);
+    _gpio_bcm2837_set_pullClock(pin, 0);
 }

@@ -1,5 +1,5 @@
 #include "target/raspi/raspi3/driver/lfb.h"
-#include "target/raspi/raspi3/delay.h"
+#include "target/raspi/raspi3/tools/delay.h"
 #include "target/raspi/raspi3/system.h"
 
 static const char spincharge[4] = { '|', '/', '-', '\\' };

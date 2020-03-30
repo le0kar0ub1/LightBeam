@@ -1,24 +1,205 @@
 #ifndef __BCM2837_GPIO_H__
 #define __BCM2837_GPIO_H__
 
-#define GPFSEL0         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
-#define GPFSEL1         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200004))
-#define GPFSEL2         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200008))
-#define GPFSEL3         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0020000C))
-#define GPFSEL4         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200010))
-#define GPFSEL5         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200014))
-#define GPSET0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0020001C))
-#define GPSET1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200020))
-#define GPCLR0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200028))
-#define GPLEV0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200034))
-#define GPLEV1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200038))
-#define GPEDS0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200040))
-#define GPEDS1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200044))
-#define GPHEN0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200064))
-#define GPHEN1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200068))
-#define GPPUD0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200094))
-#define GPPUDCLK0       ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200098))
-#define GPPUDCLK1       ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0020009C))
+#include "arch/aarch64/archutils.h"
+#include "def/typedef.h"
+#include "def/keyword.h"
+
+typedef u32_t pin_t;
+
+#define GPIO_START_POINT ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
+
+enum GPIO_PIN_LVL {
+    LOW  = 0x0,
+    HIGH = 0x1
+};
+
+enum GPIOMODE {
+    GPIO_INPUT    = 0b000,   // 0
+    GPIO_OUTPUT   = 0b001,   // 1
+    GPIO_ALTFUNC5 = 0b010,   // 2
+    GPIO_ALTFUNC4 = 0b011,   // 3
+    GPIO_ALTFUNC0 = 0b100,   // 4
+    GPIO_ALTFUNC1 = 0b101,   // 5
+    GPIO_ALTFUNC2 = 0b110,   // 6
+    GPIO_ALTFUNC3 = 0b111    // 7
+};
+
+enum GPPUDMODE {
+    GGPPUD_OFF      = 0b00,
+    GGPPUD_PULLDOWN = 0b01,
+    GGPPUD_PULLUP   = 0b10
+};
+
+struct gpio_fnctSlctReg_t
+{
+    enum GPIOMODE fnctslct0 : 3;
+    enum GPIOMODE fnctslct1 : 3;
+    enum GPIOMODE fnctslct2 : 3;
+    enum GPIOMODE fnctslct3 : 3;
+    enum GPIOMODE fnctslct4 : 3;
+    enum GPIOMODE fnctslct5 : 3;
+    enum GPIOMODE fnctslct6 : 3;
+    enum GPIOMODE fnctslct7 : 3;
+    enum GPIOMODE fnctslct8 : 3;
+    enum GPIOMODE fnctslct9 : 3;
+    u8_t          _reserved : 2;
+};
+
+struct gpio_StateReg0_t
+{
+    bool pin0  : 1;
+    bool pin1  : 1;
+    bool pin2  : 1;
+    bool pin3  : 1;
+    bool pin4  : 1;
+    bool pin5  : 1;
+    bool pin6  : 1;
+    bool pin7  : 1;
+    bool pin8  : 1;
+    bool pin9  : 1;
+    bool pin10 : 1;
+    bool pin11 : 1;
+    bool pin12 : 1;
+    bool pin13 : 1;
+    bool pin14 : 1;
+    bool pin15 : 1;
+    bool pin16 : 1;
+    bool pin17 : 1;
+    bool pin18 : 1;
+    bool pin19 : 1;
+    bool pin20 : 1;
+    bool pin21 : 1;
+    bool pin22 : 1;
+    bool pin23 : 1;
+    bool pin24 : 1;
+    bool pin25 : 1;
+    bool pin26 : 1;
+    bool pin27 : 1;
+    bool pin28 : 1;
+    bool pin29 : 1;
+    bool pin30 : 1;
+    bool pin31 : 1;
+};
+
+struct gpio_StateReg1_t
+{
+    bool      pin32 : 1;
+    bool      pin33 : 1;
+    bool      pin34 : 1;
+    bool      pin35 : 1;
+    bool      pin36 : 1;
+    bool      pin37 : 1;
+    bool      pin38 : 1;
+    bool      pin39 : 1;
+    bool      pin40 : 1;
+    bool      pin41 : 1;
+    bool      pin42 : 1;
+    bool      pin43 : 1;
+    bool      pin44 : 1;
+    bool      pin45 : 1;
+    bool      pin46 : 1;
+    bool      pin47 : 1;
+    bool      pin48 : 1;
+    bool      pin49 : 1;
+    bool      pin50 : 1;
+    bool      pin51 : 1;
+    bool      pin52 : 1;
+    bool      pin53 : 1;
+    u32_t _reserved : 10;
+};
+
+bool gpio_bcm2837_set_mode(pin_t pin, enum GPIOMODE);
+
+bool gpio_bcm2837_get_eventdetectStatus(pin_t);
+bool gpio_bcm2837_get_risingEdgeDetect(pin_t);
+bool gpio_bcm2837_get_fallingEdgeDetect(pin_t);
+bool gpio_bcm2837_get_highDetect(pin_t);
+bool gpio_bcm2837_get_lowDetect(pin_t);
+bool gpio_bcm2837_get_asyncRisingEdgeDetect(pin_t);
+bool gpio_bcm2837_get_asyncFallingEdgeDetect(pin_t);
+
+void gpio_bcm2837_set_output(pin_t);
+void gpio_bcm2837_clear_output(pin_t);
+void gpio_bcm2837_set_eventdetectStatus(pin_t, bool);
+void gpio_bcm2837_set_risingEdgeDetect(pin_t, bool);
+void gpio_bcm2837_set_fallingEdgeDetect(pin_t, bool);
+void gpio_bcm2837_set_highDetect(pin_t, bool);
+void gpio_bcm2837_set_lowDetect(pin_t, bool);
+void gpio_bcm2837_set_asyncRisingEdgeDetect(pin_t, bool);
+void gpio_bcm2837_set_asyncFallingEdgeDetect(pin_t, bool);
+void gpio_bcm2837_set_pullClock(pin_t, enum GPPUDMODE);
+
+enum GPIO_PIN_LVL gpio_bcm2837_get_pinlvl(pin_t);
+
+struct gpioreg_r_t
+{
+    void *ptr;
+    u32_t (*read)(void);
+} __packed;
+
+struct gpioreg_w_t
+{
+    void *ptr;
+    u32_t (*write)(void);
+} __packed;
+
+struct gpioreg_rw_t
+{
+    void *ptr;
+    u32_t (*read)(void);
+    u32_t (*write)(void);
+} __packed;
+
+void gpio_init(void);
+
+struct gpio_regs_t
+{
+    u32_t  gpfsel0;   // GPFSEL0 GPIO Function Select 0 32 R/W
+    u32_t  gpfsel1;   // GPFSEL1 GPIO Function Select 1 32 R/W
+    u32_t  gpfsel2;   // GPFSEL2 GPIO Function Select 2 32 R/W
+    u32_t  gpfsel3;   // GPFSEL3 GPIO Function Select 3 32 R/W
+    u32_t  gpfsel4;   // GPFSEL4 GPIO Function Select 4 32 R/W
+    u32_t  gpfsel5;   // GPFSEL5 GPIO Function Select 5 32 R/W
+    u32_t  _reserved0;
+    u32_t  gpset0;    // GPSET0 GPIO Pin Output Set 0 32 W
+    u32_t  gpset1;    // GPSET1 GPIO Pin Output Set 1 32 W
+    u32_t  _reserved1;
+    u32_t  gpclr0;    // GPCLR0 GPIO Pin Output Clear 0 32 W
+    u32_t  gpclr1;    // GPCLR1 GPIO Pin Output Clear 1 32 W
+    u32_t  _reserved2;
+    u32_t  gplev0;    // GPLEV0 GPIO Pin Level 0 32 R
+    u32_t  gplev1;    // GPLEV1 GPIO Pin Level 1 32 R
+    u32_t  _reserved3;
+    u32_t  gpeds0;    // GPEDS0 GPIO Pin Event Detect Status 0 32 R/W
+    u32_t  gpeds1;    // GPEDS1 GPIO Pin Event Detect Status 1 32 R/W
+    u32_t  _reserved4;
+    u32_t  gpren0;    // GPREN0 GPIO Pin Rising Edge Detect Enable 0 32 R/W
+    u32_t  gpren1;    // GPREN1 GPIO Pin Rising Edge Detect Enable 1 32 R/W
+    u32_t  _reserved5;
+    u32_t  gpfen0;    // GPFEN0 GPIO Pin Falling Edge Detect Enable 0 32 R/W
+    u32_t  gpfen1;    // GPFEN1 GPIO Pin Falling Edge Detect Enable 1 32 R/W
+    u32_t  _reserved6;
+    u32_t  gphen0;    // GPIO Pin High Detect Enable 0 32 R/W
+    u32_t  gphen1;    // GPIO Pin High Detect Enable 1 32 R/W
+    u32_t  _reserved7;
+    u32_t  gplen0;    // GPIO Pin Low Detect Enable 0 32 R/W
+    u32_t  gplen1;    // GPIO Pin Low Detect Enable 1 32 R/W
+    u32_t  _reserved8;
+    u32_t  gparen0;   // GPIO Pin Async. Rising Edge Detect 0 32 R/W
+    u32_t  gparen1;   // GPIO Pin Async. Rising Edge Detect 1 32 R/W
+    u32_t  _reserved9;
+    u32_t  gpafen0;   // GPIO Pin Async. Falling Edge Detect 0 32 R/W
+    u32_t  gpafen1;   // GPIO Pin Async. Falling Edge Detect 1 32 R/W
+    u32_t  _reserved10;
+    u32_t  gppud;     // GPIO Pin Pull-up/down Enable 32 R/W
+    u32_t  gppudclk0; // GPIO Pin Pull-up/down Enable Clock 0 32 R/W
+    u32_t  gppudclk1; // GPIO Pin Pull-up/down Enable Clock 1 32 R/W
+    u32_t  _reserved11;
+    u32_t  _unused;
+};
+
+void gpio_init(void);
 
 #define BCM2837_GPIO0       (0)
 #define BCM2837_GPIO1       (1)
