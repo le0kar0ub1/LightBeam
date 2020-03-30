@@ -3,9 +3,9 @@
 
 #pragma message "initcall me"
 
-volatile struct uart_pl011_regs_t *uartregs __aligned(4);
+volatile struct uart_pl011_regs_t *uartpl011regs __aligned(4);
 
-void gpio_init(void)
+void uartpl011_bcm2837_init(void)
 {
-    uartregs = (struct uart_pl011_regs_t *)UART_PL011_ENTRY;
+    uartpl011regs = (struct uart_pl011_regs_t *)UART_PL011_ENTRY;
 }

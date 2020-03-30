@@ -21,12 +21,14 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
 BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
-BUILDER_SOURCE_DIR	+=	.			\
-						boot		\
-						cpus		\
-						cpus/init	\
-						interrupts	\
-						bcm2837/gpio
+BUILDER_SOURCE_DIR	+=	.				\
+						boot			\
+						cpus			\
+						cpus/init		\
+						interrupts		\
+						bcm2837/gpio	\
+						bcm2837/mbox	\
+						bcm2837/uart	\
 						#tools		\
 						drivers		\
 						memory		\

@@ -17,21 +17,21 @@ enum {
 
 static void bcm2837_mbox_write(int channel, u32_t data)
 {
-    virtaddr_t virt = BCM2837_MBOX_BASE;
+    virtaddr_t virt = (virtaddr_t)BCM2837_MBOX_BASE;
 
-    while((read32(virt + MBOX_STATUS) & (1 << 31)) != 0);
-    write32(virt + MBOX_WRITE, (data & ~0xf) | (channel & 0xf));
+    while((read32((virtaddr_t)((u64_t)virt + MBOX_STATUS)) & (1 << 31)) != 0);
+    write32((virtaddr_t)((u64_t)virt + MBOX_WRITE), (data & ~0xf) | (channel & 0xf));
 }
 
 static u32_t bcm2837_mbox_read(int channel)
 {
-    virtaddr_t virt = BCM2837_MBOX_BASE;
+    virtaddr_t virt = (virtaddr_t)BCM2837_MBOX_BASE;
     u32_t data;
 
     do {
-        while((read32(virt + MBOX_STATUS) & (1 << 30)) != 0);
-        data = read32(virt + MBOX_READ);
-    } while ((data & 0xf) != channel);
+        while((read32((virtaddr_t)((u64_t)virt + MBOX_STATUS)) & (1 << 30)) != 0);
+        data = read32((virtaddr_t)((u64_t)virt + MBOX_READ));
+    } while ((data & 0xf) != (u32_t)channel);
 
     return (data & ~0xf);
 }
@@ -315,7 +315,7 @@ int bcm2837_mbox_clock_get_turbo(void)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != 0)
+    if(p->tag.id != (uint)0)
         return -1;
     return p->tag.val;
 }
@@ -337,7 +337,7 @@ int bcm2837_mbox_clock_set_turbo(int level)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != 0)
+    if(p->tag.id != (uint)0)
         return -1;
     return p->tag.val;
 }
@@ -359,7 +359,7 @@ int bcm2837_mbox_clock_get_state(int id)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return (p->tag.val & 0x3);
 }
@@ -381,7 +381,7 @@ int bcm2837_mbox_clock_set_state(int id, int state)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return (p->tag.val & 0x3);
 }
@@ -403,7 +403,7 @@ int bcm2837_mbox_clock_get_rate(int id)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return p->tag.val;
 }
@@ -425,7 +425,7 @@ int bcm2837_mbox_clock_set_rate(int id, int rate)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return p->tag.val;
 }
@@ -447,7 +447,7 @@ int bcm2837_mbox_clock_get_max_rate(int id)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return p->tag.val;
 }
@@ -469,7 +469,7 @@ int bcm2837_mbox_clock_get_min_rate(int id)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return p->tag.val;
 }
@@ -512,7 +512,7 @@ int bcm2837_mbox_power_get_state(int id)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return (p->tag.val & 0x3);
 }
@@ -534,7 +534,7 @@ int bcm2837_mbox_power_set_state(int id, int state)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != id)
+    if(p->tag.id != (uint)id)
         return -1;
     return (p->tag.val & 0x3);
 }
@@ -577,7 +577,7 @@ int bcm2837_mbox_temp_get(void)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != 0)
+    if(p->tag.id != (uint)0)
         return -1;
     return p->tag.val;
 }
@@ -599,7 +599,7 @@ int bcm2837_mbox_temp_get_max(void)
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
-    if(p->tag.id != 0)
+    if(p->tag.id != (uint)0)
         return -1;
     return p->tag.val;
 }

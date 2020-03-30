@@ -88,7 +88,8 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-O2 								\
 					-fno-tree-loop-vectorize 			\
 					-fno-tree-slp-vectorize				\
-					-Wno-override-init
+					-Wno-override-init					\
+					-Wno-unused-function				\
 					# -Werror
 
 export ASFLAGS	=	$(INCLUDE_DIR)						\
