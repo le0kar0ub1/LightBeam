@@ -92,34 +92,3 @@ void uart_hex(u32_t d)
         uart_send(n);
     }
 }
-
-/**
- * Dump memory
- */
-void uart_dump(void *ptr)
-{
-    ulong a, b, d;
-    uchar c;
-
-    for (a = (ulong)ptr;a < (ulong) ptr + 512; a += 16) {
-        uart_hex(a); uart_puts(": ");
-        for (b = 0; b < 16; b++) {
-            c = *((uchar*)(a + b));
-            d = ((u32_t)c >> 4) & 0xF;
-            d += d > 9 ? 0x37 : 0x30;
-            uart_send(d);
-            d = (u32_t)c;
-            d &= 0xF; d += d > 9 ? 0x37 : 0x30;
-            uart_send(d);
-            uart_send(' ');
-            if(b % 4 == 3)
-                uart_send(' ');
-        }
-        for (b = 0; b < 16; b++) {
-            c = *((uchar*)(a + b));
-            uart_send(c < 32 || c >= 127 ? '.' : c);
-        }
-        uart_send('\r');
-        uart_send('\n');
-    }
-}

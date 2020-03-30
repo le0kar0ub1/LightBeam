@@ -1,6 +1,25 @@
 #ifndef __BCM2837_GPIO_H__
 #define __BCM2837_GPIO_H__
 
+#define GPFSEL0         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
+#define GPFSEL1         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200004))
+#define GPFSEL2         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200008))
+#define GPFSEL3         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0020000C))
+#define GPFSEL4         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200010))
+#define GPFSEL5         ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200014))
+#define GPSET0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0020001C))
+#define GPSET1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200020))
+#define GPCLR0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200028))
+#define GPLEV0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200034))
+#define GPLEV1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200038))
+#define GPEDS0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200040))
+#define GPEDS1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200044))
+#define GPHEN0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200064))
+#define GPHEN1          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200068))
+#define GPPUD0          ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200094))
+#define GPPUDCLK0       ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200098))
+#define GPPUDCLK1       ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x0020009C))
+
 #define BCM2837_GPIO0       (0)
 #define BCM2837_GPIO1       (1)
 #define BCM2837_GPIO2       (2)

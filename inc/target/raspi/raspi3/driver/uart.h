@@ -21,11 +21,7 @@ void uart_puts(char const *);
 void uart_hex(u32_t);
 void uart_dump(void *);
 
-void uart_kprint_switch_type(char const **, __builtin_va_list *);
 void uart_kprint(char const *, ...);
 void __uart_kprint(char const *, __builtin_va_list);
-void uart_base_intput(int, int);
-void uart_base_longput(long, int);
-
 
 #endif
