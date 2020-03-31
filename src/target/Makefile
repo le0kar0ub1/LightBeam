@@ -2,7 +2,7 @@
 # Makefile at target root, redirection from target
  #
 
-include $(MKHELPER_DIR)/macro.mk
+sinclude $(MKHELPER_DIR)/macro.mk
 
 export TARGET_DIR	:=	$(addprefix $(shell realpath .),	raspi)
 

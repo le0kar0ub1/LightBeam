@@ -16,8 +16,8 @@
 multicore_init:
     prologue
 
-    ldr x0, =_BRINGUPCORES
-    bl uart_kprint
+    // ldr x0, =_BRINGUPCORES
+    // bl uart_kprint
 
     mov x1, #SPIN_CPU1
     mov x2, #0x80000
@@ -32,8 +32,9 @@ multicore_init:
     and x1, x1, 0b1
     cmp x1, 0x0
     beq .hang_cpu1
-    ldr x0, =CPU1_ACQUIRE_START
-    bl uart_kprint
+    
+    // ldr x0, =CPU1_ACQUIRE_START
+    // bl uart_kprint
 
     mov x1, #SPIN_CPU2
     mov x2, #0x80000
@@ -49,8 +50,8 @@ multicore_init:
     cmp x1, 0x0
     beq .hang_cpu2
 
-    ldr x0, =CPU2_ACQUIRE_START
-    bl uart_kprint
+    // ldr x0, =CPU2_ACQUIRE_START
+    // bl uart_kprint
 
     mov x1, #SPIN_CPU3
     mov x2, #0x80000
@@ -66,11 +67,11 @@ multicore_init:
     cmp x1, 0x0
     beq .hang_cpu3
 
-    ldr x0, =CPU3_ACQUIRE_START
-    bl uart_kprint
+    // ldr x0, =CPU3_ACQUIRE_START
+    // bl uart_kprint
 
-    ldr x0, =_CHECKEDUP
-    bl uart_kprint
+    // ldr x0, =_CHECKEDUP
+    // bl uart_kprint
 
     epilogue
     ret

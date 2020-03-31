@@ -18,7 +18,7 @@ TARGET_BUILT_OBJECT :=  $(BUILDIR)/$(TARGET_PREFIX_BUILD)/font/font.o
 
 all:	 fontbuild lauchbuilder
 
-include $(MKHELPER_DIR)/builder/builder.mk
+sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 fontbuild:
 	@mkdir -p $(BUILDIR)/$(TARGET_PREFIX_BUILD)/font

@@ -2,10 +2,10 @@
 # Root Makefile project, calling sub-build
  #
 
-include mkhelper/def.mk
-include mkhelper/macro.mk
-include mkhelper/toolchain.mk
-include mkhelper/builder/def.mk
+sinclude mkhelper/def.mk
+sinclude mkhelper/macro.mk
+sinclude mkhelper/toolchain.mk
+sinclude mkhelper/builder/def.mk
 
 .PHONY: all prebuld build fclean debug clean $(KERNEL)
 
@@ -41,7 +41,7 @@ re:	fclean all
 clean:
 	@$(RM) $(BUILDIR)
 
-# Full clean the projet
+# Full clean the project directory
 fclean:	clean
 	@$(RM) $(PROJECT)*.bin $(PROJECT)*.img
 	@$(RM) vgcore.* qemu_*.core

@@ -1,14 +1,16 @@
 #include "target/raspi/raspi3/cpus/cpus.h"
-#include "target/raspi/raspi3/driver/lfb.h"
+#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/system.h"
 #include <stdarg.h>
 
-void PANIC(char const *fmt, ...)
+void PANIC(char const *fmt __unused, ...)
 {
-    lfb_kprint("[CPU %d] [%$AERR%$R]: ", cpuGetId(), RGB_Red);
-    __builtin_va_list ap;
-    __builtin_va_start(ap, fmt);
-    __lfb_kprint(fmt, ap);
-    __builtin_va_end(ap);
+    enum CPUS_ID id = cpuGetId();
+    for (enum CPUS_ID shutoff = CPU0; shutoff <= CPU3; shutoff++)
+        if (id != shutoff)
+            cpuExecRoutine(shutoff,__deadloop);
+    uart_puts("[Kernel panic] ");
+    uart_puts(fmt);
     __deadloop();
 }

@@ -4,8 +4,12 @@
 #include "def/typedef.h"
 #include <stdbool.h>
 #include <stdarg.h>
+#include "arch/overworld/generic_printf.h"
 
 u32_t strlen(char const *);
+
+/* Number instrument */
+u32_t numberlen(u64_t, u8_t);
 
 /* Memory instrument */
 void *memcpy(void *, const void *, size_t);
@@ -23,13 +27,5 @@ s32_t atoi(char const *);
 s32_t atoib(char const *, u8_t);
 s64_t atol(char const *);
 s64_t atolb(char const *, u8_t);
-
-/* Generic printf with assigned printer */
-void generic_printf(void (*)(char), char const *, ...);
-void __generic_printf(char const *, __builtin_va_list);
-void generic_printf_switch_type(char const **, __builtin_va_list *);
-void generic_base_longput(long, int);
-void generic_base_intput(int, int);
-void generic_puts(char const *);
 
 #endif

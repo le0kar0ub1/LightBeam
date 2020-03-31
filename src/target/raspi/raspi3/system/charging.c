@@ -1,5 +1,5 @@
-#include "target/raspi/raspi3/driver/lfb.h"
-#include "target/raspi/raspi3/delay.h"
+#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/tools/delay.h"
 #include "target/raspi/raspi3/system.h"
 
 static const char spincharge[4] = { '|', '/', '-', '\\' };
@@ -28,9 +28,9 @@ void system_charging(u32_t time)
     u32_t i = 0;
 
     while (timer_getTickCount64() < endtime) {
-        lfb_kprint("System charging... %c\r", spincharge[i]);
+        rpifb_kprint("System charging... %c%\r", spincharge[i]);
         timer_wait(50000);
         i = (i + 1) % 4;
     }
-    lfb_kprint("System charging... %$ADONE%$R\n", RGB_Lime);
+    rpifb_kprint("System charging... %$ADONE%$R\n", RGB_Lime);
 }

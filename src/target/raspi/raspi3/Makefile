@@ -2,6 +2,8 @@
 # Makefile Compiling object for RASPI3 target
  #
 
+export TGTARCH	:=	aarch64
+
 export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
 
 CCFLAGS		+=	-march=armv8-a 		\
@@ -19,21 +21,26 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
 BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
-BUILDER_SOURCE_DIR	+=	.			\
-						boot		\
-						tool		\
-						driver		\
-						interrupt	\
-						cpus/init	\
-						cpus		\
-						memory		\
-						system		\
+BUILDER_SOURCE_DIR	+=	.				\
+						boot			\
+						cpus			\
+						cpus/init		\
+						interrupts		\
+						bcm2837/gpio	\
+						bcm2837/mbox	\
+						bcm2837/uart	\
+						bcm2837/fb		\
+						drivers/uart	\
+						drivers/fb		\
+						tools			\
+						memory			\
+						system			\
 
 .PHONY: all
 
 all:	arcbuild	lauchbuilder
 
-include $(MKHELPER_DIR)/builder/builder.mk
+sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
 	@make -s -C $(OVRWLD_SHARED_SRC_DIR) --no-print-directory

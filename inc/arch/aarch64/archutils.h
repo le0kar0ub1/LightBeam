@@ -8,7 +8,7 @@
 #include "irqflags.h"
 #include "types.h"
 
-#define TODO(str) __pragma(message (__FILE__"("STR1_(__LINE__)"): TODO: " str))
+void cycle_delay(u32_t);
 
 #define __AARCH64__ 1
 

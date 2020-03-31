@@ -1,6 +1,6 @@
 .global semaphore_inc
 .global semaphore_dec
-.global unfatal_smp_lock
+.global semaphore_unfatal_inc
 
 /*
 ** http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0489c/CIHGHHIE.html 
@@ -11,7 +11,12 @@
 /* FATAL LOCK */
 .align 4
 semaphore_inc:
-    mov w2, 1
+    mrs x2, mpidr_el1
+    and x2, x2, #0x3
+    add x2, x2, #1 // else core0 acquire always well :)
+    ldaxr w1, [x0]
+    cmp w1, w2
+    beq .deadlock
 .lockit:
     ldaxr w1, [x0]
     stxr  w3, w2, [x0]
@@ -22,7 +27,7 @@ semaphore_inc:
 
 /* UNFATAL LOCK */
 .align 4
-unfatal_smp_lock:
+semaphore_unfatal_inc:
     mov   w2, 1
     ldaxr w1, [x0]
     stxr  w3, w2, [x0]
@@ -41,3 +46,14 @@ semaphore_dec:
     stlrb wzr, [x0]
     dmb   ish
     ret
+
+
+/* DEADLOCK */
+.align 4
+.deadlock:
+    ldr x0, =dataDeadlock
+    b PANIC
+    b __deadloop
+
+.section .data
+dataDeadlock: .string "Physical Deadlock occured, throw your cpu in the trash."

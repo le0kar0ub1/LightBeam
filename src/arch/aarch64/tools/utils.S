@@ -10,10 +10,12 @@ get32:
     ldr w0,[x0]
     ret
 
-.globl delay
-delay:
+.globl cycle_delay
+cycle_delay:
     subs x0, x0, #1
-    bne delay
+    nop
+    cmp x0, #0
+    bgt cycle_delay
     ret
 
 .globl get_el

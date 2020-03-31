@@ -1,4 +1,4 @@
-// #include "target/raspi/raspi3/driver/lfb.h"
+// #include "target/raspi/raspi3/driver/fb.h"
 // #include "target/raspi/raspi3/memory/mmu.h"
 // #include <stdint.h>
 

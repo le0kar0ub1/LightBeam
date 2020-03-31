@@ -11,3 +11,6 @@
 #define KCONFIG_MMU_PAGESIZE 0x1000
 
 #define KCONFIG_INITLEVEL    0x9
+
+/* Another */
+// #define PRINTF_BUFFERED 
