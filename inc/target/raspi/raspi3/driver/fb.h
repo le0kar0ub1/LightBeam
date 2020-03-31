@@ -2,6 +2,7 @@
 #define __RPIFB_H_
 
 #include "def/typedef.h"
+#include "def/keyword.h"
 
 enum RGBCOLORS {
     RGB_Black   = 0x000000,
@@ -49,6 +50,12 @@ struct rpifb_handler {
     u32_t back;
     u32_t front;
 } __attribute__((packed));
+
+struct rpifb_escape_sequence_color_t
+{
+    char const *sequence;
+    u32_t color;
+} __packed;
 
 void rpifb_init(u32_t, u32_t, u32_t, u32_t, u32_t);
 

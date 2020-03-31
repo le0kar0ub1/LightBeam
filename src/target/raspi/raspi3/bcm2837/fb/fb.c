@@ -1,6 +1,9 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
-#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/bcm2837/fb.h"
 #include "arch/overworld/overworld.h"
+
+/* We will provide driver function when needed */
+// https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
 
 /*
  * Mbox framebuffer
@@ -50,6 +53,18 @@ struct mbox_fb_gpiovirt_msg_t {
 };
 
 struct mbox_fb_pitch_msg_t {
+    u32_t size;
+    u32_t code;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t val;
+    } tag;
+    u32_t end;
+};
+
+struct mbox_fb_alpha_msg_t {
     u32_t size;
     u32_t code;
     struct {
@@ -229,6 +244,26 @@ bool bcm2837_mbox_fb_setoffset(int xoffset, int yoffset)
     p->tag.len = 8;
     p->tag.xoffset = xoffset;
     p->tag.yoffset = yoffset;
+    p->end = 0;
+
+    bcm2837_mbox_call(p);
+    if(p->code != 0x80000000)
+        return false;
+    return true;
+}
+
+
+bool bcm2837_mbox_fb_setalpha(int alpha)
+{
+    struct mbox_fb_alpha_msg_t msg __attribute__((aligned(16)));
+    struct mbox_fb_alpha_msg_t *p = &msg;
+
+    p->size = sizeof(struct mbox_fb_alpha_msg_t);
+    p->code = 0;
+    p->tag.tag = MBOX_TAG_FB_SET_VIRT_OFFSET;
+    p->tag.size = 4;
+    p->tag.len = 4;
+    p->tag.val = alpha;
     p->end = 0;
 
     bcm2837_mbox_call(p);

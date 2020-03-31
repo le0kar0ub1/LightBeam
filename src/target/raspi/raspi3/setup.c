@@ -1,15 +1,15 @@
+#include "lightbleam.h"
+#include "def/keyword.h"
 #include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/driver/gpio.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/system.h"
 #include "arch/overworld/overworld.h"
-#include "lightbleam.h"
-#include "def/keyword.h"
+#include "kernel/init/initcalls.h"
 // #include "target/raspi/raspi3/interrupts/interrupt.h"
 // #include "target/raspi/raspi3/memory/mmu.h"
 // #include "def/assert.h"
-#include "kernel/init/initcalls.h"
 
 static inline void start_setup_log(char const *data)
 {
@@ -28,9 +28,6 @@ void setup_level(void);
 void setup_level(void)
 {
     run_boot_initcalls();
-    // bcm2837_gpio_init();
-    // bcm2837_uartpl011_init();
-    uart_kprint("LALALALA\n");
     uart_init();
     rpifb_init(1024, 768, 32, 1, 0);
     helloFromLightBleam();

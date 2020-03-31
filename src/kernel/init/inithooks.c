@@ -1,8 +1,6 @@
 #include "kernel/init/inithooks.h"
 #include "def/typedef.h"
 
-#pragma message "do same thing for my friend initcalls"
-
 extern inithook_t __inithook_start[];
 extern inithook_t __inithook_end[];
 extern exithook_t __exithook_start[];

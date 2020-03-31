@@ -9,7 +9,7 @@ extern volatile struct rpifb_properties properties;
 
 extern volatile struct rpifb_handler attrib;
 
-#pragma message "make coloration as char escape to ensure buffered compatibitly"
+#pragma message "make coloration as escape sequence to ensure buffered compatibitly"
 
 void rpifb_set_pos(u32_t x, u32_t y)
 {
@@ -41,6 +41,26 @@ void rpifb_puts(char const *s)
     }
 }
 
+static struct rpifb_escape_sequence_color_t rpifb_escape_sequence_color[] =
+{
+    {"[0;31m", RGB_Red},
+    {"[0;32m", RGB_Green},
+    {"[0;33m", RGB_Yellow},
+    {"[0;34m", RGB_Blue},
+    {"[0;35m", RGB_Magenta},
+    {"[0;36m", RGB_Cyan},
+    {"[0m",    RGB_White},
+};
+
+static void rpifb_escape_sequence(char c)
+{
+    static char escape[0x10];
+    static u8_t inc = 0x0;
+    escape[inc] = c;
+}
+
+static bool isInEscapeSequence = false;
+
 void rpifb_putc(char c)
 {
     psf_t *font = (psf_t *)&_binary_font_font_psf_start;
@@ -53,6 +73,8 @@ void rpifb_putc(char c)
     int i, j, line, mask, bytesperline = (font->width + 7) / 8;
     if (c == '\r')
         attrib.x = 0;
+    else if (c == '\e' || isInEscapeSequence)
+        rpifb_escape_sequence(c);
     else
         if (c == '\n') {
             attrib.x = 0;
