@@ -1,4 +1,4 @@
-#include "lighbeam.h"
+#include "lightbeam.h"
 #include "target/raspi/raspi3/bcm2837/gpio.h"
 #include "kernel/init/initcalls.h"
 

@@ -1,4 +1,4 @@
-#include "lighbeam.h"
+#include "lightbeam.h"
 #include "kernel/def/keyword.h"
 #include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/driver/fb.h"

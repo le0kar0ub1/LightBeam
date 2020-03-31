@@ -15,11 +15,12 @@ struct printfhandlers_t
 /* Generic printf with assigned printer */
 void generic_vprintf(void (*)(char), struct printfhandlers_t *, char const *, __builtin_va_list);
 void generic_printf(void (*)(char), struct printfhandlers_t *, char const *, ...);
-void __generic_printf(char const *, __builtin_va_list);
 
 /*****************************\
 * followed static declaration *
 *******************************
+** void __generic_printf(char const *, __builtin_va_list);
+
 ** void generic_printf_hdlflg(char const **, __builtin_va_list *);
 ** bool handle_caller_flg(char const **, __builtin_va_list *);
 ** void generic_puts(char const *);
