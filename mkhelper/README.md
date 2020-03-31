@@ -25,7 +25,7 @@ Define Some Variable:
   - `BUILDER_TARGET`    : The output name (in case of library or binary output type)
   - `BUILDER_SOURCE_DIR`: The sources directories we want to compile
 
-Then include the builder & call `lauchbuilder` rule.
+Then include the builder file & call the `lauchbuilder` rule.
 
 The builder assume `C` & `Assembly` source file compilation.
 
