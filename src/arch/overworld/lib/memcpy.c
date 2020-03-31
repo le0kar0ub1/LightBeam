@@ -1,4 +1,4 @@
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include "arch/overworld/overworld.h"
 
 void *memcpy(void *dest, const void *src, size_t sz)

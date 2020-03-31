@@ -1,7 +1,7 @@
 #ifndef __KSYMTAB_H__
 #define __KSYMTAB_H__
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 struct symbol_t
 {

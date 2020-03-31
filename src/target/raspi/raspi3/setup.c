@@ -1,5 +1,5 @@
 #include "lightbleam.h"
-#include "def/keyword.h"
+#include "kernel/def/keyword.h"
 #include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/driver/gpio.h"
@@ -9,7 +9,7 @@
 #include "kernel/init/initcalls.h"
 // #include "target/raspi/raspi3/interrupts/interrupt.h"
 // #include "target/raspi/raspi3/memory/mmu.h"
-// #include "def/assert.h"
+// #include "kernel/def/assert.h"
 
 static inline void start_setup_log(char const *data)
 {

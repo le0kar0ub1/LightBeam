@@ -1,7 +1,7 @@
 #ifndef __INTERRUPT_H_
 #define __INTERRUPT_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 struct rframe_t
 {

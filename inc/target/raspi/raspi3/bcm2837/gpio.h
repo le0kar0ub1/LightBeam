@@ -2,8 +2,8 @@
 #define __BCM2837_GPIO_H__
 
 #include "arch/aarch64/archutils.h"
-#include "def/typedef.h"
-#include "def/keyword.h"
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
 
 typedef u32_t pin_t;
 

@@ -1,7 +1,7 @@
 #ifndef __ARM64_TYPES_H__
 #define __ARM64_TYPES_H__
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 typedef signed long             off_t;
 typedef signed long long        loff_t;

@@ -1,4 +1,4 @@
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include "arch/overworld/overworld.h"
 
 void *memset(void *x, int c, size_t sz)

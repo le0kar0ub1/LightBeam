@@ -1,8 +1,8 @@
 #ifndef __DRIVER_GPIO_H__
 #define __DRIVER_GPIO_H__
 
-#include "def/typedef.h"
-#include "def/keyword.h"
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
 
 typedef u32_t pin_t;
 

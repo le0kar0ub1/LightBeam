@@ -1,7 +1,7 @@
 #ifndef __SEMAPHORE_H_
 #define __SEMAPHORE_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include <stdbool.h>
 
 #define SMPLOCK_INIT 0

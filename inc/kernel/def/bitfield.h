@@ -2,7 +2,7 @@
 #define _BITFILED_H_
 
 #include "limits.h"
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 /* BIT OPERATIONS */
 /* Usefull functions to clear or set a bit on a bitfield */

@@ -1,5 +1,5 @@
-#include "def/typedef.h"
-#include "def/keyword.h"
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
 #include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "arch/overworld/generic_printf.h"

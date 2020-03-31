@@ -1,7 +1,7 @@
 #ifndef __MMU_H_
 #define __MMU_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 typedef uintptr_t mmuval_t;
 

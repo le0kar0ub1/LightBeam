@@ -1,7 +1,7 @@
 #ifndef __GENERIC_PRINTF_H_
 #define __GENERIC_PRINTF_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include <stdbool.h>
 #include <stdarg.h>
 

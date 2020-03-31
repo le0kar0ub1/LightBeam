@@ -1,4 +1,4 @@
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include "arch/overworld/overworld.h"
 
 u32_t strlen(char const *s)

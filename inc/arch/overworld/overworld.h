@@ -1,7 +1,7 @@
 #ifndef __OVERWORLD_H_
 #define __OVERWORLD_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include <stdbool.h>
 #include <stdarg.h>
 #include "arch/overworld/generic_printf.h"

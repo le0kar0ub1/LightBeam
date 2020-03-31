@@ -1,7 +1,7 @@
 #ifndef __INITCALLS_H__
 #define __INITCALLS_H__
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 typedef void (*initcall_t)(void);
 typedef void (*exithook_t)(void);

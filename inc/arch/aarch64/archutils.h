@@ -1,7 +1,7 @@
 #ifndef _AARCH64_H_
 #define _AARCH64_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include "arm64.h"
 #include "atomic.h"
 #include "barrier.h"

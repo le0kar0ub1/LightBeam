@@ -1,5 +1,5 @@
 #include "kernel/init/initcalls.h"
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 extern initcall_t __initcall_start[];
 extern initcall_t __initcall_end[];

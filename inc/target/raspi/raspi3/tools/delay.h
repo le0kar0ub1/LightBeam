@@ -1,7 +1,7 @@
 #ifndef __DELAY_H_
 #define __DELAY_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 void wait_cycles(u32_t);
 void wait_msec(u32_t);

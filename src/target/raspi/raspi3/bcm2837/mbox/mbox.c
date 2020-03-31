@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "kernel/io.h"
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 enum {
     MBOX_CH_POWER_MANAGEMENT    = 0,
