@@ -13,4 +13,4 @@
 #define KCONFIG_INITLEVEL    0x9
 
 /* Another */
-// #define PRINTF_BUFFERED 
+#define PRINTF_BUFFERED 

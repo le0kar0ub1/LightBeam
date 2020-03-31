@@ -18,7 +18,7 @@ void uart_init(void)
     bcm2837_uartpl011_enable();
 }
 
-void uart_putc(char c)
+static void uart_putc(char c)
 {
     while(bcm2837_uartpl011_isTransmiterFull());
     bcm2837_uartpl011_send_data_nonfifo(c);
@@ -30,11 +30,8 @@ char uart_getc(void)
     return (bcm2837_uartpl011_get_data_nonfifo());
 }
 
-void uart_puts(char const *s)
+void uart_szputs(char const *s, u32_t sz)
 {
-    while (*s) {
-        uart_putc(*s);
-        s++;
-    }
+    for (u32_t i = 0x0; s[i] && i < sz; i++)
+        uart_putc(s[i]);
 }
-

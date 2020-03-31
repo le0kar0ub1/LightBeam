@@ -24,26 +24,6 @@ enum RGBCOLORS {
     RGB_Navy    = 0x000080
 };
 
-// enum RGBCOLORS_EscapeChar {
-//     EscapeChar_RGB_Black   = 'A',
-//     EscapeChar_RGB_White   = 'B',
-//     EscapeChar_RGB_Orange  = 'C',
-//     EscapeChar_RGB_Red     = 'D',
-//     EscapeChar_RGB_Lime    = 'E',
-//     EscapeChar_RGB_Blue    = 'F',
-//     EscapeChar_RGB_Yellow  = 'G',
-//     EscapeChar_RGB_Cyan    = 'H',
-//     EscapeChar_RGB_Magenta = 'I',
-//     EscapeChar_RGB_Silver  = 'J',
-//     EscapeChar_RGB_Gray    = 'K',
-//     EscapeChar_RGB_Maroon  = 'L',
-//     EscapeChar_RGB_Olive   = 'M',
-//     EscapeChar_RGB_Green   = 'N',
-//     EscapeChar_RGB_Purple  = 'O',
-//     EscapeChar_RGB_Teal    = 'P',
-//     EscapeChar_RGB_Navy    = 'Q',
-// };
-
 /* PC Screen Font as used by Linux Console */
 typedef struct {
     u32_t  magic;
@@ -79,19 +59,14 @@ struct rpifb_escape_sequence_color_t
 
 void rpifb_init(u32_t, u32_t, u32_t, u32_t, u32_t);
 
-void rpifb_putc(char);
+void rpifb_szputs(char const *, u32_t);
 void rpifb_puts(char const *);
-void rpifb_print(int, int, char const *);
 void rpifb_clear(void);
-void rpifb_clear_rect(void);
 
 void rpifb_printfhandler_modcolor(u64_t );
 void rpifb_printfhandler_bckcolor(void);
 void rpifb_printfhandler_noerasing(void);
 void rpifb_kprint(char const *, ...);
-
-void rpifb_puts(char const *);
-void rpifb_putc(char);
 
 void rpifb_set_pos(u32_t, u32_t);
 u32_t rpifb_get_posx(void);

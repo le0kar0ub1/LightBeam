@@ -10,7 +10,6 @@ void PANIC(char const *fmt __unused, ...)
     for (enum CPUS_ID shutoff = CPU0; shutoff <= CPU3; shutoff++)
         if (id != shutoff)
             cpuExecRoutine(shutoff,__deadloop);
-    uart_puts("[Kernel panic] ");
-    uart_puts(fmt);
+    uart_kprint("[Kernel panic] %s", fmt);
     __deadloop();
 }

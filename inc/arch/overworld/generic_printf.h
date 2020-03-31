@@ -13,8 +13,8 @@ struct printfhandlers_t
 };
 
 /* Generic printf with assigned printer */
-void generic_vprintf(void (*)(char), struct printfhandlers_t *, char const *, __builtin_va_list);
-void generic_printf(void (*)(char), struct printfhandlers_t *, char const *, ...);
+void generic_vprintf(void (*)(char const *, u32_t), struct printfhandlers_t *, char const *, __builtin_va_list);
+void generic_printf(void (*)(char const *, u32_t), struct printfhandlers_t *, char const *, ...);
 
 /*****************************\
 * followed static declaration *

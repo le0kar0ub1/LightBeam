@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/raspi3/bcm2837/fb.h"
+// #include "target/raspi/raspi3/bcm2837/fb.h"
 #include "target/raspi/raspi3/driver/fb.h"
 
 extern volatile uchar _binary_font_font_psf_start;
@@ -32,65 +32,53 @@ void rpifb_set_color(u32_t back, u32_t front)
     attrib.front = front;
 }
 
-void rpifb_puts(char const *s)
-{
-    while (*s) { 
-        rpifb_putc(*s); 
-        s++;
-    }
-}
+// static struct rpifb_escape_sequence_color_t rpifb_escape_sequence_color[] =
+// {
+//     {"[0;31m", RGB_Red},
+//     {"[0;32m", RGB_Green},
+//     {"[0;33m", RGB_Yellow},
+//     {"[0;34m", RGB_Blue},
+//     {"[0;35m", RGB_Magenta},
+//     {"[0;36m", RGB_Cyan},
+//     {"[0m",    RGB_White},
+//     {NULL, 0x0},
+// };
 
+// #define ESCAPE_SEQUENCE_MAX_LENGHT 0xA
+// #define ESCAPE_SEQUENCE_MIN_LENGHT 0x3
 
-static struct rpifb_escape_sequence_color_t rpifb_escape_sequence_color[] =
-{
-    {"[0;31m", RGB_Red},
-    {"[0;32m", RGB_Green},
-    {"[0;33m", RGB_Yellow},
-    {"[0;34m", RGB_Blue},
-    {"[0;35m", RGB_Magenta},
-    {"[0;36m", RGB_Cyan},
-    {"[0m",    RGB_White},
-    {NULL, 0x0},
-};
+// // MLCTR_INIT_BOL(isInEscapeSequence);
 
-#define ESCAPE_SEQUENCE_MAX_LENGHT 0xA
-#define ESCAPE_SEQUENCE_MIN_LENGHT 0x3
+// static bool isInEscapeSequence;
 
-// MLCTR_INIT_BOL(isInEscapeSequence);
+// static void rpifb_escape_sequence(char c)
+// {
+//     static char escape[ESCAPE_SEQUENCE_MAX_LENGHT];
+//     static u8_t inc = 0x0;
 
-static bool isInEscapeSequence;
+//     escape[inc] = c;
+//     inc++;
+//     if (inc >= ESCAPE_SEQUENCE_MAX_LENGHT || c == 0x0){
+//         for (u8_t i = 0; i < inc; i++)
+//             rpifb_putc(escape[i]);
+//         inc = 0;
+//         isInEscapeSequence = false;
+//     } else if (inc >= ESCAPE_SEQUENCE_MIN_LENGHT) {
+//         for (u8_t i = 0; i < inc; i++)
+//             if (strncmp(rpifb_escape_sequence_color[i].sequence, escape, inc)) {
+//                 rpifb_set_color(RGB_Black, rpifb_escape_sequence_color[i].color);
+//                 isInEscapeSequence = false;
+//             }
+//     }
+//     isInEscapeSequence = true;
+// }
 
-static void rpifb_escape_sequence(char c)
-{
-    static char escape[ESCAPE_SEQUENCE_MAX_LENGHT];
-    static u8_t inc = 0x0;
-
-    escape[inc] = c;
-    inc++;
-    if (inc >= ESCAPE_SEQUENCE_MAX_LENGHT || c == 0x0){
-        for (u8_t i = 0; i < inc; i++)
-            rpifb_putc(escape[i]);
-        inc = 0;
-        isInEscapeSequence = false;
-    } else if (inc >= ESCAPE_SEQUENCE_MIN_LENGHT) {
-        for (u8_t i = 0; i < inc; i++)
-            if (strncmp(rpifb_escape_sequence_color[i].sequence, escape, inc)) {
-                rpifb_set_color(RGB_Black, rpifb_escape_sequence_color[i].color);
-                isInEscapeSequence = false;
-            }
-    }
-    isInEscapeSequence = true;
-}
-
-void rpifb_putc(char c)
+static void rpifb_putc(char c)
 {
     psf_t *font = (psf_t *)&_binary_font_font_psf_start;
-    // get the offset of the glyph. Need to adjust this to support unicode table
     uchar *glyph = (uchar*)&_binary_font_font_psf_start +
      font->headersize + ((uchar)c < font->numglyph ? c : 0) * font->bytesperglyph;
-    // calculate the offset on screen
     int offs = (attrib.y * font->height * properties.pitch) + (attrib.x * (font->width + 1) * 4);
-    // variables
     int i, j, line, mask, bytesperline = (font->width + 7) / 8;
     if (c == '\r')
         attrib.x = 0;
@@ -101,9 +89,7 @@ void rpifb_putc(char c)
             attrib.x = 0;
             attrib.y++;
         } else {
-            // display a character
             for (j = 0; j < (int)font->height; j++) {
-                // display one row
                 line= offs;
                 mask = 1 << (font->width - 1);
                 for (i = 0; i < (int)font->width; i++) {
@@ -116,6 +102,12 @@ void rpifb_putc(char c)
             }
             attrib.x++;
         }
+}
+
+void rpifb_szputs(char const *s, u32_t sz)
+{
+    for (u32_t i = 0x0; s[i] && i < sz; i++)
+        rpifb_putc(s[i]);
 }
 
 void rpifb_clear(void)

@@ -5,7 +5,7 @@
 #include <stdarg.h>
 
 /* Caller printer */
-static void (*caller_putc)(char) = NULL;
+static void (*caller_szputs)(char const *, u32_t) = NULL;
 /* Caller handlers */
 static struct printfhandlers_t *callerhandlers = NULL;
 
@@ -29,8 +29,7 @@ static bool  hshtag = false;
 
     static void printf_dumpBuffer(void)
     {
-        for (u32_t i = 0; i < incbuf; i++)
-            caller_putc(prbuffer[i]);
+        caller_szputs(prbuffer, incbuf);
         incbuf = 0x0;
     }
 #endif
@@ -40,7 +39,7 @@ static void printf_handleWrite(char c)
 #ifdef PRINTF_BUFFERED
     printf_writeBuffer(c);
 #else
-    caller_putc(c);
+    caller_szputs(&c, 1);
 #endif
 }
 
@@ -298,14 +297,14 @@ static void __generic_printf(char const *fmt, __builtin_va_list ap)
 
 static smplock_t lock = SMPLOCK_INIT;
 
-#define GENERIC_PRINTF_INIT()   \
-    semaphore_inc(&lock);       \
-    if (!putc) {                \
-        semaphore_dec(&lock);   \
-        return;                 \
-    } else                      \
-        caller_putc = putc;     \
-    callerhandlers = handlers;  \
+#define GENERIC_PRINTF_INIT()       \
+    semaphore_inc(&lock);           \
+    if (!szputs) {                  \
+        semaphore_dec(&lock);       \
+        return;                     \
+    } else                          \
+        caller_szputs = szputs;     \
+    callerhandlers = handlers;      \
     align = false;
 
 #ifdef PRINTF_BUFFERED
@@ -317,7 +316,7 @@ static smplock_t lock = SMPLOCK_INIT;
         semaphore_dec(&lock);
 #endif
 
-void generic_vprintf(void (*putc)(char), struct printfhandlers_t *handlers, 
+void generic_vprintf(void (*szputs)(char const *, u32_t), struct printfhandlers_t *handlers, 
 char const *fmt, __builtin_va_list ap)
 {
     GENERIC_PRINTF_INIT();
@@ -325,7 +324,7 @@ char const *fmt, __builtin_va_list ap)
     GENERIC_PRINTF_EXIT();
 }
 
-void generic_printf(void (*putc)(char), struct printfhandlers_t *handlers, 
+void generic_printf(void (*szputs)(char const *, u32_t), struct printfhandlers_t *handlers, 
 char const *fmt, ...)
 {
     GENERIC_PRINTF_INIT();

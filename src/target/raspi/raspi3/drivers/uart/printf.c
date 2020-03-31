@@ -4,14 +4,14 @@
 #include "arch/overworld/generic_printf.h"
 #include <stdarg.h>
 
-static smplock_t lock = SMPLOCK_INIT;
+// static smplock_t lock = SMPLOCK_INIT;
 
 void uart_kprint(char const *fmt, ...)
 {
-    semaphore_inc(&lock);
+    // semaphore_inc(&lock);
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
-    generic_vprintf(uart_putc, NULL, fmt, ap);
+    generic_vprintf(uart_szputs, NULL, fmt, ap);
     __builtin_va_end(ap);
-    semaphore_dec(&lock);
+    // semaphore_dec(&lock);
 }

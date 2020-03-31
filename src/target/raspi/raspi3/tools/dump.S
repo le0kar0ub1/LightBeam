@@ -42,7 +42,7 @@ processor_push:
 /* Pop (alias) and display all X register */
 processor_dump:
     ldr x0, =__procdump
-    bl uart_puts
+    bl uart_kprint
 
     ldr x0, =__dump_x30
     ldr x1, [sp], #8

@@ -15,7 +15,7 @@ void rpifb_init(u32_t width, u32_t height, u32_t bpp, u32_t nrender, u32_t rgb)
     properties.lfb = bcm2837_rpifb_init(width, height, bpp, nrender, rgb);
     properties.pitch = bcm2837_mbox_fb_get_pitch();
     if (!properties.lfb || !properties.pitch)
-        uart_puts("[DRIVER] [FB]: Can't be setup\n");
+        uart_szputs("[DRIVER] [FB]: Can't be setup\n", 30);
     memset((void *)&attrib, 0x0, sizeof(struct rpifb_handler));
     attrib.back = RGB_Black;
     attrib.front = RGB_White;
