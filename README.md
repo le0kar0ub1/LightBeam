@@ -4,7 +4,7 @@ The purpose of this project is to create some [ARM](https://en.wikipedia.org/wik
 
 LightBleam is a little project without ambition that explore the ARM kernel developpment world.
 
-A fast documentation will be provide later.
+[Project Root Documentation](doc/tree.md)
 
 ## INSTALL
 
@@ -36,38 +36,6 @@ Install QEMU from official [github repository](https://github.com/qemu/qemu).
 For physical run check this [page](https://wiki.osdev.org/Raspberry_Pi_Bare_Bones#Testing_your_operating_system_.28Real_Hardware.29).
 
 Check dependencies using the `make toolchain`.
-
-## ROADMAP
-
-- [X] Dependencies installer
-- [X] Scalable build & architecture
-- [X] Kernel
-  - [X] Init hooks
-  - [X] Init calls
-  - [ ] Kernel Symbol tab
-  - [ ] External global scheduler & ressource manager
-  - [ ] VMM/PMM Allocator
-  - [ ] Heap Allocator
-- [ ] Plateform
-  - [ ] RaspberryPi3
-    - [ ] Boot
-      - [X] SMP init
-      - [X] Interrupt Vectors
-      - [ ] IRQ
-    - [ ] Driver
-      - [X] UART 
-      - [X] LFB
-    - [ ] Memory
-      - [ ] MMU
-    - [ ] Multi-tasks system
-      - [ ] Physical
-        - [X] CPUS exec routines
-        - [ ] CPUS particular task assignement (relevant?)
-      - [ ] Virtual
-        - [ ] Threads
-        - [ ] Basic scheduler
-
-
 
 ## EPILOGUE
 

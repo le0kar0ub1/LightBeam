@@ -31,3 +31,8 @@ The builder assume `C` & `Assembly` source file compilation.
 
 All The object file will be relocated to the `build/` directory at project root with their total path form `src/`.
 
+## Build a kernel
+
+Using the root Makefile: `make TARGET=$PLATEFORM`.
+
+Plateform are listed [here](src/target/README.md).
