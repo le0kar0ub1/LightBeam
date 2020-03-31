@@ -1,6 +1,7 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/bcm2837/fb.h"
 #include "arch/overworld/overworld.h"
+#include "kernel/init/initcalls.h"
 
 #pragma message "initcall me"
 
@@ -16,3 +17,5 @@ void *bcm2837_rpifb_init(u32_t width, u32_t height, u32_t bpp, u32_t nrender, u3
         return (NULL);
     return (addr);
 }
+
+// boot_initcall(bcm2837_rpifb_init);

@@ -38,42 +38,58 @@ void run_initcalls(void)
     }
 }
 
-void run_initcalls_bylevel(void)
+void run_initcall_level(u8_t lvl)
 {
     initcall_t *hook;
     initcall_t *end;
 
-#define INITCALL_LEVEL(x)                                   \
-    hook = &(*__get_hooklevel(initcall, x, _start));        \
-    end  = &(*__get_hooklevel(initcall, x, _end));          \
-    while(hook < end && (*hook)) { (*hook)(); hook++; }
-
-    INITCALL_LEVEL(0);
-#if KCONFIG_INITLEVEL > 0
-    INITCALL_LEVEL(1)
-#endif
-#if KCONFIG_INITLEVEL > 1
-    INITCALL_LEVEL(2)
-#endif
-#if KCONFIG_INITLEVEL > 2
-    INITCALL_LEVEL(3)
-#endif
-#if KCONFIG_INITLEVEL > 3
-    INITCALL_LEVEL(4)
-#endif
-#if KCONFIG_INITLEVEL > 4
-    INITCALL_LEVEL(5)
-#endif
-#if KCONFIG_INITLEVEL > 5
-    INITCALL_LEVEL(6)
-#endif
-#if KCONFIG_INITLEVEL > 6
-    INITCALL_LEVEL(7)
-#endif
-#if KCONFIG_INITLEVEL > 7
-    INITCALL_LEVEL(8)
-#endif
-#if KCONFIG_INITLEVEL > 8
-    INITCALL_LEVEL(9)
-#endif
+    switch (lvl) {
+        case 0:
+            hook = &(*__get_calllevel(0, _start));
+            end  = &(*__get_calllevel(0, _end));
+            break;
+        case 1:
+            hook = &(*__get_calllevel(1, _start));
+            end  = &(*__get_calllevel(1, _end));
+            break;
+        case 2:
+            hook = &(*__get_calllevel(2, _start));
+            end  = &(*__get_calllevel(2, _end));
+            break;
+        case 3:
+            hook = &(*__get_calllevel(3, _start));
+            end  = &(*__get_calllevel(3, _end));
+            break;
+        case 4:
+            hook = &(*__get_calllevel(4, _start));
+            end  = &(*__get_calllevel(4, _end));
+            break;
+        case 5:
+            hook = &(*__get_calllevel(5, _start));
+            end  = &(*__get_calllevel(5, _end));
+            break;
+        case 6:
+            hook = &(*__get_calllevel(6, _start));
+            end  = &(*__get_calllevel(6, _end));
+            break;
+        case 7:
+            hook = &(*__get_calllevel(7, _start));
+            end  = &(*__get_calllevel(7, _end));
+            break;
+        case 8:
+            hook = &(*__get_calllevel(8, _start));
+            end  = &(*__get_calllevel(8, _end));
+            break;
+        case 9:
+            hook = &(*__get_calllevel(9, _start));
+            end  = &(*__get_calllevel(9, _end));
+            break;
+        default:
+            return;
+    }
+    while(hook < end && (*hook))
+    {
+        (*hook)();
+        hook++;
+    }
 }

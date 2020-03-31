@@ -29,6 +29,53 @@ SECTIONS
     } > ram
     . = ALIGN(4096);
  
+    .initcall ALIGN(8) :
+    {
+        PROVIDE(__initcall_start = .);
+
+        PROVIDE(__initcall0_start = .);
+        KEEP(*(.initcall_0.text))
+        PROVIDE(__initcall0_end = .);
+
+        PROVIDE(__initcall1_start = .);
+        KEEP(*(.initcall_1.text))
+        PROVIDE(__initcall1_end = .);
+
+        PROVIDE(__initcall2_start = .);
+        KEEP(*(.initcall_2.text))
+        PROVIDE(__initcall2_end = .);
+
+        PROVIDE(__initcall3_start = .);
+        KEEP(*(.initcall_3.text))
+        PROVIDE(__initcall3_end = .);
+
+        PROVIDE(__initcall4_start = .);
+        KEEP(*(.initcall_4.text))
+        PROVIDE(__initcall4_end = .);
+
+        PROVIDE(__initcall5_start = .);
+        KEEP(*(.initcall_5.text))
+        PROVIDE(__initcall5_end = .);
+
+        PROVIDE(__initcall6_start = .);
+        KEEP(*(.initcall_6.text))
+        PROVIDE(__initcall6_end = .);
+
+        PROVIDE(__initcall7_start = .);
+        KEEP(*(.initcall_7.text))
+        PROVIDE(__initcall7_end = .);
+
+        PROVIDE(__initcall8_start = .);
+        KEEP(*(.initcall_8.text))
+        PROVIDE(__initcall8_end = .);
+
+        PROVIDE(__initcall9_start = .);
+        KEEP(*(.initcall_9.text))
+        PROVIDE(__initcall9_end = .);
+
+        PROVIDE(__initcall_end = .);
+    } > ram
+
     .inithook ALIGN(8) :
     {
         PROVIDE(__inithook_start = .);
