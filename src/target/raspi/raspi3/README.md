@@ -3,7 +3,7 @@
 
 A multicore Raspberry3 kernel implementation.
 
-As explain, a part of the kernel is contained in other directories of the project. 
+As explain, a part of the kernel is contained in other project directories.
 
 ## ROADMAP
 
@@ -11,7 +11,7 @@ As explain, a part of the kernel is contained in other directories of the projec
   - [X] SMP init
   - [X] Interrupt Vectors
   - [ ] IRQ
-- [ ] BCM(2835/2836/2837)
+- [ ] BCM(2835/2836/2837)(https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf)
   - [X] GPIO Driver
   - [X] Mailbox Driver
   - [X] RPI Frambuffer Driver

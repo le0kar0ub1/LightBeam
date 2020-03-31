@@ -7,7 +7,7 @@ A particular Plateform is generaly preceded by a directory which host all his br
 
 All plateform-family have a `shared` directory for usable sources over platforms.
 
-This array referenced built plateform and their own documentation.
+The array below reference the built plateform and their own documentation.
 
 
 | Plateform            | Description                                                          |

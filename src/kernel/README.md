@@ -13,3 +13,4 @@ These source are generaly kernel tricks or global objects usable in the kernel w
 - [ ] External global scheduler & ressource manager
 - [ ] VMM/PMM Allocator
 - [ ] Heap Allocator
+- [ ] fileSystem

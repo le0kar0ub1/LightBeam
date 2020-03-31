@@ -44,7 +44,7 @@ static void printf_handleWrite(char c)
 #endif
 }
 
-void multibase_put32(int n, u8_t base)
+static void multibase_put32(int n, u8_t base)
 {
     if (n < 0) {
         printf_handleWrite('-');
@@ -55,7 +55,7 @@ void multibase_put32(int n, u8_t base)
     printf_handleWrite((n % base) + 0x30);
 }
 
-void multibase_put64(long n, u8_t base)
+static void multibase_put64(long n, u8_t base)
 {
     if (n < 0) {
         printf_handleWrite('-');
@@ -66,21 +66,21 @@ void multibase_put64(long n, u8_t base)
     printf_handleWrite((n % base) + 0x30);
 }
 
-void multibase_uput32(unsigned int n, u8_t base)
+static void multibase_uput32(unsigned int n, u8_t base)
 {
     if (n >= base)
         multibase_put32(n / base, base);
     printf_handleWrite((n % base) + 0x30);
 }
 
-void multibase_uput64(unsigned long n, u8_t base)
+static void multibase_uput64(unsigned long n, u8_t base)
 {
     if (n >= base)
         multibase_put64(n / base, base);
     printf_handleWrite((n % base) + 0x30);
 }
 
-void generic_puts(char const *s)
+static void generic_puts(char const *s)
 {
     for (int i = 0; s[i]; i++)
         printf_handleWrite(s[i]);
@@ -283,7 +283,7 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
     }
 }
 
-void __generic_printf(char const *fmt, __builtin_va_list ap)
+static void __generic_printf(char const *fmt, __builtin_va_list ap)
 {
     while (*fmt) {
         if (*fmt != '%') {
