@@ -299,7 +299,8 @@ void bcm2837_uartpl011_clear_receive_interrupt(void);
 /*
 ** Pin mapp/unmapp
 */
-void bcm2837_uartpl011_mappin(u32_t pin);
+void bcm2837_uartpl011_mappin(u32_t);
+void bcm2837_uartpl011_unmappin(u32_t);
 
 /*
 ** baud rate divisor register

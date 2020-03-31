@@ -1,14 +1,13 @@
-#include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/bcm2837/mbox.h"
-#include "target/raspi/raspi3/driver/lfb.h"
-#include "target/raspi/raspi3/semaphore.h"
+#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/cpus/semaphore.h"
 #include "arch/overworld/overworld.h"
 
 extern volatile uchar _binary_font_font_psf_start;
 
-static struct lfb_properties properties;
+extern volatile struct lfb_properties properties;
 
-static struct lfb_handler attrib;
+extern volatile struct lfb_handler attrib;
 
 #pragma message "make coloration as char escape to ensure buffered compatibitly"
 
@@ -32,19 +31,6 @@ void lfb_set_color(u32_t back, u32_t front)
 {
     attrib.back = back;
     attrib.front = front;
-}
-
-void lfb_init(void)
-{
-    properties.width = 1024;
-    properties.height = 768;
-    properties.lfb = bcm2837_mbox_fb_alloc(1024, 768, 32, 1);
-    properties.pitch = bcm2837_mbox_fb_get_pitch();
-    if (!properties.lfb || !properties.pitch || !bcm2837_mbox_fb_set_porder(0x0))
-        uart_puts("[DRIVER] [FB]: Can't be set\n");
-    memset(&attrib, 0x0, sizeof(struct lfb_handler));
-    attrib.back = RGB_Black;
-    attrib.front = RGB_White;
 }
 
 void lfb_puts(char const *s)

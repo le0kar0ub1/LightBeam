@@ -1,6 +1,6 @@
 #include "def/typedef.h"
 #include "def/keyword.h"
-#include "target/raspi/raspi3/driver/lfb.h"
+#include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/semaphore.h"
 #include "arch/overworld/generic_printf.h"
 #include <stdarg.h>

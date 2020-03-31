@@ -36,7 +36,7 @@ static u32_t bcm2837_mbox_read(int channel)
     return (data & ~0xf);
 }
 
-static void bcm2837_mbox_call(void * msg)
+void bcm2837_mbox_call(void * msg)
 {
     u32_t data = 0xC0000000 + (u64_t)msg;
 

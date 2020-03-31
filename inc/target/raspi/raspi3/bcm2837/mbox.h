@@ -16,6 +16,9 @@
 #define AUX_IRQ             (0x00)
 #define AUX_ENB             (0x04)
 
+/* Mbox call */
+void bcm2837_mbox_call(void *);
+
 /* Mbox videocore */
 int bcm2837_mbox_vc_get_firmware_revison(void);
 
@@ -71,7 +74,9 @@ int bcm2837_mbox_temp_get_max(void);
 
 /* Mbox framebuffer */
 u32_t bcm2837_mbox_fb_get_gpiovirt(void);
-void * bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender);
-int bcm2837_mbox_fb_present(int xoffset, int yoffset);
+void * bcm2837_mbox_fb_alloc(int, int, int, int);
+bool bcm2837_mbox_fb_present(int, int);
+u32_t bcm2837_mbox_fb_get_pitch(void);
+bool bcm2837_mbox_fb_set_porder(int);
 
 #endif /* __BCM2837_MBOX_H__ */

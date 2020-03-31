@@ -215,41 +215,108 @@ void bcm2837_uartpl011_mappin(pin_t pin)
     {
         case 14:
             bcm2837_gpio_set_mode(14, GPIO_ALTFUNC0);
-            bcm2837_gpio_set_pullClock(14, GGPPUD_OFF);
+            bcm2837_gpio_set_pullClock(14, GGPPUD_PULLDOWN);
             break;
         case 15:
+            bcm2837_gpio_set_mode(15, GPIO_ALTFUNC0);
+            bcm2837_gpio_set_pullClock(16, GGPPUD_PULLDOWN);
+            break;
+        case 16:
+            bcm2837_gpio_set_mode(16, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(16, GGPPUD_PULLDOWN);
+            break;
+        case 17:
+            bcm2837_gpio_set_mode(17, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(17, GGPPUD_PULLDOWN);
+            break;
+        case 30:
+            bcm2837_gpio_set_mode(30, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(30, GGPPUD_PULLDOWN);
+            break;
+        case 31:
+            bcm2837_gpio_set_mode(31, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(31, GGPPUD_PULLDOWN);
+            break;
+        case 32:
+            bcm2837_gpio_set_mode(32, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(32, GGPPUD_PULLDOWN);
+            break;
+        case 33:
+            bcm2837_gpio_set_mode(33, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(33, GGPPUD_PULLDOWN);
+            break;
+        case 36:
+            bcm2837_gpio_set_mode(36, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(36, GGPPUD_PULLUP);
+            break;
+        case 37:
+            bcm2837_gpio_set_mode(37, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(37, GGPPUD_PULLDOWN);
+            break;
+        case 38:
+            bcm2837_gpio_set_mode(38, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(38, GGPPUD_PULLDOWN);
+            break;
+        case 39:
+            bcm2837_gpio_set_mode(39, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(39, GGPPUD_PULLDOWN);
+            break;
+        default:
+            break;
+    }
+}
+
+void bcm2837_uartpl011_unmappin(pin_t pin)
+{
+    switch (pin)
+    {
+        case 14:
             bcm2837_gpio_set_mode(14, GPIO_ALTFUNC0);
             bcm2837_gpio_set_pullClock(14, GGPPUD_OFF);
             break;
+        case 15:
+            bcm2837_gpio_set_mode(15, GPIO_ALTFUNC0);
+            bcm2837_gpio_set_pullClock(16, GGPPUD_OFF);
+            break;
         case 16:
-            
+            bcm2837_gpio_set_mode(16, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(16, GGPPUD_OFF);
             break;
         case 17:
-            
+            bcm2837_gpio_set_mode(17, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(17, GGPPUD_OFF);
             break;
         case 30:
-            
+            bcm2837_gpio_set_mode(30, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(30, GGPPUD_OFF);
             break;
         case 31:
-            
+            bcm2837_gpio_set_mode(31, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(31, GGPPUD_OFF);
             break;
         case 32:
-            
+            bcm2837_gpio_set_mode(32, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(32, GGPPUD_OFF);
             break;
         case 33:
-            
+            bcm2837_gpio_set_mode(33, GPIO_ALTFUNC3);
+            bcm2837_gpio_set_pullClock(33, GGPPUD_OFF);
             break;
         case 36:
-            
+            bcm2837_gpio_set_mode(36, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(36, GGPPUD_OFF);
             break;
         case 37:
-            
+            bcm2837_gpio_set_mode(37, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(37, GGPPUD_OFF);
             break;
         case 38:
-            
+            bcm2837_gpio_set_mode(38, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(38, GGPPUD_OFF);
             break;
         case 39:
-            
+            bcm2837_gpio_set_mode(39, GPIO_ALTFUNC2);
+            bcm2837_gpio_set_pullClock(39, GGPPUD_OFF);
             break;
         default:
             break;

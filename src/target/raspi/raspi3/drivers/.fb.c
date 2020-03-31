@@ -1,6 +1,6 @@
 // #include "target/raspi/raspi3/driver/uart.h"
 // #include "target/raspi/raspi3/bcm2837/mbox.h"
-// #include "target/raspi/raspi3/driver/lfb.h"
+// #include "target/raspi/raspi3/driver/fb.h"
 // #include "target/raspi/raspi3/semaphore.h"
 // #include "arch/overworld/overworld.h"
 

@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/interrupts/interrupt.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
-#include "target/raspi/raspi3/driver/lfb.h"
+#include "target/raspi/raspi3/driver/fb.h"
 #include "arch/aarch64/archutils.h"
 
 static const char * esr_class_str[] = 
