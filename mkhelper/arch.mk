@@ -3,7 +3,7 @@
  #
 
 # Used as target
-export HANDLED_SYSTEM	:=	raspi3
+export HANDLED_PLATEFORM	:=	raspi3
 
 
 ## For information #

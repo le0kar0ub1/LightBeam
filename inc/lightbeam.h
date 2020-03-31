@@ -6,13 +6,14 @@
 #include "kernel/def/assert.h"
 #include "kernel/def/bitfield.h"
 
-#include "kernel/drivers/driver.h"
 #include "kernel/init/inithooks.h"
 #include "kernel/init/initcalls.h"
+
 #include "kernel/io.h"
 #include "kernel/ksymtab.h"
 
-#include "kernel/scheduler/semaphore.h"
+#include "kernel/cpus/semaphore.h"
+#include "kernel/cpus/vmulticore.h"
 
 #include "arch/overworld/overworld.h"
 

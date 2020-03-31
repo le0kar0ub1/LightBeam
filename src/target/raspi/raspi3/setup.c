@@ -47,7 +47,8 @@ void setup_level(void)
     end_setup_log("All of them acquired start");
 
     start_setup_log("interruptions (vectors, irq, etc.)");
-
+    rpifb_kprint("\e[0;31mIm in fucking\e[0m Red\n");
+    while(1);
     // if (timerIrqSetup(MS_TO_US(1000)) == false)
         // rpifb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);

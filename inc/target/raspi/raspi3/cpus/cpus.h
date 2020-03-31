@@ -3,7 +3,8 @@
 
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
-#include "kernel/scheduler/semaphore.h"
+#include "kernel/cpus/semaphore.h"
+#include "kernel/cpus/vmulticore.h"
 
 enum CPUS_ID
 {
@@ -22,7 +23,6 @@ enum CPUS_STATE
 void cpuSheduler(void) __noreturn;
 bool cpuExecRoutine(enum CPUS_ID, void (*)(void));
 
-int cpuGetId(void);
 enum CPUS_STATE cpuGetState(enum CPUS_ID);
 enum CPUS_ID cpuGetSleepingOne(void);
 

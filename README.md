@@ -1,10 +1,13 @@
 # LightBeam
 
+![LightBeam](https://www.google.com/search?q=light+beam&tbm=isch&ved=2ahUKEwj5p4OwtMXoAhUJ-hoKHfW7DAUQ2-cCegQIABAA&oq=light+beam&gs_lcp=CgNpbWcQA1AAWABgemgAcAB4AIABAIgBAJIBAJgBAKoBC2d3cy13aXotaW1n&sclient=img&ei=2ZSDXrnXEon0a_X3sig&bih=963&biw=1912#imgrc=LkGYwp8vuCaQiM)
+
 The purpose of this project is to create some [ARM](https://en.wikipedia.org/wiki/ARM_architecture) kernel base for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
 
 LightBeam is a little project without ambition that explore the ARM kernel developpment world.
 
 [Project Root Documentation](doc/tree.md)
+
 
 ## INSTALL
 
@@ -16,16 +19,17 @@ _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 Kernels are built using GNU ARM toolchain from submodules git.
 
+
 ## BUILD
 
 LightBeam build kernel plateform-specific.
 
 `make TARGET=$PLATEFORM`
 
-*PLATEFORM targetable list*:
-  - raspi3 (RaspberryPi3)
+[Targetable PLATEFORM list](src/target/README.md)
 
-for now, the only non dirty target kernel is `raspi3`.
+You can run at root `make help` to see targetable plateform.
+
 
 ## RUN
 
@@ -36,6 +40,7 @@ Install QEMU from official [github repository](https://github.com/qemu/qemu).
 For physical run check this [page](https://wiki.osdev.org/Raspberry_Pi_Bare_Bones#Testing_your_operating_system_.28Real_Hardware.29).
 
 Check dependencies using the `make toolchain`.
+
 
 ## EPILOGUE
 

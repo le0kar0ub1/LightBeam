@@ -3,6 +3,7 @@
  #
 
 sinclude mkhelper/def.mk
+sinclude mkhelper/arch.mk
 sinclude mkhelper/macro.mk
 sinclude mkhelper/toolchain.mk
 sinclude mkhelper/builder/def.mk
@@ -62,3 +63,7 @@ endif
 
 utils:
 	$(AARCH64_ARMGNUBASE)$(exec)
+
+help:
+	@echo "Handled target:"
+	@echo "    $(HANDLED_PLATEFORM)"

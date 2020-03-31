@@ -24,6 +24,26 @@ enum RGBCOLORS {
     RGB_Navy    = 0x000080
 };
 
+// enum RGBCOLORS_EscapeChar {
+//     EscapeChar_RGB_Black   = 'A',
+//     EscapeChar_RGB_White   = 'B',
+//     EscapeChar_RGB_Orange  = 'C',
+//     EscapeChar_RGB_Red     = 'D',
+//     EscapeChar_RGB_Lime    = 'E',
+//     EscapeChar_RGB_Blue    = 'F',
+//     EscapeChar_RGB_Yellow  = 'G',
+//     EscapeChar_RGB_Cyan    = 'H',
+//     EscapeChar_RGB_Magenta = 'I',
+//     EscapeChar_RGB_Silver  = 'J',
+//     EscapeChar_RGB_Gray    = 'K',
+//     EscapeChar_RGB_Maroon  = 'L',
+//     EscapeChar_RGB_Olive   = 'M',
+//     EscapeChar_RGB_Green   = 'N',
+//     EscapeChar_RGB_Purple  = 'O',
+//     EscapeChar_RGB_Teal    = 'P',
+//     EscapeChar_RGB_Navy    = 'Q',
+// };
+
 /* PC Screen Font as used by Linux Console */
 typedef struct {
     u32_t  magic;

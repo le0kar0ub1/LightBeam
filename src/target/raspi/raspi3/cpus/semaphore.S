@@ -9,14 +9,15 @@
 .section .text
 
 /* FATAL LOCK */
-.align 4
+.balign 4
 semaphore_inc:
-    mrs x2, mpidr_el1
-    and x2, x2, #0x3
-    add x2, x2, #1 // else core0 acquire always well :)
-    ldaxr w1, [x0]
-    cmp w1, w2
-    beq .deadlock
+    // mrs x2, mpidr_el1
+    // and x2, x2, #0x3
+    // add x2, x2, #1 // else core0 acquire always well :)
+    // ldaxr w1, [x0]
+    // cmp w1, w2
+    // beq .deadlock
+    mov w2, 1
 .lockit:
     ldaxr w1, [x0]
     stxr  w3, w2, [x0]
@@ -26,7 +27,7 @@ semaphore_inc:
     ret
 
 /* UNFATAL LOCK */
-.align 4
+.balign 4
 semaphore_unfatal_inc:
     mov   w2, 1
     ldaxr w1, [x0]
@@ -41,7 +42,7 @@ semaphore_unfatal_inc:
     ret
 
 /* UNLOCK */
-.align 4
+.balign 4
 semaphore_dec:
     stlrb wzr, [x0]
     dmb   ish
