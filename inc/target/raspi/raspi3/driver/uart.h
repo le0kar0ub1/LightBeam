@@ -21,6 +21,7 @@ enum FIFO_IO
     FIFOTX_88perc = 0b100
 };
 
+void uart_kprint(char const *, ...);
 
 void uart_init(void);
 void uart_putc(char);

@@ -171,9 +171,9 @@ bool bcm2837_mbox_fb_set_porder(int rgb)
 
     p->size = sizeof(struct mbox_fb_porder_msg_t);
     p->code = 0;
-    p->tag.tag = MBOX_TAG_FB_GET_PITCH;
+    p->tag.tag = MBOX_TAG_FB_SET_PIXEL_ORDER;
     p->tag.size = 4;
-    p->tag.len = 0;
+    p->tag.len = 4;
     p->tag.order = rgb;
     p->end = 0;
 

@@ -35,36 +35,11 @@ void rpifb_set_color(u32_t back, u32_t front)
 
 void rpifb_puts(char const *s)
 {
-    uart_hex(attrib.x);
-    uart_putc('\n');
-    uart_hex(attrib.y);
-    uart_putc('\n');
-    uart_hex(properties.width);
-    uart_putc('\n');
-    uart_hex(properties.height);
-    uart_putc('\n');
-    uart_hex(properties.lfb);
-    uart_putc('\n');
-    uart_hex(properties.pitch);
-    uart_putc('\n');
-    while (*s) {
-        rpifb_putc(*s);
+    while (*s) { 
+        rpifb_putc(*s); 
         s++;
     }
 }
-
-void uart_hex(uint32_t d) {
-	uint32_t n;
-	int32_t c;
-	for(c=28;c>=0;c-=4) {
-		// get highest tetrad
-		n=(d>>c)&0xF;
-		// 0-9 => '0'-'9', 10-15 => 'A'-'F'
-		n+=n>9?0x37:0x30;
-		uart_putc(n);
-	}
-}
-
 
 void rpifb_putc(char c)
 {

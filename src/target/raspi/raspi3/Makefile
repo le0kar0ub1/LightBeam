@@ -32,9 +32,9 @@ BUILDER_SOURCE_DIR	+=	.				\
 						bcm2837/fb		\
 						drivers/uart	\
 						drivers/fb		\
-						#tools		\
-						memory		\
-						system		\
+						tools			\
+						memory			\
+						system			\
 
 .PHONY: all
 
