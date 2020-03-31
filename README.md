@@ -43,26 +43,29 @@ Check dependencies using the `make toolchain`.
 - [X] Scalable build & architecture
 - [X] Kernel
   - [X] Init hooks
-- [ ] RaspberryPi3
-  - [ ] Boot
-    - [X] SMP init
-    - [X] Interrupt Vectors
-    - [ ] IRQ
-  - [ ] Driver
-    - [X] UART 
-    - [X] LFB
-  - [ ] Memory
-    - [ ] MMU
-    - [ ] Physical memory allocator
-    - [ ] Virtual memory allocator
-    - [ ] Heap Allocator
-  - [ ] Multi-tasks system
-    - [ ] Physical
-      - [X] CPUS exec routines
-      - [ ] CPUS particular task assignement (relevant?)
-    - [ ] Virtual
-      - [ ] Threads
-      - [ ] Basic scheduler
+  - [X] Init calls
+  - [ ] Kernel Symbol tab
+  - [ ] External global scheduler & ressource manager
+  - [ ] VMM/PMM Allocator
+  - [ ] Heap Allocator
+- [ ] Plateform
+  - [ ] RaspberryPi3
+    - [ ] Boot
+      - [X] SMP init
+      - [X] Interrupt Vectors
+      - [ ] IRQ
+    - [ ] Driver
+      - [X] UART 
+      - [X] LFB
+    - [ ] Memory
+      - [ ] MMU
+    - [ ] Multi-tasks system
+      - [ ] Physical
+        - [X] CPUS exec routines
+        - [ ] CPUS particular task assignement (relevant?)
+      - [ ] Virtual
+        - [ ] Threads
+        - [ ] Basic scheduler
 
 
 
@@ -71,8 +74,6 @@ Check dependencies using the `make toolchain`.
 [ARM ABI specification](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ihi0042f/index.html).
 
 [ARM official developper documentation](https://developer.arm.com/docs).
-
-[Raspberry github informations](https://github.com/raspberrypi/firmware/wiki/).
 
 And, from the darkness, shine the light.
 

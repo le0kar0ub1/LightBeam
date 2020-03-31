@@ -27,9 +27,15 @@ static inline void end_setup_log(char const *data)
 void setup_level(void);
 void setup_level(void)
 {
+    /* boot init calls running */
     run_boot_initcalls();
+
+    /* Uartpl011 setup */
     uart_init();
+
+    /* RPI framebuffer */
     rpifb_init(1024, 768, 32, 1, 0);
+
     helloFromLightBleam();
 
     rpifb_kprint("[%$AInitialized%$R]: CPU config\n", RGB_Lime);
