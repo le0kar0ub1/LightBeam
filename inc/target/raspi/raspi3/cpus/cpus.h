@@ -3,7 +3,7 @@
 
 #include "def/typedef.h"
 #include "def/keyword.h"
-#include "target/raspi/raspi3/cpus/semaphore.h"
+#include "kernel/scheduler/semaphore.h"
 
 enum CPUS_ID
 {

@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/bcm2837/fb.h"
 #include "target/raspi/raspi3/driver/fb.h"
-#include "target/raspi/raspi3/cpus/semaphore.h"
+#include "kernel/scheduler/semaphore.h"
 #include "arch/overworld/overworld.h"
 
 extern volatile uchar _binary_font_font_psf_start;

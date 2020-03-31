@@ -1,7 +1,7 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/bcm2837/uart_pl011.h"
 #include "target/raspi/raspi3/bcm2837/gpio.h"
-#include "target/raspi/raspi3/cpus/semaphore.h"
+#include "kernel/scheduler/semaphore.h"
 #include "arch/overworld/overworld.h"
 
 extern struct uart_pl011_regs_t *uartpl011regs;
