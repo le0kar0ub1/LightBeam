@@ -1,4 +1,5 @@
-#include "target/raspi/raspi3/bcm2837/uart_pl011.h"
+#include "target/raspi/raspi3/driver/uart.h"
+#include "target/raspi/raspi3/driver/gpio.h"
 #include "lightbleam.h"
 #include "def/keyword.h"
 // #include "target/raspi/raspi3/driver/lfb.h"
@@ -27,15 +28,16 @@ void lfb_kprint(char const *fmt __unused, ...) {}
 void uart_kprint(char const *fmt __unused, ...) {}
 void PANIC(char const *fmt __unused, ...) {}
 
+void setup_level(void);
 void setup_level(void)
 {
-    gpio_bcm2837_init();
-    uartpl011_bcm2837_init();
+    bcm2837_gpio_init();
+    bcm2837_uartpl011_init();
     uart_init();
     uart_puts("AAAAAAAAAAAAAAAAAAAAA\n");
     while(1);
-    // lfb_init();
     // helloFromLightBleam();
+    // lfb_init();
 
     // lfb_kprint("[%$AInitialized%$R]: CPU config\n", RGB_Lime);
     // lfb_kprint("[%$AInitialized%$R]: Uart\n", RGB_Lime);

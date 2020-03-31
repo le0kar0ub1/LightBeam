@@ -257,69 +257,69 @@ struct uart_pl011_regs_t
     u32_t tdr;         // 0x8c // Test Data reg 32 
 };
 
-void uartpl011_bcm2837_init(void);
-void *uartpl011_bcm2837_get_entrypoint(void);
+void bcm2837_uartpl011_init(void);
+void *bcm2837_uartpl011_get_entrypoint(void);
 
 /*
 ** Data register & sub Data register
 */ 
-char uartpl011_bcm2837_get_data_nonfifo(void);
-char uartpl011_bcm2837_safeget_data_nonfifo(void);
-void uartpl011_bcm2837_send_data_nonfifo(char);
-void uartpl011_bcm2837_send_data_fifo(char *, size_t);
-char const *uartpl011_bcm2837_safesend_data_nonfifo(char);
-char const *uartpl011_bcm2837_safesend_data_fifo(char *, size_t);
-char const *uartpl011_bcm2837_error_checkup(void);
+char bcm2837_uartpl011_get_data_nonfifo(void);
+char bcm2837_uartpl011_safeget_data_nonfifo(void);
+void bcm2837_uartpl011_send_data_nonfifo(char);
+void bcm2837_uartpl011_send_data_fifo(char *, size_t);
+char const *bcm2837_uartpl011_safesend_data_nonfifo(char);
+char const *bcm2837_uartpl011_safesend_data_fifo(char *, size_t);
+char const *bcm2837_uartpl011_error_checkup(void);
 
 
 /*
 ** Control Register
 */
-void uartpl011_bcm2837_disable(void);
-void uartpl011_bcm2837_enable(void);
-void uartpl011_bcm2837_setstate(bool);
-void uartpl011_bcm2837_set_transmit_state(bool);
-void uartpl011_bcm2837_set_receive_state(bool);
-void uartpl011_bcm2837_set_loopback_state(bool);
+void bcm2837_uartpl011_disable(void);
+void bcm2837_uartpl011_enable(void);
+void bcm2837_uartpl011_setstate(bool);
+void bcm2837_uartpl011_set_transmit_state(bool);
+void bcm2837_uartpl011_set_receive_state(bool);
+void bcm2837_uartpl011_set_loopback_state(bool);
 
 /*
 ** Flag register
 */ 
-bool uartpl011_bcm2837_isTransmiterEmpty(void);
-bool uartpl011_bcm2837_isReceiverEmpty(void);
-bool uartpl011_bcm2837_isTransmiterFull(void);
-bool uartpl011_bcm2837_isReceiverFull(void);
+bool bcm2837_uartpl011_isTransmiterEmpty(void);
+bool bcm2837_uartpl011_isReceiverEmpty(void);
+bool bcm2837_uartpl011_isTransmiterFull(void);
+bool bcm2837_uartpl011_isReceiverFull(void);
 
 /*
 **  Clear interrupt register
 */
-void uartpl011_bcm2837_clear_transmit_interrupt(void);
-void uartpl011_bcm2837_clear_receive_interrupt(void);
+void bcm2837_uartpl011_clear_transmit_interrupt(void);
+void bcm2837_uartpl011_clear_receive_interrupt(void);
 
 /*
 ** Pin mapp/unmapp
 */
-void uartpl011_bcm2837_mappin(u32_t pin);
+void bcm2837_uartpl011_mappin(u32_t pin);
 
 /*
 ** baud rate divisor register
 */
-u32_t uartpl011_bcm2837_get_baudrate_divisor(void);
-void uartpl011_bcm2837_set_baudrate_divisor(u32_t);
+u32_t bcm2837_uartpl011_get_baudrate_divisor(void);
+void bcm2837_uartpl011_set_baudrate_divisor(u32_t);
 
 /*
 ** fractionnal baud rate divisor register
 */
-u32_t uartpl011_bcm2837_get_fractionnal_baudrate_divisor(void);
-void uartpl011_bcm2837_set_fractionnal_baudrate_divisor(u32_t);
+u32_t bcm2837_uartpl011_get_fractionnal_baudrate_divisor(void);
+void bcm2837_uartpl011_set_fractionnal_baudrate_divisor(u32_t);
 
 /*
 ** Line control register
 */
-void uartpl011_bcm2837_send_break(void);
-void uartpl011_bcm2837_set_parity(bool);
-void uartpl011_bcm2837_set_fifo(bool);
-void uartpl011_bcm2837_set_wlen(enum WLEN);
+void bcm2837_uartpl011_send_break(void);
+void bcm2837_uartpl011_set_parity(bool);
+void bcm2837_uartpl011_set_fifo(bool);
+void bcm2837_uartpl011_set_wlen(enum WLEN);
 
 void uart_kprint(char const *, ...);
 

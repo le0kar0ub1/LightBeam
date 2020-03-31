@@ -10,83 +10,83 @@ extern struct uart_pl011_regs_t *uartpl011regs;
 ** We will provide step by step the uart pl011 bcs it is really long
 */
 
-void *uartpl011_bcm2837_get_entrypoint(void)
+void *bcm2837_uartpl011_get_entrypoint(void)
 {
     return ((void *)UART_PL011_ENTRY);
 }
 
 /* Register ptr getter */
-static struct uart_pl011_dr_t *_uartpl011_bcm2837_getptr_dr(void)
+static struct uart_pl011_dr_t *_bcm2837_uartpl011_getptr_dr(void)
 {
     return ((struct uart_pl011_dr_t *)&uartpl011regs->dr);
 }
 
-static struct uart_pl011_rsrecr_t *_uartpl011_bcm2837_getptr_rsrecr(void)
+static struct uart_pl011_rsrecr_t *_bcm2837_uartpl011_getptr_rsrecr(void)
 {
     return ((struct uart_pl011_rsrecr_t *)&uartpl011regs->rsrecr);
 }
 
-static struct uart_pl011_fr_t *_uartpl011_bcm2837_getptr_fr(void)
+static struct uart_pl011_fr_t *_bcm2837_uartpl011_getptr_fr(void)
 {
     return ((struct uart_pl011_fr_t *)&uartpl011regs->fr);
 }
 
-static struct uart_pl011_ibrd_t *_uartpl011_bcm2837_getptr_ibrd(void)
+static struct uart_pl011_ibrd_t *_bcm2837_uartpl011_getptr_ibrd(void)
 {
     return ((struct uart_pl011_ibrd_t *)&uartpl011regs->ibrd);
 }
 
-static struct uart_pl011_fbrd_t *_uartpl011_bcm2837_getptr_fbrd(void)
+static struct uart_pl011_fbrd_t *_bcm2837_uartpl011_getptr_fbrd(void)
 {
     return ((struct uart_pl011_fbrd_t *)&uartpl011regs->fbrd);
 }
 
-static struct uart_pl011_lcrh_t *_uartpl011_bcm2837_getptr_lcrh(void)
+static struct uart_pl011_lcrh_t *_bcm2837_uartpl011_getptr_lcrh(void)
 {
     return ((struct uart_pl011_lcrh_t *)&uartpl011regs->lcrh);
 }
 
-static struct uart_pl011_cr_t *_uartpl011_bcm2837_getptr_cr(void)
+static struct uart_pl011_cr_t *_bcm2837_uartpl011_getptr_cr(void)
 {
     return ((struct uart_pl011_cr_t *)&uartpl011regs->cr);
 }
 
-static struct uart_pl011_ifls_t *_uartpl011_bcm2837_getptr_ifls(void)
+static struct uart_pl011_ifls_t *_bcm2837_uartpl011_getptr_ifls(void)
 {
     return ((struct uart_pl011_ifls_t *)&uartpl011regs->ifls);
 }
 
-static struct uart_pl011_imsc_t *_uartpl011_bcm2837_getptr_imsc(void)
+static struct uart_pl011_imsc_t *_bcm2837_uartpl011_getptr_imsc(void)
 {
     return ((struct uart_pl011_imsc_t *)&uartpl011regs->imsc);
 }
 
-static struct uart_pl011_ris_t *_uartpl011_bcm2837_getptr_ris(void)
+static struct uart_pl011_ris_t *_bcm2837_uartpl011_getptr_ris(void)
 {
     return ((struct uart_pl011_ris_t *)&uartpl011regs->ris);
 }
 
-static struct uart_pl011_mis_t *_uartpl011_bcm2837_getptr_mis(void)
+static struct uart_pl011_mis_t *_bcm2837_uartpl011_getptr_mis(void)
 {
     return ((struct uart_pl011_mis_t *)&uartpl011regs->mis);
 }
 
-static struct uart_pl011_icr_t *_uartpl011_bcm2837_getptr_icr(void)
+static struct uart_pl011_icr_t *_bcm2837_uartpl011_getptr_icr(void)
 {
     return ((struct uart_pl011_icr_t *)&uartpl011regs->icr);
 }
 
-static struct uart_pl011_dmacr_t *_uartpl011_bcm2837_getptr_dmacr(void)
+static struct uart_pl011_dmacr_t *_bcm2837_uartpl011_getptr_dmacr(void)
 {
     return ((struct uart_pl011_dmacr_t *)&uartpl011regs->dmacr);
 }
 
-static struct uart_pl011_itcr_t *_uartpl011_bcm2837_getptr_itcr(void)
+static struct uart_pl011_itcr_t *_bcm2837_uartpl011_getptr_itcr(void)
 {
     return ((struct uart_pl011_itcr_t *)&uartpl011regs->itcr);
 }
 
-static struct uart_pl011_itip_t *_uartpl011_bcm2837_getptr_itip(void)
+static struct uart_pl011_itip_t *_bcm2837_uartpl011_getptr_itip(void)
 {
     return ((struct uart_pl011_itip_t *)&uartpl011regs->itip);
 }
@@ -95,47 +95,47 @@ static struct uart_pl011_itip_t *_uartpl011_bcm2837_getptr_itip(void)
 ** Data register & sub Data register
 */ 
 
-char uartpl011_bcm2837_get_data_nonfifo(void)
+char bcm2837_uartpl011_get_data_nonfifo(void)
 {
-    return (_uartpl011_bcm2837_getptr_dr()->data);
+    return (_bcm2837_uartpl011_getptr_dr()->data);
 }
 
-void uartpl011_bcm2837_send_data_nonfifo(char send)
+void bcm2837_uartpl011_send_data_nonfifo(char send)
 {
-    _uartpl011_bcm2837_getptr_dr()->data = send;
+    _bcm2837_uartpl011_getptr_dr()->data = send;
 }
 
-void uartpl011_bcm2837_send_data_fifo(char *send, size_t sz)
+void bcm2837_uartpl011_send_data_fifo(char *send, size_t sz)
 {
     for (u32_t i = 0x0; i < sz; i++)
-        _uartpl011_bcm2837_getptr_dr()->data = send[i];
+        _bcm2837_uartpl011_getptr_dr()->data = send[i];
 }
 
-char uartpl011_bcm2837_safeget_data_nonfifo(void)
+char bcm2837_uartpl011_safeget_data_nonfifo(void)
 {
-    while(uartpl011_bcm2837_isTransmiterFull());
-    return (_uartpl011_bcm2837_getptr_dr()->data);
+    while(bcm2837_uartpl011_isTransmiterFull());
+    return (_bcm2837_uartpl011_getptr_dr()->data);
 }
 
-char const *uartpl011_bcm2837_safesend_data_nonfifo(char send)
+char const *bcm2837_uartpl011_safesend_data_nonfifo(char send)
 {
-    while(uartpl011_bcm2837_isTransmiterFull());
-    _uartpl011_bcm2837_getptr_dr()->data = send;
-    return (uartpl011_bcm2837_error_checkup());
+    while(bcm2837_uartpl011_isTransmiterFull());
+    _bcm2837_uartpl011_getptr_dr()->data = send;
+    return (bcm2837_uartpl011_error_checkup());
 }
 
-char const *uartpl011_bcm2837_safesend_data_fifo(char *send, size_t sz)
+char const *bcm2837_uartpl011_safesend_data_fifo(char *send, size_t sz)
 {
-    while(uartpl011_bcm2837_isTransmiterFull());
+    while(bcm2837_uartpl011_isTransmiterFull());
     for (u32_t i = 0x0; i < sz; i++)
-        _uartpl011_bcm2837_getptr_dr()->data = send[i];
-    return (uartpl011_bcm2837_error_checkup());
+        _bcm2837_uartpl011_getptr_dr()->data = send[i];
+    return (bcm2837_uartpl011_error_checkup());
 }
 
-char const *uartpl011_bcm2837_error_checkup(void)
+char const *bcm2837_uartpl011_error_checkup(void)
 {
-    struct uart_pl011_dr_t *dr = _uartpl011_bcm2837_getptr_dr();
-    struct uart_pl011_rsrecr_t *rsrecr = _uartpl011_bcm2837_getptr_rsrecr();
+    struct uart_pl011_dr_t *dr = _bcm2837_uartpl011_getptr_dr();
+    struct uart_pl011_rsrecr_t *rsrecr = _bcm2837_uartpl011_getptr_rsrecr();
     if (dr->err_framing || rsrecr->err_framing)
         return ("framing");
     if (dr->err_parity || rsrecr->err_parity)
@@ -151,75 +151,75 @@ char const *uartpl011_bcm2837_error_checkup(void)
 ** Control Register
 */
 
-void uartpl011_bcm2837_disable(void)
+void bcm2837_uartpl011_disable(void)
 {
-    _uartpl011_bcm2837_getptr_cr()->uarten = false;
+    _bcm2837_uartpl011_getptr_cr()->uarten = false;
 }
 
-void uartpl011_bcm2837_enable(void)
+void bcm2837_uartpl011_enable(void)
 {
-    _uartpl011_bcm2837_getptr_cr()->uarten = true;
+    _bcm2837_uartpl011_getptr_cr()->uarten = true;
 }
 
-void uartpl011_bcm2837_setstate(bool val)
+void bcm2837_uartpl011_setstate(bool val)
 {
-    _uartpl011_bcm2837_getptr_cr()->uarten = val;
+    _bcm2837_uartpl011_getptr_cr()->uarten = val;
 }
 
-void uartpl011_bcm2837_set_transmit_state(bool val)
+void bcm2837_uartpl011_set_transmit_state(bool val)
 {
-    _uartpl011_bcm2837_getptr_cr()->txe = val;
+    _bcm2837_uartpl011_getptr_cr()->txe = val;
 }
 
-void uartpl011_bcm2837_set_receive_state(bool val)
+void bcm2837_uartpl011_set_receive_state(bool val)
 {
-    _uartpl011_bcm2837_getptr_cr()->rxe = val;
+    _bcm2837_uartpl011_getptr_cr()->rxe = val;
 }
 
-void uartpl011_bcm2837_set_loopback_state(bool val)
+void bcm2837_uartpl011_set_loopback_state(bool val)
 {
-    _uartpl011_bcm2837_getptr_cr()->lbe = val;
+    _bcm2837_uartpl011_getptr_cr()->lbe = val;
 }
 
 /*
 ** Flag register
 */ 
 
-bool uartpl011_bcm2837_isTransmiterEmpty(void)
+bool bcm2837_uartpl011_isTransmiterEmpty(void)
 {
-    return (_uartpl011_bcm2837_getptr_fr()->txfe);
+    return (_bcm2837_uartpl011_getptr_fr()->txfe);
 }
 
-bool uartpl011_bcm2837_isReceiverEmpty(void)
+bool bcm2837_uartpl011_isReceiverEmpty(void)
 {
-    return (_uartpl011_bcm2837_getptr_fr()->rxfe);
+    return (_bcm2837_uartpl011_getptr_fr()->rxfe);
 }
 
-bool uartpl011_bcm2837_isTransmiterFull(void)
+bool bcm2837_uartpl011_isTransmiterFull(void)
 {
-    return (_uartpl011_bcm2837_getptr_fr()->txff);
+    return (_bcm2837_uartpl011_getptr_fr()->txff);
 }
 
-bool uartpl011_bcm2837_isReceiverFull(void)
+bool bcm2837_uartpl011_isReceiverFull(void)
 {
-    return (_uartpl011_bcm2837_getptr_fr()->rxff);
+    return (_bcm2837_uartpl011_getptr_fr()->rxff);
 }
 
 /* 
 ** Pin Mapping
 ** Already [un]mapp conventionnal pins 
 */
-void uartpl011_bcm2837_mappin(pin_t pin)
+void bcm2837_uartpl011_mappin(pin_t pin)
 {
     switch (pin)
     {
         case 14:
-            gpio_bcm2837_set_mode(14, GPIO_ALTFUNC0);
-            gpio_bcm2837_set_pullClock(14, GGPPUD_OFF);
+            bcm2837_gpio_set_mode(14, GPIO_ALTFUNC0);
+            bcm2837_gpio_set_pullClock(14, GGPPUD_OFF);
             break;
         case 15:
-            gpio_bcm2837_set_mode(14, GPIO_ALTFUNC0);
-            gpio_bcm2837_set_pullClock(14, GGPPUD_OFF);
+            bcm2837_gpio_set_mode(14, GPIO_ALTFUNC0);
+            bcm2837_gpio_set_pullClock(14, GGPPUD_OFF);
             break;
         case 16:
             
@@ -261,64 +261,64 @@ void uartpl011_bcm2837_mappin(pin_t pin)
 ** Interrupt clear register
 */
 
-void uartpl011_bcm2837_clear_transmit_interrupt(void)
+void bcm2837_uartpl011_clear_transmit_interrupt(void)
 {
-    _uartpl011_bcm2837_getptr_icr()->txic = true;
+    _bcm2837_uartpl011_getptr_icr()->txic = true;
 }
 
-void uartpl011_bcm2837_clear_receive_interrupt(void)
+void bcm2837_uartpl011_clear_receive_interrupt(void)
 {
-    _uartpl011_bcm2837_getptr_icr()->rxic = true;
+    _bcm2837_uartpl011_getptr_icr()->rxic = true;
 }
 
 /*
 ** baud rate divisor register
 */
 
-u32_t uartpl011_bcm2837_get_baudrate_divisor(void)
+u32_t bcm2837_uartpl011_get_baudrate_divisor(void)
 {
-    return (_uartpl011_bcm2837_getptr_ibrd()->ibrd);
+    return (_bcm2837_uartpl011_getptr_ibrd()->ibrd);
 }
 
-void uartpl011_bcm2837_set_baudrate_divisor(u32_t div)
+void bcm2837_uartpl011_set_baudrate_divisor(u32_t div)
 {
-    _uartpl011_bcm2837_getptr_ibrd()->ibrd = (u16_t)div;
+    _bcm2837_uartpl011_getptr_ibrd()->ibrd = (u16_t)div;
 }
 
 /*
 ** fractionnal baud rate divisor register
 */
 
-u32_t uartpl011_bcm2837_get_fractionnal_baudrate_divisor(void)
+u32_t bcm2837_uartpl011_get_fractionnal_baudrate_divisor(void)
 {
-    return (_uartpl011_bcm2837_getptr_fbrd()->fbrd);
+    return (_bcm2837_uartpl011_getptr_fbrd()->fbrd);
 }
 
-void uartpl011_bcm2837_set_fractionnal_baudrate_divisor(u32_t frctdiv)
+void bcm2837_uartpl011_set_fractionnal_baudrate_divisor(u32_t frctdiv)
 {
-    _uartpl011_bcm2837_getptr_ibrd()->ibrd = (u8_t)frctdiv;
+    _bcm2837_uartpl011_getptr_ibrd()->ibrd = (u8_t)frctdiv;
 }
 
 /*
 ** Line control register
 */
 
-void uartpl011_bcm2837_send_break(void)
+void bcm2837_uartpl011_send_break(void)
 {
-    _uartpl011_bcm2837_getptr_lcrh()->brk = true;
+    _bcm2837_uartpl011_getptr_lcrh()->brk = true;
 }
 
-void uartpl011_bcm2837_set_parity(bool state)
+void bcm2837_uartpl011_set_parity(bool state)
 {
-    _uartpl011_bcm2837_getptr_lcrh()->pen= state;
+    _bcm2837_uartpl011_getptr_lcrh()->pen= state;
 }
 
-void uartpl011_bcm2837_set_fifo(bool state)
+void bcm2837_uartpl011_set_fifo(bool state)
 {
-    _uartpl011_bcm2837_getptr_lcrh()->fen = state;
+    _bcm2837_uartpl011_getptr_lcrh()->fen = state;
 }
 
-void uartpl011_bcm2837_set_wlen(enum WLEN state)
+void bcm2837_uartpl011_set_wlen(enum WLEN state)
 {
-    _uartpl011_bcm2837_getptr_lcrh()->wlen = state;
+    _bcm2837_uartpl011_getptr_lcrh()->wlen = state;
 }
