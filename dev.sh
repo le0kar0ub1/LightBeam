@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FLAG="-machine raspi3 -kernel LightBleam-raspi3.img -serial stdio -show-cursor"
+FLAG="-machine raspi3 -kernel LightBeam-raspi3.img -serial stdio -show-cursor"
 DEV="-usb -device usb-host,hostbus=2,hostaddr=1 -device usb-mouse -device usb-kbd"
 
 make fclean

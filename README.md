@@ -1,14 +1,14 @@
-# LightBleam
+# LightBeam
 
 The purpose of this project is to create some [ARM](https://en.wikipedia.org/wiki/ARM_architecture) kernel base for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
 
-LightBleam is a little project without ambition that explore the ARM kernel developpment world.
+LightBeam is a little project without ambition that explore the ARM kernel developpment world.
 
 [Project Root Documentation](doc/tree.md)
 
 ## INSTALL
 
-LightBleam will check all dependencies and install the ARM GNU toolchain (if not already done).
+LightBeam will check all dependencies and install the ARM GNU toolchain (if not already done).
 
 _Using make rule:_ `make toolchain`
 
@@ -18,7 +18,7 @@ Kernels are built using GNU ARM toolchain from submodules git.
 
 ## BUILD
 
-LightBleam build kernel plateform-specific.
+LightBeam build kernel plateform-specific.
 
 `make TARGET=$PLATEFORM`
 

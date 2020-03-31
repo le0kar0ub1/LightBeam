@@ -1,7 +1,7 @@
 #include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/system.h"
 
-void helloFromLightBleam(void)
+void helloFromLightBeam(void)
 {
     char const *kernelname = "\
   _      _       _     ____  _                         \n\

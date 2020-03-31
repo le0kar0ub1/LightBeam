@@ -1,4 +1,4 @@
-#include "lightbleam.h"
+#include "lighbeam.h"
 #include "kernel/def/keyword.h"
 #include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/driver/fb.h"
@@ -36,7 +36,7 @@ void setup_level(void)
     /* RPI framebuffer */
     rpifb_init(1024, 768, 32, 1, 0);
 
-    helloFromLightBleam();
+    helloFromLightBeam();
 
     rpifb_kprint("[%$AInitialized%$R]: CPU config\n", RGB_Lime);
     rpifb_kprint("[%$AInitialized%$R]: Uart\n", RGB_Lime);

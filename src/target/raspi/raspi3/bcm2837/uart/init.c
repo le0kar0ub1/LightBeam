@@ -1,4 +1,4 @@
-#include "lightbleam.h"
+#include "lighbeam.h"
 #include "target/raspi/raspi3/bcm2837/uart_pl011.h"
 #include "kernel/init/initcalls.h"
 

@@ -25,7 +25,7 @@ export TARGET2SHARED_DIR	:=	../shared
 export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
 
 # Binary definition
-export PROJECT			:=	LightBleam
+export PROJECT			:=	LightBeam
 # export VERSION			:=	0.1.0
 export BIN_EXTENSION	:=	bin
 export IMG_EXTENSION	:=	img

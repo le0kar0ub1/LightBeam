@@ -3,7 +3,7 @@
  #
 
 # Norm the linker
-export TGTLINKER		:=	lightbleam.ld
+export TGTLINKER		:=	lighbeam.ld
 export TGTLINKER_BUILD	:=	$(KBUILD)
 
 # Norm arch particular macro

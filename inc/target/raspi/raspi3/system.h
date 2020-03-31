@@ -22,7 +22,7 @@
 #define PL011UART ((volatile struct PL011UARTRegisters *)(uintptr_t)(ARCH_RASP_MMIOBASE + 0x00201000))
 #define QA7 ((volatile __aligned(4) struct QA7Registers *)(uintptr_t)(0x40000024))
 
-void helloFromLightBleam(void);
+void helloFromLightBeam(void);
 void setup_level(void);
 
 u64_t timer_getTickCount64(void);
