@@ -95,6 +95,11 @@ static struct uart_pl011_itip_t *_uartpl011_bcm2837_getptr_itip(void)
 ** Data register & sub Data register
 */ 
 
+char uartpl011_bcm2837_get_data_nonfifo(void)
+{
+    return (_uartpl011_bcm2837_getptr_dr()->data);
+}
+
 void uartpl011_bcm2837_send_data_nonfifo(char send)
 {
     _uartpl011_bcm2837_getptr_dr()->data = send;
@@ -104,6 +109,12 @@ void uartpl011_bcm2837_send_data_fifo(char *send, size_t sz)
 {
     for (u32_t i = 0x0; i < sz; i++)
         _uartpl011_bcm2837_getptr_dr()->data = send[i];
+}
+
+char uartpl011_bcm2837_safeget_data_nonfifo(void)
+{
+    while(uartpl011_bcm2837_isTransmiterFull());
+    return (_uartpl011_bcm2837_getptr_dr()->data);
 }
 
 char const *uartpl011_bcm2837_safesend_data_nonfifo(char send)

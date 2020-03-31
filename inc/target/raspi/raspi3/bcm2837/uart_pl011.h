@@ -263,6 +263,8 @@ void *uartpl011_bcm2837_get_entrypoint(void);
 /*
 ** Data register & sub Data register
 */ 
+char uartpl011_bcm2837_get_data_nonfifo(void);
+char uartpl011_bcm2837_safeget_data_nonfifo(void);
 void uartpl011_bcm2837_send_data_nonfifo(char);
 void uartpl011_bcm2837_send_data_fifo(char *, size_t);
 char const *uartpl011_bcm2837_safesend_data_nonfifo(char);

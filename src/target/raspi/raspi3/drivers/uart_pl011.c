@@ -19,51 +19,21 @@ void uart_init(void)
     uartpl011_bcm2837_disable();
 }
 
-void uart_send(char c)
+void uart_putc(char c)
 {
     while(uartpl011_bcm2837_isTransmiterFull());
     uartpl011_bcm2837_send_data_nonfifo(c);
-    // char const *s = uartpl011_bcm2837_safesend_data_nonfifo(c);
 }
 
-// /**
-//  * Receive a character
-//  */
-// char uart_getc(void)
-// {
-//     char r;
-//     /* wait until something is in the buffer */
-//     while(*UART0_FR & 0x10)
-//         asm volatile("nop");
-//     /* read it and return */
-//     r = (char)(*UART0_DR);
-//     /* convert carrige return to newline */
-//     return (r == '\r' ? '\n': r);
-// }
-
-// /**
-//  * Display a string
-//  */
+char uart_getc(void)
+{
+    while(uartpl011_bcm2837_isReceiverFull());
+    return (uartpl011_bcm2837_get_data_nonfifo());
+}
 
 void uart_puts(char const *s)
 {
-    while(*s) {
-        if(*s == '\n')
-            uart_send('\r');
-        uart_send(*s++);
-    }
+    while (*s++)
+        uart_putc(*s);
 }
 
-// /**
-//  * Display a binary value in hexadecimal
-//  */
-// void uart_hex(u32_t d)
-// {
-//     u32_t n;
-
-//     for(int c = 28 ; c >= 0;c -= 4) {
-//         n = (d >> c) & 0xF;
-//         n += n > 9 ? 0x37 : 0x30;
-//         uart_send(n);
-//     }
-// }
