@@ -13,8 +13,8 @@ void helloFromLightBleam(void)
             __/ |                                      \n\
            |___/                                       \n\
 ";
-    lfb_set_color(RGB_Black, RGB_Yellow);
-    lfb_puts(kernelname);
-    lfb_set_color(RGB_Black, RGB_White);
-    lfb_puts("\nKernel init routine...\n\n");
+    rpifb_set_color(RGB_Black, RGB_Yellow);
+    rpifb_puts(kernelname);
+    rpifb_set_color(RGB_Black, RGB_White);
+    rpifb_puts("\nKernel init routine...\n\n");
 }

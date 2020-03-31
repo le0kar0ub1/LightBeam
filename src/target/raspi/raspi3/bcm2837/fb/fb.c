@@ -1,89 +1,238 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/driver/fb.h"
-#include "target/raspi/raspi3/cpus/semaphore.h"
 #include "arch/overworld/overworld.h"
 
-extern volatile uchar _binary_font_font_psf_start;
+/*
+ * Mbox framebuffer
+ */
+enum {
+    MBOX_TAG_FB_GET_GPIOVIRT        = 0x00040010,
+    MBOX_TAG_FB_ALLOCATE_BUFFER     = 0x00040001,
+    MBOX_TAG_FB_RELEASE_BUFFER      = 0x00048001,
+    MBOX_TAG_FB_BLANK_SCREEN        = 0x00040002,
+    MBOX_TAG_FB_GET_PHYS_WH         = 0x00040003,
+    MBOX_TAG_FB_TEST_PHYS_WH        = 0x00044003,
+    MBOX_TAG_FB_SET_PHYS_WH         = 0x00048003,
+    MBOX_TAG_FB_GET_VIRT_WH         = 0x00040004,
+    MBOX_TAG_FB_TEST_VIRT_WH        = 0x00044004,
+    MBOX_TAG_FB_SET_VIRT_WH         = 0x00048004,
+    MBOX_TAG_FB_GET_DEPTH           = 0x00040005,
+    MBOX_TAG_FB_TEST_DEPTH          = 0x00044005,
+    MBOX_TAG_FB_SET_DEPTH           = 0x00048005,
+    MBOX_TAG_FB_GET_PIXEL_ORDER     = 0x00040006,
+    MBOX_TAG_FB_TEST_PIXEL_ORDER    = 0x00044006,
+    MBOX_TAG_FB_SET_PIXEL_ORDER     = 0x00048006,
+    MBOX_TAG_FB_GET_ALPHA_MODE      = 0x00040007,
+    MBOX_TAG_FB_TEST_ALPHA_MODE     = 0x00044007,
+    MBOX_TAG_FB_SET_ALPHA_MODE      = 0x00048007,
+    MBOX_TAG_FB_GET_PITCH           = 0x00040008,
+    MBOX_TAG_FB_GET_VIRT_OFFSET     = 0x00040009,
+    MBOX_TAG_FB_TEST_VIRT_OFFSET    = 0x00044009,
+    MBOX_TAG_FB_SET_VIRT_OFFSET     = 0x00048009,
+    MBOX_TAG_FB_GET_OVERSCAN        = 0x0004000a,
+    MBOX_TAG_FB_TEST_OVERSCAN       = 0x0004400a,
+    MBOX_TAG_FB_SET_OVERSCAN        = 0x0004800a,
+    MBOX_TAG_FB_GET_PALETTE         = 0x0004000b,
+    MBOX_TAG_FB_TEST_PALETTE        = 0x0004400b,
+    MBOX_TAG_FB_SET_PALETTE         = 0x0004800b,
+};
 
-extern volatile struct lfb_properties properties;
+struct mbox_fb_gpiovirt_msg_t {
+    u32_t size;
+    u32_t code;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t val;
+    } tag;
+    u32_t end;
+};
 
-extern volatile struct lfb_handler attrib;
+struct mbox_fb_pitch_msg_t {
+    u32_t size;
+    u32_t code;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t val;
+    } tag;
+    u32_t end;
+};
 
-#pragma message "make coloration as char escape to ensure buffered compatibitly"
+struct mbox_fb_info_msg_t {
+    u32_t size;
+    u32_t code;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t width;
+        u32_t height;
+    } phys;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t width;
+        u32_t height;
+    } virt;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t bpp;
+    } depth;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t xoffset;
+        u32_t yoffset;
+    } offset;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t vaddr;
+        u32_t vsize;
+    } allocate;
+    u32_t end;
+};
 
-void lfb_set_pos(u32_t x, u32_t y)
+struct mbox_fb_offset_msg_t {
+    u32_t size;
+    u32_t code;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t xoffset;
+        u32_t yoffset;
+    } tag;
+    u32_t end;
+};
+
+struct mbox_fb_porder_msg_t {
+    u32_t size;
+    u32_t code;
+    struct {
+        u32_t tag;
+        u32_t size;
+        u32_t len;
+        u32_t order;
+    } tag;
+    u32_t end;
+};
+
+u32_t bcm2837_mbox_fb_get_gpiovirt(void)
 {
-    attrib.x = x;
-    attrib.y = y;
+    struct mbox_fb_gpiovirt_msg_t msg __attribute__((aligned(16)));
+    struct mbox_fb_gpiovirt_msg_t * p = &msg;
+
+    p->size = sizeof(struct mbox_fb_gpiovirt_msg_t);
+    p->code = 0;
+    p->tag.tag = MBOX_TAG_FB_GET_GPIOVIRT;
+    p->tag.size = 4;
+    p->tag.len = 0;
+    p->tag.val = 0;
+    p->end = 0;
+
+    bcm2837_mbox_call(p);
+    if(p->code != 0x80000000)
+        return -1;
+    return p->tag.val & 0x3fffffff;
 }
 
-u32_t lfb_get_posx(void)
+u32_t bcm2837_mbox_fb_get_pitch(void)
 {
-    return (attrib.x);
+    struct mbox_fb_pitch_msg_t msg __attribute__((aligned(16)));
+    struct mbox_fb_pitch_msg_t * p = &msg;
+
+    p->size = sizeof(struct mbox_fb_pitch_msg_t);
+    p->code = 0;
+    p->tag.tag = MBOX_TAG_FB_GET_PITCH;
+    p->tag.size = 4;
+    p->tag.len = 0;
+    p->tag.val = 0;
+    p->end = 0;
+
+    bcm2837_mbox_call(p);
+    if(p->code != 0x80000000)
+        return -1;
+    return p->tag.val;
 }
 
-u32_t lfb_get_posy(void)
+bool bcm2837_mbox_fb_set_porder(int rgb)
 {
-    return (attrib.y);
+    struct mbox_fb_porder_msg_t msg __attribute__((aligned(16)));
+    struct mbox_fb_porder_msg_t * p = &msg;
+
+    p->size = sizeof(struct mbox_fb_porder_msg_t);
+    p->code = 0;
+    p->tag.tag = MBOX_TAG_FB_GET_PITCH;
+    p->tag.size = 4;
+    p->tag.len = 0;
+    p->tag.order = rgb;
+    p->end = 0;
+
+    bcm2837_mbox_call(p);
+    if(p->code != 0x80000000)
+        return false;
+    return true;
 }
 
-void lfb_set_color(u32_t back, u32_t front)
+void * bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender)
 {
-    attrib.back = back;
-    attrib.front = front;
+    struct mbox_fb_info_msg_t msg __attribute__((aligned(16)));
+    struct mbox_fb_info_msg_t * p = &msg;
+
+    p->size = sizeof(struct mbox_fb_info_msg_t);
+    p->code = 0;
+    p->phys.tag = MBOX_TAG_FB_SET_PHYS_WH;
+    p->phys.size = 8;
+    p->phys.len = 8;
+    p->phys.width = width;
+    p->phys.height = height;
+    p->virt.tag = MBOX_TAG_FB_SET_VIRT_WH;
+    p->virt.size = 8;
+    p->virt.len = 8;
+    p->virt.width = width;
+    p->virt.height = height * nrender;
+    p->depth.tag = MBOX_TAG_FB_SET_DEPTH;
+    p->depth.size = 4;
+    p->depth.len = 4;
+    p->depth.bpp = bpp;
+    p->allocate.tag = MBOX_TAG_FB_ALLOCATE_BUFFER;
+    p->allocate.size = 8;
+    p->allocate.len = 8;
+    p->allocate.vaddr = 4096;
+    p->allocate.vsize = 0;
+    p->end = 0;
+
+    bcm2837_mbox_call(p);
+    if(p->code != 0x80000000)
+        return 0;
+    return (void *)((u64_t)(p->allocate.vaddr & 0x3fffffff));
 }
 
-void lfb_puts(char const *s)
+bool bcm2837_mbox_fb_setoffset(int xoffset, int yoffset)
 {
-    while (*s) {
-        lfb_putchar(*s);
-        s++;
-    }
-}
+    struct mbox_fb_offset_msg_t msg __attribute__((aligned(16)));
+    struct mbox_fb_offset_msg_t * p = &msg;
 
-void lfb_putchar(char c)
-{
-    psf_t *font = (psf_t *)&_binary_font_font_psf_start;
-    // get the offset of the glyph. Need to adjust this to support unicode table
-    uchar *glyph = (uchar*)&_binary_font_font_psf_start +
-     font->headersize + ((uchar)c < font->numglyph ? c : 0) * font->bytesperglyph;
-    // calculate the offset on screen
-    int offs = (attrib.y * font->height * properties.pitch) + (attrib.x * (font->width + 1) * 4);
-    // variables
-    int i, j, line, mask, bytesperline = (font->width + 7) / 8;
-    if (c == '\r')
-        attrib.x = 0;
-    else
-        if (c == '\n') {
-            attrib.x = 0;
-            attrib.y++;
-        } else {
-            // display a character
-            for (j = 0; j < (int)font->height; j++) {
-                // display one row
-                line= offs;
-                mask = 1 << (font->width - 1);
-                for (i = 0; i < (int)font->width; i++) {
-                    *((u32_t*)(properties.lfb + line)) = ((int)*glyph) & mask ? attrib.front : attrib.back;
-                    mask >>= 1;
-                    line += 4;
-                }
-                glyph += bytesperline;
-                offs += properties.pitch;
-            }
-            attrib.x++;
-        }
-}
+    p->size = sizeof(struct mbox_fb_offset_msg_t);
+    p->code = 0;
+    p->tag.tag = MBOX_TAG_FB_SET_VIRT_OFFSET;
+    p->tag.size = 8;
+    p->tag.len = 8;
+    p->tag.xoffset = xoffset;
+    p->tag.yoffset = yoffset;
+    p->end = 0;
 
-void lfb_clear(void)
-{
-    uchar *ptr = properties.lfb;
-
-    for (u32_t y = 0; y < properties.height; y++) {
-        for (u32_t x = 0; x < properties.width; x++) {
-            *((u32_t*)ptr) = 0x0;
-            ptr += 4;
-        }
-        ptr += properties.pitch - properties.width * 4;
-    }
+    bcm2837_mbox_call(p);
+    if(p->code != 0x80000000)
+        return false;
+    return true;
 }

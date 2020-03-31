@@ -7,47 +7,47 @@
 
 static bool iserasing;
 
-void lfb_printfhandler_modcolor(u64_t color)
+void rpifb_printfhandler_modcolor(u64_t color)
 {
-    lfb_set_color(RGB_Black, (u32_t)color);
+    rpifb_set_color(RGB_Black, (u32_t)color);
 }
 
-void lfb_printfhandler_bckcolor(void)
+void rpifb_printfhandler_bckcolor(void)
 {
-    lfb_set_color(RGB_Black, RGB_White);
+    rpifb_set_color(RGB_Black, RGB_White);
 }
 
-void lfb_printfhandler_noerasing(void)
+void rpifb_printfhandler_noerasing(void)
 {
     iserasing = false;
 }
 
-static struct printfhandlers_t lfb_printfhandlers[] =
+static struct printfhandlers_t rpifb_printfhandlers[] =
 {
-    {"$A", NULL, lfb_printfhandler_modcolor},
-    {"$R", lfb_printfhandler_bckcolor, NULL},
-    {"\r", lfb_printfhandler_noerasing, NULL},
+    {"$A", NULL, rpifb_printfhandler_modcolor},
+    {"$R", rpifb_printfhandler_bckcolor, NULL},
+    {"\r", rpifb_printfhandler_noerasing, NULL},
     {NULL, NULL, NULL}
 };
 
-static inline void lfb_endprint(int posx, int posy)
+static inline void rpifb_endprint(int posx, int posy)
 {
     if (!iserasing)
-        lfb_set_pos(posx, posy);
+        rpifb_set_pos(posx, posy);
 }
 
 smplock_t lock = SMPLOCK_INIT;
 
-void lfb_kprint(char const *fmt, ...)
+void rpifb_kprint(char const *fmt, ...)
 {
-    int posx = lfb_get_posx();
-    int posy = lfb_get_posy();
+    int posx = rpifb_get_posx();
+    int posy = rpifb_get_posy();
     semaphore_inc(&lock);
     iserasing = true;
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
-    generic_vprintf(lfb_putchar, &(*lfb_printfhandlers), fmt, ap);
+    generic_vprintf(rpifb_putc, &(*rpifb_printfhandlers), fmt, ap);
     __builtin_va_end(ap);
-    lfb_endprint(posx, posy);
+    rpifb_endprint(posx, posy);
     semaphore_dec(&lock);
 }

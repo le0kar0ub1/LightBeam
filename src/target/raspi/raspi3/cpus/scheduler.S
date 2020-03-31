@@ -4,7 +4,7 @@
 .global cpu_warbase
 .global cpuScheduler
 
-.extern lfb_cpu_log
+.extern rpifb_cpu_log
 
 .extern _cpustate
 
@@ -12,7 +12,7 @@
 .balign 4
 cpu_warbase:
     ldr x0, =_cpustart
-    bl lfb_cpu_log
+    bl rpifb_cpu_log
     b cpuScheduler
 
 .section .data

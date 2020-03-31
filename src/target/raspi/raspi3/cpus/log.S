@@ -44,11 +44,11 @@ _uart_cpuerr:   .string "[CPU %d] [ERR]: %s\n"
 
 
 .section .text
-.global lfb_cpu_log
-.global lfb_cpu_wrn
-.global lfb_cpu_err
+.global rpifb_cpu_log
+.global rpifb_cpu_wrn
+.global rpifb_cpu_err
 
-lfb_cpu_log:
+rpifb_cpu_log:
     prologue
     mov x3, x0
     bl cpuGetId
@@ -56,12 +56,12 @@ lfb_cpu_log:
     mov x2, #0xC0C
     lsl x2, x2, #12
     add x2, x2, #0x0C0
-    ldr x0, =_lfb_cpulog
-    bl lfb_kprint
+    ldr x0, =_rpifb_cpulog
+    bl rpifb_kprint
     epilogue
     ret
 
-lfb_cpu_wrn:
+rpifb_cpu_wrn:
     prologue
     mov x3, x0
     bl cpuGetId
@@ -69,24 +69,24 @@ lfb_cpu_wrn:
     mov x2, #0xFFA
     lsl x2, x2, #12
     add x2, x2, #0x500
-    ldr x0, =_lfb_cpuwrn
-    bl lfb_kprint
+    ldr x0, =_rpifb_cpuwrn
+    bl rpifb_kprint
     epilogue
     ret
 
-lfb_cpu_err:
+rpifb_cpu_err:
     prologue
     mov x3, x0
     bl cpuGetId
     mov x1, x0
     mov x2, #0xFF0000
-    ldr x0, =_lfb_cpuerr
-    bl lfb_kprint
+    ldr x0, =_rpifb_cpuerr
+    bl rpifb_kprint
     epilogue
     ret
 
 .section .data
 .balign 4
-_lfb_cpulog:   .string "[CPU %d] [%$ALOG%$R]: %s\n"
-_lfb_cpuwrn:   .string "[CPU %d] [%$AWRN%$R]: %s\n"
-_lfb_cpuerr:   .string "[CPU %d] [%$AERR%$R]: %s\n"
+_rpifb_cpulog:   .string "[CPU %d] [%$ALOG%$R]: %s\n"
+_rpifb_cpuwrn:   .string "[CPU %d] [%$AWRN%$R]: %s\n"
+_rpifb_cpuerr:   .string "[CPU %d] [%$AERR%$R]: %s\n"

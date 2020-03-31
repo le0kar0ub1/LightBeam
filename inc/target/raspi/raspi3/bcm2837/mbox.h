@@ -75,7 +75,7 @@ int bcm2837_mbox_temp_get_max(void);
 /* Mbox framebuffer */
 u32_t bcm2837_mbox_fb_get_gpiovirt(void);
 void * bcm2837_mbox_fb_alloc(int, int, int, int);
-bool bcm2837_mbox_fb_present(int, int);
+bool bcm2837_mbox_fb_setoffset(int, int);
 u32_t bcm2837_mbox_fb_get_pitch(void);
 bool bcm2837_mbox_fb_set_porder(int);
 

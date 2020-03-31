@@ -30,9 +30,9 @@ void uart_cpu_log(char const *);
 void uart_cpu_wrn(char const *);
 void uart_cpu_err(char const *);
 
-void lfb_cpu_log(char const *);
-void lfb_cpu_wrn(char const *);
-void lfb_cpu_err(char const *);
+void rpifb_cpu_log(char const *);
+void rpifb_cpu_wrn(char const *);
+void rpifb_cpu_err(char const *);
 
 void __deadloop(void);
 void __hang(void);

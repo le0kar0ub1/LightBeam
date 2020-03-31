@@ -54,7 +54,7 @@ void arm64_invalid_exception(struct rframe_t *regs, int reason, u32_t esr)
         "Error"
     };
 
-    lfb_kprint("Invalid exception in %s handler detected, code 0x%x -- %s\n", handler[reason], esr, esr_class_str[esr >> 26]);
+    rpifb_kprint("Invalid exception in %s handler detected, code 0x%x -- %s\n", handler[reason], esr, esr_class_str[esr >> 26]);
     dump_regs(regs);
 }
 
@@ -78,7 +78,7 @@ void arm64_sync_exception(struct rframe_t *regs)
         break;
     }
 
-    lfb_kprint("Synchronous exception detected, ec:0x%x iss:0x%x far:0x%x\n", ec, iss, far);
+    rpifb_kprint("Synchronous exception detected, ec:0x%x iss:0x%x far:0x%x\n", ec, iss, far);
     dump_regs(regs);
 }
 

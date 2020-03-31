@@ -1,5 +1,5 @@
-#ifndef __LFB_H_
-#define __LFB_H_
+#ifndef __RPIFB_H_
+#define __RPIFB_H_
 
 #include "def/typedef.h"
 
@@ -36,36 +36,39 @@ typedef struct {
     uchar glyphs;
 } __attribute__((packed)) psf_t;
 
-struct lfb_properties {
+struct rpifb_properties {
     uchar *lfb;
     u32_t width;
     u32_t height;
     u32_t pitch;
 } __attribute__((packed));
 
-struct lfb_handler {
+struct rpifb_handler {
     u32_t x;
     u32_t y;
     u32_t back;
     u32_t front;
 } __attribute__((packed));
 
-void lfb_init(void);
-void lfb_print(int, int, char const *);
-void lfb_clear(void);
-void lfb_clear_rect(void);
+void rpifb_init(u32_t, u32_t, u32_t, u32_t, u32_t);
 
-void lfb_printfhandler_modcolor(u64_t );
-void lfb_printfhandler_bckcolor(void);
-void lfb_printfhandler_noerasing(void);
-void lfb_kprint(char const *, ...);
+void rpifb_putc(char);
+void rpifb_puts(char const *);
+void rpifb_print(int, int, char const *);
+void rpifb_clear(void);
+void rpifb_clear_rect(void);
 
-void lfb_puts(char const *);
-void lfb_putchar(char);
+void rpifb_printfhandler_modcolor(u64_t );
+void rpifb_printfhandler_bckcolor(void);
+void rpifb_printfhandler_noerasing(void);
+void rpifb_kprint(char const *, ...);
 
-void lfb_set_pos(u32_t, u32_t);
-u32_t lfb_get_posx(void);
-u32_t lfb_get_posy(void);
-void lfb_set_color(u32_t, u32_t);
+void rpifb_puts(char const *);
+void rpifb_putc(char);
+
+void rpifb_set_pos(u32_t, u32_t);
+u32_t rpifb_get_posx(void);
+u32_t rpifb_get_posy(void);
+void rpifb_set_color(u32_t, u32_t);
 
 #endif
