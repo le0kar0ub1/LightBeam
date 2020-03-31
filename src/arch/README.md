@@ -1,7 +1,7 @@
-`/src/arch`
+`src/arch`
 ===========
 
-- `/src/arch`
+- `src/arch`
   - `XXX` : directory with files which are architecture specific (generaly particulars tools etc..)
   - `overworld`: is dedicated to sources wich are usable over architectures.
 

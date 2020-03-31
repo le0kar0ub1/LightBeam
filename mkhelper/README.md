@@ -1,5 +1,5 @@
-`/mkhelper`
-===========
+`mkhelper`
+==========
 
 This directory is composed only of includable files for `make` work.
 
@@ -35,4 +35,4 @@ All The object file will be relocated to the `build/` directory at project root 
 
 Using the root Makefile: `make TARGET=$PLATEFORM`.
 
-Plateform are listed [here](src/target/README.md).
+Plateform are listed [here](../src/target/README.md).

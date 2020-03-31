@@ -1,4 +1,4 @@
-`/src/target`
+`src/target`
 =============
 
 The directory host our plateform which are the target of the root build.
