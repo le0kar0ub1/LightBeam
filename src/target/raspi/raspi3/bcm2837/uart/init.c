@@ -3,7 +3,7 @@
 
 #pragma message "initcall me"
 
-volatile struct uart_pl011_regs_t *uartpl011regs __aligned(4);
+volatile struct uart_pl011_regs_t *uartpl011regs __aligned(16);
 
 void bcm2837_uartpl011_init(void)
 {

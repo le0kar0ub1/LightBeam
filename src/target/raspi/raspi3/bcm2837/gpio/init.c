@@ -3,7 +3,7 @@
 
 #pragma message "initcall me"
 
-volatile struct gpio_regs_t *gpioregs __aligned(4);
+volatile struct gpio_regs_t *gpioregs __aligned(16);
 
 void bcm2837_gpio_init(void)
 {

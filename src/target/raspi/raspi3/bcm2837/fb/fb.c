@@ -183,7 +183,7 @@ bool bcm2837_mbox_fb_set_porder(int rgb)
     return true;
 }
 
-void * bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender)
+void *bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender)
 {
     struct mbox_fb_info_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_info_msg_t * p = &msg;
@@ -206,14 +206,14 @@ void * bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender)
     p->depth.bpp = bpp;
     p->allocate.tag = MBOX_TAG_FB_ALLOCATE_BUFFER;
     p->allocate.size = 8;
-    p->allocate.len = 8;
-    p->allocate.vaddr = 4096;
+    p->allocate.len = 4;
+    p->allocate.vaddr = 0x3C100000; // The design of MBOX driver forces us to give the virtual address
     p->allocate.vsize = 0;
     p->end = 0;
 
     bcm2837_mbox_call(p);
     if(p->code != 0x80000000)
-        return 0;
+        return NULL;
     return (void *)((u64_t)(p->allocate.vaddr & 0x3fffffff));
 }
 

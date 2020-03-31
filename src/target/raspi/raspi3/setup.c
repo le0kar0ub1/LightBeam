@@ -34,10 +34,10 @@ void setup_level(void)
     bcm2837_gpio_init();
     bcm2837_uartpl011_init();
     uart_init();
-    // rpifb_init(1024, 768, 32, 1, 0);
-    // rpifb_puts("Coucou toa");
-    lfb_init();
-    lfb_puts("coucou toa");
+    rpifb_init(1024, 768, 32, 1, 0);
+    rpifb_puts("Coucou toa");
+    // lfb_init();
+    // lfb_puts("coucou toa");
     uart_puts("AAAAAAAAAAAAAAAAAAAAA\n");
     while(1);
     // helloFromLightBleam();
