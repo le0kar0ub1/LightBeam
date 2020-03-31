@@ -2,7 +2,7 @@
 #define __SYSTEM_H_
 
 #include <stdarg.h>
-#include "def/keyword.h"
+#include "kernel/def/keyword.h"
 #include "target/raspi/raspi3/bcm2837/datastructure.h"
 
 #define ARM_MODE_USR 0x10   /* Normal User Mode                                       */

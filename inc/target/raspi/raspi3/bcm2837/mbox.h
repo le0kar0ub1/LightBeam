@@ -2,7 +2,7 @@
 #define __BCM2837_MBOX_H__
 
 #include <stdint.h>
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 #define BCM2837_MBOX_BASE   (0x3f00b880)
 

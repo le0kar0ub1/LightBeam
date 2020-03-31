@@ -1,7 +1,7 @@
 #ifndef __UART_H_
 #define __UART_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include "arch/aarch64/archutils.h"
 #include <stdarg.h>
 

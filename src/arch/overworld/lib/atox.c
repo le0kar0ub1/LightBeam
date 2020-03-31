@@ -1,5 +1,5 @@
-#include "def/typedef.h"
-#include "def/keyword.h"
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
 #include "arch/overworld/overworld.h"
 
 struct prefixBase {

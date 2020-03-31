@@ -1,5 +1,5 @@
 #include "lightbleam.h"
-#include "def/keyword.h"
+#include "kernel/def/keyword.h"
 #include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/driver/gpio.h"
@@ -9,7 +9,7 @@
 #include "kernel/init/initcalls.h"
 // #include "target/raspi/raspi3/interrupts/interrupt.h"
 // #include "target/raspi/raspi3/memory/mmu.h"
-// #include "def/assert.h"
+// #include "kernel/def/assert.h"
 
 static inline void start_setup_log(char const *data)
 {
@@ -27,9 +27,15 @@ static inline void end_setup_log(char const *data)
 void setup_level(void);
 void setup_level(void)
 {
+    /* boot init calls running */
     run_boot_initcalls();
+
+    /* Uartpl011 setup */
     uart_init();
+
+    /* RPI framebuffer */
     rpifb_init(1024, 768, 32, 1, 0);
+
     helloFromLightBleam();
 
     rpifb_kprint("[%$AInitialized%$R]: CPU config\n", RGB_Lime);

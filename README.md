@@ -4,7 +4,7 @@ The purpose of this project is to create some [ARM](https://en.wikipedia.org/wik
 
 LightBleam is a little project without ambition that explore the ARM kernel developpment world.
 
-A fast documentation will be provide later.
+[Project Root Documentation](doc/tree.md)
 
 ## INSTALL
 
@@ -37,42 +37,11 @@ For physical run check this [page](https://wiki.osdev.org/Raspberry_Pi_Bare_Bone
 
 Check dependencies using the `make toolchain`.
 
-## ROADMAP
-
-- [X] Dependencies installer
-- [X] Scalable build & architecture
-- [X] Kernel
-  - [X] Init hooks
-- [ ] RaspberryPi3
-  - [ ] Boot
-    - [X] SMP init
-    - [X] Interrupt Vectors
-    - [ ] IRQ
-  - [ ] Driver
-    - [X] UART 
-    - [X] LFB
-  - [ ] Memory
-    - [ ] MMU
-    - [ ] Physical memory allocator
-    - [ ] Virtual memory allocator
-    - [ ] Heap Allocator
-  - [ ] Multi-tasks system
-    - [ ] Physical
-      - [X] CPUS exec routines
-      - [ ] CPUS particular task assignement (relevant?)
-    - [ ] Virtual
-      - [ ] Threads
-      - [ ] Basic scheduler
-
-
-
 ## EPILOGUE
 
 [ARM ABI specification](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ihi0042f/index.html).
 
 [ARM official developper documentation](https://developer.arm.com/docs).
-
-[Raspberry github informations](https://github.com/raspberrypi/firmware/wiki/).
 
 And, from the darkness, shine the light.
 

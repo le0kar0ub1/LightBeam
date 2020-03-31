@@ -1,7 +1,7 @@
 #ifndef __DATASTRUCTURE__
 #define __DATASTRUCTURE__
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 typedef enum {
 	Clkdiv1 = 0b00,										// 0

@@ -1,7 +1,7 @@
 #ifndef __BCM2837_RPIFB_H_
 #define __BCM2837_RPIFB_H_
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 void *bcm2837_rpifb_init(u32_t, u32_t, u32_t, u32_t, u32_t);
 u32_t bcm2837_mbox_fb_get_gpiovirt(void);

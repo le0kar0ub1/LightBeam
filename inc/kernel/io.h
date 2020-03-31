@@ -1,7 +1,7 @@
 #ifndef __IO_H__
 #define __IO_H__
 
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 static inline u8_t read8(virtaddr_t addr)
 {
@@ -43,4 +43,4 @@ static inline void write64(virtaddr_t addr, u64_t value)
     *((volatile u64_t *)(addr)) = value;
 }
 
-#endif /* __IO_H__ */
+#endif

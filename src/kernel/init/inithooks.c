@@ -1,5 +1,5 @@
 #include "kernel/init/inithooks.h"
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 
 extern inithook_t __inithook_start[];
 extern inithook_t __inithook_end[];

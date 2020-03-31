@@ -1,4 +1,4 @@
-#include "def/typedef.h"
+#include "kernel/def/typedef.h"
 #include "arch/overworld/overworld.h"
 #include "arch/overworld/generic_printf.h"
 #include "kernel/scheduler/semaphore.h"

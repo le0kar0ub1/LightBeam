@@ -1,8 +1,8 @@
 #ifndef __CPUS_H_
 #define __CPUS_H_
 
-#include "def/typedef.h"
-#include "def/keyword.h"
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
 #include "kernel/scheduler/semaphore.h"
 
 enum CPUS_ID

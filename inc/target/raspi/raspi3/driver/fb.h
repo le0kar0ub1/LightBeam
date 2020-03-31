@@ -1,8 +1,8 @@
 #ifndef __RPIFB_H_
 #define __RPIFB_H_
 
-#include "def/typedef.h"
-#include "def/keyword.h"
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
 
 enum RGBCOLORS {
     RGB_Black   = 0x000000,

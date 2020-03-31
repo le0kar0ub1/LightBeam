@@ -2,7 +2,7 @@
 #define _FATAL_ASSERT_H
 
 #include <stdio.h>
-#include "def/keyword.h"
+#include "kernel/def/keyword.h"
 
 void PANIC(char const *, ...);
 
