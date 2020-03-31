@@ -44,7 +44,7 @@ enum FIFO_IO
 
 struct uart_pl011_dr_t
 {
-    u8_t data        : 8;
+    s8_t data        : 8;
     u8_t err_framing : 1;
     u8_t err_parity  : 1;
     u8_t err_break   : 1;
@@ -219,42 +219,42 @@ struct uart_pl011_itip_t
 
 struct uart_pl011_regs_t
 {
-    u32_t dr;          // Data Register
-    u32_t rsrecr;      // Data Register
-    u32_t _unused0;
-    u32_t _unused1;
-    u32_t _unused2;
-    u32_t _unused3;
-    u32_t fr;          // Flag Register
-    u32_t _unused4;
-    u32_t ilpr;        // not in use 32
-    u32_t ibrd;        // Integer Baud rate divisor 32
-    u32_t fbrd;        // Fractional Baud rate divisor 32
-    u32_t lcrh;        // Line Control register 32
-    u32_t cr;          // Control register 32
-    u32_t ifls;        // Interupt FIFO Level Select Register 32
-    u32_t imsc;        // Interupt Mask Set Clear Register 32
-    u32_t ris;         // Raw Interupt Status Register 32
-    u32_t mis;         // Masked Interupt Status Register 32
-    u32_t icr;         // Interupt Clear Register 32
-    u32_t dmacr;       // DMA Control Register 32
-    u32_t _unused5;
-    u32_t _unused6;
-    u32_t _unused7;
-    u32_t _unused8;
-    u32_t _unused9;
-    u32_t _unused10;
-    u32_t _unused11;
-    u32_t _unused12;
-    u32_t _unused13;
-    u32_t _unused14;
-    u32_t _unused15;
-    u32_t _unused16;
-    u32_t _unused17;
-    u32_t itcr;        // Test Control register 32
-    u32_t itip;        // Integration test input reg 32
-    u32_t itop;        // Integration test output reg 32
-    u32_t tdr;         // Test Data reg 32 
+    u32_t dr;          // 0x0  // Data Register
+    u32_t rsrecr;      // 0x4  // Data Register
+    u32_t _unused0;    // 0x8  //
+    u32_t _unused1;    // 0xC  //
+    u32_t _unused2;    // 0x10 //
+    u32_t _unused3;    // 0x14 //
+    u32_t fr;          // 0x18 // Flag Register
+    u32_t _unused4;    // 0x1c //
+    u32_t ilpr;        // 0x20 // not in use 32
+    u32_t ibrd;        // 0x24 // Integer Baud rate divisor 32
+    u32_t fbrd;        // 0x28 // Fractional Baud rate divisor 32
+    u32_t lcrh;        // 0x2c // Line Control register 32
+    u32_t cr;          // 0x30 // Control register 32
+    u32_t ifls;        // 0x34 // Interupt FIFO Level Select Register 32
+    u32_t imsc;        // 0x38 // Interupt Mask Set Clear Register 32
+    u32_t ris;         // 0x3c // Raw Interupt Status Register 32
+    u32_t mis;         // 0x40 // Masked Interupt Status Register 32
+    u32_t icr;         // 0x44 // Interupt Clear Register 32
+    u32_t dmacr;       // 0x48 // DMA Control Register 32
+    u32_t _unused5;    // 0x4c //
+    u32_t _unused6;    // 0x50 //
+    u32_t _unused7;    // 0x54 //
+    u32_t _unused8;    // 0x58 //
+    u32_t _unused9;    // 0x5c //
+    u32_t _unused10;   // 0x60 //
+    u32_t _unused11;   // 0x64 //
+    u32_t _unused12;   // 0x68 //
+    u32_t _unused13;   // 0x6c //
+    u32_t _unused14;   // 0x70 //
+    u32_t _unused15;   // 0x74 //
+    u32_t _unused16;   // 0x78 //
+    u32_t _unused17;   // 0x7c //
+    u32_t itcr;        // 0x80 // Test Control register 32
+    u32_t itip;        // 0x84 // Integration test input reg 32
+    u32_t itop;        // 0x88 // Integration test output reg 32
+    u32_t tdr;         // 0x8c // Test Data reg 32 
 };
 
 void uartpl011_bcm2837_init(void);

@@ -5,46 +5,25 @@
 void uart_init(void)
 {
     uartpl011_bcm2837_disable();
-
-    /* set up clock for consistent divisor values */
-    bcm2837_mbox_clock_set_rate(MBOX_CLOCK_ID_UART, 4000000);
-
     uartpl011_bcm2837_mappin(14);
     uartpl011_bcm2837_mappin(15);
-    // /* map UART0 to GPIO pins */
-    // r =* GPFSEL1;
-    // r &= ~((7 << 12) | (7 << 15)); // gpio14, gpio15
-    // r |= (4 << 12) | (4 << 15);    // alt0
-    // *GPFSEL1 = r;
-    // *GPPUD0 = 0;            // enable pins 14 and 15
-    // wait_cycles(150);
-    // *GPPUDCLK0 = (1 << 14) | (1 << 15);
-    // wait_cycles(150);
-    // *GPPUDCLK0 = 0;        // flush GPIO setup
-
     uartpl011_bcm2837_clear_transmit_interrupt();
     uartpl011_bcm2837_clear_receive_interrupt();
-
     uartpl011_bcm2837_set_baudrate_divisor(2);
+    bcm2837_mbox_clock_set_rate(MBOX_CLOCK_ID_UART, 4000000);
     uartpl011_bcm2837_set_fractionnal_baudrate_divisor(0xB);
     uartpl011_bcm2837_set_wlen(UARTPLO11_WLEN_8);
     uartpl011_bcm2837_set_transmit_state(true);
     uartpl011_bcm2837_set_receive_state(true);
     uartpl011_bcm2837_enable();
-    // *UART0_ICR = 0x7FF;    // clear interrupts
-    // *UART0_IBRD = 2;       // 115200 baud
-    // *UART0_FBRD = 0xB;
-    // *UART0_LCRH = 0b11 << 5; // 8n1
-    // *UART0_CR = 0x301;     // enable Tx, Rx, FIFO
+    uartpl011_bcm2837_disable();
 }
 
-// /**
-//  * Send a character
-//  */
 void uart_send(char c)
 {
     while(uartpl011_bcm2837_isTransmiterFull());
     uartpl011_bcm2837_send_data_nonfifo(c);
+    // char const *s = uartpl011_bcm2837_safesend_data_nonfifo(c);
 }
 
 // /**
@@ -65,6 +44,7 @@ void uart_send(char c)
 // /**
 //  * Display a string
 //  */
+
 void uart_puts(char const *s)
 {
     while(*s) {

@@ -12,10 +12,10 @@ get32:
 
 .globl cycle_delay
 cycle_delay:
-    cmp x0, #0
-    bne cycle_delay
     subs x0, x0, #1
     nop
+    cmp x0, #0
+    bgt cycle_delay
     ret
 
 .globl get_el
