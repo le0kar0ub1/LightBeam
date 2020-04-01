@@ -7,7 +7,7 @@
 
 // https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf (P180)
 
-#define UART_PL011_ENTRY  ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00201000))
+#define BCM2837_UART_PL011_ENTRY  ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00201000))
 
 /* GPIO MAPPING *\
 **
@@ -257,7 +257,6 @@ struct uart_pl011_regs_t
     u32_t tdr;         // 0x8c // Test Data reg 32 
 };
 
-void bcm2837_uartpl011_init(void);
 void *bcm2837_uartpl011_get_entrypoint(void);
 
 /*

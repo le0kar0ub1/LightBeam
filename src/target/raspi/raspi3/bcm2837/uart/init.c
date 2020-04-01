@@ -4,9 +4,9 @@
 
 volatile struct uart_pl011_regs_t *uartpl011regs __aligned(16);
 
-void bcm2837_uartpl011_init(void)
+static void bcm2837_uartpl011_init(void)
 {
-    uartpl011regs = (struct uart_pl011_regs_t *)UART_PL011_ENTRY;
+    uartpl011regs = (struct uart_pl011_regs_t *)BCM2837_UART_PL011_ENTRY;
 }
 
 boot_initcall(bcm2837_uartpl011_init);

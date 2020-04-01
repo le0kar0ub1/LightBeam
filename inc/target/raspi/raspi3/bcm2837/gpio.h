@@ -7,7 +7,7 @@
 
 typedef u32_t pin_t;
 
-#define GPIO_START_POINT ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
+#define BCM2837_GPIO_ENTRY ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
 
 enum GPIO_PIN_LVL {
     LOW  = 0x0,
@@ -109,8 +109,6 @@ struct gpio_StateReg1_t
     u32_t _reserved : 10;
 };
 
-void bcm2837_gpio_init(void);
-
 bool bcm2837_gpio_set_mode(pin_t pin, enum GPIOMODE);
 
 bool bcm2837_gpio_get_eventdetectStatus(pin_t);
@@ -198,8 +196,6 @@ struct gpio_regs_t
     u32_t  _reserved11;
     u32_t  _unused;
 };
-
-void bcm2837_gpio_init(void);
 
 #define BCM2837_GPIO0       (0)
 #define BCM2837_GPIO1       (1)

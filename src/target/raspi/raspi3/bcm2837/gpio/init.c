@@ -4,9 +4,9 @@
 
 volatile struct gpio_regs_t *gpioregs __aligned(16);
 
-void bcm2837_gpio_init(void)
+static void bcm2837_gpio_init(void)
 {
-    gpioregs = (struct gpio_regs_t *)GPIO_START_POINT;
+    gpioregs = (struct gpio_regs_t *)BCM2837_GPIO_ENTRY;
 }
 
 boot_initcall(bcm2837_gpio_init);

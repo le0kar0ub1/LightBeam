@@ -12,7 +12,7 @@ extern struct uart_pl011_regs_t *uartpl011regs;
 
 void *bcm2837_uartpl011_get_entrypoint(void)
 {
-    return ((void *)UART_PL011_ENTRY);
+    return ((void *)BCM2837_UART_PL011_ENTRY);
 }
 
 /* Register ptr getter */
