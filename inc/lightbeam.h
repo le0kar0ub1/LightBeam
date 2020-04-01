@@ -12,6 +12,7 @@
 
 #include "kernel/io.h"
 #include "kernel/ksymtab.h"
+#include "kernel/mm/align.h"
 
 #include "kernel/cpus/semaphore.h"
 #include "kernel/cpus/vmulticore.h"

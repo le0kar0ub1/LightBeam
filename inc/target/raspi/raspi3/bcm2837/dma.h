@@ -10,6 +10,8 @@
 #define BCM2837_DMA_INTSTATUSREG ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFE0))
 #define BCM2837_DMA_ENABLEREG    ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFF0))
 
+#define BCM2837_DMA_ADDRALIGN 0x20
+
 struct dma_ctrlStatus_t
 {
     u32_t active         : 1; // write 1 == transfer starting
@@ -157,6 +159,15 @@ struct dmaControlBlock_t
 /*  0x1C  */  struct dma_nextCtrlBlockAddr_t nextCtrlBlockAddr;
 /*  0x20  */  struct dma_debug_t debug;
 };
+
+void bcm2837_dma_disable_engine(u8_t);
+void bcm2837_dma_enable_engine(u8_t);
+void bcm2837_dma_disable_engine_int(u8_t);
+void bcm2837_dma_enable_engine_int(u8_t);
+
+bool bcm2837_dma_get_engine_state(u8_t);
+bool bcm2837_dma_get_engine_intstatus(u8_t);
+
 
 /* BCM2837 official spec
 The DMA is started by writing the address of a CB structure into the CONBLK_AD register

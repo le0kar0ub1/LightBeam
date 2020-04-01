@@ -14,7 +14,7 @@ static void bcm2837_dma_init(void)
     dmaIntStatus = (struct dma_intStatus_t *)BCM2837_DMA_INTSTATUSREG;
     dmaEnableReg = (struct dma_enable_t *)BCM2837_DMA_ENABLEREG;
     /* Disable all DMA engines */
-    memset(dmaEnableReg, 0x0, sizeof(struct dma_enable_t));
+    memset((void *)dmaEnableReg, 0x0, sizeof(struct dma_enable_t));
 }
 
 core_initcall(bcm2837_dma_init);
