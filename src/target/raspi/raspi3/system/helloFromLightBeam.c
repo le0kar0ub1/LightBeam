@@ -13,5 +13,5 @@ void helloFromLightBeam(void)
             __/ |                                      \n\
            |___/                                       \n\
 ";
-    rpifb_kprint("%s%s%s\nKernel init routine...\n\n", ESC_FRT_RGB_Yellow, kernelname, ESC_FRT_RGB_White);
+    rpifb_kprint("%s%s%s\nKernel init routine...\n\n", RGB256toESCFRT(Yellow), kernelname, RGB256toESCFRT(White));
 }

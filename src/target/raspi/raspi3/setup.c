@@ -13,12 +13,12 @@
 
 static inline void start_setup_log(char const *data)
 {
-    rpifb_kprint("[%sInitializing%s]: %s...\n", ESC_FRT_RGB_Lime, ESC_FRT_RGB_White, data);
+    rpifb_kprint("[%sInitializing%s]: %s...\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White), data);
 }
 
 static inline void end_setup_log(char const *data)
 {
-    rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", ESC_FRT_RGB_Lime, ESC_FRT_RGB_White, data);
+    rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White), data);
 }
 
 // void execme(void);
@@ -38,9 +38,10 @@ void setup_level(void)
 
     helloFromLightBeam();
 
-    rpifb_kprint("[%sInitialized%s]: CPU config\n", ESC_FRT_RGBB_BBlue, ESC_FRT_RGBB_White);
-    rpifb_kprint("[%sInitialized%s]: Uart\n", ESC_FRT_RGBB_BBlue, ESC_FRT_RGBB_White);
-    rpifb_kprint("[%sInitialized%s]: Framebuffer\n\n", ESC_FRT_RGBB_BBlue, ESC_FRT_RGBB_White);
+    // while(1);
+    rpifb_kprint("[%sInitialized%s]: CPU config\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
+    rpifb_kprint("[%sInitialized%s]: Uart\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
+    rpifb_kprint("[%sInitialized%s]: Framebuffer\n\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
 
     start_setup_log("Cores");
     multicore_init();
@@ -60,6 +61,6 @@ void setup_level(void)
     // // mmu_init();
     end_setup_log("MMU is operationnal");
 
-    rpifb_kprint("[DONE]: init step ended\n", RGB_Yellow);
+    rpifb_kprint("[%sDONE%s]: init step ended\n", RGB256toESCFRT(Yellow), RGB256toESCFRT(White));
     __deadloop();
 }

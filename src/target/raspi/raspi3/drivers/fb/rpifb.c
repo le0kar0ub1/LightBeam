@@ -84,63 +84,11 @@ static void rpifb_putc(char c)
         }
 }
 
-static struct rpifb_escape_sequence_color_t rpifb_escape_sequence_color[] =
-{
-    {0, RGB_Black}, 
-    {1, RGBB_Red}, 
-    {2, RGBB_Green}, 
-    {3, RGBB_Yellow}, 
-    {4, RGBB_Blue}, 
-    {5, RGBB_Magenta}, 
-    {6, RGBB_Cyan}, 
-    {7, RGBB_White}, 
-    {8, RGBB_BoldBlack}, 
-    {9, RGBB_BoldRed}, 
-    {10, RGBB_BoldGreen}, 
-    {11, RGBB_BoldYellow}, 
-    {12, RGBB_BoldBlue}, 
-    {13, RGBB_BoldMagenta}, 
-    {13, RGBB_BoldCyan}, 
-    {15, RGBB_BoldWhite}, 
-    {25, RGB_Azure},
-    {33, RGB_BoldAzure},
-    {19, RGB_Blue},
-    {21, RGB_BoldBlue},
-    {37, RGB_Cyan},
-    {51, RGB_BoldCyan},
-    {16, RGB_Ebony},
-    {59, RGB_BoldEbony},
-    {34, RGB_Green},
-    {46, RGB_BoldGreen},
-    {35, RGB_Jade},
-    {48, RGB_BoldJade},
-    {70, RGB_Lime},
-    {118, RGB_BoldLime},
-    {127, RGB_Magenta},
-    {201, RGB_BoldMagenta},
-    {130, RGB_Orange},
-    {208, RGB_BoldOrange},
-    {125, RGB_Pink},
-    {198, RGB_BoldPink},
-    {124, RGB_Red},
-    {196, RGB_BoldRed},
-    {102, RGB_Silver},
-    {188, RGB_BoldSilver},
-    {94, RGB_Tan},
-    {178, RGB_BoldTan},
-    {55, RGB_Violet},
-    {93, RGB_BoldViolet},
-    {145, RGB_White},
-    {231, RGB_BoldWhite},
-    {142, RGB_Yellow},
-    {226, RGB_BoldYellow},
-    {0xFFFF, 0xFFFF}
-};
-
-
 #define ISNOTHING  0
 #define ISBACK     1
 #define ISFRONT    2
+
+extern struct colors256Xterm_t colors256Xterm[];
 
 static u32_t rpifb_handle_escape_sequence(char const *s)
 {
@@ -164,14 +112,14 @@ static u32_t rpifb_handle_escape_sequence(char const *s)
         return (0x0);
     get[i] = 0x0;
     u32_t nbr = atoib(&(*get), 10);
-    for (i = 0; rpifb_escape_sequence_color[i].sequence != 0xFFFF &&
-    rpifb_escape_sequence_color[i].sequence != nbr; i++);
+    for (i = 0; colors256Xterm[i].s != NULL &&
+    colors256Xterm[i].id != nbr; i++);
 
-    if (rpifb_escape_sequence_color[i].sequence != 0xFFFF) {
+    if (colors256Xterm[i].s != NULL) {
         if (which == ISBACK)
-            rpifb_set_back(rpifb_escape_sequence_color[i].color);
+            rpifb_set_back(colors256Xterm[i].hex);
         else
-            rpifb_set_front(rpifb_escape_sequence_color[i].color);
+            rpifb_set_front(colors256Xterm[i].hex);
     }
     return (inc + 1);
 

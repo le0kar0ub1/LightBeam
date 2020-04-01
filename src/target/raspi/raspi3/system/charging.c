@@ -32,5 +32,5 @@ void system_charging(u32_t time)
         timer_wait(50000);
         i = (i + 1) % 4;
     }
-    rpifb_kprint("System charging... %sDONE%s\n", ESC_FRT_RGB_BLime, ESC_FRT_RGB_White);
+    rpifb_kprint("System charging... %sDONE%s\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White));
 }
