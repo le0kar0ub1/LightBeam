@@ -10,7 +10,7 @@ PROVIDE(heap_entry = 0x10000000);
 MEMORY
 {
     ram  : org = 0x00080000, len = 128M - 512K
-    /*dma  : org = 0x08000000, len = 128M*/
+    dma  : org = 0x08000000, len = 128M
     heap : org = 0x10000000, len = 256M
 }
 
@@ -268,11 +268,11 @@ SECTIONS
         PROVIDE(__heap_end = ORIGIN(heap) + LENGTH(heap));
     } > heap
 
-    /*.dma ALIGN(8) (NOLOAD) :
+    .dma ALIGN(8) (NOLOAD) :
     {
         PROVIDE(__dma_start = ORIGIN(dma));
         PROVIDE(__dma_end = ORIGIN(dma) + LENGTH(dma));
-    } > dma*/
+    } > dma
 
     PROVIDE(__KEND = .);
 

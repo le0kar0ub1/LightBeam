@@ -31,12 +31,12 @@ struct dma_ctrlStatus_t
     u32_t disdebug       : 1; // if 1 DMA unsensible to pause signal
     u32_t abort          : 1; // write 1 == abort CB
     u32_t reset          : 1; // write 1 == reset
-};
+} __packed;
 
 struct dma_ctrlblockAddr_t
 {
     u32_t addr;
-};
+} __packed;
 
 struct dma_transferInformation_t
 {
@@ -57,37 +57,37 @@ struct dma_transferInformation_t
     u32_t wait        : 5; // wait X cycles after each R/W operation
     u32_t noWideBurst : 1; // (rtfm)
     u32_t _reserved_1 : 5; 
-};
+} __packed;
 
 struct dma_sourceAddr_t
 {
     u32_t addr;
-};
+} __packed;
 
 struct dma_destinationAddr_t
 {
     u32_t addr;
-};
+} __packed;
 
 struct dma_transactionLenght_t
 {
     u32_t xlenght   : 16; // lenght transfer size
     u32_t ylenght   : 15; // if tdmode then transfer X * Y
     u32_t _reserved : 1;
-};
+} __packed;
 
 // if tdmode only
 struct dma_stride_t
 {
     u32_t destStride : 16; // (if 2d mode) signed 2s complement to dest address at each end row
     u32_t srcStride  : 16; // (if 2d mode) signed 2s complement to src address at each end row
-};
+} __packed;
 
 // must be 0x100 aligned
 struct dma_nextCtrlBlockAddr_t
 {
     u32_t addr; // next ctrblk for chain DMA operation
-};
+} __packed;
 
 struct dma_debug_t
 {
@@ -101,7 +101,7 @@ struct dma_debug_t
     u32_t version       : 3;
     u32_t dmaLite       : 1; // if 1 dma is reduced performance
     u32_t _reserved1    : 3;
-};
+} __packed;
 
 
 struct dma_intStatus_t
@@ -123,7 +123,7 @@ struct dma_intStatus_t
     u32_t INT14     : 1;   // Interrupt status of DMA engine 14 RW 0x0
     u32_t INT15     : 1;   // Interrupt status of DMA engine 15 RW 0x0
     u32_t _reserved : 16;
-};
+} __packed;
 
 struct dma_enable_t
 {
@@ -144,7 +144,7 @@ struct dma_enable_t
     u32_t EN14     : 1;   // enable DMA engine 14 RW 0x0
     u32_t EN15     : 1;   // enable DMA engine 15 RW 0x0
     u32_t _reserved : 16;
-};
+} __packed;
 
 struct dmaControlBlock_t
 {
@@ -158,7 +158,7 @@ struct dmaControlBlock_t
 /*  0x18  */  struct dma_stride_t stride;
 /*  0x1C  */  struct dma_nextCtrlBlockAddr_t nextCtrlBlockAddr;
 /*  0x20  */  struct dma_debug_t debug;
-};
+} __packed;
 
 void bcm2837_dma_disable_engine(u8_t);
 void bcm2837_dma_enable_engine(u8_t);
@@ -182,6 +182,12 @@ void bcm2837_dma_2Dmode_set_transfer_size(u8_t, u16_t, u16_t);
 
 bool bcm2837_dma_run_transfer(void *, void *, size_t);;
 void bcm2837_dma_active_transfer(u8_t);
+
+void bcm2837_dma_set_final_interrupt(u8_t, bool);
+void bcm2837_dma_set_peripheral(u8_t, u8_t);
+
+void bcm2837_dma_abort_transfer(u8_t);
+void bcm2837_dma_reset_transfer(u8_t);
 
 /* BCM2837 official spec
 The DMA is started by writing the address of a CB structure into the CONBLK_AD register

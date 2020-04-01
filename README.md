@@ -1,6 +1,6 @@
 # LightBeam
 
-![LightBeam](doc/lightbeam.jpeg)
+![LightBeam](doc/lightbeam.jpg)
 
 The purpose of this project is to create some [ARM](https://en.wikipedia.org/wiki/ARM_architecture) kernel base for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
 

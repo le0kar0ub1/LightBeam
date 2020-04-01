@@ -56,3 +56,31 @@ void bcm2837_dma_2Dmode_set_transfer_size(u8_t engine, u16_t xsz, u16_t ysz)
     dmaCtrlBlk[engine]->transactionLenght.xlenght = xsz;
     dmaCtrlBlk[engine]->transactionLenght.ylenght = ysz;
 }
+
+void bcm2837_dma_set_final_interrupt(u8_t engine, bool val)
+{
+    if (engine > BCM2837_DMA_CTRLBLCK_NUMBR)
+        return;
+    dmaCtrlBlk[engine]->transferInformation.inten = val;
+}
+
+void bcm2837_dma_set_peripheral(u8_t engine, u8_t periph)
+{
+    if (engine > BCM2837_DMA_CTRLBLCK_NUMBR)
+        return;
+    dmaCtrlBlk[engine]->transferInformation.permap = periph;
+}
+
+void bcm2837_dma_abort_transfer(u8_t engine)
+{
+    if (engine > BCM2837_DMA_CTRLBLCK_NUMBR)
+        return;
+    dmaCtrlBlk[engine]->ctrlStatus.abort = true;
+}
+
+void bcm2837_dma_reset_transfer(u8_t engine)
+{
+    if (engine > BCM2837_DMA_CTRLBLCK_NUMBR)
+        return;
+    dmaCtrlBlk[engine]->ctrlStatus.abort = true;
+}
