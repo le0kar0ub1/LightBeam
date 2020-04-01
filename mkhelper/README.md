@@ -16,7 +16,7 @@ This directory is composed only of includable files for `make` work.
 
 The build is assured by a builder present at `builder/builder.mk` callable from everywhere.
 
-## Work with this builder in a makefile
+## Work with this builder in a Makefile
 
 Define Some Variable:
 

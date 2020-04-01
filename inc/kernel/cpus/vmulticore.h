@@ -3,11 +3,18 @@
 
 #include "kernel/def/typedef.h"
 
+/* The only function wich must be provide */
 int cpuGetId(void);
 
 /* 
 ** In multicore system number of variables must be duplicated by the number of CPUS
 ** So, automate it :)
+*/
+
+/*
+** Two using choices:
+**   - Declare variable with the prefixed and assuming that you know in wich system you are
+**   - Using macro init/get/set with the KCONFIG_MAXCPUS define allow you to use it everywhere 
 */
 
 #if KCONFIG_MAXCPUS
