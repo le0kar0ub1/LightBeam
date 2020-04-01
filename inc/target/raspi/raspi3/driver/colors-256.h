@@ -270,7 +270,6 @@ struct colors256Xterm_t
 // #define Grey93  255
 
 
-
 #define _RGB256toESCFRT(x) "\e[38;5;"#x"m"
 #define _RGB256toESCBCK(x) "\e[48;5;"#x"m"
 

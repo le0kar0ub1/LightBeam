@@ -24,7 +24,6 @@ enum MODE256RGBCOLOR
     RGBB_BoldMagenta    = 0xFF55FF,
     RGBB_BoldCyan       = 0x55FFFF,
     RGBB_BoldWhite      = 0xFFFFFF,
-
     RGB_Azure          = 0x0066BB,
     RGB_BoldAzure      = 0x0088FF,
     RGB_Blue           = 0x0000BB,
@@ -91,12 +90,6 @@ struct rpifb_handler {
     u32_t back;
     u32_t front;
 } __attribute__((packed));
-
-struct rpifb_escape_sequence_color_t
-{
-    u32_t sequence;
-    u32_t color;
-} __packed;
 
 void rpifb_init(u32_t, u32_t, u32_t, u32_t, u32_t);
 

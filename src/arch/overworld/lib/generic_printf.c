@@ -11,27 +11,29 @@ static void (*caller_szputs[KCONFIG_MAXCPUS])(char const *, u32_t);
 static struct printfhandlers_t *callerhandlers[KCONFIG_MAXCPUS];
 
 /* formatter */
-MLCTR_STATIC_INITV_BOL(hshtag, false);
-MLCTR_STATIC_INITV_U32(align, false);
+MLTCR_STATIC_INITV_BOL(hshtag, false);
+MLTCR_STATIC_INITV_U32(align, false);
 
 #ifdef PRINTF_BUFFERED
 /* Printf buffer */
 #define PRINTF_BUFFER_LENGHT 0x400
-    static uint incbuf;
-    static char prbuffer[PRINTF_BUFFER_LENGHT];
+    MLTCR_INITX(static u32_t, incbuf);
+    MLTCR_INITXARR(static char, prbuffer, PRINTF_BUFFER_LENGHT);
+    // static uint incbuf;
+    // static char prbuffer[PRINTF_BUFFER_LENGHT];
 
     static void printf_writeBuffer(char c)
     {
-        if (incbuf >= PRINTF_BUFFER_LENGHT)
+        if (MLTCR_GET(incbuf) >= PRINTF_BUFFER_LENGHT)
             return;
-        prbuffer[incbuf] = c;
-        incbuf += 0x1;
+        MLTCR_GET(prbuffer)[MLTCR_GET(incbuf)] = c;
+        MLTCR_GET(incbuf) += 0x1;
     }
 
     static void printf_dumpBuffer(void)
     {
-        MLCTR_GET(caller_szputs)(prbuffer, incbuf);
-        incbuf = 0x0;
+        MLTCR_GET(caller_szputs)(MLTCR_GET(prbuffer), MLTCR_GET(incbuf));
+        MLTCR_GET(incbuf) = 0x0;
     }
 #endif
 
@@ -40,7 +42,7 @@ static void printf_handleWrite(char c)
 #ifdef PRINTF_BUFFERED
     printf_writeBuffer(c);
 #else
-    MLCTR_GET(caller_szputs)(&c, 1);
+    MLTCR_GET(caller_szputs)(&c, 1);
 #endif
 }
 
@@ -88,15 +90,15 @@ static void generic_puts(char const *s)
 
 static bool handle_caller_flg(char const **fmt, __builtin_va_list *ap)
 {
-    for (u32_t i = 0; MLCTR_GET(callerhandlers)[i].flg; i++)
-        if (strncmp(MLCTR_GET(callerhandlers)[i].flg, *fmt, strlen(MLCTR_GET(callerhandlers)[i].flg))) {
-            if (MLCTR_GET(callerhandlers)[i].handler0)
-                MLCTR_GET(callerhandlers)[i].handler0();
-            else if (MLCTR_GET(callerhandlers)[i].handler1)
-                MLCTR_GET(callerhandlers)[i].handler1(__builtin_va_arg(*ap, long));
+    for (u32_t i = 0; MLTCR_GET(callerhandlers)[i].flg; i++)
+        if (strncmp(MLTCR_GET(callerhandlers)[i].flg, *fmt, strlen(MLTCR_GET(callerhandlers)[i].flg))) {
+            if (MLTCR_GET(callerhandlers)[i].handler0)
+                MLTCR_GET(callerhandlers)[i].handler0();
+            else if (MLTCR_GET(callerhandlers)[i].handler1)
+                MLTCR_GET(callerhandlers)[i].handler1(__builtin_va_arg(*ap, long));
             else
                 return (false);
-            *fmt += strlen(MLCTR_GET(callerhandlers)[i].flg) - 1;
+            *fmt += strlen(MLTCR_GET(callerhandlers)[i].flg) - 1;
             return (true);
         }
     return (false);
@@ -121,9 +123,9 @@ static inline int printf_getAlignement(char const **fmt)
 
 static inline void printf_AlignFormat(u32_t len)
 {
-    if (len > MLCTR_GET(align))
+    if (len > MLTCR_GET(align))
         return;
-    len = MLCTR_GET(align) - len;
+    len = MLTCR_GET(align) - len;
     while (len > 1) {
         printf_handleWrite(0x30);
         len--;
@@ -132,7 +134,7 @@ static inline void printf_AlignFormat(u32_t len)
 
 static void printf_handleIntegerFormatter(u64_t n, u8_t base)
 {
-    if (MLCTR_GET(align)) {
+    if (MLTCR_GET(align)) {
         u32_t len = numberlen(n, base);
         printf_AlignFormat(len);
     }
@@ -140,7 +142,7 @@ static void printf_handleIntegerFormatter(u64_t n, u8_t base)
 
 static void printf_handleStringFormatter(char const *s)
 {
-    if (MLCTR_GET(align)) { 
+    if (MLTCR_GET(align)) { 
         u32_t len = strlen(s);
         printf_AlignFormat(len);
     }
@@ -148,7 +150,7 @@ static void printf_handleStringFormatter(char const *s)
 
 static void printf_handleHashTag(u8_t base)
 {
-    if (!MLCTR_GET(hshtag))
+    if (!MLTCR_GET(hshtag))
         return;
     switch (base) {
         case 16:
@@ -168,21 +170,21 @@ static void printf_handleHashTag(u8_t base)
 static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
 {
     /* Caller flag wich can override the next one */
-    if (MLCTR_GET(callerhandlers) && handle_caller_flg(fmt, ap))
+    if (MLTCR_GET(callerhandlers) && handle_caller_flg(fmt, ap))
         return;
-    MLCTR_GET(align)  = false;
-    MLCTR_GET(hshtag) = false;
+    MLTCR_GET(align)  = false;
+    MLTCR_GET(hshtag) = false;
     /* Formatter */
     bool flag = true;
     while (flag) {
         switch (**fmt) {
             case '0':
                 *fmt += 0x1;
-                MLCTR_GET(align) = printf_getAlignement(fmt);
+                MLTCR_GET(align) = printf_getAlignement(fmt);
                 break;
             case '#':
                 *fmt += 0x1;
-                MLCTR_GET(hshtag) = true;
+                MLTCR_GET(hshtag) = true;
                 break;
             default:
                 flag = false;
@@ -300,9 +302,9 @@ static void __generic_printf(char const *fmt, __builtin_va_list ap)
     if (!szputs)                            \
         return;                             \
     else                                    \
-        MLCTR_SET(caller_szputs, szputs);   \
-    MLCTR_SET(callerhandlers, handlers);    \
-    MLCTR_GET(align) = false;
+        MLTCR_SET(caller_szputs, szputs);   \
+    MLTCR_SET(callerhandlers, handlers);    \
+    MLTCR_GET(align) = false;
 
 #ifdef PRINTF_BUFFERED
     #define GENERIC_PRINTF_EXIT()    \
