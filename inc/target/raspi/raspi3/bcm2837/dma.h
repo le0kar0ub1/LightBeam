@@ -3,26 +3,12 @@
 
 #include "lightbeam.h"
 
-#define BCM2837_DMA_ENTRY ((void *)((u32_t)ARCH_RASP_MMIOBASE + 0x7000))
+#define BCM2837_DMA_ENTRY ((void *)((u64_t)ARCH_RASP_MMIOBASE + 0x7000))
 #define BCM2837_DMA_CTRLBLCK_PITCH 0x100
-#define BCM2837_DMA_CTRLBLCK_NUMBR 0xF
+#define BCM2837_DMA_CTRLBLCK_NUMBR 0x10
 
-#define BCM2837_DMA_INTSTATUSREG ((void *)((u32_t)BCM2837_DMA_ENTRY + 0xFE0))
-#define BCM2837_DMA_ENABLEREG    ((void *)((u32_t)BCM2837_DMA_ENTRY + 0xFF0))
-
-struct dmaControlBlock_t
-{
-/*offset*/
-/* 0x0  */  struct dma_ctrlStatus_t ctrlStatus;
-/* 0x4  */  struct dma_ctrlblockAddr_t ctrlblockAddr;
-/* 0x8  */  struct dma_transferInformation_t transferInformation;
-/* 0xC  */  struct dma_sourceAddr_t sourceAddr;
-/* 0x10 */  struct dma_destinationAddr_t destinationAddr;
-/* 0x14 */  struct dma_transactionLenght_t transactionLenght;
-/* 0x18 */  struct dma_stride_t stride;
-/* 0x1C */  struct dma_nextCtrlBlockAddr_t nextCtrlBlockAddr;
-/* 0x20 */  struct dma_debug_t debug;
-};
+#define BCM2837_DMA_INTSTATUSREG ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFE0))
+#define BCM2837_DMA_ENABLEREG    ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFF0))
 
 struct dma_ctrlStatus_t
 {
@@ -95,7 +81,7 @@ struct dma_stride_t
     u32_t srcStride  : 16; // (if 2d mode) signed 2s complement to src address at each end row
 };
 
-// must be 32B aligned
+// must be 0x100 aligned
 struct dma_nextCtrlBlockAddr_t
 {
     u32_t addr; // next ctrblk for chain DMA operation
@@ -118,16 +104,16 @@ struct dma_debug_t
 
 struct dma_intStatus_t
 {
-    u32_t INT0      : 1;    // Interrupt status of DMA engine 0 RW 0x0
-    u32_t INT1      : 1;    // Interrupt status of DMA engine 1 RW 0x0
-    u32_t INT2      : 1;    // Interrupt status of DMA engine 2 RW 0x0
-    u32_t INT3      : 1;    // Interrupt status of DMA engine 3 RW 0x0
-    u32_t INT4      : 1;    // Interrupt status of DMA engine 4 RW 0x0
-    u32_t INT5      : 1;    // Interrupt status of DMA engine 5 RW 0x0
-    u32_t INT6      : 1;    // Interrupt status of DMA engine 6 RW 0x0
-    u32_t INT7      : 1;    // Interrupt status of DMA engine 7 RW 0x0
-    u32_t INT8      : 1;    // Interrupt status of DMA engine 8 RW 0x0
-    u32_t INT9      : 1;    // Interrupt status of DMA engine 9 RW 0x0
+    u32_t INT0      : 1;   // Interrupt status of DMA engine 0 RW 0x0
+    u32_t INT1      : 1;   // Interrupt status of DMA engine 1 RW 0x0
+    u32_t INT2      : 1;   // Interrupt status of DMA engine 2 RW 0x0
+    u32_t INT3      : 1;   // Interrupt status of DMA engine 3 RW 0x0
+    u32_t INT4      : 1;   // Interrupt status of DMA engine 4 RW 0x0
+    u32_t INT5      : 1;   // Interrupt status of DMA engine 5 RW 0x0
+    u32_t INT6      : 1;   // Interrupt status of DMA engine 6 RW 0x0
+    u32_t INT7      : 1;   // Interrupt status of DMA engine 7 RW 0x0
+    u32_t INT8      : 1;   // Interrupt status of DMA engine 8 RW 0x0
+    u32_t INT9      : 1;   // Interrupt status of DMA engine 9 RW 0x0
     u32_t INT10     : 1;   // Interrupt status of DMA engine 10 RW 0x0
     u32_t INT11     : 1;   // Interrupt status of DMA engine 11 RW 0x0
     u32_t INT12     : 1;   // Interrupt status of DMA engine 12 RW 0x0
@@ -157,5 +143,38 @@ struct dma_enable_t
     u32_t EN15     : 1;   // enable DMA engine 15 RW 0x0
     u32_t _reserved : 16;
 };
+
+struct dmaControlBlock_t
+{
+/* offset */
+/*  0x0   */  struct dma_ctrlStatus_t ctrlStatus;
+/*  0x4   */  struct dma_ctrlblockAddr_t ctrlblockAddr;
+/*  0x8   */  struct dma_transferInformation_t transferInformation;
+/*  0xC   */  struct dma_sourceAddr_t sourceAddr;
+/*  0x10  */  struct dma_destinationAddr_t destinationAddr;
+/*  0x14  */  struct dma_transactionLenght_t transactionLenght;
+/*  0x18  */  struct dma_stride_t stride;
+/*  0x1C  */  struct dma_nextCtrlBlockAddr_t nextCtrlBlockAddr;
+/*  0x20  */  struct dma_debug_t debug;
+};
+
+/* BCM2837 official spec
+The DMA is started by writing the address of a CB structure into the CONBLK_AD register
+and then setting the ACTIVE bit. The DMA will fetch the CB from the address set in the
+SCB_ADDR field of this reg and it will load it into the read-only registers described below.
+It will then begin a DMA transfer according to the information in the CB.
+When it has completed the current DMA transfer (length => 0) the DMA will update the
+CONBLK_AD register with the contents of the NEXTCONBK register, fetch a new CB from
+that address, and start the whole procedure once again.
+The DMA will stop (and clear the ACTIVE bit) when it has completed a DMA transfer and
+the NEXTCONBK register is set to 0x0000_0000. It will load this value into the
+CONBLK_AD reg and then stop. 
+
+Most of the control block registers cannot be written to directly as they loaded automatically
+from memory. They can be read to provide status information, and to indicate the progress of
+the current DMA transfer. The value loaded into the NEXTCONBK register can be
+overwritten so that the linked list of Control Block data structures can be dynamically altered.
+However it is only safe to do this when the DMA is paused. 
+*/
 
 #endif

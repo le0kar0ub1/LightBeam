@@ -52,9 +52,9 @@ void setup_level(void)
         // rpifb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);
     // enable_interrupts();
-
     end_setup_log("interrupts are on");
 
+    run_core_initcalls();
 
     start_setup_log("MMU");
     system_charging(2000);

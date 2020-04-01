@@ -30,6 +30,7 @@ BUILDER_SOURCE_DIR	+=	.				\
 						bcm2837/mbox	\
 						bcm2837/uart	\
 						bcm2837/fb		\
+						bcm2837/dma		\
 						drivers/uart	\
 						drivers/fb		\
 						tools			\
