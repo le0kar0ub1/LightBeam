@@ -21,8 +21,20 @@ static inline void end_setup_log(char const *data)
     rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White), data);
 }
 
-// void execme(void);
-// void execme(void) { rpifb_kprint("[CPU %d] is exceuting a routine\n", cpuGetId()); }
+
+
+void dmatest(void);
+#include "target/raspi/raspi3/bcm2837/dma.h"
+void dmatest(void)
+{
+    char d[20] __aligned(32); 
+    char const *s __aligned(32) = "transfer me";
+    bcm2837_dma_enable_engine(0);
+    rpifb_kprint("GOOD? -> %s\n" , bcm2837_dma_run_transfer(s, &(*d), 15) == true ? "yes" : "no");
+    cycle_delay(200000000);
+    d[15] = 0x0;
+    rpifb_kprint("gotit? -> %s\n", d);
+}
 
 void setup_level(void);
 void setup_level(void)
@@ -38,7 +50,10 @@ void setup_level(void)
 
     helloFromLightBeam();
 
-    // while(1);
+    run_core_initcalls();
+    dmatest();
+    while(1);
+
     rpifb_kprint("[%sInitialized%s]: CPU config\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
     rpifb_kprint("[%sInitialized%s]: Uart\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
     rpifb_kprint("[%sInitialized%s]: Framebuffer\n\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
@@ -54,11 +69,9 @@ void setup_level(void)
     // enable_interrupts();
     end_setup_log("interrupts are on");
 
-    run_core_initcalls();
-
     start_setup_log("MMU");
     system_charging(2000);
-    // // mmu_init();
+    // mmu_init();
     end_setup_log("MMU is operationnal");
 
     rpifb_kprint("[%sDONE%s]: init step ended\n", RGB256toESCFRT(Yellow), RGB256toESCFRT(White));

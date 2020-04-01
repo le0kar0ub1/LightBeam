@@ -3,7 +3,7 @@
 
 #include "kernel/def/typedef.h"
 
-#define IS_ALIGN(x, y) (((u64_t)x & (u64_t)y) == 0)
+#define IS_ALIGNED(x, y) (!(((u64_t)x) & (y - 0x1)))
 
 #define ALIGN(x, y)    (void *)((((u64_t)x) + (((u64_t)y) - 1)) & ~(((u64_t)y) - 1))
 

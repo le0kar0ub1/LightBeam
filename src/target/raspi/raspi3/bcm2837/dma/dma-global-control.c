@@ -124,6 +124,7 @@ static void bcm2837_dma_set_interrupt_state(u8_t engine, bool val)
 
 bool bcm2837_dma_get_engine_state(u8_t engine)
 {
+    return (true);
     bool state = (((*(u32_t *)dmaEnableReg) & (1 << engine)) == 1);
     return (state);
 }
@@ -158,8 +159,10 @@ int bcm2837_dma_get_unused_engine(void)
 {
     int i = 0;
     while (i < BCM2837_DMA_CTRLBLCK_NUMBR)
-        if (ownered[i] == false)
+        if (ownered[i] == false && bcm2837_dma_get_engine_state(i)) {
+            bcm2837_dma_lock_engine(i);
             return (i);
+        }
     return (-1);
 }
 

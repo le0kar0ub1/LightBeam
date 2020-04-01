@@ -10,7 +10,7 @@
 #define BCM2837_DMA_INTSTATUSREG ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFE0))
 #define BCM2837_DMA_ENABLEREG    ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFF0))
 
-#define BCM2837_DMA_ADDRALIGN 0x20
+#define BCM2837_DMA_ADDRALIGN 32
 
 struct dma_ctrlStatus_t
 {
@@ -44,11 +44,11 @@ struct dma_transferInformation_t
     u32_t tdmode      : 1; // (rtfm)
     u32_t _reserved0  : 1;
     u32_t waitResp    : 1; // if 1 -> wait for end of write
-    u32_t destInc     : 1; // if 1 -> automate inc address by 32 or 4 if DESTWiDTH == 0
+    u32_t destInc     : 1; // if 1 -> automate inc address by 32 or 4 if DESTWIDTH == 0
     u32_t destWidth   : 1; // if 1 -> 128b address else 32
     u32_t destDreq    : 1; // if 1 -> PERMAP gate the dest writes
     u32_t destIgnore  : 1; // if 1 -> No write
-    u32_t srcInc      : 1; // if 1 -> automate inc address by 32 or 4 if SRCWiDTH == 0
+    u32_t srcInc      : 1; // if 1 -> automate inc address by 32 or 4 if SRCWIDTH == 0
     u32_t srcWidth    : 1; // if 1 -> 128b address else 32
     u32_t srcDreq     : 1; // if 1 -> PERMAP gate the dest writes
     u32_t srcIgnore   : 1; // if 1 -> No read
@@ -168,6 +168,20 @@ void bcm2837_dma_enable_engine_int(u8_t);
 bool bcm2837_dma_get_engine_state(u8_t);
 bool bcm2837_dma_get_engine_intstatus(u8_t);
 
+int  bcm2837_dma_get_unused_engine(void);
+void bcm2837_dma_lock_engine(u8_t);
+void bcm2837_dma_release_engine(u8_t);
+
+void bcm2837_dma_set_address_inc(u8_t, bool);
+
+void bcm2837_dma_set_source_address(u8_t, void *);
+void bcm2837_dma_set_destination_address(u8_t, void *);
+
+void bcm2837_dma_set_transfer_size(u8_t, u16_t);
+void bcm2837_dma_2Dmode_set_transfer_size(u8_t, u16_t, u16_t);
+
+bool bcm2837_dma_run_transfer(void *, void *, size_t);;
+void bcm2837_dma_active_transfer(u8_t);
 
 /* BCM2837 official spec
 The DMA is started by writing the address of a CB structure into the CONBLK_AD register
