@@ -13,12 +13,12 @@
 
 static inline void start_setup_log(char const *data)
 {
-    rpifb_kprint("[%$AInitializing%$R]: %s...\n", RGB_Blue, data);
+    rpifb_kprint("[\e[0;34mInitializing\e[0m]]: %s...\n", data);
 }
 
 static inline void end_setup_log(char const *data)
 {
-    rpifb_kprint("   [%$ASuccessed%$R]: %s!\n\n", RGB_Lime, data);
+    rpifb_kprint("   [\e[0;32mSuccessed\e[0m]: %s!\n\n", data);
 }
 
 // void execme(void);
@@ -38,17 +38,15 @@ void setup_level(void)
 
     helloFromLightBeam();
 
-    rpifb_kprint("[%$AInitialized%$R]: CPU config\n", RGB_Lime);
-    rpifb_kprint("[%$AInitialized%$R]: Uart\n", RGB_Lime);
-    rpifb_kprint("[%$AInitialized%$R]: Framebuffer\n\n", RGB_Lime);
+    rpifb_kprint("[\e[0;32mInitialized\e[0m]: CPU config\n");
+    rpifb_kprint("[\e[0;32mInitialized\e[0m]: Uart\n");
+    rpifb_kprint("[\e[0;32mInitialized\e[0m]: Framebuffer\n\n");
 
     start_setup_log("Cores");
     multicore_init();
     end_setup_log("All of them acquired start");
 
     start_setup_log("interruptions (vectors, irq, etc.)");
-    rpifb_kprint("\e[0;31mIm in fucking\e[0m Red\n");
-    while(1);
     // if (timerIrqSetup(MS_TO_US(1000)) == false)
         // rpifb_kprint("TIMER SETUP FAILED\n");
     // setFiqFuncAddress(execme);
@@ -62,6 +60,6 @@ void setup_level(void)
     // // mmu_init();
     end_setup_log("MMU is operationnal");
 
-    rpifb_kprint("[%$ADONE%$R]: init step ended\n", RGB_Yellow);
+    rpifb_kprint("[DONE]: init step ended\n", RGB_Yellow);
     __deadloop();
 }

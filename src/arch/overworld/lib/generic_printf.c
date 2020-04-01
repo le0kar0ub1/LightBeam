@@ -2,16 +2,17 @@
 #include "arch/overworld/overworld.h"
 #include "arch/overworld/generic_printf.h"
 #include "kernel/cpus/semaphore.h"
+#include "kernel/cpus/vmulticore.h"
 #include <stdarg.h>
 
 /* Caller printer */
-static void (*caller_szputs)(char const *, u32_t) = NULL;
+static void (*caller_szputs[KCONFIG_MAXCPUS])(char const *, u32_t);
 /* Caller handlers */
-static struct printfhandlers_t *callerhandlers = NULL;
+static struct printfhandlers_t *callerhandlers[KCONFIG_MAXCPUS];
 
 /* formatter */
-static u32_t align  = false;
-static bool  hshtag = false;
+MLCTR_STATIC_INITV_BOL(hshtag, false);
+MLCTR_STATIC_INITV_U32(align, false);
 
 #ifdef PRINTF_BUFFERED
 /* Printf buffer */
@@ -29,7 +30,7 @@ static bool  hshtag = false;
 
     static void printf_dumpBuffer(void)
     {
-        caller_szputs(prbuffer, incbuf);
+        MLCTR_GET(caller_szputs)(prbuffer, incbuf);
         incbuf = 0x0;
     }
 #endif
@@ -39,7 +40,7 @@ static void printf_handleWrite(char c)
 #ifdef PRINTF_BUFFERED
     printf_writeBuffer(c);
 #else
-    caller_szputs(&c, 1);
+    MLCTR_GET(caller_szputs)(&c, 1);
 #endif
 }
 
@@ -87,15 +88,15 @@ static void generic_puts(char const *s)
 
 static bool handle_caller_flg(char const **fmt, __builtin_va_list *ap)
 {
-    for (u32_t i = 0; callerhandlers[i].flg; i++)
-        if (strncmp(callerhandlers[i].flg, *fmt, strlen(callerhandlers[i].flg))) {
-            if (callerhandlers[i].handler0)
-                callerhandlers[i].handler0();
-            else if (callerhandlers[i].handler1)
-                callerhandlers[i].handler1(__builtin_va_arg(*ap, long));
+    for (u32_t i = 0; MLCTR_GET(callerhandlers)[i].flg; i++)
+        if (strncmp(MLCTR_GET(callerhandlers)[i].flg, *fmt, strlen(MLCTR_GET(callerhandlers)[i].flg))) {
+            if (MLCTR_GET(callerhandlers)[i].handler0)
+                MLCTR_GET(callerhandlers)[i].handler0();
+            else if (MLCTR_GET(callerhandlers)[i].handler1)
+                MLCTR_GET(callerhandlers)[i].handler1(__builtin_va_arg(*ap, long));
             else
                 return (false);
-            *fmt += strlen(callerhandlers[i].flg) - 1;
+            *fmt += strlen(MLCTR_GET(callerhandlers)[i].flg) - 1;
             return (true);
         }
     return (false);
@@ -120,9 +121,9 @@ static inline int printf_getAlignement(char const **fmt)
 
 static inline void printf_AlignFormat(u32_t len)
 {
-    if (len > align)
+    if (len > MLCTR_GET(align))
         return;
-    len = align - len;
+    len = MLCTR_GET(align) - len;
     while (len > 1) {
         printf_handleWrite(0x30);
         len--;
@@ -131,7 +132,7 @@ static inline void printf_AlignFormat(u32_t len)
 
 static void printf_handleIntegerFormatter(u64_t n, u8_t base)
 {
-    if (align) {
+    if (MLCTR_GET(align)) {
         u32_t len = numberlen(n, base);
         printf_AlignFormat(len);
     }
@@ -139,7 +140,7 @@ static void printf_handleIntegerFormatter(u64_t n, u8_t base)
 
 static void printf_handleStringFormatter(char const *s)
 {
-    if (align) { 
+    if (MLCTR_GET(align)) { 
         u32_t len = strlen(s);
         printf_AlignFormat(len);
     }
@@ -147,7 +148,7 @@ static void printf_handleStringFormatter(char const *s)
 
 static void printf_handleHashTag(u8_t base)
 {
-    if (!hshtag)
+    if (!MLCTR_GET(hshtag))
         return;
     switch (base) {
         case 16:
@@ -167,21 +168,21 @@ static void printf_handleHashTag(u8_t base)
 static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
 {
     /* Caller flag wich can override the next one */
-    if (callerhandlers && handle_caller_flg(fmt, ap))
+    if (MLCTR_GET(callerhandlers) && handle_caller_flg(fmt, ap))
         return;
-    align  = false;
-    hshtag = false;
+    MLCTR_GET(align)  = false;
+    MLCTR_GET(hshtag) = false;
     /* Formatter */
     bool flag = true;
     while (flag) {
         switch (**fmt) {
             case '0':
                 *fmt += 0x1;
-                align = printf_getAlignement(fmt);
+                MLCTR_GET(align) = printf_getAlignement(fmt);
                 break;
             case '#':
                 *fmt += 0x1;
-                hshtag = true;
+                MLCTR_GET(hshtag) = true;
                 break;
             default:
                 flag = false;
@@ -189,11 +190,11 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
         }
     }
     /* Init handled variable */
-    static int vint;
-    static uint vuint;
-    static long vlong;
-    static unsigned long vulong;
-    static char const *vcchar;
+    int vint;
+    uint vuint;
+    long vlong;
+    unsigned long vulong;
+    char const *vcchar;
     /* flag handled by this generic printf */
     switch (**fmt) {
         case 's':
@@ -295,25 +296,19 @@ static void __generic_printf(char const *fmt, __builtin_va_list ap)
     }
 }
 
-static smplock_t lock = SMPLOCK_INIT;
-
-#define GENERIC_PRINTF_INIT()       \
-    semaphore_inc(&lock);           \
-    if (!szputs) {                  \
-        semaphore_dec(&lock);       \
-        return;                     \
-    } else                          \
-        caller_szputs = szputs;     \
-    callerhandlers = handlers;      \
-    align = false;
+#define GENERIC_PRINTF_INIT()               \
+    if (!szputs)                            \
+        return;                             \
+    else                                    \
+        MLCTR_SET(caller_szputs, szputs);   \
+    MLCTR_SET(callerhandlers, handlers);    \
+    MLCTR_GET(align) = false;
 
 #ifdef PRINTF_BUFFERED
     #define GENERIC_PRINTF_EXIT()    \
-        printf_dumpBuffer();         \
-        semaphore_dec(&lock);
+        printf_dumpBuffer();
 #else
-    #define GENERIC_PRINTF_EXIT()    \
-        semaphore_dec(&lock);
+    #define GENERIC_PRINTF_EXIT()
 #endif
 
 void generic_vprintf(void (*szputs)(char const *, u32_t), struct printfhandlers_t *handlers, 

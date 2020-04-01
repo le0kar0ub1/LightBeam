@@ -28,9 +28,9 @@ void system_charging(u32_t time)
     u32_t i = 0;
 
     while (timer_getTickCount64() < endtime) {
-        rpifb_kprint("System charging... %c%\r", spincharge[i]);
+        rpifb_kprint("System charging... %c\r", spincharge[i]);
         timer_wait(50000);
         i = (i + 1) % 4;
     }
-    rpifb_kprint("System charging... %$ADONE%$R\n", RGB_Lime);
+    rpifb_kprint("System charging... DONE\n");
 }

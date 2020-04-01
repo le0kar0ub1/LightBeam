@@ -4,7 +4,7 @@
 #include "kernel/def/typedef.h"
 #include <stdbool.h>
 
-#define SMPLOCK_INIT 0
+#define SMPLOCK_INIT() 0
 
 typedef volatile u32_t smplock_t;
 

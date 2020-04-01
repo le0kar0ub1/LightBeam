@@ -4,25 +4,65 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 
-enum RGBCOLORS {
-    RGB_Black   = 0x000000,
-    RGB_White   = 0xFFFFFF,
-    RGB_Orange  = 0xFFA500,
-    RGB_Red     = 0xFF0000,
-    RGB_Lime    = 0x00FF00,
-    RGB_Blue    = 0x0000FF,
-    RGB_Yellow  = 0xFFFF00,
-    RGB_Cyan    = 0x00FFFF,
-    RGB_Magenta = 0xFF00FF,
-    RGB_Silver  = 0xC0C0C0,
-    RGB_Gray    = 0x808080,
-    RGB_Maroon  = 0x800000,
-    RGB_Olive   = 0x808000,
-    RGB_Green   = 0x008000,
-    RGB_Purple  = 0x800080,
-    RGB_Teal    = 0x008080,
-    RGB_Navy    = 0x000080
+
+enum MODE256RGBCOLOR
+{
+    RGB_Black           = 0x000000,
+    RGBB_Red            = 0xAA0000,
+    RGBB_Green          = 0x00AA00,
+    RGBB_Yellow         = 0xAAAA00,
+    RGBB_Blue           = 0x0000AA,
+    RGBB_Magenta        = 0xAA00AA,
+    RGBB_Cyan           = 0x00AAAA,
+    RGBB_White          = 0xAAAAAA,
+    RGBB_BoldBlack      = 0x555555,
+    RGBB_BoldRed        = 0xFF5555,
+    RGBB_BoldGreen      = 0x55FF55,
+    RGBB_BoldYellow     = 0xFFFF55,
+    RGBB_BoldBlue       = 0x5555FF,
+    RGBB_BoldMagenta    = 0xFF55FF,
+    RGBB_BoldCyan       = 0x55FFFF,
+    RGBB_BoldWhite      = 0xFFFFFF,
+
+    RGB_Azure          = 0x0066BB,
+    RGB_BoldAzure      = 0x0088FF,
+    RGB_Blue           = 0x0000BB,
+    RGB_BoldBlue       = 0x0000FF,
+    RGB_Cyan           = 0x00BBBB,
+    RGB_BoldCyan       = 0x00FFFF,
+    RGB_Ebony          = 0x000000,
+    RGB_BoldEbony      = 0x666666,
+    RGB_Green          = 0x00BB00,
+    RGB_BoldGreen      = 0x00FF00,
+    RGB_Jade           = 0x00BB66,
+    RGB_BoldJade       = 0x00FF88,
+    RGB_Lime           = 0x66BB00,
+    RGB_BoldLime       = 0x88FF00,
+    RGB_Magenta        = 0xBB00BB,
+    RGB_BoldMagenta    = 0xFF00FF,
+    RGB_Orange         = 0xBB6600,
+    RGB_BoldOrange     = 0xFF8800,
+    RGB_Pink           = 0xBB0066,
+    RGB_BoldPink       = 0xFF0088,
+    RGB_Red            = 0xBB0000,
+    RGB_BoldRed        = 0xFF0000,
+    RGB_Silver         = 0x888888,
+    RGB_BoldSilver     = 0xDDDDDD,
+    RGB_Tan            = 0x886600,
+    RGB_BoldTan        = 0xDDBB00,
+    RGB_Violet         = 0x6600BB,
+    RGB_BoldViolet     = 0x8800FF,
+    RGB_White          = 0xBBBBBB,
+    RGB_BoldWhite      = 0xFFFFFF,
+    RGB_Yellow         = 0xBBBB00,
+    RGB_BoldYellow     = 0xFFFF00,
 };
+
+#define RPIFB_256MODE_PREFIX_LENGHT 0x6
+#define RPIFB_256MODE_FOREGROUND_PREFIX  "[38;5;"
+#define RPIFB_256MODE_BACKGROUND_PREFIX  "[48;5;"
+#define RPIFB_256MODE_SUFFIX             'm'
+#define RPIFB_256MODE_SUFFIX_LENGHT 0x1
 
 /* PC Screen Font as used by Linux Console */
 typedef struct {
@@ -53,7 +93,7 @@ struct rpifb_handler {
 
 struct rpifb_escape_sequence_color_t
 {
-    char const *sequence;
+    u32_t sequence;
     u32_t color;
 } __packed;
 
@@ -72,5 +112,8 @@ void rpifb_set_pos(u32_t, u32_t);
 u32_t rpifb_get_posx(void);
 u32_t rpifb_get_posy(void);
 void rpifb_set_color(u32_t, u32_t);
+
+void rpifb_set_front(u32_t);
+void rpifb_set_back(u32_t);
 
 #endif

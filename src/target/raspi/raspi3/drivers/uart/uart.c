@@ -1,3 +1,4 @@
+#include "kernel/cpus/semaphore.h"
 #include "target/raspi/raspi3/driver/gpio.h"
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/driver/uart.h"
@@ -30,8 +31,12 @@ char uart_getc(void)
     return (bcm2837_uartpl011_get_data_nonfifo());
 }
 
+static smplock_t lock = SMPLOCK_INIT();
+
 void uart_szputs(char const *s, u32_t sz)
 {
+    semaphore_inc(&lock);
     for (u32_t i = 0x0; s[i] && i < sz; i++)
         uart_putc(s[i]);
+    semaphore_dec(&lock);
 }

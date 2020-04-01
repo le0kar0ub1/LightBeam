@@ -5,6 +5,7 @@
 #include "kernel/def/keyword.h"
 #include "kernel/def/assert.h"
 #include "kernel/def/bitfield.h"
+#include "kernel/def/operator.h"
 
 #include "kernel/init/inithooks.h"
 #include "kernel/init/initcalls.h"
