@@ -13,12 +13,12 @@
 
 static inline void start_setup_log(char const *data)
 {
-    rpifb_kprint("[\e[0;34mInitializing\e[0m]]: %s...\n", data);
+    rpifb_kprint("[%sInitializing%s]: %s...\n", ESC_FRT_RGB_Lime, ESC_FRT_RGB_White, data);
 }
 
 static inline void end_setup_log(char const *data)
 {
-    rpifb_kprint("   [\e[0;32mSuccessed\e[0m]: %s!\n\n", data);
+    rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", ESC_FRT_RGB_Lime, ESC_FRT_RGB_White, data);
 }
 
 // void execme(void);
@@ -38,9 +38,9 @@ void setup_level(void)
 
     helloFromLightBeam();
 
-    rpifb_kprint("[\e[0;32mInitialized\e[0m]: CPU config\n");
-    rpifb_kprint("[\e[0;32mInitialized\e[0m]: Uart\n");
-    rpifb_kprint("[\e[0;32mInitialized\e[0m]: Framebuffer\n\n");
+    rpifb_kprint("[%sInitialized%s]: CPU config\n", ESC_FRT_RGBB_BBlue, ESC_FRT_RGBB_White);
+    rpifb_kprint("[%sInitialized%s]: Uart\n", ESC_FRT_RGBB_BBlue, ESC_FRT_RGBB_White);
+    rpifb_kprint("[%sInitialized%s]: Framebuffer\n\n", ESC_FRT_RGBB_BBlue, ESC_FRT_RGBB_White);
 
     start_setup_log("Cores");
     multicore_init();

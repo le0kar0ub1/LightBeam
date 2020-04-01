@@ -147,7 +147,7 @@ static u32_t rpifb_handle_escape_sequence(char const *s)
     u32_t inc = 0x0;
     u8_t which = ISNOTHING;
 
-    if (strlen(s) < 8)
+    if (strlen(s) < 7)
         return (inc);
     if (strncmp(s, RPIFB_256MODE_BACKGROUND_PREFIX, RPIFB_256MODE_PREFIX_LENGHT))
         which = ISBACK;
@@ -171,9 +171,9 @@ static u32_t rpifb_handle_escape_sequence(char const *s)
         if (which == ISBACK)
             rpifb_set_back(rpifb_escape_sequence_color[i].color);
         else
-            rpifb_set_front(rpifb_escape_sequence_color[i].sequence);
+            rpifb_set_front(rpifb_escape_sequence_color[i].color);
     }
-    return (inc);
+    return (inc + 1);
 
 }
 
