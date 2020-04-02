@@ -1,7 +1,7 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 #include "kernel/cpus/vmulticore.h"
-#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/drivers/fb.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "kernel/lib/printf.h"
 #include <stdarg.h>

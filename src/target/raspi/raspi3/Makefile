@@ -28,16 +28,18 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
 BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
 
-BUILDER_SOURCE_DIR	+=	.				\
-						boot			\
-						cpus			\
-						cpus/init		\
-						interrupts		\
-						drivers/uart	\
-						drivers/fb		\
-						tools			\
-						memory			\
-						system			\
+BUILDER_SOURCE_DIR	+=	.						\
+						boot					\
+						cpus					\
+						cpus/init				\
+						interrupts				\
+						drivers/uart			\
+						drivers/fb				\
+						drivers/system-timer	\
+						drivers/arm-timer		\
+						tools					\
+						memory					\
+						system					\
 
 .PHONY: all
 

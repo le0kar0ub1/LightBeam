@@ -1,6 +1,6 @@
-#include "target/raspi/raspi3/driver/uart.h"
+#include "target/raspi/raspi3/drivers/uart.h"
 #include "target/raspi/shared/bcm283X/mbox.h"
-#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/drivers/fb.h"
 #include "target/raspi/shared/bcm283X/fb.h"
 #include "kernel/lib/lib.h"
 

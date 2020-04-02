@@ -1,5 +1,5 @@
 #include "kernel/def/typedef.h"
-#include "target/raspi/raspi3/driver/uart.h"
+#include "target/raspi/raspi3/drivers/uart.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "kernel/lib/printf.h"
 #include <stdarg.h>

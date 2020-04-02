@@ -1,8 +1,8 @@
 #include "lightbeam.h"
 #include "kernel/def/keyword.h"
-#include "target/raspi/raspi3/driver/uart.h"
-#include "target/raspi/raspi3/driver/fb.h"
-#include "target/raspi/raspi3/driver/gpio.h"
+#include "target/raspi/raspi3/drivers/uart.h"
+#include "target/raspi/raspi3/drivers/fb.h"
+#include "target/raspi/raspi3/drivers/gpio.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/system.h"
 #include "kernel/lib/lib.h"
@@ -31,6 +31,9 @@ void setup_level(void)
     rpifb_init(1024, 768, 32, 1, 0);
 
     helloFromLightBeam();
+
+    /* pure init calls running */
+    run_pure_initcalls();
 
     rpifb_kprint("[%sInitialized%s]: CPU config\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
     rpifb_kprint("[%sInitialized%s]: Uart\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));

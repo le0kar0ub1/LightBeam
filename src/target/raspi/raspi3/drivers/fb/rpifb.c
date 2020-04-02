@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/drivers/fb.h"
 
 extern volatile uchar _binary_font_font_psf_start;
 

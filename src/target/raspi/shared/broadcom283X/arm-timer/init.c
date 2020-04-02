@@ -6,7 +6,7 @@ volatile struct bcm283x_armTimerRegs_t *armTimerRegs = NULL;
 
 static void bcm283x_armtimer_init(void)
 {
-    armTimerRegs = (struct bcm283x_armTimerRegs_t *)BCM283x_TIMER_ENTRY;
+    armTimerRegs = (struct bcm283x_armTimerRegs_t *)BCM283x_ARMTIMER_ENTRY;
 }
 
 pure_initcall(bcm283x_armtimer_init);

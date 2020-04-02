@@ -1,5 +1,5 @@
-#include "target/raspi/raspi3/driver/fb.h"
-#include "target/raspi/raspi3/driver/colors-256.h"
+#include "target/raspi/raspi3/drivers/fb.h"
+#include "target/raspi/raspi3/drivers/colors-256.h"
 
 struct colors256Xterm_t colors256Xterm[] =
 {

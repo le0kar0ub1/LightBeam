@@ -13,7 +13,7 @@ BUILDER_SOURCE_DIR	:=	detect							\
 						broadcom283X/uart-pl011			\
 						broadcom283X/fb					\
 						broadcom283X/arm-timer			\
-						broadcom283X/sytem-timer		\
+						broadcom283X/system-timer		\
 						broadcom283X/dma				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)

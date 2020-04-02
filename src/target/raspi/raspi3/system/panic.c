@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/cpus/cpus.h"
-#include "target/raspi/raspi3/driver/fb.h"
-#include "target/raspi/raspi3/driver/uart.h"
+#include "target/raspi/raspi3/drivers/fb.h"
+#include "target/raspi/raspi3/drivers/uart.h"
 #include "target/raspi/raspi3/system.h"
 #include <stdarg.h>
 

@@ -1,4 +1,4 @@
-#include "target/raspi/shared/bcm283X/arm-timer.h"
+#include "target/raspi/raspi3/drivers/arm-timer.h"
 
 void armtimer_init(u32_t val)
 {

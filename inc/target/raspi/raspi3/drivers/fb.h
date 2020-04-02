@@ -4,7 +4,7 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 
-#include "target/raspi/raspi3/driver/colors-256.h"
+#include "target/raspi/raspi3/drivers/colors-256.h"
 
 enum MODE256RGBCOLOR
 {

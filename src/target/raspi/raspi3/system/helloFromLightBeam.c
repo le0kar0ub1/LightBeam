@@ -1,4 +1,4 @@
-#include "target/raspi/raspi3/driver/fb.h"
+#include "target/raspi/raspi3/drivers/fb.h"
 #include "target/raspi/raspi3/system.h"
 
 void helloFromLightBeam(void)
