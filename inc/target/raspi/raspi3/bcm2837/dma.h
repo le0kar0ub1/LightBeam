@@ -103,7 +103,6 @@ struct dma_debug_t
     u32_t _reserved1    : 3;
 } __packed;
 
-
 struct dma_intStatus_t
 {
     u32_t INT0      : 1;   // Interrupt status of DMA engine 0 RW 0x0

@@ -17,9 +17,22 @@ static void bcm2837_dma_start_transfer(u8_t engine, void *blk)
 }
 
 struct dmaControlBlock_t dmatestctrl;
+// void dmatest(void);
+// void dmatest(void)
+// {
+//     char d[20] __aligned(32); 
+//     char const *s __aligned(32) = "transfer me";
+//     bcm2837_dma_enable_engine(0);
+//     bcm2837_dma_enable_engine_int(0);
+//     rpifb_kprint("GOOD? -> %s\n" , bcm2837_dma_run_transfer((void*)s, (void*)d, 4) == true ? "yes" : "no");
+//     cycle_delay(200000000);
+//     d[15] = 0x0;
+//     rpifb_kprint("gotit? -> %s\n", d);
+// }
+
 
 bool bcm2837_dma_run_transfer(void *, void *, size_t);
-bool bcm2837_dma_run_transfer(void *src, void *dest, size_t sz)
+bool bcm2837_dma_run_transfer(void *src __unused, void *dest __unused, size_t sz __unused)
 {
     /* Adress must be 32B aligned */
     // if (!IS_ALIGNED(src, BCM2837_DMA_ADDRALIGN))
@@ -38,8 +51,5 @@ bool bcm2837_dma_run_transfer(void *src, void *dest, size_t sz)
     bcm2837_dma_set_next_ctrlblk(&dmatestctrl, NULL); // next ctrlblk
     bcm2837_dma_set_ctrblk_addr(engine, &dmatestctrl);
     bcm2837_dma_active_transfer(engine);
-    cycle_delay(100000000);
-    if (dmaEngineRegs[engine]->ctrlStatus.error == 1)
-        uart_kprint("ERROR\n");
     return (true);
 }

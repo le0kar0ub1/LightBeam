@@ -7,7 +7,7 @@ if [ "$1" != "no" ]; then
     make fclean
 fi
 
-make TARGET=raspi3
+make TARGET=raspi/raspi3
 
 echo ""
 

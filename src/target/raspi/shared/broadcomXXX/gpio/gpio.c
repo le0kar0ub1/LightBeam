@@ -363,6 +363,8 @@ static void _bcm2837_gpio_set_pullClock(pin_t pin, bool val)
     _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
 }
 
+extern void cycle_delay(uint);
+
 void bcm2837_gpio_set_pullClock(pin_t pin, enum GPPUDMODE mode)
 {
     _bcm2837_gpio_set_pullMode(mode);

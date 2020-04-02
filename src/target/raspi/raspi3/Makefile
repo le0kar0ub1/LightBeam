@@ -34,11 +34,6 @@ BUILDER_SOURCE_DIR	+=	.				\
 						cpus			\
 						cpus/init		\
 						interrupts		\
-						bcm2837/gpio	\
-						bcm2837/mbox	\
-						bcm2837/uart	\
-						bcm2837/fb		\
-						bcm2837/dma		\
 						drivers/uart	\
 						drivers/fb		\
 						tools			\

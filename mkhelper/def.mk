@@ -7,7 +7,7 @@ export BUILDIR		:=	$(realpath .)/build
 export KBUILD		:=	$(BUILDIR)/kbuild
 export STATICBUILD	:=	$(BUILDIR)/static
 export BUILDNEED	:=	$(KBUILD)		\
-						$(STATICBUILD)	\	
+						$(STATICBUILD)
 
 export MKHELPER_DIR	:=	$(shell realpath .)/mkhelper
 
@@ -43,11 +43,11 @@ export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
 export EXTENSION_LIB	:=	.a
 
-export LDFLAGS			=	-nostdlib							\
-							-nostartfiles						\
-							-n									\
-							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
-							-L	$(BUILDIR)						\
+export LDFLAGS			=	-nostdlib								\
+							-nostartfiles							\
+							-n										\
+							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)		\
+							-L	$(STATICBUILD)/*$(EXTENSION_LIB)	\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\

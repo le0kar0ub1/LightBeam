@@ -21,21 +21,6 @@ static inline void end_setup_log(char const *data)
     rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White), data);
 }
 
-
-void dmatest(void);
-#include "target/raspi/raspi3/bcm2837/dma.h"
-void dmatest(void)
-{
-    char d[20] __aligned(32); 
-    char const *s __aligned(32) = "transfer me";
-    bcm2837_dma_enable_engine(0);
-    bcm2837_dma_enable_engine_int(0);
-    rpifb_kprint("GOOD? -> %s\n" , bcm2837_dma_run_transfer((void*)s, (void*)d, 4) == true ? "yes" : "no");
-    cycle_delay(200000000);
-    d[15] = 0x0;
-    rpifb_kprint("gotit? -> %s\n", d);
-}
-
 void setup_level(void);
 void setup_level(void)
 {
@@ -51,7 +36,6 @@ void setup_level(void)
     helloFromLightBeam();
 
     run_core_initcalls();
-    dmatest();
     while(1);
 
     rpifb_kprint("[%sInitialized%s]: CPU config\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
