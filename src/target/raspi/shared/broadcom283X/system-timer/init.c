@@ -9,4 +9,4 @@ static void bcm283x_systemtimer_init(void)
     systemTimerRegs = (struct bcm283x_systemTimerRegs_t *)BCM283x_SYSTEMTIMER_ENTRY;
 }
 
-pure_initcall(bcm283x_systemtimer_init);
+boot_initcall(bcm283x_systemtimer_init);

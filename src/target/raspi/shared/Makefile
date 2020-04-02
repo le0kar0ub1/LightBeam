@@ -14,6 +14,7 @@ BUILDER_SOURCE_DIR	:=	detect							\
 						broadcom283X/fb					\
 						broadcom283X/arm-timer			\
 						broadcom283X/system-timer		\
+						broadcom283X/interrupts			\
 						broadcom283X/dma				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)

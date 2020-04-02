@@ -9,4 +9,4 @@ static void bcm283x_armtimer_init(void)
     armTimerRegs = (struct bcm283x_armTimerRegs_t *)BCM283x_ARMTIMER_ENTRY;
 }
 
-pure_initcall(bcm283x_armtimer_init);
+boot_initcall(bcm283x_armtimer_init);

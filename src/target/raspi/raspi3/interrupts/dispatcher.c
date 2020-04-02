@@ -84,5 +84,6 @@ void arm64_sync_exception(struct rframe_t *regs)
 
 void arm64_irq_exception(struct rframe_t *regs __unused)
 {
+    uart_kprint("IRQ triggered\n");
     // interrupt_handle_exception(regs);
 }

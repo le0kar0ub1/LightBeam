@@ -6,8 +6,7 @@ LightBeam is a little project without ambition that explore the ARM kernel devel
 
 [Project Root Documentation](doc/tree.md)
 
-![LightBeam](doc/lightbeam.jpg)
-
+<img src="doc/lightbeam.jpg" width="600" height="200">
 
 ## INSTALL
 
