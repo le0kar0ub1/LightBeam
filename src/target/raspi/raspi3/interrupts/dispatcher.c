@@ -1,6 +1,7 @@
 #include "target/raspi/raspi3/interrupts/interrupt.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/drivers/fb.h"
+#include "target/raspi/raspi3/drivers/uart.h"
 #include "arch/aarch64/archutils.h"
 
 static const char * esr_class_str[] = 
@@ -83,6 +84,6 @@ void arm64_sync_exception(struct rframe_t *regs)
 
 void arm64_irq_exception(struct rframe_t *regs __unused)
 {
-    // uart_kprint("IRQ triggered\n");
+    uart_kprint("IRQ triggered\n");
     // interrupt_handle_exception(regs);
 }

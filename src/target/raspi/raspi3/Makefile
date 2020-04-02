@@ -41,6 +41,10 @@ BUILDER_SOURCE_DIR	+=	.						\
 						memory					\
 						system					\
 
+BUILDER_SOURCE_DIR += $(addprefix ../shareable/, 	\
+									QA7				\
+						)
+
 .PHONY: all
 
 all:	arcbuild	lauchbuilder

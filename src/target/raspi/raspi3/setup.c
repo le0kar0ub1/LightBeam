@@ -19,7 +19,38 @@ static inline void end_setup_log(char const *data)
     rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White), data);
 }
 
-void setup_level(void);
+void core3Deadloop(void);
+void core3Deadloop(void)
+{
+    uart_kprint("core %d executing deadloop\n", cpuGetId());
+    enable_interrupts();
+    while(1);
+}
+
+void doThingTemporary(void);
+#include "target/raspi/shareable/QA7/QA7.h"
+void doThingTemporary(void)
+{
+    struct bcm_qa7_regs_t *QA7 = (struct bcm_qa7_regs_t *)0x40000000;
+    QA7->timerRouting.route = LOCALTIMER_TO_CORE3_IRQ;
+    QA7->timerCtrl.reload = 20000000;
+    // QA7->coreTimerPrescaler = 200;
+    QA7->timerCtrl.timerEnable = 1;
+    QA7->timerCtrl.intEnable = 1;
+    QA7->timerClearReload.reload = 1;
+    QA7->timerClearReload.intClr = 1;
+
+    QA7->core3TimerIntCtrl.nCNTPSIRQ_IRQ = 1;
+    QA7->core3TimerIntCtrl.nCNTPNSIRQ_IRQ = 1;
+    QA7->core3TimerIntCtrl.nCNTHPIRQ_IRQ = 1;
+    QA7->core3TimerIntCtrl.nCNTVIRQ_IRQ = 1;
+    QA7->core3TimerIntCtrl.nCNTPSIRQ_FIQ = 0;
+    QA7->core3TimerIntCtrl.nCNTPNSIRQ_FIQ = 0;
+    QA7->core3TimerIntCtrl.nCNTHPIRQ_FIQ = 0;
+    QA7->core3TimerIntCtrl.nCNTVIRQ_FIQ = 0;
+    cpuExecRoutine(3, core3Deadloop);
+}
+
 void setup_level(void)
 {
     /* boot init calls running */
@@ -47,6 +78,8 @@ void setup_level(void)
 
     /* pure init calls running */
     run_pure_initcalls();
+
+    doThingTemporary();
 
     start_setup_log("MMU");
     system_charging(2000);

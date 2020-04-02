@@ -50,14 +50,14 @@ struct perfMonitorIntRouting_t
 
 struct coreXTimerIntCtrl_t
 {
-    u32_t CNTP_IRQ0ctrl : 1;
-    u32_t CNTP_IRQ1ctrl : 1;
-    u32_t CNTP_IRQ2ctrl : 1;
-    u32_t CNTP_IRQ3ctrl : 1;
-    u32_t CNTP_FIQ0ctrl : 1;
-    u32_t CNTP_FIQ1ctrl : 1;
-    u32_t CNTP_FIQ2ctrl : 1;
-    u32_t CNTP_FIQ3ctrl : 1;
+    u32_t nCNTPSIRQ_IRQ : 1;   // @0 Secure physical timer event IRQ enabled, This bit is only valid if bit 4 is clear otherwise it is ignored. 
+    u32_t nCNTPNSIRQ_IRQ : 1;  // @1 Non-secure physical timer event IRQ enabled, This bit is only valid if bit 5 is clear otherwise it is ignored
+    u32_t nCNTHPIRQ_IRQ : 1;   // @2 Hypervisor physical timer event IRQ enabled, This bit is only valid if bit 6 is clear otherwise it is ignored
+    u32_t nCNTVIRQ_IRQ : 1;    // @3 Virtual physical timer event IRQ enabled, This bit is only valid if bit 7 is clear otherwise it is ignored
+    u32_t nCNTPSIRQ_FIQ : 1;   // @4 Secure physical timer event FIQ enabled, If set, this bit overrides the IRQ bit (0) 
+    u32_t nCNTPNSIRQ_FIQ : 1;  // @5 Non-secure physical timer event FIQ enabled, If set, this bit overrides the IRQ bit (1)
+    u32_t nCNTHPIRQ_FIQ : 1;   // @6 Hypervisor physical timer event FIQ enabled, If set, this bit overrides the IRQ bit (2)
+    u32_t nCNTVIRQ_FIQ : 1;    // @7 Virtual physical timer event FIQ enabled, If set, this bit overrides the IRQ bit (3)
     u32_t _reserved   : 24;
 } __attribute__((__packed__, aligned(4)));
 
@@ -92,23 +92,23 @@ struct corexIQ_Source_t
     u32_t _reserved   : 14;
 } __attribute__((__packed__, aligned(4)));
 
-struct localTimerCtrl_t
+struct TimerCtrl_t
 {
     u32_t reload      : 28;
     u32_t timerEnable : 1;
     u32_t intEnable   : 1;
     u32_t _reserved   : 1;
-    u32_t intflag     : 1; // RO
+    u32_t intPending  : 1; // RO
 } __attribute__((__packed__, aligned(4)));
 
-struct localTimerClearReload_t
+struct TimerClearReload_t
 {
-    u32_t clearIntFlag : 1; // RW
-    u32_t reloadTimer  : 1; // RW
-    u32_t _reserved    : 28;
+    u32_t _reserved  : 28;
+    u32_t reload     : 1; // RW
+    u32_t intClr     : 1; // RW
 } __attribute__((__packed__, aligned(4)));
 
-struct localIntRouting_t
+struct timerRouting_t
 {
     enum CoreRouting route : 3;
     u32_t _reserved        : 29;
@@ -125,13 +125,13 @@ struct bcm_qa7_regs_t
 /* 0x18 */ u32_t _unused1;
 /* 0x1C */ u32_t coreTimerAccessLS32;
 /* 0x20 */ u32_t coreTimerAccessMS32;
-/* 0x24 */ struct localIntRouting_t localInt0Routing;
-/* 0x28 */ struct localIntRouting_t localInt1Routing;
+/* 0x24 */ struct timerRouting_t timerRouting;
+/* 0x28 */ u32_t _unused2;
 /* 0x2C */ u32_t AxiOutstandingcounters;
 /* 0x30 */ u32_t AxiOutstandingIRQ;
-/* 0x34 */ struct localTimerCtrl_t localTimerCtrl;
-/* 0x38 */ struct localTimerClearReload_t localTimerClearReload;
-/* 0x3C */ u32_t _unused2;
+/* 0x34 */ struct TimerCtrl_t timerCtrl;
+/* 0x38 */ struct TimerClearReload_t timerClearReload;
+/* 0x3C */ u32_t _unused3;
 /* 0x40 */ struct coreXTimerIntCtrl_t core0TimerIntCtrl;
 /* 0x44 */ struct coreXTimerIntCtrl_t core1TimerIntCtrl;
 /* 0x48 */ struct coreXTimerIntCtrl_t core2TimerIntCtrl;
