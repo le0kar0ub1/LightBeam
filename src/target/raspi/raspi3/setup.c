@@ -7,9 +7,6 @@
 #include "target/raspi/raspi3/system.h"
 #include "kernel/lib/lib.h"
 #include "kernel/init/initcalls.h"
-// #include "target/raspi/raspi3/interrupts/interrupt.h"
-// #include "target/raspi/raspi3/memory/mmu.h"
-// #include "kernel/def/assert.h"
 
 static inline void start_setup_log(char const *data)
 {
@@ -34,9 +31,6 @@ void setup_level(void)
     rpifb_init(1024, 768, 32, 1, 0);
 
     helloFromLightBeam();
-
-    run_core_initcalls();
-    while(1);
 
     rpifb_kprint("[%sInitialized%s]: CPU config\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));
     rpifb_kprint("[%sInitialized%s]: Uart\n", RGB256toESCFRT(Blue), RGB256toESCFRT(White));

@@ -5,7 +5,7 @@ A multicore Raspberry3 kernel implementation.
 
 As explain, a part of the kernel is contained in other project directories.
 
-The Core of the rapspi3 is the BCM2837 peripherals.
+The Core of the rapspi3 is the bcm283x peripherals.
 
 ## ROADMAP
 

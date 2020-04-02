@@ -1,5 +1,5 @@
-#ifndef __BCM2837_GPIO_H__
-#define __BCM2837_GPIO_H__
+#ifndef __BCM283x_GPIO_H__
+#define __BCM283x_GPIO_H__
 
 #include "arch/aarch64/archutils.h"
 #include "kernel/def/typedef.h"
@@ -7,7 +7,7 @@
 
 typedef u32_t pin_t;
 
-#define BCM2837_GPIO_ENTRY ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
+#define BCM283x_GPIO_ENTRY ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
 
 enum GPIO_PIN_LVL {
     LOW  = 0x0,
@@ -44,7 +44,7 @@ struct gpio_fnctSlctReg_t
     enum GPIOMODE fnctslct8 : 3;
     enum GPIOMODE fnctslct9 : 3;
     u8_t          _reserved : 2;
-};
+} __packed;
 
 struct gpio_StateReg0_t
 {
@@ -80,7 +80,7 @@ struct gpio_StateReg0_t
     bool pin29 : 1;
     bool pin30 : 1;
     bool pin31 : 1;
-};
+} __packed;
 
 struct gpio_StateReg1_t
 {
@@ -107,30 +107,30 @@ struct gpio_StateReg1_t
     bool      pin52 : 1;
     bool      pin53 : 1;
     u32_t _reserved : 10;
-};
+} __packed;
 
-bool bcm2837_gpio_set_mode(pin_t pin, enum GPIOMODE);
+bool bcm283x_gpio_set_mode(pin_t pin, enum GPIOMODE);
 
-bool bcm2837_gpio_get_eventdetectStatus(pin_t);
-bool bcm2837_gpio_get_risingEdgeDetect(pin_t);
-bool bcm2837_gpio_get_fallingEdgeDetect(pin_t);
-bool bcm2837_gpio_get_highDetect(pin_t);
-bool bcm2837_gpio_get_lowDetect(pin_t);
-bool bcm2837_gpio_get_asyncRisingEdgeDetect(pin_t);
-bool bcm2837_gpio_get_asyncFallingEdgeDetect(pin_t);
+bool bcm283x_gpio_get_eventdetectStatus(pin_t);
+bool bcm283x_gpio_get_risingEdgeDetect(pin_t);
+bool bcm283x_gpio_get_fallingEdgeDetect(pin_t);
+bool bcm283x_gpio_get_highDetect(pin_t);
+bool bcm283x_gpio_get_lowDetect(pin_t);
+bool bcm283x_gpio_get_asyncRisingEdgeDetect(pin_t);
+bool bcm283x_gpio_get_asyncFallingEdgeDetect(pin_t);
 
-void bcm2837_gpio_set_output(pin_t);
-void bcm2837_gpio_clear_output(pin_t);
-void bcm2837_gpio_set_eventdetectStatus(pin_t, bool);
-void bcm2837_gpio_set_risingEdgeDetect(pin_t, bool);
-void bcm2837_gpio_set_fallingEdgeDetect(pin_t, bool);
-void bcm2837_gpio_set_highDetect(pin_t, bool);
-void bcm2837_gpio_set_lowDetect(pin_t, bool);
-void bcm2837_gpio_set_asyncRisingEdgeDetect(pin_t, bool);
-void bcm2837_gpio_set_asyncFallingEdgeDetect(pin_t, bool);
-void bcm2837_gpio_set_pullClock(pin_t, enum GPPUDMODE);
+void bcm283x_gpio_set_output(pin_t);
+void bcm283x_gpio_clear_output(pin_t);
+void bcm283x_gpio_set_eventdetectStatus(pin_t, bool);
+void bcm283x_gpio_set_risingEdgeDetect(pin_t, bool);
+void bcm283x_gpio_set_fallingEdgeDetect(pin_t, bool);
+void bcm283x_gpio_set_highDetect(pin_t, bool);
+void bcm283x_gpio_set_lowDetect(pin_t, bool);
+void bcm283x_gpio_set_asyncRisingEdgeDetect(pin_t, bool);
+void bcm283x_gpio_set_asyncFallingEdgeDetect(pin_t, bool);
+void bcm283x_gpio_set_pullClock(pin_t, enum GPPUDMODE);
 
-enum GPIO_PIN_LVL bcm2837_gpio_get_pinlvl(pin_t);
+enum GPIO_PIN_LVL bcm283x_gpio_get_pinlvl(pin_t);
 
 struct gpioreg_r_t
 {
@@ -195,66 +195,66 @@ struct gpio_regs_t
     u32_t  gppudclk1; // GPIO Pin Pull-up/down Enable Clock 1 32 R/W
     u32_t  _reserved11;
     u32_t  _unused;
-};
+} __packed;
 
-#define BCM2837_GPIO0       (0)
-#define BCM2837_GPIO1       (1)
-#define BCM2837_GPIO2       (2)
-#define BCM2837_GPIO3       (3)
-#define BCM2837_GPIO4       (4)
-#define BCM2837_GPIO5       (5)
-#define BCM2837_GPIO6       (6)
-#define BCM2837_GPIO7       (7)
-#define BCM2837_GPIO8       (8)
-#define BCM2837_GPIO9       (9)
-#define BCM2837_GPIO10      (10)
-#define BCM2837_GPIO11      (11)
-#define BCM2837_GPIO12      (12)
-#define BCM2837_GPIO13      (13)
-#define BCM2837_GPIO14      (14)
-#define BCM2837_GPIO15      (15)
-#define BCM2837_GPIO16      (16)
-#define BCM2837_GPIO17      (17)
-#define BCM2837_GPIO18      (18)
-#define BCM2837_GPIO19      (19)
-#define BCM2837_GPIO20      (20)
-#define BCM2837_GPIO21      (21)
-#define BCM2837_GPIO22      (22)
-#define BCM2837_GPIO23      (23)
-#define BCM2837_GPIO24      (24)
-#define BCM2837_GPIO25      (25)
-#define BCM2837_GPIO26      (26)
-#define BCM2837_GPIO27      (27)
+#define BCM283x_GPIO0       (0)
+#define BCM283x_GPIO1       (1)
+#define BCM283x_GPIO2       (2)
+#define BCM283x_GPIO3       (3)
+#define BCM283x_GPIO4       (4)
+#define BCM283x_GPIO5       (5)
+#define BCM283x_GPIO6       (6)
+#define BCM283x_GPIO7       (7)
+#define BCM283x_GPIO8       (8)
+#define BCM283x_GPIO9       (9)
+#define BCM283x_GPIO10      (10)
+#define BCM283x_GPIO11      (11)
+#define BCM283x_GPIO12      (12)
+#define BCM283x_GPIO13      (13)
+#define BCM283x_GPIO14      (14)
+#define BCM283x_GPIO15      (15)
+#define BCM283x_GPIO16      (16)
+#define BCM283x_GPIO17      (17)
+#define BCM283x_GPIO18      (18)
+#define BCM283x_GPIO19      (19)
+#define BCM283x_GPIO20      (20)
+#define BCM283x_GPIO21      (21)
+#define BCM283x_GPIO22      (22)
+#define BCM283x_GPIO23      (23)
+#define BCM283x_GPIO24      (24)
+#define BCM283x_GPIO25      (25)
+#define BCM283x_GPIO26      (26)
+#define BCM283x_GPIO27      (27)
 
-#define BCM2837_GPIO28      (28)
-#define BCM2837_GPIO29      (29)
-#define BCM2837_GPIO30      (30)
-#define BCM2837_GPIO31      (31)
-#define BCM2837_GPIO32      (32)
-#define BCM2837_GPIO33      (33)
-#define BCM2837_GPIO34      (34)
-#define BCM2837_GPIO35      (35)
-#define BCM2837_GPIO36      (36)
-#define BCM2837_GPIO37      (37)
-#define BCM2837_GPIO38      (38)
-#define BCM2837_GPIO39      (39)
-#define BCM2837_GPIO40      (40)
-#define BCM2837_GPIO41      (41)
-#define BCM2837_GPIO42      (42)
-#define BCM2837_GPIO43      (43)
-#define BCM2837_GPIO44      (44)
-#define BCM2837_GPIO45      (45)
+#define BCM283x_GPIO28      (28)
+#define BCM283x_GPIO29      (29)
+#define BCM283x_GPIO30      (30)
+#define BCM283x_GPIO31      (31)
+#define BCM283x_GPIO32      (32)
+#define BCM283x_GPIO33      (33)
+#define BCM283x_GPIO34      (34)
+#define BCM283x_GPIO35      (35)
+#define BCM283x_GPIO36      (36)
+#define BCM283x_GPIO37      (37)
+#define BCM283x_GPIO38      (38)
+#define BCM283x_GPIO39      (39)
+#define BCM283x_GPIO40      (40)
+#define BCM283x_GPIO41      (41)
+#define BCM283x_GPIO42      (42)
+#define BCM283x_GPIO43      (43)
+#define BCM283x_GPIO44      (44)
+#define BCM283x_GPIO45      (45)
 
-#define BCM2837_GPIO46      (46)
-#define BCM2837_GPIO47      (47)
-#define BCM2837_GPIO48      (48)
-#define BCM2837_GPIO49      (49)
-#define BCM2837_GPIO50      (50)
-#define BCM2837_GPIO51      (51)
-#define BCM2837_GPIO52      (52)
-#define BCM2837_GPIO53      (53)
+#define BCM283x_GPIO46      (46)
+#define BCM283x_GPIO47      (47)
+#define BCM283x_GPIO48      (48)
+#define BCM283x_GPIO49      (49)
+#define BCM283x_GPIO50      (50)
+#define BCM283x_GPIO51      (51)
+#define BCM283x_GPIO52      (52)
+#define BCM283x_GPIO53      (53)
 
-#define BCM2837_GPIOVIRT0   (64)
-#define BCM2837_GPIOVIRT1   (65)
+#define BCM283x_GPIOVIRT0   (64)
+#define BCM283x_GPIOVIRT1   (65)
 
-#endif /* __BCM2837_GPIO_H__ */
+#endif /* __BCM283x_GPIO_H__ */

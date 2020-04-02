@@ -1,11 +1,11 @@
 #include "lightbeam.h"
-#include "target/raspi/raspi3/bcm2837/gpio.h"
-#include "target/raspi/raspi3/bcm2837/mbox.h"
+#include "target/raspi/shared/bcm283X/gpio.h"
+#include "target/raspi/shared/bcm283X/mbox.h"
 #include "kernel/lib/lib.h"
 
 extern volatile struct gpio_regs_t *gpioregs __aligned(4);
 
-bool bcm2837_gpio_set_mode(pin_t pin, enum GPIOMODE mode)
+bool bcm283x_gpio_set_mode(pin_t pin, enum GPIOMODE mode)
 {
     if (pin > 54 || mode < 0 || mode > 7)
         return (false);
@@ -67,7 +67,7 @@ bool bcm2837_gpio_set_mode(pin_t pin, enum GPIOMODE mode)
     return (true);
 }
 
-static bool _bcm2837_gpio_get_bitpin_value(pin_t pin, u32_t *ptr)
+static bool _bcm283x_gpio_get_bitpin_value(pin_t pin, u32_t *ptr)
 {
     if (pin > 54)
         return (false);
@@ -147,7 +147,7 @@ static bool _bcm2837_gpio_get_bitpin_value(pin_t pin, u32_t *ptr)
     }
 }
 
-static void _bcm2837_gpio_set_bitpin_value(pin_t pin, u32_t *ptr, bool val)
+static void _bcm283x_gpio_set_bitpin_value(pin_t pin, u32_t *ptr, bool val)
 {
     if (pin > 54)
         return;
@@ -258,119 +258,119 @@ static void _bcm2837_gpio_set_bitpin_value(pin_t pin, u32_t *ptr, bool val)
     }
 }
 
-enum GPIO_PIN_LVL bcm2837_gpio_get_pinlvl(pin_t pin)
+enum GPIO_PIN_LVL bcm283x_gpio_get_pinlvl(pin_t pin)
 {
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gplev0));
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gplev0));
 }
 
 
-void bcm2837_gpio_set_output(pin_t pin)
+void bcm283x_gpio_set_output(pin_t pin)
 {
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpset0, 1);
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpset0, 1);
 }
 
-void bcm2837_gpio_clear_output(pin_t pin)
+void bcm283x_gpio_clear_output(pin_t pin)
 {
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpclr0, 1);
-}
-
-
-bool bcm2837_gpio_get_eventdetectStatus(pin_t pin)
-{
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpeds0));
-}
-
-void bcm2837_gpio_set_eventdetectStatus(pin_t pin, bool val)
-{
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpeds0, val);
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpclr0, 1);
 }
 
 
-bool bcm2837_gpio_get_risingEdgeDetect(pin_t pin)
+bool bcm283x_gpio_get_eventdetectStatus(pin_t pin)
 {
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpren0));
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpeds0));
 }
 
-void bcm2837_gpio_set_risingEdgeDetect(pin_t pin, bool val)
+void bcm283x_gpio_set_eventdetectStatus(pin_t pin, bool val)
 {
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpren0, val);
-}
-
-
-bool bcm2837_gpio_get_fallingEdgeDetect(pin_t pin)
-{
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpfen0));
-}
-
-void bcm2837_gpio_set_fallingEdgeDetect(pin_t pin, bool val)
-{
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpfen0, val);
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpeds0, val);
 }
 
 
-bool bcm2837_gpio_get_highDetect(pin_t pin)
+bool bcm283x_gpio_get_risingEdgeDetect(pin_t pin)
 {
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gphen0));
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpren0));
 }
 
-void bcm2837_gpio_set_highDetect(pin_t pin, bool val)
+void bcm283x_gpio_set_risingEdgeDetect(pin_t pin, bool val)
 {
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gphen0, val);
-}
-
-
-bool bcm2837_gpio_get_lowDetect(pin_t pin)
-{
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gplen0));
-}
-
-void bcm2837_gpio_set_lowDetect(pin_t pin, bool val)
-{
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gplen0, val);
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpren0, val);
 }
 
 
-bool bcm2837_gpio_get_asyncRisingEdgeDetect(pin_t pin)
+bool bcm283x_gpio_get_fallingEdgeDetect(pin_t pin)
 {
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gparen0));
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpfen0));
 }
 
-void bcm2837_gpio_set_asyncRisingEdgeDetect(pin_t pin, bool val)
+void bcm283x_gpio_set_fallingEdgeDetect(pin_t pin, bool val)
 {
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gparen0, val);
-}
-
-
-bool bcm2837_gpio_get_asyncFallingEdgeDetect(pin_t pin)
-{
-    return (_bcm2837_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0));
-}
-
-void bcm2837_gpio_set_asyncFallingEdgeDetect(pin_t pin, bool val)
-{
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpfen0, val);
 }
 
 
-static void _bcm2837_gpio_set_pullMode(enum GPPUDMODE mode)
+bool bcm283x_gpio_get_highDetect(pin_t pin)
 {
-    _bcm2837_gpio_set_bitpin_value(0, (u32_t *)&gpioregs->gppud, mode & 0b01);
-    _bcm2837_gpio_set_bitpin_value(1, (u32_t *)&gpioregs->gppud, mode & 0b10);
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gphen0));
 }
 
-static void _bcm2837_gpio_set_pullClock(pin_t pin, bool val)
+void bcm283x_gpio_set_highDetect(pin_t pin, bool val)
 {
-    _bcm2837_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gphen0, val);
+}
+
+
+bool bcm283x_gpio_get_lowDetect(pin_t pin)
+{
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gplen0));
+}
+
+void bcm283x_gpio_set_lowDetect(pin_t pin, bool val)
+{
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gplen0, val);
+}
+
+
+bool bcm283x_gpio_get_asyncRisingEdgeDetect(pin_t pin)
+{
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gparen0));
+}
+
+void bcm283x_gpio_set_asyncRisingEdgeDetect(pin_t pin, bool val)
+{
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gparen0, val);
+}
+
+
+bool bcm283x_gpio_get_asyncFallingEdgeDetect(pin_t pin)
+{
+    return (_bcm283x_gpio_get_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0));
+}
+
+void bcm283x_gpio_set_asyncFallingEdgeDetect(pin_t pin, bool val)
+{
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
+}
+
+
+static void _bcm283x_gpio_set_pullMode(enum GPPUDMODE mode)
+{
+    _bcm283x_gpio_set_bitpin_value(0, (u32_t *)&gpioregs->gppud, mode & 0b01);
+    _bcm283x_gpio_set_bitpin_value(1, (u32_t *)&gpioregs->gppud, mode & 0b10);
+}
+
+static void _bcm283x_gpio_set_pullClock(pin_t pin, bool val)
+{
+    _bcm283x_gpio_set_bitpin_value(pin, (u32_t *)&gpioregs->gpafen0, val);
 }
 
 extern void cycle_delay(uint);
 
-void bcm2837_gpio_set_pullClock(pin_t pin, enum GPPUDMODE mode)
+void bcm283x_gpio_set_pullClock(pin_t pin, enum GPPUDMODE mode)
 {
-    _bcm2837_gpio_set_pullMode(mode);
+    _bcm283x_gpio_set_pullMode(mode);
     cycle_delay(150);
-    _bcm2837_gpio_set_pullClock(pin, 1);
+    _bcm283x_gpio_set_pullClock(pin, 1);
     cycle_delay(150);
-    _bcm2837_gpio_set_pullMode(GGPPUD_OFF);
-    _bcm2837_gpio_set_pullClock(pin, 0);
+    _bcm283x_gpio_set_pullMode(GGPPUD_OFF);
+    _bcm283x_gpio_set_pullClock(pin, 0);
 }

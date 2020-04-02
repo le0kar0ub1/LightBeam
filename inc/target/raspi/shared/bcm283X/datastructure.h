@@ -724,7 +724,7 @@ typedef union
 	{
 		unsigned revision : 4;										// @0-3			revision 0,1,2 .. etc
 		unsigned model : 8;											// @4-11		model type
-		unsigned processor : 4;										// @12-15		processor 0 = BCM2835, 1 = BCM2836, 2 = BCM2837
+		unsigned processor : 4;										// @12-15		processor 0 = BCM2835, 1 = BCM2836, 2 = bcm283x
 		unsigned manufacturer : 4;									// @16-19		manufacturer 
 		unsigned memory_size : 3;									// @20-22		memory size 0 = 256 MB, 1 = 512MB, 2 = 1024MB 
 		unsigned new_revision : 1;									// @23			new style revision if set

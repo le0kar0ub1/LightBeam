@@ -6,12 +6,15 @@ BUILDER_HEADER		:=	raspi shared
 
 BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
-BUILDER_SOURCE_DIR	:=	detect					\
-						broadcom283X/gpio		\
-						broadcom283X/mbox		\
-						broadcom283X/uart		\
-						broadcom283X/fb			\
-						broadcom283X/dma		\
+BUILDER_SOURCE_DIR	:=	detect							\
+						broadcom283X/gpio				\
+						broadcom283X/mbox				\
+						broadcom283X/mini-uart			\
+						broadcom283X/uart-pl011			\
+						broadcom283X/fb					\
+						broadcom283X/arm-timer			\
+						broadcom283X/sytem-timer		\
+						broadcom283X/dma				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

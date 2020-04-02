@@ -1,5 +1,5 @@
-#include "target/raspi/raspi3/bcm2837/mbox.h"
-#include "target/raspi/raspi3/bcm2837/fb.h"
+#include "target/raspi/shared/bcm283X/mbox.h"
+#include "target/raspi/shared/bcm283X/fb.h"
 #include "kernel/lib/lib.h"
 
 /* We will provide driver function when needed */
@@ -141,7 +141,7 @@ struct mbox_fb_porder_msg_t {
     u32_t end;
 };
 
-u32_t bcm2837_mbox_fb_get_gpiovirt(void)
+u32_t bcm283x_mbox_fb_get_gpiovirt(void)
 {
     struct mbox_fb_gpiovirt_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_gpiovirt_msg_t * p = &msg;
@@ -154,13 +154,13 @@ u32_t bcm2837_mbox_fb_get_gpiovirt(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     return p->tag.val & 0x3fffffff;
 }
 
-u32_t bcm2837_mbox_fb_get_pitch(void)
+u32_t bcm283x_mbox_fb_get_pitch(void)
 {
     struct mbox_fb_pitch_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_pitch_msg_t * p = &msg;
@@ -173,13 +173,13 @@ u32_t bcm2837_mbox_fb_get_pitch(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     return p->tag.val;
 }
 
-bool bcm2837_mbox_fb_set_porder(int rgb)
+bool bcm283x_mbox_fb_set_porder(int rgb)
 {
     struct mbox_fb_porder_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_porder_msg_t * p = &msg;
@@ -192,13 +192,13 @@ bool bcm2837_mbox_fb_set_porder(int rgb)
     p->tag.order = rgb;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return false;
     return true;
 }
 
-void *bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender)
+void *bcm283x_mbox_fb_alloc(int width, int height, int bpp, int nrender)
 {
     struct mbox_fb_info_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_info_msg_t * p = &msg;
@@ -226,13 +226,13 @@ void *bcm2837_mbox_fb_alloc(int width, int height, int bpp, int nrender)
     p->allocate.vsize = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return NULL;
     return (void *)((u64_t)(p->allocate.vaddr & 0x3fffffff));
 }
 
-bool bcm2837_mbox_fb_setoffset(int xoffset, int yoffset)
+bool bcm283x_mbox_fb_setoffset(int xoffset, int yoffset)
 {
     struct mbox_fb_offset_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_offset_msg_t * p = &msg;
@@ -246,14 +246,14 @@ bool bcm2837_mbox_fb_setoffset(int xoffset, int yoffset)
     p->tag.yoffset = yoffset;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return false;
     return true;
 }
 
 
-bool bcm2837_mbox_fb_setalpha(int alpha)
+bool bcm283x_mbox_fb_setalpha(int alpha)
 {
     struct mbox_fb_alpha_msg_t msg __attribute__((aligned(16)));
     struct mbox_fb_alpha_msg_t *p = &msg;
@@ -266,7 +266,7 @@ bool bcm2837_mbox_fb_setalpha(int alpha)
     p->tag.val = alpha;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return false;
     return true;

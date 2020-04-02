@@ -1,16 +1,16 @@
-#ifndef __DMA_H_
-#define __DMA_H_
+#ifndef __BCM283X_DMA_H_
+#define __BCM283X_DMA_H_
 
 #include "lightbeam.h"
 
-#define BCM2837_DMA_ENTRY ((void *)((u64_t)ARCH_RASP_MMIOBASE + 0x7000))
-#define BCM2837_DMA_CTRLBLCK_PITCH 0x100
-#define BCM2837_DMA_CTRLBLCK_NUMBR 0x10
+#define BCM283x_DMA_ENTRY ((void *)((u64_t)ARCH_RASP_MMIOBASE + 0x7000))
+#define BCM283x_DMA_CTRLBLCK_PITCH 0x100
+#define BCM283x_DMA_CTRLBLCK_NUMBR 0x10
 
-#define BCM2837_DMA_INTSTATUSREG ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFE0))
-#define BCM2837_DMA_ENABLEREG    ((void *)((u64_t)BCM2837_DMA_ENTRY + 0xFF0))
+#define BCM283x_DMA_INTSTATUSREG ((void *)((u64_t)BCM283x_DMA_ENTRY + 0xFE0))
+#define BCM283x_DMA_ENABLEREG    ((void *)((u64_t)BCM283x_DMA_ENTRY + 0xFF0))
 
-#define BCM2837_DMA_ADDRALIGN 32
+#define BCM283x_DMA_ADDRALIGN 32
 
 struct dma_ctrlStatus_t
 {
@@ -20,13 +20,13 @@ struct dma_ctrlStatus_t
     u32_t dreqState      : 1; // 1 == requesting data & 0 == no request
     u32_t paused         : 1; // 1 == paused & 0 == running
     u32_t dreqStopDma    : 1; // 1 == paused & 0 == running
-    u32_t waitingwrites  : 1; // if 1 == dma waiting the last write
-    u32_t _reserved2     : 1;
-    u32_t error          : 1; // if 1 error occured
-    u32_t _reserved1     : 7;
+    const u32_t waitingwrites  : 1; // if 1 == dma waiting the last write
+    const u32_t _reserved2     : 1;
+    const u32_t error          : 1; // if 1 error occured
+    const u32_t _reserved1     : 7;
     u32_t priority       : 4; // set priority of normal AXI bus
     u32_t panic_priority : 4; // set priority of panicking bus
-    u32_t _reserved0     : 4;
+    const u32_t _reserved0     : 4;
     u32_t waitwrites     : 1;
     u32_t disdebug       : 1; // if 1 DMA unsensible to pause signal
     u32_t abort          : 1; // write 1 == abort CB
@@ -42,7 +42,7 @@ struct dma_transferInformation_t
 {
     u32_t inten       : 1; // if 1 -> interrupt when transfer done
     u32_t tdmode      : 1; // (rtfm)
-    u32_t _reserved0  : 1;
+    const u32_t _reserved0  : 1;
     u32_t waitResp    : 1; // if 1 -> wait for end of write
     u32_t destInc     : 1; // if 1 -> automate inc address by 32 or 4 if DESTWIDTH == 0
     u32_t destWidth   : 1; // if 1 -> 128b address else 32
@@ -56,7 +56,7 @@ struct dma_transferInformation_t
     u32_t permap      : 5; // peripheral number (1-31)
     u32_t wait        : 5; // wait X cycles after each R/W operation
     u32_t noWideBurst : 1; // (rtfm)
-    u32_t _reserved_1 : 5; 
+    const u32_t _reserved_1 : 5; 
 } __packed;
 
 struct dma_sourceAddr_t
@@ -73,7 +73,7 @@ struct dma_transactionLenght_t
 {
     u32_t xlenght   : 16; // lenght transfer size
     u32_t ylenght   : 15; // if tdmode then transfer X * Y
-    u32_t _reserved : 1;
+    const u32_t _reserved : 1;
 } __packed;
 
 // if tdmode only
@@ -91,16 +91,16 @@ struct dma_nextCtrlBlockAddr_t
 
 struct dma_debug_t
 {
-    u32_t lastReadNoSet : 1;
-    u32_t fifoErr       : 1;
-    u32_t readErr       : 1;
-    u32_t _reserved0    : 1;
-    u32_t stadingWrites : 4; // get not already been received write
-    u32_t dmaID         : 8; // get channel dma id
-    u32_t dmaState      : 9; // channel state
-    u32_t version       : 3;
-    u32_t dmaLite       : 1; // if 1 dma is reduced performance
-    u32_t _reserved1    : 3;
+    const u32_t lastReadNoSet : 1;
+    const u32_t fifoErr       : 1;
+    const u32_t readErr       : 1;
+    const u32_t _reserved0    : 1;
+    const u32_t stadingWrites : 4; // get not already been received write
+    const u32_t dmaID         : 8; // get channel dma id
+    const u32_t dmaState      : 9; // channel state
+    const u32_t version       : 3;
+    const u32_t dmaLite       : 1; // if 1 dma is reduced performance
+    const u32_t _reserved1    : 3;
 } __packed;
 
 struct dma_intStatus_t
@@ -121,7 +121,7 @@ struct dma_intStatus_t
     u32_t INT13     : 1;   // Interrupt status of DMA engine 13 RW 0x0
     u32_t INT14     : 1;   // Interrupt status of DMA engine 14 RW 0x0
     u32_t INT15     : 1;   // Interrupt status of DMA engine 15 RW 0x0
-    u32_t _reserved : 16;
+    const u32_t _reserved : 16;
 } __packed;
 
 struct dma_enable_t
@@ -142,7 +142,7 @@ struct dma_enable_t
     u32_t EN13     : 1;   // enable DMA engine 13 RW 0x0
     u32_t EN14     : 1;   // enable DMA engine 14 RW 0x0
     u32_t EN15     : 1;   // enable DMA engine 15 RW 0x0
-    u32_t _reserved : 16;
+    const u32_t _reserved : 16;
 } __packed;
 
 struct dmaControlBlock_t
@@ -153,8 +153,8 @@ struct dmaControlBlock_t
     struct dma_transactionLenght_t transactionLenght;
     struct dma_stride_t stride;
     struct dma_nextCtrlBlockAddr_t nextCtrlBlockAddr;
-    u32_t _reserved0;
-    u32_t _reserved1;
+    const u32_t _reserved0;
+    const u32_t _reserved1;
 } __packed;
 
 struct dmaEngineRegister_t
@@ -172,36 +172,36 @@ struct dmaEngineRegister_t
 } __packed;
 
 /* Global Control */
-void bcm2837_dma_disable_engine(u8_t);
-void bcm2837_dma_enable_engine(u8_t);
-void bcm2837_dma_disable_engine_int(u8_t);
-void bcm2837_dma_enable_engine_int(u8_t);
-bool bcm2837_dma_get_engine_intstatus(u8_t);
-bool bcm2837_dma_get_engine_state(u8_t);
-int  bcm2837_dma_get_unused_engine(void);
-void bcm2837_dma_lock_engine(u8_t);
-void bcm2837_dma_release_engine(u8_t);
+void bcm283x_dma_disable_engine(u8_t);
+void bcm283x_dma_enable_engine(u8_t);
+void bcm283x_dma_disable_engine_int(u8_t);
+void bcm283x_dma_enable_engine_int(u8_t);
+bool bcm283x_dma_get_engine_intstatus(u8_t);
+bool bcm283x_dma_get_engine_state(u8_t);
+int  bcm283x_dma_get_unused_engine(void);
+void bcm283x_dma_lock_engine(u8_t);
+void bcm283x_dma_release_engine(u8_t);
 
 /* Run prepare */
-void bcm2837_dma_set_next_ctrlblk(struct dmaControlBlock_t *ctrblk, void *addr);
-void bcm2837_dma_set_address_inc(struct dmaControlBlock_t *ctrblk, bool val);
-void bcm2837_dma_set_source_address(struct dmaControlBlock_t *ctrblk, void *src);
-void bcm2837_dma_set_destination_address(struct dmaControlBlock_t *ctrblk, void *dest);
-void bcm2837_dma_set_transfer_size(struct dmaControlBlock_t *ctrblk, u16_t sz);
-void bcm2837_dma_2Dmode_set_transfer_size(struct dmaControlBlock_t *ctrblk, u16_t xsz, u16_t ysz);
-void bcm2837_dma_set_final_interrupt(struct dmaControlBlock_t *ctrblk, bool val);
-void bcm2837_dma_set_peripheral(struct dmaControlBlock_t *ctrblk, u8_t periph);
-void bcm2837_dma_set_ctrblk_addr(u8_t engine, void *addr);
+void bcm283x_dma_set_next_ctrlblk(struct dmaControlBlock_t *ctrblk, void *addr);
+void bcm283x_dma_set_address_inc(struct dmaControlBlock_t *ctrblk, bool val);
+void bcm283x_dma_set_source_address(struct dmaControlBlock_t *ctrblk, void *src);
+void bcm283x_dma_set_destination_address(struct dmaControlBlock_t *ctrblk, void *dest);
+void bcm283x_dma_set_transfer_size(struct dmaControlBlock_t *ctrblk, u16_t sz);
+void bcm283x_dma_2Dmode_set_transfer_size(struct dmaControlBlock_t *ctrblk, u16_t xsz, u16_t ysz);
+void bcm283x_dma_set_final_interrupt(struct dmaControlBlock_t *ctrblk, bool val);
+void bcm283x_dma_set_peripheral(struct dmaControlBlock_t *ctrblk, u8_t periph);
+void bcm283x_dma_set_ctrblk_addr(u8_t engine, void *addr);
 
 /* Request handler */
-bool bcm2837_dma_run_transfer(void *, void *, size_t);
+bool bcm283x_dma_run_transfer(void *, void *, size_t);
 
 /* Run control */
-void bcm2837_dma_active_transfer(u8_t);
-void bcm2837_dma_abort_transfer(u8_t);
-void bcm2837_dma_reset_transfer(u8_t);
+void bcm283x_dma_active_transfer(u8_t);
+void bcm283x_dma_abort_transfer(u8_t);
+void bcm283x_dma_reset_transfer(u8_t);
 
-/* BCM2837 official spec
+/* bcm283x official spec
 The DMA is started by writing the address of a CB structure into the CONBLK_AD register
 and then setting the ACTIVE bit. The DMA will fetch the CB from the address set in the
 SCB_ADDR field of this reg and it will load it into the read-only registers described below.

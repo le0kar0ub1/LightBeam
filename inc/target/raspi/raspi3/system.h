@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 #include "kernel/def/keyword.h"
-#include "target/raspi/raspi3/bcm2837/datastructure.h"
+#include "target/raspi/shared/bcm283X/datastructure.h"
 
 #define ARM_MODE_USR 0x10   /* Normal User Mode                                       */
 #define ARM_MODE_FIQ 0x11   /* FIQ Processing Fast Interrupts Mode                    */

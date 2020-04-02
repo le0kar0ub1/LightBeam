@@ -1,4 +1,4 @@
-#include "target/raspi/raspi3/bcm2837/mbox.h"
+#include "target/raspi/shared/bcm283X/mbox.h"
 #include "kernel/io.h"
 #include "kernel/def/typedef.h"
 
@@ -15,17 +15,17 @@ enum {
     MBOX_CH_TAGS_VC_TO_ARM      = 9,
 };
 
-static void bcm2837_mbox_write(int channel, u32_t data)
+static void bcm283x_mbox_write(int channel, u32_t data)
 {
-    virtaddr_t virt = (virtaddr_t)BCM2837_MBOX_BASE;
+    virtaddr_t virt = (virtaddr_t)BCM283x_MBOX_BASE;
 
     while((read32((virtaddr_t)((archv_t)virt + MBOX_STATUS)) & (1 << 31)) != 0);
     write32((virtaddr_t)((archv_t)virt + MBOX_WRITE), (data & ~0xf) | (channel & 0xf));
 }
 
-static u32_t bcm2837_mbox_read(int channel)
+static u32_t bcm283x_mbox_read(int channel)
 {
-    virtaddr_t virt = (virtaddr_t)BCM2837_MBOX_BASE;
+    virtaddr_t virt = (virtaddr_t)BCM283x_MBOX_BASE;
     u32_t data;
 
     do {
@@ -36,12 +36,12 @@ static u32_t bcm2837_mbox_read(int channel)
     return (data & ~0xf);
 }
 
-void bcm2837_mbox_call(void * msg)
+void bcm283x_mbox_call(void * msg)
 {
     u32_t data = 0xC0000000 + (archv_t)msg;
 
-    bcm2837_mbox_write(MBOX_CH_TAGS_ARM_TO_VC, data);
-    bcm2837_mbox_read(MBOX_CH_TAGS_ARM_TO_VC);
+    bcm283x_mbox_write(MBOX_CH_TAGS_ARM_TO_VC, data);
+    bcm283x_mbox_read(MBOX_CH_TAGS_ARM_TO_VC);
 }
 
 /*
@@ -63,7 +63,7 @@ struct mbox_vc_msg_t {
     u32_t end;
 };
 
-int bcm2837_mbox_vc_get_firmware_revison(void)
+int bcm283x_mbox_vc_get_firmware_revison(void)
 {
     struct mbox_vc_msg_t msg __attribute__((aligned(16)));
     struct mbox_vc_msg_t * p = &msg;
@@ -76,7 +76,7 @@ int bcm2837_mbox_vc_get_firmware_revison(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     return p->tag.val;
@@ -144,7 +144,7 @@ struct mbox_hardware_memory_msg_t {
     u32_t end;
 };
 
-int bcm2837_mbox_hardware_get_model(void)
+int bcm283x_mbox_hardware_get_model(void)
 {
     struct mbox_hardware_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_msg_t * p = &msg;
@@ -157,13 +157,13 @@ int bcm2837_mbox_hardware_get_model(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     return p->tag.val;
 }
 
-int bcm2837_mbox_hardware_get_revison(void)
+int bcm283x_mbox_hardware_get_revison(void)
 {
     struct mbox_hardware_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_msg_t * p = &msg;
@@ -176,13 +176,13 @@ int bcm2837_mbox_hardware_get_revison(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     return p->tag.val;
 }
 
-int bcm2837_mbox_hardware_get_mac_address(uint8_t * mac)
+int bcm283x_mbox_hardware_get_mac_address(uint8_t * mac)
 {
     struct mbox_hardware_mac_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_mac_msg_t * p = &msg;
@@ -195,7 +195,7 @@ int bcm2837_mbox_hardware_get_mac_address(uint8_t * mac)
     p->tag.val[0] = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     mac[0] = p->tag.val[0];
@@ -207,7 +207,7 @@ int bcm2837_mbox_hardware_get_mac_address(uint8_t * mac)
     return 0;
 }
 
-int bcm2837_mbox_hardware_get_serial(archv_t * sn)
+int bcm283x_mbox_hardware_get_serial(archv_t * sn)
 {
     struct mbox_hardware_serial_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_serial_msg_t * p = &msg;
@@ -220,14 +220,14 @@ int bcm2837_mbox_hardware_get_serial(archv_t * sn)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     *sn = p->tag.val;
     return 0;
 }
 
-int bcm2837_mbox_hardware_get_arm_memory(u32_t * base, u32_t * size)
+int bcm283x_mbox_hardware_get_arm_memory(u32_t * base, u32_t * size)
 {
     struct mbox_hardware_memory_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_memory_msg_t * p = &msg;
@@ -241,7 +241,7 @@ int bcm2837_mbox_hardware_get_arm_memory(u32_t * base, u32_t * size)
     p->tag.msize = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     *base = p->tag.mbase;
@@ -249,7 +249,7 @@ int bcm2837_mbox_hardware_get_arm_memory(u32_t * base, u32_t * size)
     return 0;
 }
 
-int bcm2837_mbox_hardware_get_vc_memory(u32_t * base, u32_t * size)
+int bcm283x_mbox_hardware_get_vc_memory(u32_t * base, u32_t * size)
 {
     struct mbox_hardware_memory_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_memory_msg_t * p = &msg;
@@ -263,7 +263,7 @@ int bcm2837_mbox_hardware_get_vc_memory(u32_t * base, u32_t * size)
     p->tag.msize = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     *base = p->tag.mbase;
@@ -298,7 +298,7 @@ struct mbox_clock_msg_t {
     u32_t end;
 };
 
-int bcm2837_mbox_clock_get_turbo(void)
+int bcm283x_mbox_clock_get_turbo(void)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -312,7 +312,7 @@ int bcm2837_mbox_clock_get_turbo(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)0)
@@ -320,7 +320,7 @@ int bcm2837_mbox_clock_get_turbo(void)
     return p->tag.val;
 }
 
-int bcm2837_mbox_clock_set_turbo(int level)
+int bcm283x_mbox_clock_set_turbo(int level)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -334,7 +334,7 @@ int bcm2837_mbox_clock_set_turbo(int level)
     p->tag.val = level ? 1 : 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)0)
@@ -342,7 +342,7 @@ int bcm2837_mbox_clock_set_turbo(int level)
     return p->tag.val;
 }
 
-int bcm2837_mbox_clock_get_state(int id)
+int bcm283x_mbox_clock_get_state(int id)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -356,7 +356,7 @@ int bcm2837_mbox_clock_get_state(int id)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -364,7 +364,7 @@ int bcm2837_mbox_clock_get_state(int id)
     return (p->tag.val & 0x3);
 }
 
-int bcm2837_mbox_clock_set_state(int id, int state)
+int bcm283x_mbox_clock_set_state(int id, int state)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -378,7 +378,7 @@ int bcm2837_mbox_clock_set_state(int id, int state)
     p->tag.val = state & 0x3;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -386,7 +386,7 @@ int bcm2837_mbox_clock_set_state(int id, int state)
     return (p->tag.val & 0x3);
 }
 
-int bcm2837_mbox_clock_get_rate(int id)
+int bcm283x_mbox_clock_get_rate(int id)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -400,7 +400,7 @@ int bcm2837_mbox_clock_get_rate(int id)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -408,7 +408,7 @@ int bcm2837_mbox_clock_get_rate(int id)
     return p->tag.val;
 }
 
-int bcm2837_mbox_clock_set_rate(int id, int rate)
+int bcm283x_mbox_clock_set_rate(int id, int rate)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -422,7 +422,7 @@ int bcm2837_mbox_clock_set_rate(int id, int rate)
     p->tag.val = rate;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -430,7 +430,7 @@ int bcm2837_mbox_clock_set_rate(int id, int rate)
     return p->tag.val;
 }
 
-int bcm2837_mbox_clock_get_max_rate(int id)
+int bcm283x_mbox_clock_get_max_rate(int id)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -444,7 +444,7 @@ int bcm2837_mbox_clock_get_max_rate(int id)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -452,7 +452,7 @@ int bcm2837_mbox_clock_get_max_rate(int id)
     return p->tag.val;
 }
 
-int bcm2837_mbox_clock_get_min_rate(int id)
+int bcm283x_mbox_clock_get_min_rate(int id)
 {
     struct mbox_clock_msg_t msg __attribute__((aligned(16)));
     struct mbox_clock_msg_t * p = &msg;
@@ -466,7 +466,7 @@ int bcm2837_mbox_clock_get_min_rate(int id)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -495,7 +495,7 @@ struct mbox_power_msg_t {
     u32_t end;
 };
 
-int bcm2837_mbox_power_get_state(int id)
+int bcm283x_mbox_power_get_state(int id)
 {
     struct mbox_power_msg_t msg __attribute__((aligned(16)));
     struct mbox_power_msg_t * p = &msg;
@@ -509,7 +509,7 @@ int bcm2837_mbox_power_get_state(int id)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -517,7 +517,7 @@ int bcm2837_mbox_power_get_state(int id)
     return (p->tag.val & 0x3);
 }
 
-int bcm2837_mbox_power_set_state(int id, int state)
+int bcm283x_mbox_power_set_state(int id, int state)
 {
     struct mbox_power_msg_t msg __attribute__((aligned(16)));
     struct mbox_power_msg_t * p = &msg;
@@ -531,7 +531,7 @@ int bcm2837_mbox_power_set_state(int id, int state)
     p->tag.val = state & 0x3;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)id)
@@ -560,7 +560,7 @@ struct mbox_temp_msg_t {
     u32_t end;
 };
 
-int bcm2837_mbox_temp_get(void)
+int bcm283x_mbox_temp_get(void)
 {
     struct mbox_temp_msg_t msg __attribute__((aligned(16)));
     struct mbox_temp_msg_t * p = &msg;
@@ -574,7 +574,7 @@ int bcm2837_mbox_temp_get(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)0)
@@ -582,7 +582,7 @@ int bcm2837_mbox_temp_get(void)
     return p->tag.val;
 }
 
-int bcm2837_mbox_temp_get_max(void)
+int bcm283x_mbox_temp_get_max(void)
 {
     struct mbox_temp_msg_t msg __attribute__((aligned(16)));
     struct mbox_temp_msg_t * p = &msg;
@@ -596,7 +596,7 @@ int bcm2837_mbox_temp_get_max(void)
     p->tag.val = 0;
     p->end = 0;
 
-    bcm2837_mbox_call(p);
+    bcm283x_mbox_call(p);
     if(p->code != 0x80000000)
         return -1;
     if(p->tag.id != (uint)0)

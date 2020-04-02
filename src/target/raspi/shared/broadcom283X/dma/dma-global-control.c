@@ -1,14 +1,14 @@
 #include "lightbeam.h"
-#include "target/raspi/raspi3/bcm2837/dma.h"
+#include "target/raspi/shared/bcm283X/dma.h"
 
 extern volatile struct dma_intStatus_t *dmaIntStatus;
 extern volatile struct dma_enable_t    *dmaEnableReg;
 
-extern volatile struct dmaEngineRegister_t *dmaEngineRegs[BCM2837_DMA_CTRLBLCK_NUMBR];
+extern volatile struct dmaEngineRegister_t *dmaEngineRegs[BCM283x_DMA_CTRLBLCK_NUMBR];
 
-static bool ownered[BCM2837_DMA_CTRLBLCK_NUMBR] = {false};
+static bool ownered[BCM283x_DMA_CTRLBLCK_NUMBR] = {false};
 
-static void bcm2837_dma_set_engine_state(u8_t engine, bool val)
+static void bcm283x_dma_set_engine_state(u8_t engine, bool val)
 {
     switch (engine)
     {
@@ -65,7 +65,7 @@ static void bcm2837_dma_set_engine_state(u8_t engine, bool val)
     }
 }
 
-static void bcm2837_dma_set_interrupt_state(u8_t engine, bool val)
+static void bcm283x_dma_set_interrupt_state(u8_t engine, bool val)
 {
     switch (engine)
     {
@@ -122,44 +122,44 @@ static void bcm2837_dma_set_interrupt_state(u8_t engine, bool val)
     }
 }
 
-bool bcm2837_dma_get_engine_state(u8_t engine)
+bool bcm283x_dma_get_engine_state(u8_t engine)
 {
     return ((*(u32_t *)dmaEnableReg) & (1 << engine));
 }
 
-bool bcm2837_dma_get_engine_intstatus(u8_t engine)
+bool bcm283x_dma_get_engine_intstatus(u8_t engine)
 {
     return ((*(u32_t *)dmaIntStatus) & (1 << engine));
 }
 
-void bcm2837_dma_disable_engine(u8_t engine)
+void bcm283x_dma_disable_engine(u8_t engine)
 {
-    bcm2837_dma_set_engine_state(engine, false);
+    bcm283x_dma_set_engine_state(engine, false);
 }
 
-void bcm2837_dma_enable_engine(u8_t engine)
+void bcm283x_dma_enable_engine(u8_t engine)
 {
-    bcm2837_dma_set_engine_state(engine, true);
+    bcm283x_dma_set_engine_state(engine, true);
 }
 
-void bcm2837_dma_disable_engine_int(u8_t engine)
+void bcm283x_dma_disable_engine_int(u8_t engine)
 {
-    bcm2837_dma_set_interrupt_state(engine, false);
+    bcm283x_dma_set_interrupt_state(engine, false);
 }
 
-void bcm2837_dma_enable_engine_int(u8_t engine)
+void bcm283x_dma_enable_engine_int(u8_t engine)
 {
-    bcm2837_dma_set_interrupt_state(engine, true);
+    bcm283x_dma_set_interrupt_state(engine, true);
 }
 
-int bcm2837_dma_get_unused_engine(void)
+int bcm283x_dma_get_unused_engine(void)
 {
     int i = 0;
-    while (i < BCM2837_DMA_CTRLBLCK_NUMBR)
+    while (i < BCM283x_DMA_CTRLBLCK_NUMBR)
     {
-        if (ownered[i] == false && bcm2837_dma_get_engine_state(i))
+        if (ownered[i] == false && bcm283x_dma_get_engine_state(i))
         {
-            bcm2837_dma_lock_engine(i);
+            bcm283x_dma_lock_engine(i);
             return (i);
         }
         i++;
@@ -167,14 +167,14 @@ int bcm2837_dma_get_unused_engine(void)
     return (-1);
 }
 
-void bcm2837_dma_lock_engine(u8_t engine)
+void bcm283x_dma_lock_engine(u8_t engine)
 {
-    if (engine > BCM2837_DMA_CTRLBLCK_NUMBR || ownered[engine])
+    if (engine > BCM283x_DMA_CTRLBLCK_NUMBR || ownered[engine])
         return;
     ownered[engine] = true;
 }
 
-void bcm2837_dma_release_engine(u8_t engine)
+void bcm283x_dma_release_engine(u8_t engine)
 {
     ownered[engine] = false;
 }

@@ -18,5 +18,6 @@
 #include "kernel/cpus/vmulticore.h"
 
 #include "kernel/lib/lib.h"
+#include "kernel/lib/printf.h"
 
 #endif
