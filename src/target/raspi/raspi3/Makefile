@@ -6,14 +6,22 @@ export TGTARCH	:=	aarch64
 
 export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
 
+# Particular CC flags
 CCFLAGS		+=	-march=armv8-a 		\
 				-mcpu=cortex-a53 	\
 				-mtune=cortex-a53 	\
 				#-mstrict-align
 
+# Particular MACRO flags
 CCFLAGS		+=	-D__ARM64_ARCH__ 	\
 				-D__CORTEX_A53__ 	\
 				-D__ARM64_NEON__
+
+# The library we use
+LDFLAGS		+=	$(TGTSHARED_LIBARC)					\
+				$(TGTSHARED_LIBPLT)					\
+				$(TGTSHARED_OVRWLD)					\
+				$(TGTSHARED_OVRKRN)					\
 
 BUILDER_HEADER	:=	raspi3 target
 

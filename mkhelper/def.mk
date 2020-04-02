@@ -3,12 +3,17 @@
  #
 
 # Built for link
-export BUILDIR	:=	$(realpath .)/build
-export KBUILD	:=	$(BUILDIR)/kbuild
+export BUILDIR		:=	$(realpath .)/build
+export KBUILD		:=	$(BUILDIR)/kbuild
+export STATICBUILD	:=	$(BUILDIR)/static
+export BUILDNEED	:=	$(KBUILD)		\
+						$(STATICBUILD)	\	
 
 export MKHELPER_DIR	:=	$(shell realpath .)/mkhelper
 
 export PROJECT_PATH	:=	$(shell realpath .)
+
+export TARGET_BASE	:=	$(shell basename $(TARGET)/)
 
 # Root diretcories
 export ROOT_SRC_DIR	:=	src
@@ -29,8 +34,8 @@ export PROJECT			:=	LightBeam
 # export VERSION			:=	0.1.0
 export BIN_EXTENSION	:=	bin
 export IMG_EXTENSION	:=	img
-export KERNEL			:=	$(PROJECT)-$(TARGET).$(BIN_EXTENSION)
-export IMGKERN			:=	$(PROJECT)-$(TARGET).$(IMG_EXTENSION)
+export KERNEL			:=	$(PROJECT)-$(TARGET_BASE).$(BIN_EXTENSION)
+export IMGKERN			:=	$(PROJECT)-$(TARGET_BASE).$(IMG_EXTENSION)
 
 # Norm extension
 export EXTENSION_SRC	:=	.c
@@ -43,10 +48,6 @@ export LDFLAGS			=	-nostdlib							\
 							-n									\
 							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)	\
 							-L	$(BUILDIR)						\
-							$(TGTSHARED_LIBARC)					\
-							$(TGTSHARED_LIBPLT)					\
-							$(TGTSHARED_OVRWLD)					\
-							$(TGTSHARED_OVRKRN)					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\
@@ -105,7 +106,7 @@ export QEMUDEBUG	=	-d in_asm,int,cpu
 
 # Compile-time Macro
 CFLAGS		+=	'-D PROJECT="$(PROJECT)"'			\
-				'-D TARGET="$(TARGET)"'
+				'-D TARGET="$(TARGET_BASE)"'
 
 # Debug mode
 export 	CFLAGSDEBUG	= 	-D DEBUG \

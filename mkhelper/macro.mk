@@ -10,7 +10,7 @@ define RAISE
 endef
 
 define INFO
-	@echo -e "[$(BoldBlue)LighBleam$(Blank)]$(1)"
+	@echo -e "[$(BoldBlue)LIGHTBEAM$(Blank)]$(1)"
 endef
 
 define EvalTargetProcessor
