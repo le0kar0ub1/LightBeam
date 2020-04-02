@@ -19,8 +19,8 @@ static void bcm2837_mbox_write(int channel, u32_t data)
 {
     virtaddr_t virt = (virtaddr_t)BCM2837_MBOX_BASE;
 
-    while((read32((virtaddr_t)((u64_t)virt + MBOX_STATUS)) & (1 << 31)) != 0);
-    write32((virtaddr_t)((u64_t)virt + MBOX_WRITE), (data & ~0xf) | (channel & 0xf));
+    while((read32((virtaddr_t)((archv_t)virt + MBOX_STATUS)) & (1 << 31)) != 0);
+    write32((virtaddr_t)((archv_t)virt + MBOX_WRITE), (data & ~0xf) | (channel & 0xf));
 }
 
 static u32_t bcm2837_mbox_read(int channel)
@@ -29,8 +29,8 @@ static u32_t bcm2837_mbox_read(int channel)
     u32_t data;
 
     do {
-        while((read32((virtaddr_t)((u64_t)virt + MBOX_STATUS)) & (1 << 30)) != 0);
-        data = read32((virtaddr_t)((u64_t)virt + MBOX_READ));
+        while((read32((virtaddr_t)((archv_t)virt + MBOX_STATUS)) & (1 << 30)) != 0);
+        data = read32((virtaddr_t)((archv_t)virt + MBOX_READ));
     } while ((data & 0xf) != (u32_t)channel);
 
     return (data & ~0xf);
@@ -38,7 +38,7 @@ static u32_t bcm2837_mbox_read(int channel)
 
 void bcm2837_mbox_call(void * msg)
 {
-    u32_t data = 0xC0000000 + (u64_t)msg;
+    u32_t data = 0xC0000000 + (archv_t)msg;
 
     bcm2837_mbox_write(MBOX_CH_TAGS_ARM_TO_VC, data);
     bcm2837_mbox_read(MBOX_CH_TAGS_ARM_TO_VC);
@@ -126,7 +126,7 @@ struct mbox_hardware_serial_msg_t {
         u32_t tag;
         u32_t size;
         u32_t len;
-        u64_t val;
+        archv_t val;
     } tag;
     u32_t end;
 };
@@ -207,7 +207,7 @@ int bcm2837_mbox_hardware_get_mac_address(uint8_t * mac)
     return 0;
 }
 
-int bcm2837_mbox_hardware_get_serial(u64_t * sn)
+int bcm2837_mbox_hardware_get_serial(archv_t * sn)
 {
     struct mbox_hardware_serial_msg_t msg __attribute__((aligned(16)));
     struct mbox_hardware_serial_msg_t * p = &msg;

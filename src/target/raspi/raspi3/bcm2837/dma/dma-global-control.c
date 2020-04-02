@@ -4,7 +4,7 @@
 extern volatile struct dma_intStatus_t *dmaIntStatus;
 extern volatile struct dma_enable_t    *dmaEnableReg;
 
-extern volatile struct dmaControlBlock_t *dmaCtrlBlk[BCM2837_DMA_CTRLBLCK_NUMBR];
+extern volatile struct dmaEngineRegister_t *dmaEngineRegs[BCM2837_DMA_CTRLBLCK_NUMBR];
 
 static bool ownered[BCM2837_DMA_CTRLBLCK_NUMBR] = {false};
 

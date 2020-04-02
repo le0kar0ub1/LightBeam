@@ -1,12 +1,12 @@
 # LightBeam
 
-![LightBeam](doc/lightbeam.jpg)
-
 The purpose of this project is to create some [ARM](https://en.wikipedia.org/wiki/ARM_architecture) kernel base for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
 
 LightBeam is a little project without ambition that explore the ARM kernel developpment world.
 
 [Project Root Documentation](doc/tree.md)
+
+![LightBeam](doc/lightbeam.jpg)
 
 
 ## INSTALL

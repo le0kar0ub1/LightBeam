@@ -148,6 +148,18 @@ struct dma_enable_t
 
 struct dmaControlBlock_t
 {
+    struct dma_transferInformation_t transferInformation;
+    struct dma_sourceAddr_t sourceAddr;
+    struct dma_destinationAddr_t destinationAddr;
+    struct dma_transactionLenght_t transactionLenght;
+    struct dma_stride_t stride;
+    struct dma_nextCtrlBlockAddr_t nextCtrlBlockAddr;
+    u32_t _reserved0;
+    u32_t _reserved1;
+} __packed;
+
+struct dmaEngineRegister_t
+{
 /* offset */
 /*  0x0   */  struct dma_ctrlStatus_t ctrlStatus;
 /*  0x4   */  struct dma_ctrlblockAddr_t ctrlblockAddr;
@@ -160,32 +172,33 @@ struct dmaControlBlock_t
 /*  0x20  */  struct dma_debug_t debug;
 } __packed;
 
+/* Global Control */
 void bcm2837_dma_disable_engine(u8_t);
 void bcm2837_dma_enable_engine(u8_t);
 void bcm2837_dma_disable_engine_int(u8_t);
 void bcm2837_dma_enable_engine_int(u8_t);
-
-bool bcm2837_dma_get_engine_state(u8_t);
 bool bcm2837_dma_get_engine_intstatus(u8_t);
-
+bool bcm2837_dma_get_engine_state(u8_t);
 int  bcm2837_dma_get_unused_engine(void);
 void bcm2837_dma_lock_engine(u8_t);
 void bcm2837_dma_release_engine(u8_t);
 
-void bcm2837_dma_set_address_inc(u8_t, bool);
+/* Run prepare */
+void bcm2837_dma_set_next_ctrlblk(struct dmaControlBlock_t *ctrblk, void *addr);
+void bcm2837_dma_set_address_inc(struct dmaControlBlock_t *ctrblk, bool val);
+void bcm2837_dma_set_source_address(struct dmaControlBlock_t *ctrblk, void *src);
+void bcm2837_dma_set_destination_address(struct dmaControlBlock_t *ctrblk, void *dest);
+void bcm2837_dma_set_transfer_size(struct dmaControlBlock_t *ctrblk, u16_t sz);
+void bcm2837_dma_2Dmode_set_transfer_size(struct dmaControlBlock_t *ctrblk, u16_t xsz, u16_t ysz);
+void bcm2837_dma_set_final_interrupt(struct dmaControlBlock_t *ctrblk, bool val);
+void bcm2837_dma_set_peripheral(struct dmaControlBlock_t *ctrblk, u8_t periph);
+void bcm2837_dma_set_ctrblk_addr(u8_t engine, void *addr);
 
-void bcm2837_dma_set_source_address(u8_t, void *);
-void bcm2837_dma_set_destination_address(u8_t, void *);
+/* Request handler */
+bool bcm2837_dma_run_transfer(void *, void *, size_t);
 
-void bcm2837_dma_set_transfer_size(u8_t, u16_t);
-void bcm2837_dma_2Dmode_set_transfer_size(u8_t, u16_t, u16_t);
-
-bool bcm2837_dma_run_transfer(void *, void *, size_t);;
+/* Run control */
 void bcm2837_dma_active_transfer(u8_t);
-
-void bcm2837_dma_set_final_interrupt(u8_t, bool);
-void bcm2837_dma_set_peripheral(u8_t, u8_t);
-
 void bcm2837_dma_abort_transfer(u8_t);
 void bcm2837_dma_reset_transfer(u8_t);
 

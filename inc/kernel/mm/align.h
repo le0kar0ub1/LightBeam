@@ -3,8 +3,8 @@
 
 #include "kernel/def/typedef.h"
 
-#define IS_ALIGNED(x, y) (!(((u64_t)x) & (y - 0x1)))
+#define IS_ALIGNED(x, y) (!(((archv_t)x) & (y - 0x1)))
 
-#define ALIGN(x, y)    (void *)((((u64_t)x) + (((u64_t)y) - 1)) & ~(((u64_t)y) - 1))
+#define ALIGN(x, y)    (void *)((((archv_t)x) + (((archv_t)y) - 1)) & ~(((archv_t)y) - 1))
 
 #endif

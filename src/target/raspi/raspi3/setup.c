@@ -30,7 +30,7 @@ void dmatest(void)
     char const *s __aligned(32) = "transfer me";
     bcm2837_dma_enable_engine(0);
     bcm2837_dma_enable_engine_int(0);
-    rpifb_kprint("GOOD? -> %s\n" , bcm2837_dma_run_transfer(s, d, 4) == true ? "yes" : "no");
+    rpifb_kprint("GOOD? -> %s\n" , bcm2837_dma_run_transfer((void*)s, (void*)d, 4) == true ? "yes" : "no");
     cycle_delay(200000000);
     d[15] = 0x0;
     rpifb_kprint("gotit? -> %s\n", d);
