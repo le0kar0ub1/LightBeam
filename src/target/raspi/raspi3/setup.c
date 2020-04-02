@@ -19,16 +19,6 @@ static inline void end_setup_log(char const *data)
     rpifb_kprint("   [%sSuccessed%s]: %s!\n\n", RGB256toESCFRT(Lime), RGB256toESCFRT(White), data);
 }
 
-void timerIrqSetup(void)
-{
-    u32_t us = 2000;
-    int rate = bcm283x_mbox_clock_get_rate(MBOX_CLOCK_ID_ARM) / 250;
-    if (!rate)
-        uart_kprint("FAILED RATE\n");
-    rate = (rate * us) / 1000000;
-    armtimer_init(rate);
-}
-
 void setup_level(void);
 void setup_level(void)
 {
@@ -52,8 +42,7 @@ void setup_level(void)
     end_setup_log("All of them acquired start");
 
     start_setup_log("interruptions (vectors, irq, etc.)");
-    timerIrqSetup();
-    enable_interrupts();
+    // enable_interrupts();
     end_setup_log("interrupts are on");
 
     /* pure init calls running */

@@ -4,7 +4,7 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 
-#define BCM283X_INTERRUPT_ENTRY ((void *)(ARCH_RASP_MMIOBASE + 0xB000))
+#define BCM283X_INTERRUPT_ENTRY ((void *)(ARCH_RASP_MMIOBASE + 0xB200))
 
 struct __attribute__((__packed__, aligned(4))) irq_basic_pending_reg_t
 {

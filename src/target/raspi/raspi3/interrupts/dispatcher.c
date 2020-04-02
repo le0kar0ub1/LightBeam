@@ -70,20 +70,19 @@ void arm64_sync_exception(struct rframe_t *regs)
 
     switch(ec)
     {
-    case 0x3c:  /* BRK (AArch64) */
-        if(iss == 0x401)
-            regs->pc += 0x4;
-        return;
-    default:
-        break;
+        case 0x3c:  /* BRK (AArch64) */
+            if(iss == 0x401)
+                regs->pc += 0x4;
+            return;
+        default:
+            break;
     }
-
     rpifb_kprint("Synchronous exception detected, ec:0x%x iss:0x%x far:0x%x\n", ec, iss, far);
     dump_regs(regs);
 }
 
 void arm64_irq_exception(struct rframe_t *regs __unused)
 {
-    uart_kprint("IRQ triggered\n");
+    // uart_kprint("IRQ triggered\n");
     // interrupt_handle_exception(regs);
 }
