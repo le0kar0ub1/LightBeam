@@ -1,5 +1,5 @@
 #include "kernel/ksymtab.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 
 extern struct symbol_t __ksymtab_start[];
 extern struct symbol_t __ksymtab_end[];

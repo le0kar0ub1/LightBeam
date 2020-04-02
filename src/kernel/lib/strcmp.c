@@ -1,4 +1,4 @@
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 #include <stdbool.h>
 
 bool strcmp(char const *x, char const *y)

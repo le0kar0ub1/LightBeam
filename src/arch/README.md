@@ -1,9 +1,7 @@
 `src/arch`
 ===========
 
-- `src/arch`
-  - `XXX` : directory with files which are architecture specific (generaly particulars tools etc..)
-  - `overworld`: is dedicated to sources wich are usable over architectures.
+Each sub-directory contain architectures specific objects (generaly particulars tools etc..).
 
 There are Below some documentation about handled architectures.
 

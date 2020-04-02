@@ -1,5 +1,5 @@
 #include "kernel/def/typedef.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 
 bool memcmp(const void *x, const void *y, size_t sz)
 {

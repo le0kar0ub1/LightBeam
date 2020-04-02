@@ -4,7 +4,7 @@
 #include "kernel/def/typedef.h"
 #include <stdbool.h>
 #include <stdarg.h>
-#include "arch/overworld/generic_printf.h"
+#include "kernel/lib/printf.h"
 
 u32_t strlen(char const *);
 

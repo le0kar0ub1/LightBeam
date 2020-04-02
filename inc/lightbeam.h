@@ -17,6 +17,6 @@
 #include "kernel/cpus/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
 
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 
 #endif

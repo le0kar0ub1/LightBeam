@@ -21,7 +21,6 @@ export OVRKRN_SHARED_SEC_DIR	:=	$(PROJECT_PATH)/$(ROOT_SRC_DIR)/kernel
 # Norm Libraries
 export TGTSHARED_LIBPLT	=	$(BUILDIR)/static/$(TGTARCH)-pltlib.a
 export TGTSHARED_LIBARC	=	$(BUILDIR)/static/$(TGTARCH)-arclib.a
-export TGTSHARED_OVRWLD	=	$(BUILDIR)/static/$(TGTARCH)-ovrwld.a
 export TGTSHARED_OVRKRN	=	$(BUILDIR)/static/$(TGTARCH)-ovrkrn.a
 
 # Norm Assets

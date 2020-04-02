@@ -1,5 +1,5 @@
 #include "kernel/def/typedef.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 
 void *memset(void *x, int c, size_t sz)
 {

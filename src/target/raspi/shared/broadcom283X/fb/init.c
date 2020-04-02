@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/bcm2837/fb.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 #include "kernel/init/initcalls.h"
 
 void *bcm2837_rpifb_init(u32_t width, u32_t height, u32_t bpp, u32_t nrender, u32_t rgb)

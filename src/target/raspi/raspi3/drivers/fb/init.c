@@ -2,7 +2,7 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/driver/fb.h"
 #include "target/raspi/raspi3/bcm2837/fb.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 
 volatile struct rpifb_properties properties;
 volatile struct rpifb_handler attrib;

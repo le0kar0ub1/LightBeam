@@ -5,7 +5,7 @@
 #include "target/raspi/raspi3/driver/gpio.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
 #include "target/raspi/raspi3/system.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 #include "kernel/init/initcalls.h"
 // #include "target/raspi/raspi3/interrupts/interrupt.h"
 // #include "target/raspi/raspi3/memory/mmu.h"

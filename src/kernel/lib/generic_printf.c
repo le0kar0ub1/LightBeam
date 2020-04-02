@@ -1,6 +1,6 @@
 #include "kernel/def/typedef.h"
-#include "arch/overworld/overworld.h"
-#include "arch/overworld/generic_printf.h"
+#include "kernel/lib/lib.h"
+#include "kernel/lib/printf.h"
 #include "kernel/cpus/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
 #include <stdarg.h>

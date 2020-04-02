@@ -6,12 +6,12 @@ BUILDER_HEADER		:=	raspi shared
 
 BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
-BUILDER_SOURCE_DIR	:=	detect				\
-						broadcomXXX/gpio	\
-						broadcomXXX/mbox	\
-						broadcomXXX/uart	\
-						broadcomXXX/fb		\
-						broadcomXXX/dma		\
+BUILDER_SOURCE_DIR	:=	detect					\
+						broadcom283X/gpio		\
+						broadcom283X/mbox		\
+						broadcom283X/uart		\
+						broadcom283X/fb			\
+						broadcom283X/dma		\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

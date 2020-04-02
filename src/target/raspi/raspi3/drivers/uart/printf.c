@@ -1,7 +1,7 @@
 #include "kernel/def/typedef.h"
 #include "target/raspi/raspi3/driver/uart.h"
 #include "target/raspi/raspi3/cpus/cpus.h"
-#include "arch/overworld/generic_printf.h"
+#include "kernel/lib/printf.h"
 #include <stdarg.h>
 
 // static smplock_t lock = SMPLOCK_INIT();

@@ -7,6 +7,7 @@ BUILDER_TYPE		:= $(BUILDER_TYPE_STCLIB)
 BUILDER_HEADER		:=	kernel shared
 
 BUILDER_SOURCE_DIR	:=	init	\
+						lib		\
 						.
 
 BUILDER_TARGET		:=	$(TGTSHARED_OVRKRN)

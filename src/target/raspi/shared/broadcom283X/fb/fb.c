@@ -1,6 +1,6 @@
 #include "target/raspi/raspi3/bcm2837/mbox.h"
 #include "target/raspi/raspi3/bcm2837/fb.h"
-#include "arch/overworld/overworld.h"
+#include "kernel/lib/lib.h"
 
 /* We will provide driver function when needed */
 // https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface
