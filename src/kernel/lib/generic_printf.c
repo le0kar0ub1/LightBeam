@@ -46,6 +46,14 @@ static void printf_handleWrite(char c)
 #endif
 }
 
+static void printf_handleNumberBaseWrite(char c)
+{
+    if (c > 0x39)
+        printf_handleWrite(c + 0x7);
+    else
+        printf_handleWrite(c);
+}
+
 static void multibase_put32(int n, u8_t base)
 {
     if (n < 0) {
@@ -54,7 +62,7 @@ static void multibase_put32(int n, u8_t base)
     }
     if (n >= base)
         multibase_put32(n / base, base);
-    printf_handleWrite((n % base) + 0x30);
+    printf_handleNumberBaseWrite((n % base) + 0x30);
 }
 
 static void multibase_put64(long n, u8_t base)
@@ -65,21 +73,21 @@ static void multibase_put64(long n, u8_t base)
     }
     if (n >= base)
         multibase_put64(n / base, base);
-    printf_handleWrite((n % base) + 0x30);
+    printf_handleNumberBaseWrite((n % base) + 0x30);
 }
 
 static void multibase_uput32(unsigned int n, u8_t base)
 {
     if (n >= base)
         multibase_put32(n / base, base);
-    printf_handleWrite((n % base) + 0x30);
+    printf_handleNumberBaseWrite((n % base) + 0x30);
 }
 
 static void multibase_uput64(unsigned long n, u8_t base)
 {
     if (n >= base)
         multibase_put64(n / base, base);
-    printf_handleWrite((n % base) + 0x30);
+    printf_handleNumberBaseWrite((n % base) + 0x30);
 }
 
 static void generic_puts(char const *s)
@@ -245,10 +253,10 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             multibase_put64(vlong, 10);
             break;
         case 'X':
-            vlong = __builtin_va_arg(*ap, long);
+            vlong = __builtin_va_arg(*ap, unsigned long);
             printf_handleHashTag(16);
             printf_handleIntegerFormatter((u64_t)vlong, 16);
-            multibase_put64(vlong, 16);
+            multibase_uput64(vlong, 16);
             break;
         case 'O':
             vlong = __builtin_va_arg(*ap, long);

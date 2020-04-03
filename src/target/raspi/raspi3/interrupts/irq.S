@@ -29,3 +29,37 @@ irq_handler_stub:
 
     /* should never come here */
     b __deadloop
+
+.section .text
+.global EL0_TimerIrqSetup
+.balign 4
+EL0_TimerIrqSetup:
+    mov   x2, #0x40000000                 // QA7 start address
+    mrs   x0, MPIDR_EL1                   // Fetch core ID
+    and   x0, x0, #0x3                    // Create core id mask
+    lsl   x0, x0, #2                      // Multiply x4 for pointer offset
+    add   x3, x0, x2                      // x3 = QA7 register address 
+    mov   w1, #0x1                 // x1 = divisor of 0x80000000
+    lsl   w1, w1, #31
+    str   w1, [x3, #8]                    // QA7 prescaler = 0x80000000
+    ldr   w2, [x3, #60]                   // Read Core? timer Interrupt control 
+    orr   w2, w2, #2                      // nCNTPNSIRQ IRQ enable on core
+    str   w2, [x3, #60]                   // Write Core? timer Interrupt control
+
+    mov   x0, #1                          // Return true
+    msr   CNTP_CTL_EL0, x0                // Enable EL0 timer
+    ret
+
+.global enableEL0timer
+enableEL0timer:
+    //mov x0, #10000
+    //lsl x0, x0, #20
+    //msr CNTFRQ_EL0, x0
+    mov x0, #1
+    msr   CNTP_CTL_EL0, x0                // Enable EL0 timer
+    ret
+
+.global getTimerPhysicalFreq
+getTimerPhysicalFreq:
+    mrs x0, CNTFRQ_EL0
+    ret

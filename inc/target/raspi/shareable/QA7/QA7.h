@@ -126,7 +126,7 @@ struct bcm_qa7_regs_t
 /* 0x1C */ u32_t coreTimerAccessLS32;
 /* 0x20 */ u32_t coreTimerAccessMS32;
 /* 0x24 */ struct timerRouting_t timerRouting;
-/* 0x28 */ u32_t _unused2;
+/* 0x28 */ u32_t GPIORouting;
 /* 0x2C */ u32_t AxiOutstandingcounters;
 /* 0x30 */ u32_t AxiOutstandingIRQ;
 /* 0x34 */ struct TimerCtrl_t timerCtrl;
