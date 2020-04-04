@@ -80,6 +80,7 @@ void arm64_sync_exception(struct rframe_t *regs)
     }
     rpifb_kprint("Synchronous exception detected, ec:0x%x iss:0x%x far:0x%x\n", ec, iss, far);
     dump_regs(regs);
+    __deadloop();
 }
 
 void arm64_irq_exception(struct rframe_t *regs __unused)

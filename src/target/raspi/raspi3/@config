@@ -1,8 +1,9 @@
 /* plateform config */
-#define ARCH_RASP_MMIOBASE    0x3F000000
-#define ARCH_RASP_ENTRY_POINT 0x80000
-#define ARCH_RASP_RELEASE     0x3
-#define ARCH_RASP_NAME        "raspberry3"
+#define ARCH_PERIPHERAL_BASE 0x3F000000
+#define ARCH_CONTROL_BASE    0x40000000
+#define ARCH_ENTRY_POINT     0x80000
+#define ARCH_RELEASE         0x3
+#define ARCH_NAME            "raspberry3"
 
 /* Arch config */
 #define ARCH_DIMENSION 0x8

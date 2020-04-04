@@ -4,7 +4,7 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 
-#define BCM283x_SYSTEMTIMER_ENTRY ((void *)(ARCH_RASP_MMIOBASE + 0x3000))
+#define BCM283x_SYSTEMTIMER_ENTRY ((void *)(ARCH_PERIPHERAL_BASE + 0x3000))
 
 struct bcm283x_systemTimer_ctrl_t
 {
@@ -34,6 +34,6 @@ u32_t bcm283x_systemtimer_get_low(void);
 u64_t bcm283x_systemtimer_get_total(void);
 
 u32_t bcm283x_systemtimer_get_comparator(u8_t comparator);
-void bcm283x_systemtimer_set_comparator(u8_t comparator);
+void bcm283x_systemtimer_set_comparator(u8_t comparator, u32_t val);
 
 #endif

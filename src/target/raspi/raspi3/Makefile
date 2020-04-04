@@ -52,6 +52,6 @@ all:	arcbuild	lauchbuilder
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
-	@make -s -C $(AARCH64_SHARED_SRC_DIR) --no-print-directory
-	@make -s -C $(OVRKRN_SHARED_SEC_DIR) --no-print-directory
+	@make -s -C $(ARCH_BASE_SRC_DIR)/$(TGTARCH) --no-print-directory
+	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory

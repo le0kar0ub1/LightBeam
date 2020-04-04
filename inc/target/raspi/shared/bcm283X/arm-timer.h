@@ -3,8 +3,8 @@
 
 #include "kernel/def/typedef.h"
 
-#define BCM283x_ARMTIMER_BASE  ((void *)(ARCH_RASP_MMIOBASE + 0xB000))
-#define BCM283x_ARMTIMER_ENTRY ((void *)(ARCH_RASP_MMIOBASE + 0xB400))
+#define BCM283x_ARMTIMER_BASE  ((void *)(ARCH_PERIPHERAL_BASE + 0xB000))
+#define BCM283x_ARMTIMER_ENTRY ((void *)(ARCH_PERIPHERAL_BASE + 0xB400))
 
 enum armTimerPrescale {
     Clkdiv1 = 0b00,                                     // 0

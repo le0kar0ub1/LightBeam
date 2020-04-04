@@ -42,21 +42,21 @@ bool bcm283x_systemtimer_get_match(u8_t match)
     }
 }
 
-void bcm283x_systemtimer_set_comparator(u8_t comparator)
+void bcm283x_systemtimer_set_comparator(u8_t comparator, u32_t val)
 {
     switch (comparator)
     {
         case 0:
-            systemTimerRegs->cmp0 = comparator;
+            systemTimerRegs->cmp0 = val;
             break;
         case 1:
-            systemTimerRegs->cmp1 = comparator;
+            systemTimerRegs->cmp1 = val;
             break;
         case 2:
-            systemTimerRegs->cmp2 = comparator;
+            systemTimerRegs->cmp2 = val;
             break;
         case 3:
-            systemTimerRegs->cmp3 = comparator;
+            systemTimerRegs->cmp3 = val;
             break;
         default:
             break;

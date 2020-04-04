@@ -3,7 +3,7 @@
 
 #include "lightbeam.h"
 
-#define BCM283x_DMA_ENTRY ((void *)((u64_t)ARCH_RASP_MMIOBASE + 0x7000))
+#define BCM283x_DMA_ENTRY ((void *)((u64_t)ARCH_PERIPHERAL_BASE + 0x7000))
 #define BCM283x_DMA_CTRLBLCK_PITCH 0x100
 #define BCM283x_DMA_CTRLBLCK_NUMBR 0x10
 

@@ -8,7 +8,7 @@
 
 // https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf (P180)
 
-#define BCM283x_UART_PL011_ENTRY  ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00201000))
+#define BCM283x_UART_PL011_ENTRY  ((volatile u32_t *)(ARCH_PERIPHERAL_BASE + 0x00201000))
 
 /* GPIO MAPPING *\
 **

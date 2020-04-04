@@ -7,7 +7,7 @@
 
 typedef u32_t pin_t;
 
-#define BCM283x_GPIO_ENTRY ((volatile u32_t *)(ARCH_RASP_MMIOBASE + 0x00200000))
+#define BCM283x_GPIO_ENTRY ((volatile u32_t *)(ARCH_PERIPHERAL_BASE + 0x00200000))
 
 enum GPIO_PIN_LVL {
     LOW  = 0x0,
