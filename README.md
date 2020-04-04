@@ -1,8 +1,8 @@
 # LightBeam
 
-The purpose of this project is to create some [ARM](https://en.wikipedia.org/wiki/ARM_architecture) kernel base for micro-systems as [RaspberryPi](https://fr.wikipedia.org/wiki/Raspberry_Pi).
+The purpose of this project is to create some kernel base.
 
-LightBeam is a little project without ambition that explore the ARM kernel developpment world.
+LightBeam is a little project without ambition that explore the kernel developpment world.
 
 [Project Root Documentation](doc/tree.md)
 
@@ -16,12 +16,9 @@ _Using make rule:_ `make toolchain`
 
 _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
-Kernels are built using GNU ARM toolchain from submodules git.
-
+ARM Kernels are built using GNU ARM toolchain from submodules git.
 
 ## BUILD
-
-LightBeam build kernel plateform-specific.
 
 `make TARGET=$PLATEFORM`
 
@@ -36,16 +33,10 @@ For virtual run I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc
 
 Install QEMU from official [github repository](https://github.com/qemu/qemu).
 
-For physical run check this [page](https://wiki.osdev.org/Raspberry_Pi_Bare_Bones#Testing_your_operating_system_.28Real_Hardware.29).
-
 Check dependencies using the `make toolchain`.
 
 
 ## EPILOGUE
-
-[ARM ABI specification](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ihi0042f/index.html).
-
-[ARM official developper documentation](https://developer.arm.com/docs).
 
 And, from the darkness, shine the light.
 
