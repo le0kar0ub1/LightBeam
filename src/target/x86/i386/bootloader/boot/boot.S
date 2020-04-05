@@ -3,9 +3,7 @@
 BOOTSEG  = 0x0
 MAGICMBR = 0xAA55
 
-.section ".bootsector", "ax"
-
-.extern _scdbreath
+.section .bootsector, "ax"
 
 .global _bootsector
 
@@ -89,11 +87,18 @@ drive_number:
 .word MAGICMBR
 
 
-.global _scdbreath
 
-.section ".text.boot", "ax"
+/*
+** Bootcode second breath
+*/
+
+
+.section .text.boot, "ax"
 
 _scdbreath:
+
+    call _enableA20
+
     movw $_bootms, %si
 .msg_loo:
     lodsb
@@ -121,11 +126,18 @@ _scdbreath:
     andb  $0xFE, %al
     movl  %eax, %cr0
 
+    movw $0x0, %es:(%di)
+
 .hang:
     jmp .hang
 
-.section ".data.boot", "awd"
+.section .data.boot, "awd"
 _bootms: .asciz "\n\rwe are done"
+
+
+/*
+** GDT32
+*/
 
 .section .data.boot, "awd"
 .balign 8
@@ -137,3 +149,127 @@ _bootgdt32:
     .quad   0x00cf9a000000ffff  /* __KERNEL_CS */
     .quad   0x00cf92000000ffff  /* __KERNEL_DS */
 _bootgdt32_end:
+
+
+
+
+
+/*
+** Checkups
+*/
+
+.section .text.boot, "ax"
+_checkA20:
+    pushf
+    pushw %ds
+    pushw %es
+    pushw %di
+    pushw %si
+ 
+    xor %ax, %ax
+    mov %ax, %es
+ 
+    not %ax
+    mov %ax, %ds
+ 
+    mov $0x0500, %di
+    mov $0x0510, %si
+ 
+    movb %es:(%di), %al
+    pushw %ax
+ 
+    movb %ds:(%si), %al
+    pushw %ax
+ 
+    movb $0x00, %es:(%di)
+    movb $0xFF, %ds:(%si)
+ 
+    cmpb $0xFF, %es:(%di)
+ 
+    popw %ax
+    movb %al, %ds:(%si)
+ 
+    popw %ax
+    movb %al, %es:(%di)
+ 
+    movw $0x0, %ax
+    je check_a20_exit
+ 
+    movw $0x1, %ax
+ 
+check_a20_exit:
+    popw %si
+    popw %di
+    popw %es
+    popw %ds
+    popf
+ 
+    ret
+
+/*
+** Enable A20 (btw, the keyboard which enable A20)
+*/
+
+_enableA20:
+
+    pushl %eax
+
+    call _checkA20
+    cmp $1, %ax
+    je .done
+
+    mov $0x2401, %ax
+    int $0x15
+
+    call _checkA20
+    cmp $1, %ax
+    je .done
+
+    .keyboard_method:
+        cli
+
+        call .a20wait
+        mov $0xAD, %al
+        out %al, $0x64
+
+        call .a20wait
+        mov $0xD0, %al
+        out %al, $0x64
+
+        call .a20wait2
+        in $0x60, %al
+        pushl %eax
+
+        call .a20wait
+        mov $0xD1, %al
+        out %al, $0x64
+
+        call .a20wait
+        popl %eax
+        or $2, %al
+        out %al, $0x60
+
+        call .a20wait
+        mov $0xAE, %al
+        out %al, $0x64
+
+        call .a20wait
+        sti
+
+        jmp .done
+
+    .a20wait:
+        in $0x64, %al
+        test $2, %al
+        jnz .a20wait
+        ret
+
+    .a20wait2:
+        in $0x64, %al
+        test $1, %al
+        jz .a20wait2
+        ret
+
+.done:
+    popl %eax
+    ret

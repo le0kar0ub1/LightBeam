@@ -1,4 +1,4 @@
-/*ENTRY(_scdbreath)*/
+ENTRY(_bootsector)
 
 PROVIDE(__BOOT_SECTOR_START    = 0x7C00);
 PROVIDE(__BOOT_SCDBREATH_START = 0x7E00);
