@@ -46,10 +46,8 @@ else ifneq ($(BUILDER_TYPE),$(BUILDER_TYPE_NOLINK))
 	$(call BUILDERR, invalid build type)
 endif
 
+
 checkup:
-ifeq ($(GNUBASE),)
-	$(call BUILDERR, invalid compiler)
-endif
 ifeq ($(BUILDER_TARGET),)
     ifneq ($(BUILDER_TYPE),$(BUILDER_TYPE_NOLINK))
 		$(call BUILDERR, invalid target)
@@ -59,4 +57,9 @@ ifeq ($(BUILDER_HEADER),)
 	$(call BUILDERR, invalid header)
 else
 	$(call BUILDLOG, Building $(BUILDER_HEADER) objects...)
+endif
+
+gnucheckup:
+ifeq ($(GNUBASE),)
+	$(call BUILDERR, invalid compiler)
 endif

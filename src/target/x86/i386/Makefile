@@ -7,7 +7,7 @@ export TGTARCH	:=	i386
 export GNUBASE	:=
 
 # Particular CC flags
-# CCFLAGS		+=
+CCFLAGS		+=	-march=i386
 
 # The library we use
 # LDFLAGS		+=	$(TGTSHARED_LIBARC)					\
@@ -18,14 +18,16 @@ BUILDER_HEADER	:=	$(TGTARCH) target
 
 BUILDER_TYPE	:=	$(BUILDER_TYPE_BINARY)
 
-BUILDER_TARGET	:= $(BUILDIR)/$(KERNEL)
+BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
-BUILDER_SOURCE_DIR	+=	.						\
-						boot					\
+BUILDER_SOURCE_DIR	+=	bootloader				\
+						bootloader/boot			\
+						bootloader/scdbreath	\
+						bootloader/bootools		\
 
 .PHONY: all
 
-all:	arcbuild	lauchbuilder
+all:	lauchbuilder
 
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
