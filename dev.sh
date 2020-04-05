@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BIN=LightBeam-i386.bin
+BIN=LightBeam-i386.img
 
 FLAG="$BIN"
 #DEV="-usb -device usb-host,hostbus=2,hostaddr=1 -device usb-mouse -device usb-kbd"
@@ -18,5 +18,5 @@ if [ "$1" == "debug" ]; then
     exit 0
 fi
 
-qemu-system-i386  $BIN
+qemu-system-i386 -drive format=raw,file=$BIN
 
