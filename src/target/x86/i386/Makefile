@@ -7,7 +7,12 @@ export TGTARCH	:=	i386
 export GNUBASE	:=
 
 # Particular CC flags
-CCFLAGS		+=	-march=i386
+CCFLAGS		+=	-march=i386	\
+				-m32
+
+ASFLAGS		+=	--32
+
+LDFLAGS		+=	-m elf_i386
 
 # The library we use
 # LDFLAGS		+=	$(TGTSHARED_LIBARC)					\
@@ -24,6 +29,8 @@ BUILDER_SOURCE_DIR	+=	bootloader				\
 						bootloader/boot			\
 						bootloader/scdbreath	\
 						bootloader/bootools		\
+
+BUILDER_SOURCE_DIR	+=	boot
 
 .PHONY: all
 

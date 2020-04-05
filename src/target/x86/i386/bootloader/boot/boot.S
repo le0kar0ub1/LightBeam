@@ -21,9 +21,9 @@ _bootsector:
     cli
     cld
 
-    movb %dl, drive_number
-
     mov $__BOOT_SECTOR_START, %sp 
+
+    pushl %edx
 
     movw $_bootmsg, %si
     call msg_loop
@@ -32,6 +32,7 @@ _bootsector:
     xorw %ax, %ax
     int  $0x16
 
+    /* Read disk sector */
     movl $8, %eax
     xorb %dh, %dh
     movb $0x02, %ah
@@ -39,13 +40,15 @@ _bootsector:
     movw $__BOOT_SCDBREATH_START, %bx
     int  $0x13
 
+    /* Check for errors */
     mov $1, %ah
     mov drive_number, %dl
     int $0x13
     mov $_booterror_rd, %si
     jnz booterror
 
-    jmp _scdbreath
+    /* jump into the second stage of our bootloader */
+    jmp _scdbreath 
 
 booterror:
     call msg_loop
@@ -75,12 +78,6 @@ _bootmsg: .asciz " *\r\n* Lightbeam legacy bootloader\r\n *\r\n\nPress any key t
 _booterror_rd: .asciz "\n\rRead disk sectors failed..."
 _booterror:    .asciz " Press any key to reboot\n\r"
 
-/* kernel informations */
-.magic: 
-    .long 0x10101010 /* LightBeam magic */
-drive_number:
-    .long 0x00000000 /* boot drive number */
-
 .fill 510-(.-_bootsector), 1, 0
 
 .section .bootmagic, "ax"
@@ -96,40 +93,31 @@ drive_number:
 .section .text.boot, "ax"
 
 _scdbreath:
+    popl %edx
+    movl %edx, drive_number
 
     call _enableA20
 
     movw $_bootms, %si
-.msg_loo:
+.msg_scd:
     lodsb
     andb %al, %al
-    jz   .msgdon
+    jz   .msg
     movb $0xe, %ah
     movw $7, %bx
     int  $0x10
-    jmp  .msg_loo
+    jmp  .msg_scd
 
-.msgdon:
-    lgdt _bootgdt32Desc
+.msg:
+    calll loadGdtBRealmode
 
-    movl %cr0, %eax
-    orb  $0x01, %al
-    movl %eax, %cr0
+    cli
 
-    movw  $0x08, %ax
-    movw  %ax, %ds
-    movw  %ax, %es
-    movw  %ax, %gs
-    movw  %ax, %fs
+..hang:
+    jmp ..hang
+    ljmp $0x8, $pm32entry
 
-    movl  %cr0, %eax
-    andb  $0xFE, %al
-    movl  %eax, %cr0
-
-    movw $0x0, %es:(%di)
-
-.hang:
-    jmp .hang
+.code16
 
 .section .data.boot, "awd"
 _bootms: .asciz "\n\rwe are done"
@@ -150,12 +138,56 @@ _bootgdt32:
     .quad   0x00cf92000000ffff  /* __KERNEL_DS */
 _bootgdt32_end:
 
+/* kernel informations */
+lightbeam_bootloader:
+.magic: 
+    .long   0xF0C41E17  /* LightBeam magic */
+kernel_size:
+    .long   0x00000000  /* kernel image size */
+kernel_load:
+    .long   0x00000000  /* kernel load addr */
+drive_number:
+    .long   0x00000000  /* boot drive number */
+setup_sectors:
+    .long   0x0000000A  /* bootloader size in 512 byte blocks */
 
+/*
+** flushing gdt load for big real mode
+*/
 
+loadGdtBRealmode:
+    cli
+    pushw %ds
+    pushw %es
+    pushw %gs
+    pushw %fs
+
+    lgdt  _bootgdt32Desc
+
+    movl  %cr0, %eax
+    orb   $0x01, %al
+    movl  %eax, %cr0
+
+    movw  $0x10, %ax
+    movw  %ax, %ds
+    movw  %ax, %es
+    movw  %ax, %gs
+    movw  %ax, %fs
+
+    movl  %cr0, %eax
+    andb  $0xFE, %al
+    movl  %eax, %cr0
+
+    popw  %fs
+    popw  %gs
+    popw  %es
+    popw  %ds
+    sti
+    retl
 
 
 /*
-** Checkups
+** Checkup A20
 */
 
 .section .text.boot, "ax"
@@ -214,16 +246,18 @@ _enableA20:
 
     pushl %eax
 
-    call _checkA20
-    cmp $1, %ax
-    je .done
+    .is_already_enable:
+        call _checkA20
+        cmp $1, %ax
+        je .done
 
-    mov $0x2401, %ax
-    int $0x15
+    .bios_method:
+        mov $0x2401, %ax
+        int $0x15
 
-    call _checkA20
-    cmp $1, %ax
-    je .done
+        call _checkA20
+        cmp $1, %ax
+        je .done
 
     .keyboard_method:
         cli
