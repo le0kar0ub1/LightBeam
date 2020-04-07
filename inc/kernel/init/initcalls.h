@@ -4,7 +4,6 @@
 #include "kernel/def/typedef.h"
 
 typedef void (*initcall_t)(void);
-typedef void (*exithook_t)(void);
 
 #define __init __attribute__ ((__section__ (".init.text")))
 

@@ -3,7 +3,7 @@
 .global _rdsector
 .global _rd_xsectors
 
-.section .bootrdsector, "ax"
+.section .text.bootrdsector, "ax"
 
 _rdsector:
     pushl %eax
@@ -19,7 +19,7 @@ _rdsector:
     movl %eax, .lba_address_low
 
     xor %esi, %esi
-    mov .da_struct, %si
+    mov $lba_rd_struct, %si
     mov $0x42, %ah
 
     clc
@@ -35,7 +35,7 @@ _rdsector:
     ret
 
 .balign 4
-.da_struct:
+lba_rd_struct:
     .packet_size:      .byte 16
     .unused:           .byte 0
     .count:            .word 1
@@ -55,9 +55,6 @@ _rdsector:
 // EBX = Buffer offset
 // ECX = Sectors count
 
-// OUT:
-// Carry if error
-
 TEMP_BUFFER_SEG = 0x7000
 BYTES_PER_SECT  = 512
 
@@ -73,33 +70,33 @@ _rd_xsectors:
     pushl %es
     pushl %ebx
 
-    mov TEMP_BUFFER_SEG, %bx
+    mov $TEMP_BUFFER_SEG, %bx
     movw %bx, %es
     xorw %bx, %bx
 
     call _rdsector
 
-    pop %ebx
-    pop %es
+    popl %ebx
+    popl %es
 
     jc .donex
 
     push %ds
 
-    mov TEMP_BUFFER_SEG, %si
+    mov $TEMP_BUFFER_SEG, %si
     movw %si, %ds
     movl %ebx, %edi
     xorl %esi, %esi
 
     pushl %ecx
-    mov BYTES_PER_SECT, %ecx
+    mov $BYTES_PER_SECT, %ecx
     rep movsb
-    pop %ecx
+    popl %ecx
 
     pop %ds
 
     inc %eax
-    add BYTES_PER_SECT, %ebx
+    add $BYTES_PER_SECT, %ebx
 
     loop .loop
 

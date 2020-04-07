@@ -18,10 +18,12 @@ SECTIONS
 	.init.scdbreath :
 	{
 		*(.text.boot)
-		*(.text.rdsector)
+		*(.text.bootrdsector)
 		*(.data.boot)
 		*(.bioscall)
 	}
+	. = ALIGN(0x200);
+	PROVIDE(__BOOT_SECTOR_END = .);
 
 	. = 0xC0000000;
 

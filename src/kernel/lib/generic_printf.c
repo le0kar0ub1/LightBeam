@@ -19,8 +19,6 @@ MLTCR_STATIC_INITV_U32(align, false);
 #define PRINTF_BUFFER_LENGHT 0x400
     MLTCR_INITX(static u32_t, incbuf);
     MLTCR_INITXARR(static char, prbuffer, PRINTF_BUFFER_LENGHT);
-    // static uint incbuf;
-    // static char prbuffer[PRINTF_BUFFER_LENGHT];
 
     static void printf_writeBuffer(char c)
     {
@@ -274,10 +272,10 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
             printf_handleWrite((char)__builtin_va_arg(*ap, int));
             break;
         case 'p':
-            vulong = __builtin_va_arg(*ap, unsigned long);
+            vulong = (unsigned long)__builtin_va_arg(*ap, void *);
             printf_handleHashTag(16);
             printf_handleIntegerFormatter((u64_t)vulong, 16);
-            multibase_uput64((uintptr_t)__builtin_va_arg(*ap, void *), 16);
+            multibase_uput64(vulong, 16);
             break;
         #ifdef DEADLOCK_IS_SOFUNNY
             case 'F': /* take care of DEADLOCK if the function called use this printf its' over */

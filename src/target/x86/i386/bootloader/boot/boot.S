@@ -28,7 +28,6 @@ _bootsector:
     movw $_bootmsg, %si
     call msg_loop
 
-.bootmsgdone:
     xorw %ax, %ax
     int  $0x16
 
@@ -89,7 +88,6 @@ _booterror:    .asciz " Press any key to reboot\n\r"
 ** Bootcode second breath
 */
 
-
 .section .text.boot, "ax"
 
 _scdbreath:
@@ -98,23 +96,25 @@ _scdbreath:
 
     call _enableA20
 
+    calll loadGdtBRealmode
+    cli
+
+    mov $_booterror_rd, %esi
+    mov $2, %eax
+    mov $0x8000, %ebx
+    mov $62, %ecx
+    call _rd_xsectors
+    jc booterror
+
     movw $_bootms, %si
-.msg_scd:
-    lodsb
-    andb %al, %al
-    jz   .msg
-    movb $0xe, %ah
-    movw $7, %bx
-    int  $0x10
-    jmp  .msg_scd
+    call msg_loop
 
 .msg:
-    calll loadGdtBRealmode
 
-    cli
 
 ..hang:
     jmp ..hang
+
     ljmp $0x8, $pm32entry
 
 .code16
@@ -239,7 +239,7 @@ check_a20_exit:
     ret
 
 /*
-** Enable A20 (btw, the keyboard which enable A20)
+** Enable A20 (btw, the keyboard which will enable A20)
 */
 
 _enableA20:

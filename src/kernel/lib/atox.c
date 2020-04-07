@@ -2,7 +2,8 @@
 #include "kernel/def/keyword.h"
 #include "kernel/lib/lib.h"
 
-struct prefixBase {
+struct prefixBase 
+{
     char def;
     u8_t base;
 } __packed;
