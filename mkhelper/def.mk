@@ -34,8 +34,10 @@ export PROJECT			:=	LightBeam
 # export VERSION			:=	0.1.0
 export BIN_EXTENSION	:=	bin
 export IMG_EXTENSION	:=	img
+export ISO_EXTENSION	:=	iso
 export KERNEL			:=	$(PROJECT)-$(TARGET_BASE).$(BIN_EXTENSION)
 export IMGKERN			:=	$(PROJECT)-$(TARGET_BASE).$(IMG_EXTENSION)
+export ISOKERN			:=	$(PROJECT)-$(TARGET_BASE).$(ISO_EXTENSION)
 
 # Norm extension
 export EXTENSION_SRC	:=	.c
@@ -48,6 +50,7 @@ export LDFLAGS			=	-nostdlib								\
 							-n										\
 							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)		\
 							-L	$(STATICBUILD)/*$(EXTENSION_LIB)	\
+							-z max-page-size=0x1000					\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\
