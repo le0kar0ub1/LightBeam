@@ -6,6 +6,7 @@ PROVIDE(__KERNEL_PHYS_LINK = 0x10000);
 
 SECTIONS
 {
+	. = __KERNEL_PHYS_LINK;
 	.text :
 	{
 		*(.text)

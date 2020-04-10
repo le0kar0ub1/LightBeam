@@ -33,16 +33,22 @@ $(BUILDIR)/$(TARGET_PREFIX_BUILD)/%$(EXTENSION_OBJ): %$(EXTENSION_ASM)
 	$(call BUILDER_LOG_COMP,AS)
 
 $(KERNEL):	$(.SECONDEXPANSION)
-ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_RAWBIN))
+ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_RAWKRN))
 	@echo ""
 	@$(GNUBASE)$(LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS) -o $(BUILDER_TARGET)
 	$(call BUILDER_LOG_LINK,LNK,$@)
 	@$(GNUBASE)$(OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(PROJECT_PATH)/$(IMGKERN)
-	$(call BUILDER_LOG_LINK,IMG,$(IMGKERN))
-else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_ELFBIN))
+	$(call BUILDER_LOG_LINK,RAW,$(IMGKERN))
+else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_ISOKRN))
 	@echo ""
 	@$(GNUBASE)$(LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS) -o $(BUILDER_TARGET)
 	$(call BUILDER_LOG_LINK,LNK,$@)
+	@mkdir -p $(KBUILD)/isofiles/boot/grub
+	@cp $(BUILDIR)/$(KERNEL) $(KBUILD)/isofiles/boot/kernel.bin
+	@cp $(GRUBCFG) $(KBUILD)/isofiles/boot/grub
+	@grub-mkrescue -o $(BUILDIR)/$(ISOKERN) $(KBUILD)/isofiles 2> /dev/null
+	@rm -r $(KBUILD)/isofiles
+	@$(call BUILDER_LOG_LINK,ISO,$(ISOKERN))
 else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_STCLIB))
 	@$(GNUBASE)$(AR) rcs $(BUILDER_TARGET) $(TARGET_BUILT_OBJECT)
 	$(call BUILDER_LOG_LINK,LNK,$(shell realpath --relative-to $(shell dirname $(BUILDIR)) $(BUILDER_TARGET)))
