@@ -28,10 +28,12 @@ SECTIONS
 		*(.data)
 	}
 
+	PROVIDE(__BSS_START = .);
 	.bss . : AT(ADDR(.bss) - __KERNEL_ADDR_TRNS)
 	{
 		*(.bss)
 	}
+	PROVIDE(__BSS_END = .);
 
 	/*
 	/DISCARD/ :

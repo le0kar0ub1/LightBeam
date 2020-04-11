@@ -18,12 +18,28 @@ _start:
     call load_gdt
 
     call setup_paging
-    call enable_paging
+
+    #call clear_bss
+    #hlt
 
 okay:
-    movl $0x2f4b2f4f, 0xB8000
-    movl $0x2f592f41, 0xB8004
+    movl $0x2f4b2f4f, 0xB8000 + __KERNEL_ADDR_TRNS
+    movl $0x2f592f41, 0xB8004 + __KERNEL_ADDR_TRNS
     hlt
+
+/*
+** BSS section clear
+*/
+
+clear_bss:
+    mov $__BSS_START, %eax
+    .bssclear:
+        movb $0x0, (%eax)
+        incl %eax
+        cmpl $__BSS_END, %eax
+        jne .bssclear
+    ret
+
 
 /*
 ** Load our GDT & then the kernel selectors
@@ -78,28 +94,6 @@ cpuid_detected:
 early_crash:
     call early_vgaputs
     hlt
-
-
-/*
-** Early Kernel paging data
-*/
-
-.section .data
-
-.global kernel_pagedir
-
-kernel_pagedir:
-    .first_entry:
-    .long 0x00000083 # First entry to avoid crash
-    .rept (KERNEL_PAGE_INDEX_START - 1)
-        .long   0
-    .endr
-    .kernel_entry:
-    .rept (1024 - KERNEL_PAGE_INDEX_START - 1)
-        .long 0x0
-    .endr
-    .last_entry:
-    .long 0x0
 
 
 /*

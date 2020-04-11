@@ -5,11 +5,11 @@
 .endif
 
 .macro LV2P addr, reg
-    mov \addr - __KERNEL_ADDR_TRNS, \reg
+    movl \addr - __KERNEL_ADDR_TRNS, \reg
 .endm
 
-.macro SV2P addr, reg
-    mov \reg, \addr - __KERNEL_ADDR_TRNS
+.macro SV2P reg, addr
+    movl \reg, \addr - __KERNEL_ADDR_TRNS
 .endm
 
 .equ KERNEL_PAGE_INDEX_START, (0xC0000000 >> 22)
