@@ -44,7 +44,7 @@ clean:
 
 # Full clean the project directory
 fclean:	clean
-	@$(RM) $(PROJECT)*.bin $(PROJECT)*.img
+	@$(RM) $(PROJECT)*.bin $(PROJECT)*.img $(PROJECT)*.iso
 	@$(RM) vgcore.* qemu_*.core
 	@$(RM) $(shell find . -name $(BUILDEP))
 

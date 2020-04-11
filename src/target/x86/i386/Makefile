@@ -15,12 +15,13 @@ CCFLAGS		+=	-march=i386	\
 				-m32
 
 ASFLAGS		+=	--32				\
+				--defsym sysz=32	\
 
 LDFLAGS		+=	-m elf_i386
 
 # The library we use
-# LDFLAGS		+=	$(TGTSHARED_LIBARC)					\
-				$(TGTSHARED_LIBPLT)					\
+LDFLAGS		+=	#$(TGTSHARED_LIBPLT)					\
+				#$(TGTSHARED_LIBARC)					\
 				$(TGTSHARED_OVRKRN)					\
 
 BUILDER_HEADER	:=	$(TGTARCH) target
@@ -29,11 +30,12 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_ISOKRN)
 
 BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
-BUILDER_SOURCE_DIR	=	boot
+BUILDER_SOURCE_DIR	=	boot			\
+						descriptors		\
 
 .PHONY: all
 
-all:	lauchbuilder
+all:	arcbuild	lauchbuilder
 
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 

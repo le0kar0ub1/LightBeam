@@ -32,9 +32,11 @@ SECTIONS
 	{
 		*(.bss)
 	}
-	
+
+	/*
 	/DISCARD/ :
 	{ 
 		*(*)
 	}
+	*/
 }

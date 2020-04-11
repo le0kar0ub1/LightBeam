@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BIN=build/LightBeam-i386.iso
+BIN=LightBeam-i386.iso
 
 if [ "$1" != "no" ]; then
     make fclean
