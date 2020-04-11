@@ -56,7 +56,6 @@ else ifneq ($(BUILDER_TYPE),$(BUILDER_TYPE_NOLINK))
 	$(call BUILDERR, invalid build type)
 endif
 
-
 checkup:
 ifeq ($(BUILDER_TARGET),)
     ifneq ($(BUILDER_TYPE),$(BUILDER_TYPE_NOLINK))

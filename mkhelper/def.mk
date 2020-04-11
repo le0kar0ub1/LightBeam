@@ -45,12 +45,11 @@ export EXTENSION_OBJ	:=	.o
 export EXTENSION_ASM	:=	.S
 export EXTENSION_LIB	:=	.a
 
-export LDFLAGS			=	-nostdlib								\
-							-nostartfiles							\
-							-n										\
-							-T	$(TGTLINKER_BUILD)/$(TGTLINKER)		\
-							-L	$(STATICBUILD)/*$(EXTENSION_LIB)	\
+export LDFLAGS			=	-T	$(TGTLINKER_BUILD)/$(TGTLINKER)		\
+							-nostdlib								\
 							-z max-page-size=0x1000					\
+							-g										\
+							-L	$(STATICBUILD)/*$(EXTENSION_LIB)	\
 
 export LDFLAGS_DEBUG	=	--trace					\
 							--cref					\
@@ -127,7 +126,7 @@ export BoldRed		:= \e[1;31m
 export Green		:= \e[0;32m
 export BoldGreen	:= \e[1;32m
 export Yellow		:= \e[0;33m
-export BoldYellow	:= \e[01;33m
+export BoldYellow	:= \e[1;33m
 export Blue			:= \e[0;34m
 export BoldBlue		:= \e[1;34m
 export Magenta		:= \e[0;35m

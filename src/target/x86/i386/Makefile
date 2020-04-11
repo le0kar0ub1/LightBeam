@@ -1,5 +1,5 @@
  #
-# Makefile Compiling object for I386 target
+# Makefile Compiling object for i386 target
  #
 
 sinclude $(MKHELPER_DIR)/builder/def.mk
@@ -14,7 +14,7 @@ GRUBCFG		:=	grub.cfg
 CCFLAGS		+=	-march=i386	\
 				-m32
 
-ASFLAGS		+=	--32
+ASFLAGS		+=	--32				\
 
 LDFLAGS		+=	-m elf_i386
 
@@ -29,7 +29,7 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_ISOKRN)
 
 BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
-BUILDER_SOURCE_DIR	+=	boot
+BUILDER_SOURCE_DIR	=	boot
 
 .PHONY: all
 

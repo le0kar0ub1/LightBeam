@@ -1,9 +1,6 @@
 #!/bin/sh
 
-BIN=LightBeam-i386.img
-
-FLAG="$BIN"
-#DEV="-usb -device usb-host,hostbus=2,hostaddr=1 -device usb-mouse -device usb-kbd"
+BIN=build/LightBeam-i386.iso
 
 if [ "$1" != "no" ]; then
     make fclean
@@ -14,9 +11,9 @@ make TARGET=x86/i386
 echo ""
 
 if [ "$1" == "debug" ]; then
-    qemu-system-i386 $FLAG -d in_asm,int,cpu
+    qemu-system-i386 $BIN -d in_asm,int,cpu
     exit 0
 fi
 
-qemu-system-i386 -drive format=raw,file=$BIN
+qemu-system-i386 -cdrom $BIN
 
