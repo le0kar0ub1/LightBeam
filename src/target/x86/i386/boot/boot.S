@@ -19,12 +19,8 @@ _start:
 
     call setup_paging
 
-    #call clear_bss
-    #hlt
+    call kernelmain
 
-okay:
-    movl $0x2f4b2f4f, 0xB8000 + __KERNEL_ADDR_TRNS
-    movl $0x2f592f41, 0xB8004 + __KERNEL_ADDR_TRNS
     hlt
 
 /*
@@ -32,7 +28,7 @@ okay:
 */
 
 clear_bss:
-    mov $__BSS_START, %eax
+    movl $__BSS_START, %eax
     .bssclear:
         movb $0x0, (%eax)
         incl %eax
@@ -104,7 +100,7 @@ early_crash:
 
 .global stack_top
 
-.balign 1024
+.align 1024
 stack_bottom:
 .lcomm stack, 0x10000
 stack_top:

@@ -14,7 +14,6 @@ all:	prebuild	build	$(KERNEL)
 
 # Evaluate if the build is correct
 prebuild:
-	$(call EvalToolchain)
 	$(call EvalTargetMachine, $(TARGET))
 	@echo -e "\n *"
 	@echo -e "*  Building $(KERNEL)"

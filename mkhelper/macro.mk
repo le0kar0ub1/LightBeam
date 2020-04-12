@@ -25,9 +25,12 @@ define EvalTargetMachine
 	$(if $(filter $(1),$(HANDLED_PLATEFORM)), $(call INFO, "Target machine $(1)"), $(call RAISE, "Invalid target machine $(1)"))
 endef
 
-define EvalToolchain
-	$(if $(filter $(PROJECT_PATH)/$(AARCH32_ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(AARCH32_ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM NEABI toolchain -- make toolchain"), $(call INFO, "GNU ARM aarch32 toolchain found"))
-	$(if $(filter $(PROJECT_PATH)/$(AARCH64_ARMGNUDIR), $(wildcard $(PROJECT_PATH)/$(AARCH64_ARMGNUDIR)/..)), $(call RAISE, "No GNU ARM AARCH toolchain -- make toolchain"), $(call INFO, "GNU ARM aarch64 toolchain found"))
+define EvalToolChainExistence
+	$(if $(filter $(PROJECT_PATH)/$(2), $(wildcard $(PROJECT_PATH)/$(2)/..)), $(call RAISE, "No GNU $(1) toolchain -- make toolchain"), $(call INFO, "GNU $(1) toolchain found"))
+endef
+
+define EvalBinaryExistence
+	$(if $(shell which $(1) 2> /dev/null),$(call INFO, Tool found $(BoldMagenta)$(1)$(Blank)),$(call RAISE, Tool not found $(BoldRed)$(1)$(Blank)))
 endef
 
 # Check if Plateform is valid (target arg)

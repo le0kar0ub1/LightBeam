@@ -59,13 +59,13 @@ setup_paging:
     andl $~0b10000, %eax
     movl %eax, %cr4
 
-    # Reload Boot Values
-    movl $stack_top, %esp
-    subl $0x8, %esp # multiboot structure & called function pushed
-
     lgdt gdtptr
 
-    # reload function caller
+    # Reload Boot Values
+    movl $stack_top, %esp
+    subl $0x8, %esp # multiboot structure & caller address pushed
+
+    # reload caller
     popl %eax
     addl $__KERNEL_ADDR_TRNS, %eax
     pushl %eax

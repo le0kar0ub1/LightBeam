@@ -2,6 +2,8 @@
 # Makefile Compiling object for RASPI3 target
  #
 
+sinclude $(MKHELPER_DIR)/macro.mk
+
 export TGTARCH	:=	aarch64
 
 export GNUBASE	:=	$(AARCH64_ARMGNUBASE)
@@ -47,7 +49,7 @@ BUILDER_SOURCE_DIR += $(addprefix ../shareable/, 	\
 
 .PHONY: all
 
-all:	arcbuild	lauchbuilder
+all:	toolchainCheckup	arcbuild	lauchbuilder
 
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
@@ -55,3 +57,7 @@ arcbuild:
 	@make -s -C $(ARCH_BASE_SRC_DIR)/$(TGTARCH) --no-print-directory
 	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory
+
+toolchainCheckup:
+	@echo ""
+	$(call EvalToolChainExistence,ARM AARCH64,$(AARCH64_ARMGNUDIR))

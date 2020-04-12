@@ -15,5 +15,5 @@ if [ "$1" == "debug" ]; then
     exit 0
 fi
 
-qemu-system-i386 -cdrom $BIN
+qemu-system-i386 -cdrom $BIN -enable-kvm
 
