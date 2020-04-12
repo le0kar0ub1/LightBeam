@@ -7,11 +7,17 @@
 kernelmain:
     call idt_init
     call idt_load
+
+    pushl $okay
+    pushl $0x0
+    call isr_register_handler
+
     sti
 
-    #mov $0x0, %eax
-    #div %eax, %eax
+    mov $0x0, %eax
+    div %eax, %eax
 
+#    hlt
 
 okay:
     movl $0x2f4b2f4f, 0xB8000 + __KERNEL_ADDR_TRNS

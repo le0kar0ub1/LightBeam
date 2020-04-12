@@ -11,7 +11,13 @@
 */
 
 interrupt_handler:
-    pusha
+    pushal
+
+    /* Get the particular handler */
+    movl  32(%esp), %esi # int nbr
+    imull $0x4, %esi
+    movl  $isr_data_handler, %eax
+    addl  %esi, %eax
 
     pushw %ds
     pushw %es
@@ -26,7 +32,12 @@ interrupt_handler:
 
     pushl %esp
 
-    #call interrupt_dispatch
+    cmpl $0x0, (%eax)
+    jne .particular_handler
+
+    call interrupt_dispatch
+
+.back_to_isr:
 
     addl $0x4, %esp
 
@@ -35,11 +46,15 @@ interrupt_handler:
     popw %es
     popw %ds
 
-    popa
+    popal
 
     addl $0x8, %esp
 
     iret
+
+.particular_handler:
+    call *(%eax)
+    jmp .back_to_isr
 
 /*
 ** Particular handler registered here
@@ -50,19 +65,21 @@ interrupt_handler:
 .global isr_data_handler
 
 isr_data_handler:
-    .rept
+    .rept 256
         .4byte 0x0
     .endr
 
 .section .text
 
+.global isr_register_handler
+
 /* void isr_register_handler(int nbr, void *func) */
 isr_register_handler:
-    popl %ecx # int nbr
-    popl %esi # func
+    push %ebp
+    mov %esp, %ebp
 
-    cmp $0x100, %ecx
-    jbe .return_from_register
+    movl 0x8(%ebp), %ecx # int nbr
+    movl 0xc(%ebp), %esi # func
 
     movl  $isr_data_handler, %edi
     imull $0x4, %ecx
@@ -70,14 +87,19 @@ isr_register_handler:
 
     movl %esi, (%edi)
 .return_from_register:
+    add $0x8, %esp
+    pop %ebp
+
     ret
+
+.global isr_unregister_handler
 
 /* void isr_unregister_handler(int nbr) */
 isr_unregister_handler:
-    popl %ecx # int nbr
+    push %ebp
+    mov %esp, %ebp
 
-    cmp $0x100, %ecx
-    jbe .return_from_unregister
+    movl 0x8(%ebp), %ecx # int nbr
 
     movl  $isr_data_handler, %edi
     imull $0x4, %ecx
@@ -85,6 +107,9 @@ isr_unregister_handler:
 
     movl $0x0, (%edi)
 .return_from_unregister:
+    add $0x4, %esp
+    pop %ebp
+
     ret
 
 /*
@@ -100,7 +125,7 @@ isr:
 
 .int_gate_0:
     pushl $0x0
-    pushl $0x0 #$((. - isr) / 8)
+    pushl $0
     jmp interrupt_handler
 
 .int_gate_1:
