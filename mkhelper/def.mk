@@ -116,8 +116,8 @@ export 	CFLAGSDEBUG	= 	-D DEBUG \
 
 debug ?= 0
 ifeq ($(debug), 1)
-    CFLAGS 	+= $(CFLAGSDEBUG)
-	LDFLAGS	+= $(LDFLAGS_DEBUG)
+    CFLAGS		+= $(CFLAGSDEBUG)
+    LDFLAGS		+= $(LDFLAGS_DEBUG)
 endif
 
 # Output coloration

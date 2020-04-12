@@ -37,7 +37,7 @@ ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_RAWKRN))
 	@echo ""
 	@$(GNUBASE)$(LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS) -o $(BUILDER_TARGET)
 	$(call BUILDER_LOG_LINK,LNK,$@)
-	@$(GNUBASE)$(OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(IMGKERN)
+	@$(GNUBASE)$(OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(BUILDIR)/$(IMGKERN)
 	$(call BUILDER_LOG_LINK,RAW,$(IMGKERN))
 else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_ISOKRN))
 	@echo ""
@@ -46,7 +46,7 @@ else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_ISOKRN))
 	@mkdir -p $(KBUILD)/isofiles/boot/grub
 	@cp $(BUILDIR)/$(KERNEL) $(KBUILD)/isofiles/boot/kernel.bin
 	@cp $(GRUBCFG) $(KBUILD)/isofiles/boot/grub
-	@grub-mkrescue -o $(PROJECT_PATH)/$(ISOKERN) $(KBUILD)/isofiles 2> /dev/null
+	@grub-mkrescue -o $(BUILDIR)/$(ISOKERN) $(KBUILD)/isofiles 2> /dev/null
 	@rm -r $(KBUILD)/isofiles
 	@$(call BUILDER_LOG_LINK,ISO,$(ISOKERN))
 else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_STCLIB))

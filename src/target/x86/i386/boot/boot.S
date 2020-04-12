@@ -52,8 +52,8 @@ load_gdt:
     mov %ax, %gs
     mov %ax, %ss
 
-    ljmp $KERNEL_CODE_SELECTOR, $(flush_codeselector - 0xC0000000)
-flush_codeselector:
+    ljmp $KERNEL_CODE_SELECTOR, $(.flush_codeselector - 0xC0000000)
+.flush_codeselector:
     ret
 
 

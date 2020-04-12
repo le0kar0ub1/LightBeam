@@ -5,7 +5,13 @@
 .global kernelmain
 
 kernelmain:
-    hlt
+    call idt_init
+    call idt_load
+    sti
+
+    #mov $0x0, %eax
+    #div %eax, %eax
+
 
 okay:
     movl $0x2f4b2f4f, 0xB8000 + __KERNEL_ADDR_TRNS

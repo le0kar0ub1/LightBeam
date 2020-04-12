@@ -34,3 +34,20 @@ idtptr:
 idt_load:
     lidt idtptr
     ret
+
+.global idt_init
+
+idt_init:
+    movl $isr, %esi
+    movl $idt, %edi
+    movl $0x100, %ecx
+    .fill_idt:
+        movl %esi, %ebx
+        movw %bx, (%edi)
+        shrl $0x10, %ebx 
+        movw %bx, 6(%edi)
+        addl $0x9, %esi
+        addl $0x8, %edi 
+        loop .fill_idt
+
+    ret
