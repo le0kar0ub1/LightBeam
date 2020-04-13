@@ -3,7 +3,7 @@ sample
 *.bin
 *.iso
 *.img
-*.vscode
+.vscode
 dev.sh
 *~
 *.core

@@ -102,7 +102,7 @@ early_crash:
 
 .align 1024
 stack_bottom:
-.lcomm stack, 0x10000
+.lcomm stack, 0x1000 * 0xA
 stack_top:
 
 

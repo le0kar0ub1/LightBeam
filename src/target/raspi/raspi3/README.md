@@ -5,7 +5,7 @@ A multicore Raspberry3 kernel implementation.
 
 As explain, a part of the kernel is contained in other project directories.
 
-The Core of the rapspi3 is the bcm283x peripherals.
+The Core of the raspi3 is the bcm2837 peripherals.
 
 ## ROADMAP
 
@@ -18,21 +18,20 @@ The Core of the rapspi3 is the bcm283x peripherals.
   - [X] Mailbox Driver
   - [X] RPI Frambuffer Driver
   - [X] UART-PL011 Driver
-  - [ ] DMA
+  - [X] DMA
   - [ ] Interrupts
   - [ ] ...
 - [ ] Driver
   - [X] UART 
   - [X] FB
-  - [ ] Timer
+  - [X] Timer
   - [ ] DMA
   - [ ] ...
 - [ ] Memory
   - [ ] MMU
 - [ ] Multi-tasks system
-  - [ ] Physical
+  - [X] Physical
     - [X] CPUS exec routines
-    - [ ] CPUS particular task assignement (relevant?)
   - [ ] Virtual
     - [ ] Threads
     - [ ] Basic scheduler
