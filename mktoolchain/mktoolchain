@@ -16,10 +16,15 @@ require bison
 unfatalrequire makeinfo
 unfatalrequire qemu-system-arm
 unfatalrequire qemu-system-aarch64
+unfatalrequire qemu-system-i386
+unfatalrequire qemu-system-x86_64
+unfatalrequire grub-mkrescue
+unfatalrequire gcc
+unfatalrequire as
 unfatalrequire source-highlight
 
 ### Source GNUARM ##############################################################
-run "Dowload gnu ARM toolchain" git submodule update --init --recursive
+run "Dowload GNU toolchain" git submodule update --init --recursive
 
 ### We're done! ################################################################
 printf "[\e[36;1mTOOL\e[0m] Toolchain built!\n"

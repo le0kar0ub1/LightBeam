@@ -20,9 +20,9 @@ ASFLAGS		+=	--32				\
 LDFLAGS		+=	-m elf_i386
 
 # The library we use
-LDFLAGS		+=	#$(TGTSHARED_LIBPLT)					\
-				#$(TGTSHARED_LIBARC)					\
-				$(TGTSHARED_OVRKRN)						\
+LDFLAGS		+=	$(TGTSHARED_LIBPLT)					\
+				$(TGTSHARED_OVRKRN)					\
+				#$(TGTSHARED_LIBARC)				\
 
 BUILDER_HEADER	:=	$(TGTARCH) target
 
@@ -43,8 +43,8 @@ sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
 	# @make -s -C $(ARCH_BASE_SRC_DIR)/$(TGTARCH) --no-print-directory
-	# @make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
-	# @make -s -C $(TARGET2SHARED_DIR) --no-print-directory
+	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
+	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory
 
 toolchainCheckup:
 	$(call EvalBinaryExistence,as)

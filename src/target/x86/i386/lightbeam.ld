@@ -184,8 +184,10 @@ SECTIONS
     }
     PROVIDE(__BSS_END = .);
 
+    /*
     /DISCARD/ :
     { 
         *(*)
     }
+    */
 }

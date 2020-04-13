@@ -8,6 +8,8 @@ kernelmain:
     call idt_init
     call idt_load
 
+    call vga_init
+
     pushl $okay
     pushl $0x0
     call isr_register_handler
