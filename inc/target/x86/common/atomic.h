@@ -27,8 +27,8 @@ typedef atomic32_t kref_t;
 static inline void *xchg_64(void *ptr, void *x)
 {
     asm volatile("xchgq %0,%1"
-            :"=r" ((unsigned long long) x)
-            :"m" (*(volatile long long *)ptr), "0" ((unsigned long long) x)
+            :"=r" ((uintptr) x)
+            :"m" (*(volatile uintptr *)ptr), "0" ((uintptr) x)
             :"memory");
     return x;
 }
@@ -57,7 +57,7 @@ static inline char atomic_bitsetandtest(void *ptr, int x)
     char out;
     asm volatile("lock; bts %2,%1\n"
             "sbb %0,%0\n"
-            :"=r" (out), "=m" (*(volatile long long *)ptr)
+            :"=r" (out), "=m" (*(volatile uintptr *)ptr)
             :"Ir" (x)
             :"memory");
     return out;

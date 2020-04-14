@@ -5,7 +5,7 @@ The directory host our plateform which are the target of the root build.
 
 A particular Plateform is generaly preceded by a directory which host all his brother & sister.
 
-All plateform-family have a `shared` directory for usable sources over platforms.
+All plateform-family have a `common` directory for usable sources over platforms.
 
 The array below reference the built plateform and their own documentation.
 
@@ -18,8 +18,9 @@ The array below reference the built plateform and their own documentation.
 | `x86/i386`           | [i386 multicore implementation](x86/i386/README.md)                  |
 
 
-*Not implemented yet*
+## In The Scope
 
 | Plateform            | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
 | `x86/x86_64`         | [x86_64 multicore implementation](x86/i386/README.md)                |
+| `riscv/riscv64`      | No Idea for what/who/how                                             |

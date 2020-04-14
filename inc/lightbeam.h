@@ -1,6 +1,11 @@
 #ifndef _LIGHTBLEAM_H_
 #define _LIGHTBLEAM_H_
 
+#include <stdarg.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <limits.h>
+
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 #include "kernel/def/assert.h"
@@ -19,9 +24,5 @@
 
 #include "kernel/lib/lib.h"
 #include "kernel/lib/printf.h"
-
-#include <stdarg.h>
-#include <stdint.h>
-#include <stdbool.h>
 
 #endif

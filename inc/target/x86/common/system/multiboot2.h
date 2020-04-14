@@ -3,7 +3,19 @@
 
 #include "lightbeam.h"
 
-void get_multiboot_info(uintptr addr);
+struct multiboot_info
+{
+    char const *cmd_line;
+    char const *bootloader;
+    uintptr mem_lower;
+    uintptr mem_upper;
+    struct multiboot_memory_map_t const *mmap_start;
+    struct multiboot_memory_map_t const *mmap_end;
+    size_t mmap_entry_size;
+};
+
+struct multiboot_info *get_multiboot_struct(void);
+void get_multiboot_tag(uintptr addr);
 
 /* How many bytes from the start of the file we search for the header.  */
 #define MULTIBOOT_SEARCH            32768 // 1 << 15

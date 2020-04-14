@@ -120,11 +120,11 @@ static smplock_t lock = SMPLOCK_INIT();
 
 void vga_szputs(char const *s, size_t sz)
 {
-    semaphore_inc(&lock);
+    smp_inc(&lock);
     for (size_t i = 0x0; s[i] &&  i < sz; i++)
         vga_putchar(s[i]);
     vga_cursor_update();
-    semaphore_dec(&lock);
+    smp_dec(&lock);
 }
 
 /*

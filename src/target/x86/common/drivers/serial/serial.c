@@ -27,10 +27,10 @@ static smplock_t lock = SMPLOCK_INIT();
 
 void serial_szputs(char const *s, size_t sz)
 {
-    semaphore_inc(&lock);
+    smp_inc(&lock);
     for (u32_t i = 0x0; s[i] && i < sz; i++)
         write_serial(s[i]);
-    semaphore_dec(&lock);
+    smp_dec(&lock);
 }
 
 /*

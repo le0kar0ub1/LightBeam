@@ -8,6 +8,8 @@ BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
 BUILDER_SOURCE_DIR	:=	drivers/vga			\
 						drivers/serial		\
+						memory				\
+						system				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

@@ -65,6 +65,11 @@ static inline uint64 rdtsc(void)
     return (ret);
 }
 
+static inline void cpuid(uint32 id, uint32 *eax, uint32 *edx)
+{
+    asm volatile("cpuid" : "=a"(*eax), "=d"(*edx) : "a"(id) : "ebx", "ecx");
+}
+
 /* wait an interrupt */
 static inline void hlt(void)
 {

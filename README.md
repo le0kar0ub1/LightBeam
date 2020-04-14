@@ -2,7 +2,7 @@
 
 The purpose of this project is to create some kernel base for several plateform.
 
-LightBeam is a little project without ambition that explore the os developpment world.
+LightBeam is a little project without ambition that explore the OS development world.
 
 [Project Root Documentation](doc/tree.md)
 
