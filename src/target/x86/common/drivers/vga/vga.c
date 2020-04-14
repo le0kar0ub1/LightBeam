@@ -58,7 +58,7 @@ uint16 vga_cursor_get_position(void)
 
 void vga_set_color(enum vga_color bg, enum vga_color fg)
 {
-    vga.attrib = (fg | bg << 0x4);
+    vga.attrib = ((bg << 0x4) | (fg & 0xF)) << 0x8;
 }
 
 static void vga_scroll(void)
@@ -70,12 +70,12 @@ static void vga_scroll(void)
         return;
     memcpy(VGA_BUFFER_ADDRESS, start, size);
     start = (void *)ADD_TO_PTR(VGA_BUFFER_ADDRESS, size);
-    memset(start, vga.attrib | 0x20, VGA_WIDTH * 2);
+    memsetw(start, vga.attrib | 0x20, VGA_WIDTH);
 }
 
 void vga_clear(void)
 {
-    memset(vga.buff, vga.attrib | 0x20, VGA_WIDTH * VGA_HEIGHT * 2);
+    memsetw(vga.buff, vga.attrib | 0x20, VGA_WIDTH * VGA_HEIGHT);
     vga.posx = 0x0;
     vga.posy = 0x0;
     vga_cursor_update();
@@ -104,8 +104,7 @@ static void vga_putchar(int c)
             }
             break;
         default:
-            *(vga.buff + vga.posy * VGA_WIDTH + vga.posx) =
-                vga.attrib | (uchar)c;
+            *(vga.buff + vga.posy * VGA_WIDTH + vga.posx) = vga.attrib | (uchar)c;
             vga.posx += 1;
             break;
     }
@@ -117,12 +116,14 @@ static void vga_putchar(int c)
     }
 }
 
+/* must not be used at least */
 void vga_puts(char const *s)
 {
     while (*s) {
         vga_putchar(*s);
         s++;
     }
+    vga_cursor_update();
 }
 
 void vga_szputs(char const *s, size_t sz)
@@ -131,17 +132,3 @@ void vga_szputs(char const *s, size_t sz)
         vga_putchar(s[i]);
     vga_cursor_update();
 } 
-
-void vga_init(void)
-{
-    vga_set_color(VGA_BLACK, VGA_WHITE);
-    vga_clear();
-    return;
-    vga_puts("VGA Enabled:");
-    for (int i = 0; i <= 0xF; ++i) {
-        vga_set_color(i, i);
-        vga_putchar(' ');
-    }
-    vga_set_color(VGA_BLACK, VGA_WHITE);
-    vga_putchar('\n');
-}

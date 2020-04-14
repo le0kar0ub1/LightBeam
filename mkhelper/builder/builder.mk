@@ -39,8 +39,9 @@ ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_RAWKRN))
 	$(call BUILDER_LOG_LINK,LNK,$@)
 	@$(GNUBASE)$(OBJCPY) $(BUILDIR)/$(KERNEL) -O binary $(BUILDIR)/$(IMGKERN)
 	$(call BUILDER_LOG_LINK,RAW,$(IMGKERN))
-else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_ISOKRN))
+else ifeq ($(BUILDER_TYPE),$(BUILDER_TYPE_x86GRUB))
 	@echo ""
+	$(eval TARGET_BUILT_OBJECT += $(shell find $(BUILD_PLT_OBJDIR) -name *$(EXTENSION_OBJ)))
 	@$(GNUBASE)$(LD) $(TARGET_BUILT_OBJECT) $(LDFLAGS) -o $(BUILDER_TARGET)
 	$(call BUILDER_LOG_LINK,LNK,$@)
 	@mkdir -p $(KBUILD)/isofiles/boot/grub

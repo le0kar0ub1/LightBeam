@@ -16,6 +16,9 @@ void *memcpy(void *, const void *, size_t);
 void *memcpyv(void *, const void *, size_t, u8_t);
 bool memcmp(const void *, const void *, size_t);
 void *memset(void *, int, size_t);
+void *memsetw(void *x, int, size_t);
+void *memsetd(void *x, int, size_t);
+void *memsetq(void *x, int, size_t);
 
 /* String instrument */
 bool strcmp(char const *, char const *);

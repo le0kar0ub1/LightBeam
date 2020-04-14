@@ -42,7 +42,6 @@ enum vga_color
 void vga_set_color(enum vga_color bg, enum vga_color fg);
 void vga_clear(void);
 
-void vga_init(void);
 void vga_szputs(char const *s, size_t sz);
 void vga_puts(char const *s);
 void vga_cursor_enable(uint8, uint8);

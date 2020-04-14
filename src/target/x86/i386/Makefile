@@ -20,13 +20,13 @@ ASFLAGS		+=	--32				\
 LDFLAGS		+=	-m elf_i386
 
 # The library we use
-LDFLAGS		+=	$(TGTSHARED_LIBPLT)					\
-				$(TGTSHARED_OVRKRN)					\
+LDFLAGS		+=	$(TGTSHARED_OVRKRN)					\
 				#$(TGTSHARED_LIBARC)				\
+				$(TGTSHARED_LIBPLT)					\
 
 BUILDER_HEADER	:=	$(TGTARCH) target
 
-BUILDER_TYPE	:=	$(BUILDER_TYPE_ISOKRN)
+BUILDER_TYPE	:=	$(BUILDER_TYPE_x86GRUB)
 
 BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
@@ -42,9 +42,9 @@ all:	toolchainCheckup	arcbuild	lauchbuilder
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
-	# @make -s -C $(ARCH_BASE_SRC_DIR)/$(TGTARCH) --no-print-directory
 	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory
+	# @make -s -C $(ARCH_BASE_SRC_DIR)/$(TGTARCH) --no-print-directory
 
 toolchainCheckup:
 	$(call EvalBinaryExistence,as)

@@ -20,142 +20,142 @@ SECTIONS
         PROVIDE(__end_text_ = .);
     }
 
-    .initcall ALIGN(8) : AT(ADDR(.initcall) - __KERNEL_ADDR_TRNS)
+    .initcall ALIGN(0x8) : AT(ADDR(.initcall) - __KERNEL_ADDR_TRNS)
     {
         PROVIDE(__initcall_start = .);
 
         PROVIDE(__initcall0_start = .);
-        KEEP(*(.initcall_0.text))
+        KEEP(*(.initcall_0.text));
         PROVIDE(__initcall0_end = .);
 
         PROVIDE(__initcall1_start = .);
-        KEEP(*(.initcall_1.text))
+        KEEP(*(.initcall_1.text));
         PROVIDE(__initcall1_end = .);
 
         PROVIDE(__initcall2_start = .);
-        KEEP(*(.initcall_2.text))
+        KEEP(*(.initcall_2.text));
         PROVIDE(__initcall2_end = .);
 
         PROVIDE(__initcall3_start = .);
-        KEEP(*(.initcall_3.text))
+        KEEP(*(.initcall_3.text));
         PROVIDE(__initcall3_end = .);
 
         PROVIDE(__initcall4_start = .);
-        KEEP(*(.initcall_4.text))
+        KEEP(*(.initcall_4.text));
         PROVIDE(__initcall4_end = .);
 
         PROVIDE(__initcall5_start = .);
-        KEEP(*(.initcall_5.text))
+        KEEP(*(.initcall_5.text));
         PROVIDE(__initcall5_end = .);
 
         PROVIDE(__initcall6_start = .);
-        KEEP(*(.initcall_6.text))
+        KEEP(*(.initcall_6.text));
         PROVIDE(__initcall6_end = .);
 
         PROVIDE(__initcall7_start = .);
-        KEEP(*(.initcall_7.text))
+        KEEP(*(.initcall_7.text));
         PROVIDE(__initcall7_end = .);
 
         PROVIDE(__initcall8_start = .);
-        KEEP(*(.initcall_8.text))
+        KEEP(*(.initcall_8.text));
         PROVIDE(__initcall8_end = .);
 
         PROVIDE(__initcall9_start = .);
-        KEEP(*(.initcall_9.text))
+        KEEP(*(.initcall_9.text));
         PROVIDE(__initcall9_end = .);
 
         PROVIDE(__initcall_end = .);
     }
 
-    .inithook ALIGN(8) : AT(ADDR(.inithook) - __KERNEL_ADDR_TRNS)
+    .inithook ALIGN(0x8) : AT(ADDR(.inithook) - __KERNEL_ADDR_TRNS)
     {
         PROVIDE(__inithook_start = .);
 
         PROVIDE(__inithook0_start = .);
-        KEEP(*(.inithook_0.text))
+        KEEP(*(.inithook_0.text));
         PROVIDE(__inithook0_end = .);
 
         PROVIDE(__inithook1_start = .);
-        KEEP(*(.inithook_1.text))
+        KEEP(*(.inithook_1.text));
         PROVIDE(__inithook1_end = .);
 
         PROVIDE(__inithook2_start = .);
-        KEEP(*(.inithook_2.text))
+        KEEP(*(.inithook_2.text));
         PROVIDE(__inithook2_end = .);
 
         PROVIDE(__inithook3_start = .);
-        KEEP(*(.inithook_3.text))
+        KEEP(*(.inithook_3.text));
         PROVIDE(__inithook3_end = .);
 
         PROVIDE(__inithook4_start = .);
-        KEEP(*(.inithook_4.text))
+        KEEP(*(.inithook_4.text));
         PROVIDE(__inithook4_end = .);
 
         PROVIDE(__inithook5_start = .);
-        KEEP(*(.inithook_5.text))
+        KEEP(*(.inithook_5.text));
         PROVIDE(__inithook5_end = .);
 
         PROVIDE(__inithook6_start = .);
-        KEEP(*(.inithook_6.text))
+        KEEP(*(.inithook_6.text));
         PROVIDE(__inithook6_end = .);
 
         PROVIDE(__inithook7_start = .);
-        KEEP(*(.inithook_7.text))
+        KEEP(*(.inithook_7.text));
         PROVIDE(__inithook7_end = .);
 
         PROVIDE(__inithook8_start = .);
-        KEEP(*(.inithook_8.text))
+        KEEP(*(.inithook_8.text));
         PROVIDE(__inithook8_end = .);
 
         PROVIDE(__inithook9_start = .);
-        KEEP(*(.inithook_9.text))
+        KEEP(*(.inithook_9.text));
         PROVIDE(__inithook9_end = .);
 
         PROVIDE(__inithook_end = .);
     }
 
-    .exithook ALIGN(8) : AT(ADDR(.exithook) - __KERNEL_ADDR_TRNS)
+    .exithook ALIGN(0x8) : AT(ADDR(.exithook) - __KERNEL_ADDR_TRNS)
     {
         PROVIDE(__exithook_start = .);
 
         PROVIDE(__exithook0_start = .);
-        KEEP(*(.exithook_0.text))
+        KEEP(*(.exithook_0.text));
         PROVIDE(__exithook0_end = .);
 
         PROVIDE(__exithook1_start = .);
-        KEEP(*(.exithook_1.text))
+        KEEP(*(.exithook_1.text));
         PROVIDE(__exithook1_end = .);
 
         PROVIDE(__exithook2_start = .);
-        KEEP(*(.exithook_2.text))
+        KEEP(*(.exithook_2.text));
         PROVIDE(__exithook2_end = .);
 
         PROVIDE(__exithook3_start = .);
-        KEEP(*(.exithook_3.text))
+        KEEP(*(.exithook_3.text));
         PROVIDE(__exithook3_end = .);
 
         PROVIDE(__exithook4_start = .);
-        KEEP(*(.exithook_4.text))
+        KEEP(*(.exithook_4.text));
         PROVIDE(__exithook4_end = .);
 
         PROVIDE(__exithook5_start = .);
-        KEEP(*(.exithook_5.text))
+        KEEP(*(.exithook_5.text));
         PROVIDE(__exithook5_end = .);
 
         PROVIDE(__exithook6_start = .);
-        KEEP(*(.exithook_6.text))
+        KEEP(*(.exithook_6.text));
         PROVIDE(__exithook6_end = .);
 
         PROVIDE(__exithook7_start = .);
-        KEEP(*(.exithook_7.text))
+        KEEP(*(.exithook_7.text));
         PROVIDE(__exithook7_end = .);
 
         PROVIDE(__exithook8_start = .);
-        KEEP(*(.exithook_8.text))
+        KEEP(*(.exithook_8.text));
         PROVIDE(__exithook8_end = .);
 
         PROVIDE(__exithook9_start = .);
-        KEEP(*(.exithook_9.text))
+        KEEP(*(.exithook_9.text));
         PROVIDE(__exithook9_end = .);
 
         PROVIDE(__exithook_end = .);
@@ -183,11 +183,4 @@ SECTIONS
         PROVIDE(__end_bss_ = .);
     }
     PROVIDE(__BSS_END = .);
-
-    /*
-    /DISCARD/ :
-    { 
-        *(*)
-    }
-    */
 }

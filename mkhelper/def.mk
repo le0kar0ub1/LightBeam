@@ -24,7 +24,7 @@ export TARGET_DIR	:=	target
 export ARCH_DIR		:=	arch
 
 # Shared calculation
-export TARGET2SHARED_DIR	:=	../shared
+export TARGET2SHARED_DIR	:=	../common
 
 # We Will provide the full path each time
 export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
