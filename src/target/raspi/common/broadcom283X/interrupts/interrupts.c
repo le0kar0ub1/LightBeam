@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/interrupts.h"
+#include "target/raspi/common/bcm283X/interrupts.h"
 
 extern struct bcm283x_irqControlRegisters_t *irqCtrlRegs;
 

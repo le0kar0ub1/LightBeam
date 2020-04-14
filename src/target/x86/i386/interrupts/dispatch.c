@@ -1,4 +1,4 @@
-#include "target/x86/shared/interrupts/interrupts.h"
+#include "target/x86/common/interrupts/interrupts.h"
 
 void interrupt_dispatch(struct intframe *frame __unused)
 {

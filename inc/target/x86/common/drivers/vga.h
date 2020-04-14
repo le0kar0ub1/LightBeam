@@ -39,6 +39,8 @@ enum vga_color
     VGA_WHITE       = 0xF
 };
 
+void vga_printf(char const *fmt, ...);
+
 void vga_set_color(enum vga_color bg, enum vga_color fg);
 void vga_clear(void);
 

@@ -20,4 +20,8 @@
 #include "kernel/lib/lib.h"
 #include "kernel/lib/printf.h"
 
+#include <stdarg.h>
+#include <stdint.h>
+#include <stdbool.h>
+
 #endif

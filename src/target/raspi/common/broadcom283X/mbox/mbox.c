@@ -1,4 +1,4 @@
-#include "target/raspi/shared/bcm283X/mbox.h"
+#include "target/raspi/common/bcm283X/mbox.h"
 #include "kernel/io.h"
 #include "kernel/def/typedef.h"
 

@@ -11,8 +11,9 @@ export GNUBASE	:=
 GRUBCFG		:=	grub.cfg
 
 # Particular CC flags
-CCFLAGS		+=	-march=i386	\
-				-m32
+CCFLAGS		+=	-march=i386		\
+				-m32			\
+		  		-msse4.1	
 
 ASFLAGS		+=	--32				\
 				--defsym sysz=32	\
@@ -34,6 +35,7 @@ BUILDER_SOURCE_DIR	=	boot			\
 						descriptors		\
 						kernel			\
 						interrupts		\
+						cpus			\
 
 .PHONY: all
 

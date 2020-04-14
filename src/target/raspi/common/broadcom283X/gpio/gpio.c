@@ -1,6 +1,6 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/gpio.h"
-#include "target/raspi/shared/bcm283X/mbox.h"
+#include "target/raspi/common/bcm283X/gpio.h"
+#include "target/raspi/common/bcm283X/mbox.h"
 #include "kernel/lib/lib.h"
 
 extern volatile struct gpio_regs_t *gpioregs __aligned(4);

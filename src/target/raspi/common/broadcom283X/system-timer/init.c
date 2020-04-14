@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/system-timer.h"
+#include "target/raspi/common/bcm283X/system-timer.h"
 #include "kernel/init/initcalls.h"
 
 volatile struct bcm283x_systemTimerRegs_t *systemTimerRegs = NULL;

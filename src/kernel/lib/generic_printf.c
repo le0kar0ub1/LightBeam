@@ -5,10 +5,17 @@
 #include "kernel/cpus/vmulticore.h"
 #include <stdarg.h>
 
-/* Caller printer */
-static void (*caller_szputs[KCONFIG_MAXCPUS])(char const *, u32_t);
-/* Caller handlers */
-static struct printfhandlers_t *callerhandlers[KCONFIG_MAXCPUS];
+#ifdef KCONFIG_MAXCPUS
+    /* Caller printer */
+    static void (*caller_szputs[KCONFIG_MAXCPUS])(char const *, u32_t);
+    /* Caller handlers */
+    static struct printfhandlers_t *callerhandlers[KCONFIG_MAXCPUS];
+#else
+    /* Caller printer */
+    static void (*caller_szputs)(char const *, u32_t);
+    /* Caller handlers */
+    static struct printfhandlers_t *callerhandlers;
+#endif
 
 /* formatter */
 MLTCR_STATIC_INITV_BOL(hshtag, false);

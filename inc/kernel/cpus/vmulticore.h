@@ -3,9 +3,6 @@
 
 #include "kernel/def/typedef.h"
 
-/* The only function wich must be provide */
-int cpuGetId(void);
-
 /* 
 ** In multicore system number of variables must be duplicated by the number of CPUS
 ** So, automate it :)
@@ -18,6 +15,9 @@ int cpuGetId(void);
 */
 
 #if KCONFIG_MAXCPUS
+    /* The only function wich must be provide */
+    int cpuGetId(void);
+
     typedef bool mltcr_bool_t[KCONFIG_MAXCPUS];
 
     typedef uchar       mltcr_uchar_t[KCONFIG_MAXCPUS];
@@ -97,6 +97,7 @@ int cpuGetId(void);
     typedef char *      mltcr_chx_t;
     typedef char **     mltcr_chxx_t;
 
+    #define MLTCR_INITXARR(type, x, sz) type x[sz];
     #define MLTCR_INITX(type, x) type x;
     #define MLTCR_VINITX(type, x, y) type x = y;
 

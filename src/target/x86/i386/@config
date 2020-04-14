@@ -6,7 +6,7 @@
 #define __KERNEL_PHYS_LINK 0x00010000
 
 /* kconfig */
-#define KCONFIG_MAXCPUS     0x4
+/* #define KCONFIG_MAXCPUS     0x1 */
 #define KCONFIG_MAXTHREADS  0x20
 
 #define KCONFIG_MMU_PAGESIZE 0x1000

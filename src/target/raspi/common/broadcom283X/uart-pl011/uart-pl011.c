@@ -1,6 +1,6 @@
-#include "target/raspi/shared/bcm283X/mbox.h"
-#include "target/raspi/shared/bcm283X/uart-pl011.h"
-#include "target/raspi/shared/bcm283X/gpio.h"
+#include "target/raspi/common/bcm283X/mbox.h"
+#include "target/raspi/common/bcm283X/uart-pl011.h"
+#include "target/raspi/common/bcm283X/gpio.h"
 #include "kernel/cpus/semaphore.h"
 #include "kernel/lib/lib.h"
 

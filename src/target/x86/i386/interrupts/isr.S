@@ -1,6 +1,6 @@
 .code32
 
-.include "target/x86/shared/boot.inc"
+.include "target/x86/common/boot.inc"
 
 .section .text
 

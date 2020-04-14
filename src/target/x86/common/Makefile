@@ -6,7 +6,8 @@ BUILDER_HEADER		:=	x86 shared
 
 BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
-BUILDER_SOURCE_DIR	:=	drivers/vga
+BUILDER_SOURCE_DIR	:=	drivers/vga			\
+						drivers/serial		\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/gpio.h"
+#include "target/raspi/common/bcm283X/gpio.h"
 #include "kernel/init/initcalls.h"
 
 volatile struct gpio_regs_t *gpioregs __aligned(16);

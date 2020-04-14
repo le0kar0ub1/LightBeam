@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/dma.h"
+#include "target/raspi/common/bcm283X/dma.h"
 #include "kernel/init/initcalls.h"
 
 volatile struct dma_intStatus_t *dmaIntStatus = NULL;

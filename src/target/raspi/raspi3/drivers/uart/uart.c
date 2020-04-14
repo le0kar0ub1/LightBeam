@@ -1,6 +1,6 @@
 #include "kernel/cpus/semaphore.h"
 #include "target/raspi/raspi3/drivers/gpio.h"
-#include "target/raspi/shared/bcm283X/mbox.h"
+#include "target/raspi/common/bcm283X/mbox.h"
 #include "target/raspi/raspi3/drivers/uart.h"
 
 void uart_init(void)

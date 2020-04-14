@@ -1,4 +1,4 @@
-#include "target/x86/shared/interrupts/interrupts.h"
+#include "target/x86/common/interrupts/interrupts.h"
 
 static char const *exception_message[] =
 {

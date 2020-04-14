@@ -1,7 +1,7 @@
 #include "target/raspi/raspi3/drivers/uart.h"
-#include "target/raspi/shared/bcm283X/mbox.h"
+#include "target/raspi/common/bcm283X/mbox.h"
 #include "target/raspi/raspi3/drivers/fb.h"
-#include "target/raspi/shared/bcm283X/fb.h"
+#include "target/raspi/common/bcm283X/fb.h"
 #include "kernel/lib/lib.h"
 
 volatile struct rpifb_properties properties;

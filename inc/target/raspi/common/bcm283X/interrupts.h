@@ -4,7 +4,7 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 
-#include "target/raspi/shared/bcm283X/irq.h"
+#include "target/raspi/common/bcm283X/irq.h"
 
 #define BCM283X_INTERRUPT_ENTRY ((void *)(ARCH_PERIPHERAL_BASE + 0xB200))
 

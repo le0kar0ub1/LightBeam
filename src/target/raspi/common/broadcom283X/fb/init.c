@@ -1,5 +1,5 @@
-#include "target/raspi/shared/bcm283X/mbox.h"
-#include "target/raspi/shared/bcm283X/fb.h"
+#include "target/raspi/common/bcm283X/mbox.h"
+#include "target/raspi/common/bcm283X/fb.h"
 #include "kernel/lib/lib.h"
 #include "kernel/init/initcalls.h"
 

@@ -9,7 +9,7 @@
 u32_t strlen(char const *);
 
 /* Number instrument */
-u32_t numberlen(u64_t, u8_t);
+u32_t numberlen(u32_t, u8_t);
 
 /* Memory instrument */
 void *memcpy(void *, const void *, size_t);

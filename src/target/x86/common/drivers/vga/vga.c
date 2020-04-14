@@ -1,5 +1,5 @@
 #include "target/x86/x86.h"
-#include "target/x86/shared/drivers/vga.h"
+#include "target/x86/common/drivers/vga.h"
 
 /*
 ** VGA handling data
@@ -116,7 +116,21 @@ static void vga_putchar(int c)
     }
 }
 
-/* must not be used at least */
+static smplock_t lock = SMPLOCK_INIT();
+
+void vga_szputs(char const *s, size_t sz)
+{
+    semaphore_inc(&lock);
+    for (size_t i = 0x0; s[i] &&  i < sz; i++)
+        vga_putchar(s[i]);
+    vga_cursor_update();
+    semaphore_dec(&lock);
+}
+
+/*
+** Must Not Be Used
+*/
+
 void vga_puts(char const *s)
 {
     while (*s) {
@@ -126,9 +140,3 @@ void vga_puts(char const *s)
     vga_cursor_update();
 }
 
-void vga_szputs(char const *s, size_t sz)
-{
-    for (size_t i = 0x0; s[i] &&  i < sz; i++)
-        vga_putchar(s[i]);
-    vga_cursor_update();
-} 

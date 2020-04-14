@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/arm-timer.h"
+#include "target/raspi/common/bcm283X/arm-timer.h"
 #include "kernel/init/initcalls.h"
 
 volatile struct bcm283x_armTimerRegs_t *armTimerRegs = NULL;

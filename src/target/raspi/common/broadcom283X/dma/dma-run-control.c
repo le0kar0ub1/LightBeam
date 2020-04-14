@@ -1,5 +1,5 @@
 #include "lightbeam.h"
-#include "target/raspi/shared/bcm283X/dma.h"
+#include "target/raspi/common/bcm283X/dma.h"
 
 extern volatile struct dma_intStatus_t *dmaIntStatus;
 extern volatile struct dma_enable_t    *dmaEnableReg;
