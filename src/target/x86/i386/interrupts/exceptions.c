@@ -1,6 +1,7 @@
 #include "target/x86/common/interrupts/interrupts.h"
+#include "target/x86/x86.h"
 
-static char const *exception_message[] =
+static char const *exceptions[] =
 {
     [0x0 ... MAX_INT] = "Unknow interrupt",
     [0x0]  = "Division By Zero",
@@ -27,7 +28,9 @@ static char const *exception_message[] =
     [0x1E] = "Security exception",
 };
 
-void exceptions_handler(struct intframe *frame __unused)
+void exceptions_handler(struct intframe *frame)
 {
-    
+    cli();
+    serial_printf("Exceptions occured: %x\n", frame->int_num);//, exceptions[frame->int_num]);
+    hlt();
 }

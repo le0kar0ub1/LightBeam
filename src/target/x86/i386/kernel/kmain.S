@@ -8,8 +8,10 @@ kernelmain:
     call idt_init
     call idt_load
 
+    call multiboot_parse_tags
+
     pushl $0x0
-    call run_initcall_level
+    call run_initcall_level # run boot initcalls
 
     pushl $.imhere
     call  vga_printf
@@ -25,4 +27,4 @@ okay:
     hlt
 
 .section .data
-.imhere: .asciz "Hello X wolrd\n"
+.imhere: .asciz "Hello world\n"

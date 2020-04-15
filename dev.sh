@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BIN=LightBeam-i386.iso
+BASE="-cdrom build/LightBeam-i386.iso -serial stdio -enable-kvm"
 
 if [ "$1" != "no" ]; then
     make fclean
@@ -11,8 +11,9 @@ make TARGET=x86/i386
 echo ""
 
 if [ "$1" == "debug" ]; then
-    qemu-system-i386 $BIN -d in_asm,int,cpu
-    exit 0
+    echo "DEBUG"
+    qemu-system-i386 $BASE -d in_asm,int,cpu
+    exit 1
 fi
 
-qemu-system-i386 -cdrom build/$BIN -enable-kvm -serial stdio
+qemu-system-i386 $BASE

@@ -49,5 +49,4 @@ idt_init:
         addl $0x9, %esi
         addl $0x8, %edi 
         loop .fill_idt
-
     ret

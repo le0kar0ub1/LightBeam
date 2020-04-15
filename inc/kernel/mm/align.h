@@ -3,8 +3,12 @@
 
 #include "kernel/def/typedef.h"
 
-#define IS_ALIGNED(x, y) (!(((archv_t)x) & (y - 0x1)))
+#define IS_ALIGNED(x, y)   (!(((uintptr)x) & (y - 0x1)))
 
-#define ALIGN(x, y)    (void *)((((archv_t)x) + (((archv_t)y) - 1)) & ~(((archv_t)y) - 1))
+#define IS_PAGE_ALIGNED(x) (IS_ALIGNED(x, KCONFIG_MMU_PAGESIZE))
+
+#define ALIGN(x, y)        (void *)((((uintptr)x) + (((uintptr)y) - 1)) & ~(((uintptr)y) - 1))
+
+#define ROUND_DOWN(x, y)   (((uintptr)x) & ~(((uintptr)y) - 1))
 
 #endif

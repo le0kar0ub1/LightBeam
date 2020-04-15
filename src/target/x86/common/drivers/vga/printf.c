@@ -8,3 +8,8 @@ void vga_printf(char const *fmt, ...)
     generic_vprintf(vga_szputs, NULL, fmt, ap);
     __builtin_va_end(ap);
 }
+
+void vga_vprintf(char const *fmt, __builtin_va_list ap)
+{
+    generic_vprintf(vga_szputs, NULL, fmt, ap);
+}

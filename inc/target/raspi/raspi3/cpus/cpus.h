@@ -3,7 +3,7 @@
 
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
-#include "kernel/cpus/semaphore.h"
+#include "kernel/schedule/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
 
 enum CPUS_ID

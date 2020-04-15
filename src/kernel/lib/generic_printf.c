@@ -1,7 +1,7 @@
 #include "kernel/def/typedef.h"
 #include "kernel/lib/lib.h"
 #include "kernel/lib/printf.h"
-#include "kernel/cpus/semaphore.h"
+#include "kernel/schedule/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
 #include <stdarg.h>
 

@@ -10,7 +10,7 @@ _start:
     cli
     LV2P $stack_top, %esp
 
-    push %ebx # multiboot structure
+    pushl %ebx # phys multiboot structure
 
     call sanity_multiboot
     call cpuid_detect
@@ -19,7 +19,12 @@ _start:
 
     call setup_paging
 
-    call kernelmain
+    popl %ebx
+    addl $__KERNEL_ADDR_TRNS, %ebx
+    mov $multiboot_virtaddr, %eax
+    mov %ebx, (%eax) # in our multiboot parser file
+
+    jmp kernelmain
 
     hlt
 

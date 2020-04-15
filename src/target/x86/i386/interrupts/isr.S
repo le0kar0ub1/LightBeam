@@ -11,6 +11,7 @@
 */
 
 interrupt_handler:
+    cli
     pushal
 
     /* Get the particular handler */
@@ -19,10 +20,10 @@ interrupt_handler:
     movl  $isr_data_handler, %eax
     addl  %esi, %eax
 
-    pushw %ds
-    pushw %es
-    pushw %fs
-    pushw %gs
+    pushl %ds
+    pushl %es
+    pushl %fs
+    pushl %gs
 
     movw $KERNEL_DATA_SELECTOR, %ax
     movw %ax, %ds
@@ -41,10 +42,10 @@ interrupt_handler:
 
     addl $0x4, %esp
 
-    popw %gs
-    popw %fs
-    popw %es
-    popw %ds
+    popl %gs
+    popl %fs
+    popl %es
+    popl %ds
 
     popal
 

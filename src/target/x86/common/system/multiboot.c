@@ -5,23 +5,20 @@
 
 struct multiboot_info multiboot;
 
-struct multiboot_info *get_multiboot_struct(void)
-{
-    return (&multiboot);
-}
+uintptr multiboot_virtaddr = NULL;
 
-/* get information give by the bootloader */
-void get_multiboot_tag(uintptr addr)
+/* get information given by the bootloader */
+void multiboot_parse_tags(void)
 {
-    /* skip the 8 bytes header useless */
-    struct multiboot_tag *tag = (struct multiboot_tag *) (addr + 0x8);
-
-    if (addr & 0x7) {
-        serial_printf("Unaligned address multiboot header : %x\n", addr);
+    if (!multiboot_virtaddr || multiboot_virtaddr & 0x7) {
+        serial_printf("Inalid multiboot header address\n");
         return;
     }
+    /* skip the 8 bytes header useless */
+    struct multiboot_tag *tag = (struct multiboot_tag *) (multiboot_virtaddr + 0x8);
     while (tag->type != MULTIBOOT_TAG_TYPE_END) {
-        switch (tag->type) {
+        switch (tag->type)
+        {
         case MULTIBOOT_TAG_TYPE_CMDLINE:
             multiboot.cmd_line = ((struct multiboot_tag_string *) tag)->string;
             break;

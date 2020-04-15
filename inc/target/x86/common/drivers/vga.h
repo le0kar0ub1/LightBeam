@@ -40,6 +40,7 @@ enum vga_color
 };
 
 void vga_printf(char const *fmt, ...);
+void vga_vprintf(char const *fmt, __builtin_va_list ap);
 
 void vga_set_color(enum vga_color bg, enum vga_color fg);
 void vga_clear(void);

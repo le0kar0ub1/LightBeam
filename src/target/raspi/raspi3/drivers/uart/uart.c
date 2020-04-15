@@ -1,4 +1,4 @@
-#include "kernel/cpus/semaphore.h"
+#include "kernel/schedule/semaphore.h"
 #include "target/raspi/raspi3/drivers/gpio.h"
 #include "target/raspi/common/bcm283X/mbox.h"
 #include "target/raspi/raspi3/drivers/uart.h"
