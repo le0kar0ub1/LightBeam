@@ -14,6 +14,12 @@
 #include "target/x86/common/drivers/serial.h"
 #include "target/x86/common/drivers/vga.h"
 
-void PANIC(char const *, ...);
+extern uintptr __KERNEL_ADDR_TRNS;
+extern uintptr __KERNEL_PHYS_LINK;
+extern uintptr __KERNEL_VIRT_LINK;
+extern uintptr __KERNEL_PHYS_END;
+extern uintptr __KERNEL_VIRT_END;
+
+void PANIC(char const *, ...) __noreturn;
 
 #endif

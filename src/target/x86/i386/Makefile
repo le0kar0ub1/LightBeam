@@ -53,3 +53,4 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,gcc)
 	$(call EvalBinaryExistence,ld)
 	$(call EvalBinaryExistence,grub-mkrescue)
+	$(call EvalBinaryExistence,xorriso)

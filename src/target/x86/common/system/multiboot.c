@@ -5,16 +5,15 @@
 
 struct multiboot_info multiboot;
 
-uintptr multiboot_virtaddr = NULL;
+uintptr multiboot_virtaddr = 0x0;
 
-/* get information given by the bootloader */
 void multiboot_parse_tags(void)
 {
     if (!multiboot_virtaddr || multiboot_virtaddr & 0x7) {
         serial_printf("Inalid multiboot header address\n");
         return;
     }
-    /* skip the 8 bytes header useless */
+    /* skip the useless 8 bytes header */
     struct multiboot_tag *tag = (struct multiboot_tag *) (multiboot_virtaddr + 0x8);
     while (tag->type != MULTIBOOT_TAG_TYPE_END) {
         switch (tag->type)
@@ -29,9 +28,9 @@ void multiboot_parse_tags(void)
             multiboot.mem_lower = ((struct multiboot_tag_basic_meminfo *) tag)->mem_lower;
             multiboot.mem_upper = ((struct multiboot_tag_basic_meminfo *) tag)->mem_upper;
             break;
-        case MULTIBOOT_TAG_TYPE_MMAP: /* memory is map */
-            multiboot.mmap_start = (struct multiboot_memory_map_t *)((struct multiboot_tag_mmap const *)tag)->entries;
-            multiboot.mmap_end = (struct multiboot_memory_map_t *)(struct multiboot_mmap_entry const *)((uchar const *)tag + tag->size);
+        case MULTIBOOT_TAG_TYPE_MMAP: /* memory map */
+            multiboot.mmap_start = (struct multiboot_mmap_entry *)((struct multiboot_tag_mmap const *)tag)->entries;
+            multiboot.mmap_end = (struct multiboot_mmap_entry *)(struct multiboot_mmap_entry const *)((uchar const *)tag + tag->size);
             multiboot.mmap_entry_size = ((struct multiboot_tag_mmap const *)tag)->entry_size;
             break;
         case MULTIBOOT_TAG_TYPE_MODULE: /* no modules loaded */

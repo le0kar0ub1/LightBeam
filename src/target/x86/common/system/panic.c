@@ -7,4 +7,5 @@ void PANIC(char const *fmt, ...)
     __builtin_va_start(ap, fmt);
     serial_vprintf(fmt, ap);
     __builtin_va_end(ap);
+    while(1);
 }

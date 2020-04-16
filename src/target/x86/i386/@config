@@ -1,9 +1,7 @@
 /* Arch config */
 #define ARCH_DIMENSION 0x4
 
-#define __KERNEL_ADDR_TRNS 0xC0000000
-#define __KERNEL_VIRT_LINK 0xC0010000
-#define __KERNEL_PHYS_LINK 0x00010000
+// #define __KERNEL_ADDR_TRNS 0xC0000000
 
 /* kconfig */
 /* #define KCONFIG_MAXCPUS     0x1 */

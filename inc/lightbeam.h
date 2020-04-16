@@ -18,6 +18,7 @@
 #include "kernel/io.h"
 #include "kernel/ksymtab.h"
 #include "kernel/mm/align.h"
+#include "kernel/mm/memory.h"
 
 #include "kernel/schedule/semaphore.h"
 #include "kernel/cpus/vmulticore.h"

@@ -8,7 +8,7 @@
 static struct vga vga =
 {
     .attrib = 0x0,
-    .buff = ADD_PTR(VGA_BUFFER_ADDRESS, __KERNEL_ADDR_TRNS),
+    .buff = ADD_PTR(VGA_BUFFER_ADDRESS, &__KERNEL_ADDR_TRNS),
     .posx = 0x0,
     .posy = 0x0,
 };

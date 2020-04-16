@@ -7,7 +7,9 @@
 
 #define IS_PAGE_ALIGNED(x) (IS_ALIGNED(x, KCONFIG_MMU_PAGESIZE))
 
-#define ALIGN(x, y)        (void *)((((uintptr)x) + (((uintptr)y) - 1)) & ~(((uintptr)y) - 1))
+#define ALIGN(x, y)        ((((uintptr)x) + (((uintptr)y) - 1)) & ~(((uintptr)y) - 1))
+
+#define ALIGN_PAGE(x)      (ALIGN(x, KCONFIG_MMU_PAGESIZE))
 
 #define ROUND_DOWN(x, y)   (((uintptr)x) & ~(((uintptr)y) - 1))
 
