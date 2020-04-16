@@ -14,5 +14,7 @@
 bool pmm_is_frame_allocated(physaddr_t frame);
 void pmm_mark_range_frame_as_allocated(physaddr_t srt, physaddr_t end);
 void pmm_mark_range_frame_as_free(physaddr_t srt, physaddr_t end);
+physaddr_t pmm_alloc_frame(void);
+void pmm_free_frame(physaddr_t frame);
 
 #endif

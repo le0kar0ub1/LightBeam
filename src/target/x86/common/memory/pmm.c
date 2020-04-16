@@ -18,22 +18,26 @@ void pmm_mark_range_frame_as_allocated(physaddr_t srt, physaddr_t end)
 {
     assert(IS_PAGE_ALIGNED(srt));
     assert(IS_PAGE_ALIGNED(end));
+    spinlock_lock(&lock);
     while (srt <= end)
     {
         bitmap[PMM_BITMAP_ADDR2IDX(srt)] |= PMM_BITMAP_ADDR2MASK(srt);
         srt += KCONFIG_MMU_PAGESIZE;
     }
+    spinlock_unlock(&lock);
 }
 
 void pmm_mark_range_frame_as_free(physaddr_t srt, physaddr_t end)
 {
     assert(IS_PAGE_ALIGNED(srt));
     assert(IS_PAGE_ALIGNED(end));
+    spinlock_lock(&lock);
     while (srt <= end)
     {
         bitmap[PMM_BITMAP_ADDR2IDX(srt)] &= ~PMM_BITMAP_ADDR2MASK(srt);
         srt += KCONFIG_MMU_PAGESIZE;
     }
+    spinlock_unlock(&lock);
 }
 
 physaddr_t pmm_alloc_frame(void)
@@ -41,6 +45,7 @@ physaddr_t pmm_alloc_frame(void)
     u32_t idx = 0x0;
     u8_t  sub;
 
+    spinlock_lock(&lock);
     while (idx < PMM_BITMAP_SIZE)
     {
         if (bitmap[idx] != 0xFF)
@@ -49,11 +54,21 @@ physaddr_t pmm_alloc_frame(void)
             while (bitmap[idx] & 1 << sub)
                 sub++;
             bitmap[idx] |= 1 << sub;
+            spinlock_unlock(&lock);
             return ((idx * 8 + sub) * KCONFIG_MMU_PAGESIZE);
         }
         idx++;
     }
+    spinlock_unlock(&lock);
     PANIC("Running out of physical memory");
+}
+
+void pmm_free_frame(physaddr_t frame)
+{
+    assert(IS_PAGE_ALIGNED(frame));
+    spinlock_lock(&lock);
+    bitmap[PMM_BITMAP_ADDR2IDX(frame)] &= ~PMM_BITMAP_ADDR2MASK(frame);
+    spinlock_unlock(&lock);
 }
 
 extern uintptr __KERNEL_PHYS_END;
@@ -91,9 +106,6 @@ static void pmm_init(void)
     pmm_mark_range_frame_as_allocated(start, end);
 
     assert(pmm_is_frame_allocated(ROUND_DOWN(V2P(pmm_init), KCONFIG_MMU_PAGESIZE)));
-    uint64 a = pmm_alloc_frame();
-    uint64 b = pmm_alloc_frame();
-    //serial_printf("ALLOCATD; %x %x\n", a, b);
 }
 
 boot_initcall(pmm_init);
