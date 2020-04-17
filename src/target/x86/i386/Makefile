@@ -36,6 +36,7 @@ BUILDER_SOURCE_DIR	=	boot			\
 						kernel			\
 						interrupts		\
 						cpus			\
+						memory			\
 
 .PHONY: all
 

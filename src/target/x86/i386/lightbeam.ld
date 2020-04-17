@@ -161,6 +161,13 @@ SECTIONS
         PROVIDE(__exithook_end = .);
     }
 
+    .pmm_reserved_area ALIGN(0x8) : AT(ADDR(.pmm_reserved_area) - __KERNEL_ADDR_TRNS)
+    {
+        PROVIDE(__pmm_reserve_area_start = .);
+        KEEP(*(.pmm_reserved_area));
+        PROVIDE(__pmm_reserve_area_end = .);
+    }
+
     .rodata ALIGN(0x1000) : AT(ADDR(.rodata) - __KERNEL_ADDR_TRNS)
     {
         PROVIDE(__start_rodata_ = .);

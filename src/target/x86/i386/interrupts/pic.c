@@ -1,4 +1,5 @@
 #include "target/x86/x86.h"
+#include "target/x86/common/interrupts/interrupts.h"
 
 static void pic_outb(uchar port, uchar data)
 {

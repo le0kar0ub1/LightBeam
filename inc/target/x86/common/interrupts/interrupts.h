@@ -81,4 +81,7 @@ struct intframe
 void interrupt_dispatch(struct intframe *);
 void exceptions_handler(struct intframe *);
 
+
+void pic_init(void);
+
 #endif

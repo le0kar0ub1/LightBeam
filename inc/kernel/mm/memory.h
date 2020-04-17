@@ -4,6 +4,11 @@
 #include "kernel/def/typedef.h"
 #include "kernel/mm/align.h"
 
+/*
+** Physical memory static allocation
+** The PMM initializer must handle this section
+*/
+
 struct pmm_reserved_area
 {
     char const *name;

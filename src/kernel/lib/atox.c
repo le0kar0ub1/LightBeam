@@ -8,13 +8,14 @@ struct prefixBase
     u8_t base;
 } __packed;
 
-static struct prefixBase prefixBase[] = {
+static struct prefixBase prefixBase[] =
+{
     {'X', 0x10},
     {'O', 0x8},
     {'Q', 0x4},
     {'T', 0x3},
     {'B', 0x2},
-    {0, 0xA}
+    {0x0, 0xA}
 };
 
 u8_t fromPrefixToBase(char const **s)

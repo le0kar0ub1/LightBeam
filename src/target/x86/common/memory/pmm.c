@@ -42,7 +42,11 @@ void pmm_mark_range_frame_as_free(physaddr_t srt, physaddr_t end)
 
 physaddr_t pmm_alloc_frame(void)
 {
-    u32_t idx = 0x0;
+    /*
+    ** Begin the research at the address 0x10000
+    ** If a block of 8 is non totaly used, then we have found
+    */
+    u32_t idx = 0x2;
     u8_t  sub;
 
     spinlock_lock(&lock);
@@ -79,13 +83,11 @@ static void pmm_init(void)
     struct multiboot_mmap_entry const *mmap;
 
     /* 
-    ** Mark all as reserved 
+    ** Mark all as reserved by default
     */
     memset(bitmap, 0xFF, PMM_BITMAP_SIZE);
-
     /* 
-    ** There is a problem on multiboot mmap entries provided
-    ** This is the `type` and sometime `zero` field which host the segment size instead of `lenght`
+    ** This is the multiboot mmap provided information
     ** Here we are freeing the un-reserved segments
     */
     mmap = multiboot.mmap_start;

@@ -11,20 +11,23 @@ The build actually assume that your host compiler is x86/x64.
 
 ## ROADMAP
 
-- [ ] Higher half loaded
-- [ ] Boot
-  - [ ] Paging
-  - [ ] IDT
+- [X] Higher half loaded
+- [X] Boot
+  - [X] GDT
+  - [X] Early Paging
+  - [X] IDT
   - [ ] TSS
   - [ ] SMP init
 - [ ] Driver
-  - [ ] VGA 
+  - [X] VGA 
   - [ ] PS/2 Keyboard
   - [ ] PS/2 Mouse
   - [ ] Timer
   - [ ] ...
 - [ ] Memory
   - [ ] MMU
+  - [X] PMM
+  - [ ] VMM
 - [ ] Multi-tasks system
   - [ ] Physical
     - [ ] CPUS exec routines

@@ -2,6 +2,8 @@
 #define _FATAL_ASSERT_H
 
 #include "kernel/def/keyword.h"
+#include <stddef.h>
+#include <stdint.h>
 
 void PANIC(char const *, ...);
 
@@ -15,5 +17,7 @@ void PANIC(char const *, ...);
 #define assert_le(a, b)  assert((a) <= (b))
 #define assert_gt(a, b)  assert((a) > (b))
 #define assert_ge(a, b)  assert((a) > (b))
+
+#define static_assert(expr) extern char (*__static__(void))[sizeof(char[(!!(expr)) * 2 - 1])]
 
 #endif

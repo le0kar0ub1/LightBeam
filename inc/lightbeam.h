@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <stddef.h>
 
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
