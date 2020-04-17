@@ -60,4 +60,7 @@ struct page_dir
 static_assert(sizeof(struct page_table) == KCONFIG_MMU_PAGESIZE);
 static_assert(sizeof(struct page_dir) == KCONFIG_MMU_PAGESIZE);
 
+bool arch_vmm_is_mapped(virtaddr_t virt);
+physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt);
+
 #endif

@@ -3,11 +3,17 @@
 
 #include "typedef.h"
 
-#define ARE_PTR_EQUAL(x, y) ((uintptr)x == (uintptr)y)
+#define IS_PTR_EQ(x, y)        ((uintptr)x == (uintptr)y)
+
+#define IS_PTRINC_EQ(x , y , z) IS_PTR_EQ(x, ADD_PTR(y, z))
 
 #define IS_PTR_LT(x, y) ((uintptr)x < (uintptr)y)
 
 #define IS_PTR_LE(x, y) ((uintptr)x <= (uintptr)y)
+
+#define IS_PTR_GT(x, y) ((uintptr)x > (uintptr)y)
+
+#define IS_PTR_GE(x, y) ((uintptr)x >= (uintptr)y)
 
 #define ADD_PTR(x, y) ((void *)(((uintptr)x) + ((uintptr)y)))
 
