@@ -1,5 +1,10 @@
 #include "target/x86/common/memory/kalloc.h"
 
+/*
+** A totaly overflow sensitive Kernel allocator, will improve this later
+** Remember that if we overtake the allocated size, we will fucked up the allocator and the kernel btw
+*/
+
 static smplock_t lock = SMPLOCK_INIT();
 
 /* 
@@ -14,6 +19,9 @@ static size_t     kheap_size  = 0x0;
 static block_t *fstblk = NULL;
 static block_t *lstblk = NULL;
 
+/*
+** Is there a free block ?
+*/
 static block_t *get_free_block(size_t size)
 {
     block_t *blk = fstblk;
@@ -45,6 +53,11 @@ static block_t *extend_kheap(size_t size)
     return (newblk);
 }
 
+/*
+** Our main kernel allocator function
+** The returned pointer is obviously system aligned 
+*/
+
 virtaddr_t kalloc(size_t size)
 {
     block_t *block;
@@ -62,13 +75,30 @@ virtaddr_t kalloc(size_t size)
     return ((virtaddr_t)(block + 1));
 }
 
+/*
+** Ugly implementation so far, we use really a lot of memory
+*/
+
+virtaddr_t kalloc_aligned(size_t size, u32_t align)
+{
+    virtaddr_t addr;
+
+    addr = kalloc(size + align);
+    if (!addr)
+        return (NULL);
+    if (IS_ALIGNED(addr, align))
+        return (addr);
+    addr = ALIGN(addr, align);
+    return (addr);
+}
+
 void kalloc_init(void)
 {
     assert(IS_PAGE_ALIGNED(kheap_start));
     /*
     ** map the first page of the heap
     */
-    vmm_mmap(kheap_start, KCONFIG_MMU_PAGESIZE, MMAP_WRITE);
+    assert(vmm_mmap(kheap_start, KCONFIG_MMU_PAGESIZE, MMAP_WRITE));
     kheap_size = KCONFIG_MMU_PAGESIZE;
     /* 
     ** This is a Dirty initialization
@@ -78,3 +108,8 @@ void kalloc_init(void)
     lstblk = (block_t *)kheap_start;
     fstblk->attrib = -60;
 }
+
+/*
+** Can't be a boot_initcall()
+** we are using a function unavailable before the VMM initcall 
+*/

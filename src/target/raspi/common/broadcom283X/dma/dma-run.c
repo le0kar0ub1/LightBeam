@@ -6,8 +6,6 @@ extern volatile struct dma_enable_t    *dmaEnableReg;
 
 extern volatile struct dmaEngineRegister_t *dmaEngineRegs[];
 
-#pragma message "write my driver :)"
-
 static void bcm283x_dma_start_transfer(u8_t engine, void *blk)
 {
     if (engine > BCM283x_DMA_CTRLBLCK_NUMBR)

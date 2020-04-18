@@ -6,12 +6,12 @@
 ** This functions are usable only in this file.
 */
 
-static inline struct page_dir * get_pagedir(void)
+static inline struct page_dir *get_pagedir(void)
 {
     return ((struct page_dir *)0xFFFFF000ul);
 }
 
-static inline struct page_table * get_pagetable(uint x)
+static inline struct page_table *get_pagetable(uint x)
 {
     return ((struct page_table *)(0xFFC00000ul | (((x) & 0x3FF) << 12u)));
 }
@@ -20,17 +20,17 @@ static inline struct page_table * get_pagetable(uint x)
 ** Idx/addr pagination get
 */
 
-static inline uint get_pd_idx(virtaddr_t va)
+static inline uint virt2pdIdx(virtaddr_t va)
 {
     return ((uintptr)va >> 22u);
 }
 
-static inline uint get_pt_idx(virtaddr_t va)
+static inline uint virt2ptIdx(virtaddr_t va)
 {
     return (((uintptr)(va) >> 12u) & 0x3FF);
 }
 
-static inline virtaddr_t get_virtaddr(uint pdidx, uint ptidx)
+static inline virtaddr_t idx2addr(uint pdidx, uint ptidx)
 {
     return ((virtaddr_t)((pdidx) << 22u | (ptidx) << 12u));
 }
@@ -42,17 +42,17 @@ static inline virtaddr_t get_virtaddr(uint pdidx, uint ptidx)
 bool arch_vmm_is_mapped(virtaddr_t virt)
 {
     assert(IS_PAGE_ALIGNED(virt));
-    if (!get_pagedir()->entries[get_pd_idx(virt)].present)
+    if (!get_pagedir()->entries[virt2pdIdx(virt)].present)
         return (false);
-    return (get_pagetable(get_pd_idx(virt))->entries[get_pt_idx(virt)].present);
+    return (get_pagetable(virt2pdIdx(virt))->entries[virt2ptIdx(virt)].present);
 }
 
 physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt)
 {
     assert(IS_PAGE_ALIGNED(virt));
-    if (!get_pagedir()->entries[get_pd_idx(virt)].present)
+    if (!get_pagedir()->entries[virt2pdIdx(virt)].present)
         return (0x0);
-    return (get_pagetable(get_pd_idx(virt))->entries[get_pt_idx(virt)].frame << 0xC);
+    return (get_pagetable(virt2pdIdx(virt))->entries[virt2ptIdx(virt)].frame << 0xC);
 }
 
 bool arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
@@ -63,8 +63,8 @@ bool arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
 
     assert(IS_PAGE_ALIGNED(virt));
     assert(IS_PAGE_ALIGNED(phys));
-    pde = &(get_pagedir()->entries[get_pd_idx(virt)]);
-    pt = get_pagetable(get_pd_idx(virt));
+    pde = &(get_pagedir()->entries[virt2pdIdx(virt)]);
+    pt = get_pagetable(virt2pdIdx(virt));
     if (!pde->present) {
         pde->value = pmm_alloc_frame();
         pde->present = true;
@@ -74,7 +74,7 @@ bool arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
         invlpg(pt);
         memset(pt, 0x0, KCONFIG_MMU_PAGESIZE);
     }
-    pte = &(pt->entries[get_pt_idx(virt)]);
+    pte = &(pt->entries[virt2ptIdx(virt)]);
     if (pte->present) {
         if (pte->frame && MASK_MMAP_REMAP(attrib))
             pmm_free_frame(pte->frame);
@@ -109,9 +109,9 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     struct pagedir_entry *pde;
     struct pagetable_entry *pte;
 
-    pde = &(get_pagedir()->entries[get_pd_idx(virt)]);
+    pde = &(get_pagedir()->entries[virt2pdIdx(virt)]);
     if (pde->present) {
-        pte = &(get_pagetable(get_pd_idx(virt))->entries[get_pt_idx(virt)]);
+        pte = &(get_pagetable(virt2pdIdx(virt))->entries[virt2ptIdx(virt)]);
         if (pte->present) {
             if (!MASK_MUNMAP_DONTFREE(attrib))
                 pmm_free_frame(pte->frame << 0xC);
@@ -123,7 +123,27 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
 
 static void arch_vmm_init(void)
 {
-    //vmm_init();
+    /*
+    ** For the kheap consistancy we must unmap all page behind the kernel
+    */
+    vmm_unmap(
+        ADD_TO_PTR(&__KERNEL_VIRT_END, KCONFIG_MMU_PAGESIZE),
+        (1024 - virt2ptIdx(&__KERNEL_VIRT_END) - 1) * KCONFIG_MMU_PAGESIZE,
+        MUNMAP_DONTFREE
+    );
+
+    vmm_init();
+
+    struct page_dir *pd = get_pagedir();
+    u32_t entry = virt2ptIdx(&__KERNEL_ADDR_TRNS);
+    while (entry < 1024)
+    {
+        if (!pd->entries[entry].present)
+        {
+
+        }
+        entry++;
+    }
 }
 
 boot_initcall(arch_vmm_init);

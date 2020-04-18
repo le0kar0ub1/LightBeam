@@ -1,4 +1,5 @@
 #include "target/x86/common/memory/vmm.h"
+#include "target/x86/common/memory/kalloc.h"
 
 /*
 ** Common VMM functions
@@ -20,7 +21,7 @@ virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
     return (virt);
 }
 
-void vmm_ummap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
+void vmm_unmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
 {
     virtaddr_t keep = virt;
 
@@ -41,5 +42,10 @@ bool vmm_is_mapped(virtaddr_t virt)
 
 void vmm_init(void)
 {
-
+    kalloc_init();
 }
+
+/*
+** Can't be a boot_initcall()
+** we are calling the kalloc_init() which need arch VMM initcall 
+*/

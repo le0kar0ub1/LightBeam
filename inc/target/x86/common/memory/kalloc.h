@@ -29,6 +29,7 @@ typedef struct heapblock block_t;
 
 void kalloc_init(void);
 virtaddr_t kalloc_aligned(size_t size, u32_t align);
+#define kalloc_page_aligned(x) kalloc_aligned(x, KCONFIG_MMU_PAGESIZE)
 virtaddr_t kalloc(size_t size);
 virtaddr_t kfree(size_t size);
 
