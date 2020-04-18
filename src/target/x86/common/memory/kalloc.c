@@ -1,0 +1,80 @@
+#include "target/x86/common/memory/kalloc.h"
+
+static smplock_t lock = SMPLOCK_INIT();
+
+/* 
+** The beginning and the actual size of our kheap wich his behind the kernel
+*/
+static virtaddr_t kheap_start = (virtaddr_t)KHEAP_START;
+static size_t     kheap_size  = 0x0;
+
+/*
+** The first & last block ouf our list
+*/
+static block_t *fstblk = NULL;
+static block_t *lstblk = NULL;
+
+static block_t *get_free_block(size_t size)
+{
+    block_t *blk = fstblk;
+
+    while (blk && blk <= lstblk)
+    {
+        if (BLK_GETSZ(blk) >= (int)size)
+            return (blk);
+        blk = (block_t *)BLK_NEXT(blk);
+    }
+    return (NULL);
+}
+
+static block_t *extend_kheap(size_t size)
+{
+    block_t *newblk = (block_t *)BLK_NEXT(lstblk);
+    /*
+    ** Case we are at the end of the mapped memory
+    ** We ask a new page map and increase the kheap size
+    */
+    if ((uintptr)newblk + size + sizeof(block_t) > kheap_size)
+    {
+        if (vmm_mmap(ADD_TO_PTR(kheap_start, kheap_size),
+    ALIGN_PAGE(size), MMAP_WRITE) != ADD_TO_PTR(kheap_start, kheap_size))
+            PANIC("Kalloc can't extend the heap");
+        kheap_size += ALIGN_PAGE(size);
+    }
+    lstblk = newblk;
+    return (newblk);
+}
+
+virtaddr_t kalloc(size_t size)
+{
+    block_t *block;
+
+    if (!size)
+        return (NULL);
+    smp_inc(&lock);
+    size = KHEAP_ALIGN(size);
+    block = get_free_block(size);
+    if (block)
+        block->attrib *= -1;
+    else
+        block = extend_kheap(size);
+    smp_dec(&lock);
+    return ((virtaddr_t)(block + 1));
+}
+
+void kalloc_init(void)
+{
+    assert(IS_PAGE_ALIGNED(kheap_start));
+    /*
+    ** map the first page of the heap
+    */
+    vmm_mmap(kheap_start, KCONFIG_MMU_PAGESIZE, MMAP_WRITE);
+    kheap_size = KCONFIG_MMU_PAGESIZE;
+    /* 
+    ** This is a Dirty initialization
+    ** We mark a first block free block with random shitty size
+    */
+    fstblk = (block_t *)kheap_start;
+    lstblk = (block_t *)kheap_start;
+    fstblk->attrib = -60;
+}

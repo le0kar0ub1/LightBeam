@@ -123,7 +123,7 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
 
 static void arch_vmm_init(void)
 {
-    
+    //vmm_init();
 }
 
 boot_initcall(arch_vmm_init);

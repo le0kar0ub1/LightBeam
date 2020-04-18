@@ -191,6 +191,7 @@ SECTIONS
     }
     PROVIDE(__BSS_END = .);
 
+    . = ALIGN(0x1000);
     PROVIDE(__KERNEL_VIRT_END = .);
     PROVIDE(__KERNEL_PHYS_END = . - __KERNEL_ADDR_TRNS);
 }
