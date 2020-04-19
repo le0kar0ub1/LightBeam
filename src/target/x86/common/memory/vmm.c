@@ -16,7 +16,7 @@ virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
     {
         if (arch_vmm_map_virt(virt, attrib) != VMM_SUCCESS)
             return (NULL);
-        virt = ADD_TO_PTR(virt, sz);
+        virt = ADD_TO_PTR(virt, KCONFIG_MMU_PAGESIZE);
     }
     return (virt);
 }
@@ -31,7 +31,7 @@ void vmm_unmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
     while ((uintptr)virt < (uintptr)ADD_TO_PTR(keep, sz))
     {
         arch_vmm_unmap(virt, attrib);
-        virt = ADD_TO_PTR(virt, sz);
+        virt = ADD_TO_PTR(virt, KCONFIG_MMU_PAGESIZE);
     }
 }
 

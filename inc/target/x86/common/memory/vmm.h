@@ -6,9 +6,11 @@
 
 typedef enum
 {
-    VMM_SUCCESS = 1,
+    VMM_SUCCESS        = 1,
     VMM_ALREADY_MAPPED = 2,
-} vmmstatus_t;
+    PMM_OUT_OF_MEM     = 3
+
+} mmstatus_t;
 
 #define MMAP_DEFAULT   0b00000000 /* Kernel space, read only, no exec */
 #define MMAP_USER      0b00000001 /* Page belongs to user space */
@@ -43,8 +45,8 @@ bool vmm_is_mapped(virtaddr_t virt);
 
 bool arch_vmm_is_mapped(virtaddr_t virt);
 physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt);
-vmmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib);
-vmmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib);
+mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib);
+mmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib);
 void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib);
 
 #endif

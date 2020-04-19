@@ -12,13 +12,31 @@ static smplock_t lock = SMPLOCK_INIT();
 ** The beginning and the actual size of our kheap wich his behind the kernel
 */
 static virtaddr_t kheap_start = (virtaddr_t)KHEAP_START;
-static size_t     kheap_size  = 0x0;
+static virtaddr_t kheap_end   = (virtaddr_t)KHEAP_START;;
 
 /*
 ** The first & last block ouf our list
 */
 static block_t *fstblk = NULL;
 static block_t *lstblk = NULL;
+
+/*
+** Dump ou kheap
+*/
+
+void kalloc_dump(void)
+{
+    block_t *blk = fstblk;
+
+    while (blk && blk <= lstblk)
+    {
+        serial_printf("Block at %#X:\n    size: %#x\n    %s\n",
+                       (uintptr)blk,
+                       BLK_GETSZ(blk),
+                       BLK_GETSZ(blk) > 0 ? "used" : "unused");
+        blk = BLK_NEXT(blk);
+    }
+}
 
 /*
 ** Is there a free block ?
@@ -43,13 +61,13 @@ static block_t *extend_kheap(size_t size)
     ** Case we are at the end of the mapped memory
     ** We ask a new page map and increase the kheap size
     */
-    serial_printf("size increased %x\n", ALIGN_PAGE(size));
-    if ((uintptr)newblk + size + sizeof(block_t) > kheap_size)
+    if ((uintptr)newblk + size + sizeof(block_t) > (uintptr)kheap_end)
     {
-        if (!vmm_mmap(ADD_TO_PTR(kheap_start, kheap_size), ALIGN_PAGE(size), MMAP_WRITE))
+        if (!vmm_mmap(kheap_end, ALIGN_PAGE(size), MMAP_WRITE))
             PANIC("Kalloc can't extend the heap");
-        kheap_size += ALIGN_PAGE(size);
+        kheap_end = ADD_TO_PTR(kheap_end, ALIGN_PAGE(size));
     }
+    newblk->attrib = size;
     lstblk = newblk;
     return (newblk);
 }
@@ -58,7 +76,6 @@ static block_t *extend_kheap(size_t size)
 ** Our main kernel allocator function
 ** The returned pointer is obviously system aligned 
 */
-
 virtaddr_t kalloc(size_t size)
 {
     block_t *block;
@@ -79,18 +96,21 @@ virtaddr_t kalloc(size_t size)
 /*
 ** Ugly implementation so far, we use really a lot of memory
 */
-
 virtaddr_t kalloc_aligned(size_t size, u32_t align)
 {
     virtaddr_t addr;
+    #pragma message "im not free-able"
 
-    addr = kalloc(size + align);
+    /*
+    ** Case of god is with us and the address is already aligned
+    */
+    if (IS_ALIGNED(ADD_TO_PTR(BLK_NEXT(lstblk), sizeof(block_t)), align))
+        return (kalloc(size));
+    else
+        addr = kalloc(size + align);
     if (!addr)
         return (NULL);
-    if (IS_ALIGNED(addr, align))
-        return (addr);
-    addr = (virtaddr_t)ALIGN(addr, align);
-    return (addr);
+    return ((virtaddr_t)ALIGN(addr, align));
 }
 
 void kalloc_init(void)
@@ -99,15 +119,17 @@ void kalloc_init(void)
     /*
     ** map the first page of the heap
     */
-    assert(vmm_mmap(kheap_start, KCONFIG_MMU_PAGESIZE, MMAP_WRITE));
-    kheap_size = KCONFIG_MMU_PAGESIZE;
+    assert(vmm_mmap(kheap_end, KCONFIG_MMU_PAGESIZE, MMAP_WRITE));
+    kheap_end = ADD_TO_PTR(kheap_end, KCONFIG_MMU_PAGESIZE);
     /* 
-    ** This is a Dirty initialization
-    ** We mark a first block free block with random shitty size
+    ** This is a Dirty initialization without any consequences
+    ** We mark a first block free block with a total of (0x1000 - (block_size * 2))
+    ** The first allocation in init is a page aligned on PAGE, so we finaly lose no memory on alignement
     */
     fstblk = (block_t *)kheap_start;
     lstblk = (block_t *)kheap_start;
-    fstblk->attrib = -60;
+    fstblk->attrib = -(0x1000 - (sizeof(block_t) * 2));
+    kalloc_aligned(KCONFIG_MMU_PAGESIZE, KCONFIG_MMU_PAGESIZE);
 }
 
 /*

@@ -56,7 +56,7 @@ physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt)
     return (get_pagetable(virt2pdIdx(virt))->entries[virt2ptIdx(virt)].frame << 0xC);
 }
 
-vmmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
+mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
 {
     struct pagedir_entry *pde;
     struct pagetable_entry *pte;
@@ -92,13 +92,13 @@ vmmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t at
     return (VMM_SUCCESS);
 }
 
-vmmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib)
+mmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib)
 {
     assert(IS_PAGE_ALIGNED(virt));
     physaddr_t phys = pmm_alloc_frame();
-    vmmstatus_t status;
+    mmstatus_t status;
     if (!phys)
-        PANIC("Out of memory");
+        return (PMM_OUT_OF_MEM);
     status = arch_vmm_map_phys(virt, phys, attrib);
     if (status != VMM_SUCCESS)
         pmm_free_frame(phys);
@@ -149,7 +149,6 @@ static void arch_vmm_init(void)
     {
         if (!pd->entries[entry].present)
         {
-            serial_printf("alloc the %dth entry\n", entry);
             allocated = kalloc_page_aligned(KCONFIG_MMU_PAGESIZE);
             assert(allocated != 0x0);
             memset(allocated, 0x0, KCONFIG_MMU_PAGESIZE);

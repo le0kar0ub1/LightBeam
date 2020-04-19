@@ -8,9 +8,9 @@ sinclude mkhelper/macro.mk
 sinclude mkhelper/toolchain.mk
 sinclude mkhelper/builder/def.mk
 
-.PHONY: all _build fclean debug clean $(KERNEL)
+.PHONY: all _build fclean debug clean
 
-all:	_prebuild	_build	$(KERNEL)
+all:	_prebuild	_build
 
 # Evaluate if the build is correct
 _prebuild:

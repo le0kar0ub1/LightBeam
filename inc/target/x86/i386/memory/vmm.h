@@ -62,8 +62,8 @@ static_assert(sizeof(struct page_dir) == KCONFIG_MMU_PAGESIZE);
 
 bool arch_vmm_is_mapped(virtaddr_t virt);
 physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt);
-vmmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib);
-vmmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib);
+mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib);
+mmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib);
 void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib);
 
 #endif
