@@ -1,4 +1,5 @@
 #include "target/x86/i386/memory/vmm.h"
+#include "target/x86/common/memory/kalloc.h"
 
 /*
 ** If there is no recursive mapping all these functions will fucked up.
@@ -55,7 +56,7 @@ physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt)
     return (get_pagetable(virt2pdIdx(virt))->entries[virt2ptIdx(virt)].frame << 0xC);
 }
 
-bool arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
+vmmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
 {
     struct pagedir_entry *pde;
     struct pagetable_entry *pte;
@@ -79,7 +80,7 @@ bool arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
         if (pte->frame && MASK_MMAP_REMAP(attrib))
             pmm_free_frame(pte->frame);
         else
-            return (false);
+            return (VMM_ALREADY_MAPPED);
     }
     pte->value = phys;
     pte->present = true;
@@ -88,19 +89,20 @@ bool arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
     pte->accessed = false;
     pte->dirty = 0x0;
     invlpg(virt);
-    return (true);
+    return (VMM_SUCCESS);
 }
 
-bool arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib)
+vmmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib)
 {
     assert(IS_PAGE_ALIGNED(virt));
     physaddr_t phys = pmm_alloc_frame();
+    vmmstatus_t status;
     if (!phys)
         PANIC("Out of memory");
-    if (arch_vmm_map_phys(virt, phys, attrib))
-        return (true);
-    pmm_free_frame(phys);
-    return (false);
+    status = arch_vmm_map_phys(virt, phys, attrib);
+    if (status != VMM_SUCCESS)
+        pmm_free_frame(phys);
+    return (status);
 }
 
 void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
@@ -132,15 +134,29 @@ static void arch_vmm_init(void)
         MUNMAP_DONTFREE
     );
 
+    /*
+    ** Init the kernel allocator & the kernel VMM
+    */
     vmm_init();
 
+    /*
+    ** Allocate all the kernel page directory entries 
+    */
     struct page_dir *pd = get_pagedir();
-    u32_t entry = virt2ptIdx(&__KERNEL_ADDR_TRNS);
-    while (entry < 1024)
+    virtaddr_t allocated;
+    u32_t entry = virt2pdIdx(&__KERNEL_ADDR_TRNS);
+    while (entry < 0x400)
     {
         if (!pd->entries[entry].present)
         {
-
+            serial_printf("alloc the %dth entry\n", entry);
+            allocated = kalloc_page_aligned(KCONFIG_MMU_PAGESIZE);
+            assert(allocated != 0x0);
+            memset(allocated, 0x0, KCONFIG_MMU_PAGESIZE);
+            pd->entries[entry].value = (uintptr)allocated;
+            pd->entries[entry].present = true;
+            pd->entries[entry].rw = true;
+            invlpg(get_pagetable(entry));
         }
         entry++;
     }

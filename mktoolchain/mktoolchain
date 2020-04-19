@@ -19,6 +19,7 @@ unfatalrequire qemu-system-aarch64
 unfatalrequire qemu-system-i386
 unfatalrequire qemu-system-x86_64
 unfatalrequire grub-mkrescue
+unfatalrequire xorriso
 unfatalrequire gcc
 unfatalrequire as
 unfatalrequire source-highlight

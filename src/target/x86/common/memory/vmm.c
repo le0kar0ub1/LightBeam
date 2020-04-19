@@ -14,7 +14,7 @@ virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
 
     while ((uintptr)virt < (uintptr)ADD_TO_PTR(keep, sz))
     {
-        if (!arch_vmm_map_virt(virt, attrib))
+        if (arch_vmm_map_virt(virt, attrib) != VMM_SUCCESS)
             return (NULL);
         virt = ADD_TO_PTR(virt, sz);
     }

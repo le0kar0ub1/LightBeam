@@ -3,6 +3,7 @@
 /*
 ** A totaly overflow sensitive Kernel allocator, will improve this later
 ** Remember that if we overtake the allocated size, we will fucked up the allocator and the kernel btw
+** Also assuming that the kheap is fully continuous (not dumb)
 */
 
 static smplock_t lock = SMPLOCK_INIT();
@@ -42,10 +43,10 @@ static block_t *extend_kheap(size_t size)
     ** Case we are at the end of the mapped memory
     ** We ask a new page map and increase the kheap size
     */
+    serial_printf("size increased %x\n", ALIGN_PAGE(size));
     if ((uintptr)newblk + size + sizeof(block_t) > kheap_size)
     {
-        if (vmm_mmap(ADD_TO_PTR(kheap_start, kheap_size),
-    ALIGN_PAGE(size), MMAP_WRITE) != ADD_TO_PTR(kheap_start, kheap_size))
+        if (!vmm_mmap(ADD_TO_PTR(kheap_start, kheap_size), ALIGN_PAGE(size), MMAP_WRITE))
             PANIC("Kalloc can't extend the heap");
         kheap_size += ALIGN_PAGE(size);
     }
@@ -88,7 +89,7 @@ virtaddr_t kalloc_aligned(size_t size, u32_t align)
         return (NULL);
     if (IS_ALIGNED(addr, align))
         return (addr);
-    addr = ALIGN(addr, align);
+    addr = (virtaddr_t)ALIGN(addr, align);
     return (addr);
 }
 
