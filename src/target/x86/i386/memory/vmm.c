@@ -149,8 +149,8 @@ static void arch_vmm_init(void)
     {
         if (!pd->entries[entry].present)
         {
-            allocated = kalloc_page_aligned(KCONFIG_MMU_PAGESIZE);
-            assert(allocated != 0x0);
+            allocated = kalloc_aligned(KCONFIG_MMU_PAGESIZE, KCONFIG_MMU_PAGESIZE);
+            assert(allocated);
             memset(allocated, 0x0, KCONFIG_MMU_PAGESIZE);
             pd->entries[entry].value = (uintptr)allocated;
             pd->entries[entry].present = true;
