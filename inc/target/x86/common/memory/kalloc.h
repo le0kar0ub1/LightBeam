@@ -29,7 +29,7 @@ typedef struct heapblock block_t;
 
 #define BLK_GETSZ(x)  (x->attrib >= 0 ? x->attrib : x->attrib * -1)
 #define BLK_ISUSED(x) (x->attrib >  0 ? 1 : 0)
-#define BLK_NEXT(x)   ((block_t *)((uintptr)(x + 1) + BLK_GETSZ(x)))
+#define BLK_NEXT(x)   ((block_t  *)((uintptr)(x + 1) + BLK_GETSZ(x)))
 #define ADDR2BLK(x)   ((block_t  *)SUB_TO_PTR(x, sizeof(block_t)))
 #define BLK2ADDR(x)   ((virtaddr_t)ADD_TO_PTR(x, sizeof(block_t)))
 

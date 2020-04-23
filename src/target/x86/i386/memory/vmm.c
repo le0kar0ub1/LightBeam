@@ -161,4 +161,8 @@ static void arch_vmm_init(void)
     }
 }
 
+/*
+** VMM is pure_initcall()
+** The PMM is handle by a boot_initcall() and is totaly shared
+*/
 pure_initcall(arch_vmm_init);

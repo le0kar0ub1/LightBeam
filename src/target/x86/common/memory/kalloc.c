@@ -68,11 +68,12 @@ static void merge_next_blocks(block_t *blk)
 {
     block_t *last = blk;
 
-    while (!BLK_ISUSED(last))
+    while (!BLK_ISUSED(last) && last < BLK_NEXT(lstblk))
     {
         last = BLK_NEXT(last);
     }
     blk->attrib = (uintptr)last - (uintptr)blk - sizeof(block_t);
+    blk->attrib *= -1;
     if (last == lstblk)
         lstblk = blk;
 }
@@ -83,11 +84,22 @@ static void merge_next_blocks(block_t *blk)
 static block_t *get_free_block(size_t size)
 {
     block_t *blk = fstblk;
+    block_t *fst;
 
     while (blk && blk <= lstblk)
     {
         if (BLK_GETSZ(blk) >= size && !BLK_ISUSED(blk))
-            return (blk);
+        {
+            if (BLK_GETSZ(blk) < 0x20 + sizeof(block_t) + size) {
+                blk->attrib *= -1;
+                return (blk);
+            } else {
+                fst = divide_block(blk, size);
+                assert(fst);
+                fst->attrib *= -1;
+                return (blk);
+            }
+        }
         blk = (block_t *)BLK_NEXT(blk);
     }
     return (NULL);
@@ -124,12 +136,8 @@ static virtaddr_t __kalloc(size_t size, kallocattrib_t flag)
     smp_inc(&lock);
     if (!(flag & KALLOC_FORCE_ALLOC))
         block = get_free_block(size);
-    if (block)
-        block->attrib *= -1;
-    else
+    if (!block)
         block = extend_kheap(size);
-    serial_printf("LSTBLK %X size %x\n", (uintptr)lstblk, (uintptr)lstblk->attrib);
-    serial_printf("LSTBLK %X size %x\n", (uintptr)lstblk, (uintptr)lstblk->attrib);
     smp_dec(&lock);
     return (BLK2ADDR(block));
 }
@@ -176,17 +184,15 @@ virtaddr_t kalloc_aligned(size_t size, u32_t align)
     ** Else we will alloc more than expected and leave unused memory
     */
     addr = kalloc(size + align);
-    serial_printf("ALLOC %X size AT %X\n", BLK_GETSZ(ADDR2BLK(addr)), addr);
-    return ((virtaddr_t)ALIGN(addr, align));
-    // div = divide_block(
-    //     ADDR2BLK(addr), 
-    //     (uintptr)ALIGN(addr, align) - (uintptr)addr - sizeof(block_t)
-    // );
-    // assert(div);
-    // (ADDR2BLK(addr))->attrib *= -1;
-    // addr = BLK2ADDR(div);
-    // assert(IS_ALIGNED(addr, align));
-    // return (addr);
+    div = divide_block(
+        ADDR2BLK(addr), 
+        (uintptr)ALIGN(addr, align) - (uintptr)addr - sizeof(block_t)
+    );
+    assert(div);
+    (ADDR2BLK(addr))->attrib *= -1;
+    addr = BLK2ADDR(div);
+    assert(IS_ALIGNED(addr, align));
+    return (addr);
 }
 
 /*
@@ -198,11 +204,12 @@ virtaddr_t kalloc_aligned(size_t size, u32_t align)
 */
 void kfree(virtaddr_t virt)
 {
-    block_t *blk = (block_t *)virt;
+    block_t *blk = ADDR2BLK(virt);
 
     assert(blk);
     smp_inc(&lock);
     blk->attrib *= -1;
+    merge_next_blocks(blk);
     smp_dec(&lock);
 }
 

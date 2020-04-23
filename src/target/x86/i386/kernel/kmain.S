@@ -8,7 +8,7 @@ kernelmain:
     call idt_init
     call idt_load
 
-    call multiboot_parse_tags
+    call multiboot_parse_tags # parse the multiboot header
 
     pushl $0x0
     call run_initcall_level # run boot initcalls
