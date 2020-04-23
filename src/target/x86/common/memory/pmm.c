@@ -101,6 +101,15 @@ static void pmm_init(void)
         mmap = ADD_TO_PTR(mmap, multiboot.mmap_entry_size);
     }
     /*
+    ** We will so mark it as reserved and all between 0x0000000 and 0x000FFFFF
+    ** just to be preserved of using BIOS area memory
+    */
+    pmm_mark_range_frame_as_allocated(
+        0x0u,
+        0x100000u
+    );
+    assert(pmm_is_frame_allocated(0xA0000));
+    /*
     ** Legitimately our kernel is in an available memory segment
     ** We must mark it as allocated
     */

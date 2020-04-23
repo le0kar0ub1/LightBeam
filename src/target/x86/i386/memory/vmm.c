@@ -161,4 +161,4 @@ static void arch_vmm_init(void)
     }
 }
 
-boot_initcall(arch_vmm_init);
+pure_initcall(arch_vmm_init);

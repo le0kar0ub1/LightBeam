@@ -23,7 +23,7 @@ typedef enum
 struct heapblock
 {
     int attrib;
-};
+} __packed;
 typedef struct heapblock block_t;
 
 
