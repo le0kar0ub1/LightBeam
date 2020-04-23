@@ -33,7 +33,7 @@ clean:
 fclean:	clean
 	@$(RM) $(PROJECT)*.bin $(PROJECT)*.img $(PROJECT)*.iso
 	@$(RM) vgcore.* qemu_*.core
-	@$(RM) $(shell find . -name $(BUILDEP))
+	@$(RM) $(shell find . -name *.dep)
 
 # Build & check toolchain
 toolchain:

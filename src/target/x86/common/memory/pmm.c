@@ -82,7 +82,7 @@ static void pmm_init(void)
 {
     struct multiboot_mmap_entry const *mmap;
 
-    /* 
+    /*
     ** Mark all as reserved by default
     */
     memset(bitmap, 0xFF, PMM_BITMAP_SIZE);
@@ -94,8 +94,9 @@ static void pmm_init(void)
     while (mmap < multiboot.mmap_end) {
         if (mmap->type == MULTIBOOT_MEMORY_AVAILABLE) {
             pmm_mark_range_frame_as_free(
-            ROUND_DOWN(mmap->addr, KCONFIG_MMU_PAGESIZE),
-            ALIGN(mmap->addr + mmap->len, KCONFIG_MMU_PAGESIZE));
+                ROUND_DOWN(mmap->addr, KCONFIG_MMU_PAGESIZE),
+                ALIGN(mmap->addr + mmap->len, KCONFIG_MMU_PAGESIZE)
+            );
         }
         mmap = ADD_TO_PTR(mmap, multiboot.mmap_entry_size);
     }

@@ -29,10 +29,12 @@ void kalloc_dump(void)
 
     while (blk && blk <= lstblk)
     {
-        serial_printf("Block at %#X:\n    size: %#X\n    %s\n",
-                       (uintptr)blk,
-                       BLK_GETSZ(blk),
-                       BLK_ISUSED(blk) ? "used" : "unused");
+        serial_printf(
+            "Block at %#X:\n    size: %#X\n    %s\n",
+            (uintptr)blk,
+            BLK_GETSZ(blk),
+            BLK_ISUSED(blk) ? "used" : "unused"
+        );
         blk = BLK_NEXT(blk);
     }
 }
@@ -97,6 +99,7 @@ static block_t *get_free_block(size_t size)
 static block_t *extend_kheap(size_t size)
 {
     lstblk = (block_t *)BLK_NEXT(lstblk);
+
     /*
     ** Case we are at the end of the mapped memory
     ** We ask a new page map and increase the kheap size
@@ -107,7 +110,7 @@ static block_t *extend_kheap(size_t size)
             PANIC("Kalloc can't extend the heap");
         kheap_end = ADD_TO_PTR(kheap_end, ALIGN_PAGE(size));
     }
-    lstblk->attrib = size;
+    lstblk->attrib = (int)size;
     return (lstblk);
 }
 
@@ -117,24 +120,17 @@ static virtaddr_t __kalloc(size_t size, kallocattrib_t flag)
 
     if (!size)
         return (NULL);
-    // smp_inc(&lock);
     size = KHEAP_ALIGN(size);
+    smp_inc(&lock);
     if (!(flag & KALLOC_FORCE_ALLOC))
         block = get_free_block(size);
     if (block)
-        block->attrib *= 1;
+        block->attrib *= -1;
     else
         block = extend_kheap(size);
-    // smp_dec(&lock);
-    if (block->attrib == (int)-1) {
-        serial_printf("SIZE %x\n", block->attrib);
-        kalloc_dump();
-        block->attrib = size;
-    }
-    serial_printf("SIZE %x\n", block->attrib);
-    serial_printf("SIZE %x\n", block->attrib);
-    //serial_printf("SIZE %x\n", block->attrib);
-    //serial_printf("SIZE %x\n", block->attrib);
+    serial_printf("LSTBLK %X size %x\n", (uintptr)lstblk, (uintptr)lstblk->attrib);
+    serial_printf("LSTBLK %X size %x\n", (uintptr)lstblk, (uintptr)lstblk->attrib);
+    smp_dec(&lock);
     return (BLK2ADDR(block));
 }
 
@@ -162,42 +158,43 @@ virtaddr_t kalloc_force_alloc(size_t size)
 virtaddr_t kalloc_aligned(size_t size, u32_t align)
 {
     virtaddr_t addr;
-    virtaddr_t endAddr = ADD_TO_PTR(BLK_NEXT(lstblk), sizeof(block_t));
+    virtaddr_t fallocAddr = ADD_TO_PTR(BLK_NEXT(lstblk), sizeof(block_t));
     block_t *div;
 
     /*
     ** Case of god is with us and the address is already aligned
     ** We force the allocation to ensure we don't take an unaligned free one
     */
-    if (IS_ALIGNED(endAddr, align))
+    if (IS_ALIGNED(fallocAddr, align))
     {
         addr = kalloc_force_alloc(size);
-        assert(addr == endAddr);
+        assert(addr == fallocAddr);
         assert(IS_ALIGNED(addr, align));
         return (addr);
     }
     /*
-    ** Else we will do an illegal thing
+    ** Else we will alloc more than expected and leave unused memory
     */
     addr = kalloc(size + align);
     serial_printf("ALLOC %X size AT %X\n", BLK_GETSZ(ADDR2BLK(addr)), addr);
-    div = divide_block(
-        ADDR2BLK(addr), 
-        (uintptr)ALIGN(addr, align) - (uintptr)addr - sizeof(block_t)
-    );
-    assert(div);
-    (ADDR2BLK(addr))->attrib *= -1;
-    addr = BLK2ADDR(div);
-    assert(IS_ALIGNED(addr, align));
-    return (addr);
+    return ((virtaddr_t)ALIGN(addr, align));
+    // div = divide_block(
+    //     ADDR2BLK(addr), 
+    //     (uintptr)ALIGN(addr, align) - (uintptr)addr - sizeof(block_t)
+    // );
+    // assert(div);
+    // (ADDR2BLK(addr))->attrib *= -1;
+    // addr = BLK2ADDR(div);
+    // assert(IS_ALIGNED(addr, align));
+    // return (addr);
 }
 
 /*
 ** Our kernel heap free function
-** We actually consider that the given pointer is at the start address
+** We actually consider that the given pointer is at the block start address
 ** If this is not the case:
-**    either the block will not be free without error
-**    or we will maybe fucked up another control block
+**    either the block will not be free without error but the target will be dirty
+**    or we will maybe fucked up another control block, then the allocator and the kernel
 */
 void kfree(virtaddr_t virt)
 {

@@ -13,9 +13,9 @@ kernelmain:
     pushl $0x0
     call run_initcall_level # run boot initcalls
 
-    pushl $.imhere
+    pushl $.imalive
     call  vga_printf
-    pushl $.imhere
+    pushl $.imalive
     call  serial_printf
 
     hlt
@@ -27,4 +27,4 @@ okay:
     hlt
 
 .section .data
-.imhere: .asciz "Hello world\n"
+.imalive: .asciz "Hello world\n"

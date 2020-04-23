@@ -11,19 +11,22 @@ export GNUBASE	:=
 GRUBCFG		:=	grub.cfg
 
 # Particular CC flags
-CCFLAGS		+=	-march=i386		\
-				-m32			\
-		  		-msse4.1	
+CCFLAGS		+=	-m32					\
+				-march=i386				\
+				-mno-red-zone			\
+				-fms-extensions 		\
+				-fno-stack-protector 	\
+				-fno-builtin			\
+				-Wcast-align			\
+		  		#-msse4.1				\
 
 ASFLAGS		+=	--32				\
 				--defsym sysz=32	\
 
 LDFLAGS		+=	-m elf_i386
 
-# The library we use
-LDFLAGS		+=	$(TGTSHARED_OVRKRN)					\
-				#$(TGTSHARED_LIBARC)				\
-				$(TGTSHARED_LIBPLT)					\
+# The library we are using
+LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\
 
 BUILDER_HEADER	:=	$(TGTARCH) target
 
@@ -47,7 +50,6 @@ sinclude $(MKHELPER_DIR)/builder/builder.mk
 arcbuild:
 	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory
-	# @make -s -C $(ARCH_BASE_SRC_DIR)/$(TGTARCH) --no-print-directory
 
 toolchainCheckup:
 	$(call EvalBinaryExistence,as)

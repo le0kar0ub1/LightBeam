@@ -18,7 +18,7 @@ _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 Kernels are built using GNU toolchain from submodules git.
 
-For x86 build we actually assume that your host machine is of this architecture. An installer for x86 will be provide later.
+For x86 build we actually assume that your host machine is of this architecture. An installer for x86 will be provided later.
 
 ## BUILD
 

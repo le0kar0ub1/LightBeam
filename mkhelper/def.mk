@@ -57,13 +57,10 @@ export LDFLAGS_DEBUG	=	--trace					\
 
 export RM	:=	rm -rf
 
-export BUILDEP	:=	dep.d
+export BUILDEP	:=	dep.dep
 
 # Cleaner as possible
 export CCFLAGS	=	$(INCLUDE_DIR)						\
-					-MD									\
-					-MP									\
-					-MF		$(BUILDEP)					\
 					-Wall								\
 					-Wextra				 				\
 					-Wnested-externs					\
@@ -81,6 +78,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wmissing-field-initializers		\
 					-Wswitch-enum						\
 					-Wshadow				 			\
+					-fno-stack-protector				\
 					-Wuninitialized				 		\
 					-Wmissing-declarations				\
 					-Wmissing-prototypes				\
@@ -94,7 +92,10 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-Wno-override-init					\
 					-Wno-unused-function				\
 					-static					 			\
-					# -Werror
+					# -Werror							\
+					-MD									\
+					-MP									\
+					-MF		dep.dep						\
 
 export ASFLAGS	=	$(INCLUDE_DIR)						\
 
