@@ -30,7 +30,7 @@ void kalloc_dump(void)
     while (blk && blk <= lstblk)
     {
         serial_printf(
-            "Block at %#X:\n    size: %#X\n    %s\n",
+            "Block at %#X  sizeof %#X  %s\n",
             (uintptr)blk,
             BLK_GETSZ(blk),
             BLK_ISUSED(blk) ? "used" : "unused"
@@ -126,6 +126,10 @@ static block_t *extend_kheap(size_t size)
     return (lstblk);
 }
 
+/*
+** Our main kernel allocator function
+** The returned pointer is obviously system aligned 
+*/
 static virtaddr_t __kalloc(size_t size, kallocattrib_t flag)
 {
     block_t *block = NULL;
@@ -142,10 +146,6 @@ static virtaddr_t __kalloc(size_t size, kallocattrib_t flag)
     return (BLK2ADDR(block));
 }
 
-/*
-** Our main kernel allocator function
-** The returned pointer is obviously system aligned 
-*/
 virtaddr_t kalloc(size_t size)
 {
     return (__kalloc(size, KALLOC_DEFAULT));
@@ -196,6 +196,38 @@ virtaddr_t kalloc_aligned(size_t size, u32_t align)
 }
 
 /*
+** classical realloc() function
+*/
+virtaddr_t krealloc(virtaddr_t oldptr, size_t size)
+{
+    virtaddr_t newptr;
+    block_t *oldblk;
+
+    if (!oldptr)
+        return (NULL);
+    newptr = kalloc(size);
+    oldblk = ADDR2BLK(oldptr);
+    memcpy(newptr, oldptr, BLK_GETSZ(oldblk) > size ? size : BLK_GETSZ(oldblk));
+    kfree(oldptr);
+    return (newptr);
+}
+
+/*
+** classical calloc() function
+*/
+virtaddr_t kcalloc(size_t nmenb, size_t size)
+{
+    virtaddr_t allocated;
+
+    if (!nmenb || !size)
+        return (NULL);
+    allocated = kalloc(nmenb * size);
+    if (allocated)
+        memset(allocated, 0x0, nmenb * size);
+    return (allocated);
+}
+
+/*
 ** Our kernel heap free function
 ** We actually consider that the given pointer is at the block start address
 ** If this is not the case:
@@ -230,6 +262,6 @@ void kalloc_init(void)
 }
 
 /*
-** Can't be a boot_initcall()
+** Can't be a initcall()
 ** we are using a function unavailable before the VMM initcall 
 */

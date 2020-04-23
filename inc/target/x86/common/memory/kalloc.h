@@ -38,6 +38,8 @@ void kalloc_dump(void);
 virtaddr_t kalloc_aligned(size_t size, u32_t align);
 #define kalloc_page_aligned(x) kalloc_aligned(x, KCONFIG_MMU_PAGESIZE)
 virtaddr_t kalloc(size_t size);
+virtaddr_t krealloc(virtaddr_t ptr, size_t size);
+virtaddr_t kcalloc(size_t nmenb, size_t size);
 virtaddr_t kalloc_force_alloc(size_t size);
 void kfree(virtaddr_t virt);
 
