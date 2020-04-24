@@ -227,6 +227,22 @@ virtaddr_t kcalloc(size_t nmenb, size_t size)
     return (allocated);
 }
 
+
+/*
+** Kalloc equivalent to mmap with known physical address
+*/
+virtaddr_t kalloc_dev(physaddr_t phys, size_t sz)
+{
+    virtaddr_t virt;
+
+    assert(IS_PAGE_ALIGNED(phys));
+    assert(IS_PAGE_ALIGNED(sz));
+    virt = kalloc_aligned(sz, KCONFIG_MMU_PAGESIZE);
+    if (virt)
+        virt = vmm_mmap_dev(virt, phys, sz, MMAP_WRITE | MMAP_REMAP);
+    return (virt);
+}
+
 /*
 ** Our kernel heap free function
 ** We actually consider that the given pointer is at the block start address

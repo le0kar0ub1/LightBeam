@@ -8,13 +8,16 @@ kernelmain:
     call idt_init
     call idt_load
 
-    call multiboot_parse_tags # parse the multiboot header
+    # parse the multiboot header
+    call multiboot_parse_tags
 
+    # run boot initcalls
     pushl $0x0
-    call run_initcall_level # run boot initcalls
+    call run_initcall_level
 
+    # run pure initcalls
     pushl $0x1
-    call run_initcall_level # run pure initcalls
+    call run_initcall_level
 
     pushl $.imalive
     call  vga_printf

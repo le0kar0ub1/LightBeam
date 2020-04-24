@@ -12,7 +12,7 @@ sinclude mkhelper/builder/def.mk
 
 all:	_prebuild	_build
 
-# Evaluate if the build is correct
+# Evaluate if the build target is correct
 _prebuild:
 	$(call EvalTargetMachine, $(TARGET))
 	@echo -e "\n *"
@@ -41,4 +41,4 @@ toolchain:
 
 help:
 	@echo "Handled target:"
-	@echo "    $(HANDLED_PLATEFORM)"
+	@echo -e " $(addsuffix \n,$(HANDLED_PLATEFORM))"

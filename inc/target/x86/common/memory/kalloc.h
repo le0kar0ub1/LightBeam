@@ -41,6 +41,7 @@ virtaddr_t kalloc(size_t size);
 virtaddr_t krealloc(virtaddr_t ptr, size_t size);
 virtaddr_t kcalloc(size_t nmenb, size_t size);
 virtaddr_t kalloc_force_alloc(size_t size);
+virtaddr_t kalloc_dev(physaddr_t phys, size_t sz);
 void kfree(virtaddr_t virt);
 
 #endif

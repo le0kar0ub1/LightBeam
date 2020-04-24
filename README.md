@@ -4,7 +4,7 @@ The purpose of this project is to create some kernel base for several plateform.
 
 LightBeam is a little project without ambition that explore the OS development world.
 
-[Project Root Documentation](doc/tree.md)
+A documentation is provided [here](doc/tree.md). There are explanation on the project architecture.
 
 <img src="doc/lightbeam.jpg" width="600" height="200">
 
@@ -18,20 +18,20 @@ _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 Kernels are built using GNU toolchain from submodules git.
 
-For x86 build we actually assume that your host machine is of this architecture. An installer for x86 will be provided later.
+For x86 the build actually assume that your host machine is of this architecture. An installer will be provided later.
 
 ## BUILD
 
 `make TARGET=$PLATEFORM`
 
-[Targetable PLATEFORM list](src/target/README.md)
+The targetable PLATEFORM list is provided [here](src/target/README.md).
 
-You can run at root `make help` to see targetable plateform.
+You can also run `make help` at root to see targetable plateform.
 
 
 ## RUN
 
-For virtual run I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for systems X.
+For virtual run I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for system X.
 
 Install QEMU from official [github repository](https://github.com/qemu/qemu).
 
