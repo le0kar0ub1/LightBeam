@@ -123,7 +123,7 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     }
 }
 
-static void arch_vmm_init(void)
+void arch_vmm_init(void)
 {
     /*
     ** For the kheap consistancy we must unmap all page behind the kernel
@@ -162,7 +162,6 @@ static void arch_vmm_init(void)
 }
 
 /*
-** VMM is pure_initcall()
+** VMM can't be initcall()
 ** The PMM is handle by a boot_initcall() and is totaly shared
 */
-pure_initcall(arch_vmm_init);

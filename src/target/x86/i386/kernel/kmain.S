@@ -11,13 +11,7 @@ kernelmain:
     # parse the multiboot header
     call multiboot_parse_tags
 
-    # run boot initcalls
-    pushl $0x0
-    call run_initcall_level
-
-    # run pure initcalls
-    pushl $0x1
-    call run_initcall_level
+    call run_inithooks
 
     pushl $.imalive
     call  vga_printf

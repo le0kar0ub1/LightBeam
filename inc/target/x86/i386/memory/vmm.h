@@ -65,5 +65,6 @@ physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt);
 mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib);
 mmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib);
 void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib);
+void arch_vmm_init(void);
 
 #endif

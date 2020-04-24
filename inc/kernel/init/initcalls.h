@@ -27,15 +27,15 @@ typedef void (*initcall_t)(void);
 void run_initcalls(void);
 void run_initcall_level(u8_t);
 
-#define run_boot_initcalls(fn)       run_initcall_level(0)
-#define run_pure_initcalls(fn)       run_initcall_level(1)
-#define run_core_initcalls(fn)       run_initcall_level(2)
-#define run_postcore_initcalls(fn)   run_initcall_level(3)
-#define run_driver_initcalls(fn)     run_initcall_level(4)
-#define run_subsys_initcalls(fn)     run_initcall_level(5)
-#define run_command_initcalls(fn)    run_initcall_level(6)
-#define run_server_initcalls(fn)     run_initcall_level(7)
-#define run_gui_initcalls(fn)        run_initcall_level(8)
-#define run_last_initcalls(fn)       run_initcall_level(9)
+#define run_boot_initcalls()       run_initcall_level(0)
+#define run_pure_initcalls()       run_initcall_level(1)
+#define run_core_initcalls()       run_initcall_level(2)
+#define run_postcore_initcalls()   run_initcall_level(3)
+#define run_driver_initcalls()     run_initcall_level(4)
+#define run_subsys_initcalls()     run_initcall_level(5)
+#define run_command_initcalls()    run_initcall_level(6)
+#define run_server_initcalls()     run_initcall_level(7)
+#define run_gui_initcalls()        run_initcall_level(8)
+#define run_last_initcalls()       run_initcall_level(9)
 
 #endif

@@ -38,6 +38,7 @@ void vmm_init(void);
 virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib);
 void vmm_unmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib);
 bool vmm_is_mapped(virtaddr_t virt);
+void arch_vmm_init(void);
 
 /*
 ** Arch-depend prototypes

@@ -10,6 +10,7 @@ BUILDER_SOURCE_DIR	:=	drivers/vga			\
 						drivers/serial		\
 						memory				\
 						system				\
+						init				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

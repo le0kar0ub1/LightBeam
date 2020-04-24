@@ -27,4 +27,6 @@
 #include "kernel/lib/lib.h"
 #include "kernel/lib/printf.h"
 
+void helloFromLightBeam(void);
+
 #endif
