@@ -78,7 +78,7 @@ mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t att
     pte = &(pt->entries[virt2ptIdx(virt)]);
     if (pte->present) {
         if (pte->frame && MASK_MMAP_REMAP(attrib))
-            pmm_free_frame(pte->frame);
+            pmm_free_frame(pte->frame << 0xC);
         else
             return (VMM_ALREADY_MAPPED);
     }

@@ -1,6 +1,8 @@
 #ifndef _x86_APIC__
 #define _x86_APIC__
 
+#include "target/x86/x86.h"
+
 #define APIC_REG_BASE_ADDR 0xFEE00000
 
 /*
@@ -31,5 +33,8 @@ enum apic_reg
     APIC_TIMER_CCR      = APIC_REG_BASE_ADDR + 0x390, /* Timer Current Count Register */
     APIC_TIMER_DCR      = APIC_REG_BASE_ADDR + 0x3E0, /* Timer Divide Configuration Register */
 };
+
+u32_t apic_get_id(void);
+void apic_init(void);
 
 #endif

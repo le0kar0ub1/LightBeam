@@ -1,8 +1,8 @@
 /*
-** Some kernek project shareable things
+** Some kernel project shareable things
 */
 
-unsigned char LightBeamSignature[] = "lightbeam";
+char LightBeamSignature[] = "lightbeam";
 
 char const *LightBeamNameArt =  \
 "\
