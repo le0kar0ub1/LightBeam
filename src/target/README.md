@@ -23,4 +23,4 @@ The array below reference the built plateform and their own documentation.
 | Plateform            | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
 | `x86/x86_64`         | [x86_64 multicore implementation](x86/i386/README.md)                |
-| `riscv/riscv64`      | No Idea for what/who/how                                             |
+| `riscv/riscv64`      | [riscv64 implementation](riscv/riscv64/README.md)                    |

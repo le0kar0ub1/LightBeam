@@ -5,7 +5,7 @@ PROVIDE(ram_entry     = 0x80000000);
 
 MEMORY
 {
-    ram  : org = 0x80000000, len = 128M
+    ram (wxa!ri) : org = 0x80000000, len = 128M
 }
 
 SECTIONS

@@ -48,11 +48,16 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,$(GNUBASE)gcc)
 	$(call EvalBinaryExistence,$(GNUBASE)ld)
 
+ifeq ($(DEBUG),1)
+    QEMUOPT = -monitor stdio --no-reboot
+else
+    QEMUOPT = -serial mon:stdio 
+endif
 run:
 	@qemu-system-riscv64 -machine virt 					\
 						-cpu rv64 						\
+						-bios none 						\
+						-kernel $(BUILDIR)/$(KERNEL) 	\
 						-smp 4 							\
 						-m 4G  							\
-						-serial mon:stdio 				\
-						-bios none 						\
-						-kernel $(BUILDIR)/$(IMGKERN) 	\
+						$(QEMUOPT)

@@ -35,6 +35,10 @@ For virtual run I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc
 
 Install QEMU from official [github repository](https://github.com/qemu/qemu).
 
+A configured run is provided for each plateform.
+
+`make TARGET=$PLATEFORM && make run TARGET=$PLATEFORM`
+
 Check dependencies using the `make toolchain`.
 
 
