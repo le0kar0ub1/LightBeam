@@ -1,18 +1,9 @@
  #
-# Inc make which define ARM architecture and processor
+# Inc make which define handled plt/arch
  #
 
 # Used as target
 export HANDLED_PLATEFORM	:=	raspi/raspi3	\
 								x86/i386		\
-								x86/x86_64
-
-
-## For information #
-export HANDLED_PROC		:=	cortex-A53	\
-							i386		\
-							x86_64
-
-
-# Just a List
-export HANDLED_ARCH		:=	armv8
+								x86/x86_64		\
+								riscv/riscv64

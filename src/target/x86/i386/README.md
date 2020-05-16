@@ -3,7 +3,7 @@
 
 A multicore i386 kernel implementation using `grub` so far.
 
-Reference of [x86 common](../x86/README.md).
+Reference of [x86 common](../README.md).
 
 As explain, a part of the kernel is contained in other project directories.
 
