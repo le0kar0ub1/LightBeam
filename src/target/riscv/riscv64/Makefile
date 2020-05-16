@@ -8,11 +8,19 @@ export TGTARCH	:=	riscv64
 
 export GNUBASE	:=	riscv64-linux-gnu-
 
-CCFLAGS		+=	
+CCFLAGS		+=	-mcmodel=medany 		\
+				-ffunction-sections		\
+				-fdata-sections			\
+				-Os						\
+				-march=rv64imac 		\
+				-mabi=lp64				\
 
 ASFLAGS		+=	
 
-LDFLAGS		+=	
+LDFLAGS		+=	-nostartfiles 			\
+				-nostdlib 				\
+				-nostdinc 				\
+				-static 				\
 
 # The library we are using
 # LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\
@@ -39,3 +47,12 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,$(GNUBASE)as)
 	$(call EvalBinaryExistence,$(GNUBASE)gcc)
 	$(call EvalBinaryExistence,$(GNUBASE)ld)
+
+run:
+	@qemu-system-riscv64 -machine virt 					\
+						-cpu rv64 						\
+						-smp 4 							\
+						-m 4G  							\
+						-serial mon:stdio 				\
+						-bios none 						\
+						-kernel $(BUILDIR)/$(IMGKERN) 	\

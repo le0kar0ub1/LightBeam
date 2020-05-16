@@ -42,3 +42,7 @@ toolchain:
 help:
 	@echo "Handled target:"
 	@echo -e " $(addsuffix \n,$(HANDLED_PLATEFORM))"
+
+run:
+	$(call EvalTargetMachine, $(TARGET))
+	@make run -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR)/$(TARGET) --no-print-directory -s
