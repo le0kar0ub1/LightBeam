@@ -61,3 +61,8 @@ arcbuild:
 toolchainCheckup:
 	@echo ""
 	$(call EvalToolChainExistence,ARM AARCH64,$(AARCH64_ARMGNUDIR))
+
+run:
+	qemu-system-aarch64 -machine raspi3					\
+						-serial stdio					\
+						-kernel $(BUILDIR)/$(IMGKERN)

@@ -57,3 +57,7 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,ld)
 	$(call EvalBinaryExistence,grub-mkrescue)
 	$(call EvalBinaryExistence,xorriso)
+
+run:
+	qemu-system-i386 -cdrom $(BUILDIR)/$(ISOKERN) \
+					-serial stdio
