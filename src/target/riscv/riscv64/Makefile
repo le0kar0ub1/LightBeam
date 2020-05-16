@@ -12,15 +12,12 @@ CCFLAGS		+=	-mcmodel=medany 		\
 				-ffunction-sections		\
 				-fdata-sections			\
 				-Os						\
-				-march=rv64imac 		\
-				-mabi=lp64				\
 
 ASFLAGS		+=	
 
 LDFLAGS		+=	-nostartfiles 			\
 				-nostdlib 				\
-				-nostdinc 				\
-				-static 				\
+				-nodefaultlibs
 
 # The library we are using
 # LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\
@@ -32,6 +29,8 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_RAWKRN)
 BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	=	boot			\
+						interrupts		\
+						drivers
 
 .PHONY: all
 

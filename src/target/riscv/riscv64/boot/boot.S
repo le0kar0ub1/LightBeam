@@ -1,16 +1,30 @@
 .global _start
 
-.org 0x0
+.extern _vectors
+.extern __bss_start
+.extern __bss_size
 
-.section .hellboot, "ax"
-
-boot_vector:
-    j _start
-
-.section .init.text, "ax", @progbits
+.section .init.text, "ax"
 
 _start:
-    j _start
-    xor a0, a0, a0
-    addi a0, a0, 10
-    j _start
+    la sp, _stack_top
+
+    la x5,  _vectors
+    csrw mtvec, x5
+
+    la x5, __bss_start
+    la x6, __bss_end
+_clear_bss:
+    sw x0, (0)(x5)
+    add x5, x5, 4
+    blt x5, x6, _clear_bss
+
+_hang:
+    j _hang
+
+.section .bss
+_stack_bottom:
+.rept
+    .4byte
+.endr
+_stack_top:
