@@ -9,22 +9,35 @@
 _start:
     la sp, _stack_top
 
-    la x5,  _vectors
-    csrw mtvec, x5
+    /* save hart id and dtb pointer */
+    mv tp, a0
+    mv s1, a1
 
-    la x5, __bss_start
-    la x6, __bss_end
-_clear_bss:
-    sw x0, (0)(x5)
-    add x5, x5, 4
-    blt x5, x6, _clear_bss
+    /* clear all interrupts */
+    csrw mie, x0
+
+    /* load interrupt vector */
+    la t0, _vectors
+    csrw mtvec, t0
+
+
+#    la x5, __bss_start
+#    la x6, __bss_end
+#_clear_bss:
+#    sw x0, (0)(x5)
+#    add x5, x5, 4
+#    blt x5, x6, _clear_bss
+
+    jal uart_put_char
+
+    jal serial_init
 
 _hang:
     j _hang
 
 .section .bss
 _stack_bottom:
-.rept
+.rept 0x1000
     .4byte
 .endr
 _stack_top:

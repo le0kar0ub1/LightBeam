@@ -131,9 +131,11 @@ SECTIONS
 
     PROVIDE(__KEND = .);
 
+    /*
     /DISCARD/ : { *(.comment) }
     /DISCARD/ : { *(.gnu*) }
     /DISCARD/ : { *(.note*) }
     /DISCARD/ : { *(.eh_frame*) }
     /DISCARD/ : { *(.interp*)}
+    */
 }

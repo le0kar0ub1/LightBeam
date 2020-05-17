@@ -17,7 +17,9 @@ ASFLAGS		+=
 
 LDFLAGS		+=	-nostartfiles 			\
 				-nostdlib 				\
-				-nodefaultlibs
+				-nodefaultlibs			\
+				--gc-sections 			\
+				-static
 
 # The library we are using
 # LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\

@@ -14,7 +14,7 @@ The array below reference the built plateform and their own documentation.
 
 | Plateform            | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
-| `raspi/raspi3`       | [raspberry3 multicore implementation](raspi/raspi3/README.md)        |
+| `arm/raspi/raspi3`       | [raspberry3 multicore implementation](arm/raspi/raspi3/README.md)        |
 | `x86/i386`           | [i386 multicore implementation](x86/i386/README.md)                  |
 
 

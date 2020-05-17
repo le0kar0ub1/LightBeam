@@ -11,6 +11,6 @@ struct intcontext_t
     u64_t reg[32];
 };
 
-void interrupt_handler(struct intcontext_t);
+void interrupt_handler(struct intcontext_t *);
 
 #endif
