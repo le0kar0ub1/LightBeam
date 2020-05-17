@@ -20,7 +20,6 @@ _start:
     la t0, _vectors
     csrw mtvec, t0
 
-
     la x5, __bss_start
     la x6, __bss_end
 _clear_bss:
