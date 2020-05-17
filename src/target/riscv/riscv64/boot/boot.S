@@ -21,23 +21,19 @@ _start:
     csrw mtvec, t0
 
 
-#    la x5, __bss_start
-#    la x6, __bss_end
-#_clear_bss:
-#    sw x0, (0)(x5)
-#    add x5, x5, 4
-#    blt x5, x6, _clear_bss
-
-    jal uart_put_char
-
-    jal serial_init
+    la x5, __bss_start
+    la x6, __bss_end
+_clear_bss:
+    sw x0, (0)(x5)
+    add x5, x5, 4
+    blt x5, x6, _clear_bss
 
 _hang:
     j _hang
 
 .section .bss
 _stack_bottom:
-.rept 0x1000
-    .4byte
+.rept 0x4000
+    .byte
 .endr
 _stack_top:
