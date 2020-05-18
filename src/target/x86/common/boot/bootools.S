@@ -23,3 +23,9 @@ early_vgaputs:
     pop %eax
     pop %edi
     ret
+
+.global early_crash
+
+early_crash:
+    call early_vgaputs
+    hlt

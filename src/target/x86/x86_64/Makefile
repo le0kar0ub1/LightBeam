@@ -19,8 +19,7 @@ CCFLAGS		+=	-march=x86_64			\
 				-Wcast-align			\
 		  		#-msse4.1				\
 
-ASFLAGS		+=	--32				\
-				--defsym sysz=32	\
+ASFLAGS		+=	--defsym sysz=64	\
 
 LDFLAGS		+=	-m elf_x86_64
 
