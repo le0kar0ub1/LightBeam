@@ -33,7 +33,7 @@ char uart_getc(void)
 
 static smplock_t lock = SMPLOCK_INIT();
 
-void uart_szputs(char const *s, u32_t sz)
+void uart_szputs(char const *s, size_t sz)
 {
     semaphore_inc(&lock);
     for (u32_t i = 0x0; s[i] && i < sz; i++)

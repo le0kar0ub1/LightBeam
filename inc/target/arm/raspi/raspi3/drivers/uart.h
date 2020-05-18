@@ -24,7 +24,7 @@ enum FIFO_IO
 void uart_kprint(char const *, ...);
 
 void uart_init(void);
-void uart_szputs(char const *, u32_t);
+void uart_szputs(char const *, size_t);
 char uart_getc(void);
 void uart_puts(char const *);
 

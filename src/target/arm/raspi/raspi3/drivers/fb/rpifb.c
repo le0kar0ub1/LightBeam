@@ -125,7 +125,7 @@ static u32_t rpifb_handle_escape_sequence(char const *s)
 
 }
 
-void rpifb_szputs(char const *s, u32_t sz)
+void rpifb_szputs(char const *s, size_t sz)
 {
     semaphore_inc(&lock);
     for (u32_t pr = 0x0; s[pr] && pr < sz; pr++) 

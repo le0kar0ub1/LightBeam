@@ -15,15 +15,10 @@ _start:
     call sanity_multiboot
     call cpuid_detect
 
-    call load_gdt
+    # call load_gdt
 
-    call setup_paging
+    # call setup_paging
 
-    popl %ebx
-    addl $__KERNEL_ADDR_TRNS, %ebx
-    mov $multiboot_virtaddr, %eax
-    mov %ebx, (%eax) # in our multiboot parser file
-
-    jmp kernelmain
+    # jmp kernelmain
 
     hlt

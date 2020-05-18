@@ -7,12 +7,12 @@
 
 #ifdef KCONFIG_MAXCPUS
     /* Caller printer */
-    static void (*caller_szputs[KCONFIG_MAXCPUS])(char const *, u32_t);
+    static void (*caller_szputs[KCONFIG_MAXCPUS])(char const *, size_t);
     /* Caller handlers */
     static struct printfhandlers_t *callerhandlers[KCONFIG_MAXCPUS];
 #else
     /* Caller printer */
-    static void (*caller_szputs)(char const *, u32_t);
+    static void (*caller_szputs)(char const *, size_t);
     /* Caller handlers */
     static struct printfhandlers_t *callerhandlers;
 #endif
@@ -326,7 +326,7 @@ static void __generic_printf(char const *fmt, __builtin_va_list ap)
     #define GENERIC_PRINTF_EXIT()
 #endif
 
-void generic_vprintf(void (*szputs)(char const *, u32_t), struct printfhandlers_t *handlers, 
+void generic_vprintf(void (*szputs)(char const *, size_t), struct printfhandlers_t *handlers, 
 char const *fmt, __builtin_va_list ap)
 {
     GENERIC_PRINTF_INIT();
@@ -334,7 +334,7 @@ char const *fmt, __builtin_va_list ap)
     GENERIC_PRINTF_EXIT();
 }
 
-void generic_printf(void (*szputs)(char const *, u32_t), struct printfhandlers_t *handlers, 
+void generic_printf(void (*szputs)(char const *, size_t), struct printfhandlers_t *handlers, 
 char const *fmt, ...)
 {
     GENERIC_PRINTF_INIT();

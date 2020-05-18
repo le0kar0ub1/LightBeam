@@ -132,6 +132,28 @@ static inline uint xchg(uint volatile *addr, uint newval)
     return (res);
 }
 
+#if ARCH_DIMENSION == 32
+    static inline uint64 read_rflags(void)
+    {
+        return (__builtin_ia32_readeflags_u32());
+    }
+
+    static inline void write_rflags(uint64 rflags)
+    {
+        __builtin_ia32_writeeflags_u32(rflags);
+    }
+#elif ARCH_DIMENSION == 64
+    static inline uint64 read_rflags(void)
+    {
+        return (__builtin_ia32_readeflags_u64());
+    }
+
+    static inline void write_rflags(uint64 rflags)
+    {
+        __builtin_ia32_writeeflags_u64(rflags);
+    }
+#endif
+
 static inline uint64 get_rflags(void)
 {
     uint64 e;
@@ -145,15 +167,6 @@ static inline void set_rflags(uint64 value)
     asm volatile("push %0; popfq" :: "g"(value) : "memory", "cc");
 }
 
-static inline uint64 read_rflags(void)
-{
-    return (__builtin_ia32_readeflags_u32());
-}
-
-static inline void write_rflags(uint64 rflags)
-{
-    __builtin_ia32_writeeflags_u32(rflags);
-}
 
 static inline void preempt_inc(void)
 {

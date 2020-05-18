@@ -93,7 +93,7 @@ struct rpifb_handler {
 
 void rpifb_init(u32_t, u32_t, u32_t, u32_t, u32_t);
 
-void rpifb_szputs(char const *, u32_t);
+void rpifb_szputs(char const *, size_t);
 void rpifb_puts(char const *);
 void rpifb_clear(void);
 
