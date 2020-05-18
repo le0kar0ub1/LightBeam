@@ -18,14 +18,22 @@ _start:
 
     call load_gdt
 
-    # call setup_paging
+    call setup_paging
 
+    call initlm
+
+    ljmp $KERNEL_CODE_SELECTOR, $(prefacelm - __KERNEL_ADDR_TRNS)
+    prefacelm:
+
+    call setuplm
+
+    # popl %ebx
     jmp kernelmain
 
     hlt
 
 /*
-** Load our GDT & then the kernel selectors
+** Load our GDT & then the kernel selector
 */
 
 load_gdt:
@@ -39,7 +47,7 @@ load_gdt:
     mov %ax, %gs
     mov %ax, %ss
 
-    ljmp $KERNEL_CODE_SELECTOR, $(.flush_codeselector - 0xFFFFFFFF80000000)
+    ljmp $KERNEL_CODE_SELECTOR, $(.flush_codeselector - __KERNEL_ADDR_TRNS)
 .flush_codeselector:
     ret
 

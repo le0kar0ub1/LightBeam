@@ -13,11 +13,11 @@
 setup_paging:
     /* recursive mapping */
     LV2P $kernel_pagedir, %eax
-    orl $0x3, %eax
+    orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     SV2P %eax, .kpage_last_entry
 
     LV2P $kernel_pagetable, %eax
-    orl $0x3, %eax
+    orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     SV2P %eax, .kpage_kernel_entry
 
     LV2P $kernel_pagetable, %edi
@@ -25,7 +25,7 @@ setup_paging:
     movl $0x400, %ecx
 .loop_page:
     movl %edx, %eax
-    orl $0x3, %eax
+    orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     movl %eax, (%edi)
     addl $0x1000, %edx
     addl $0x4, %edi
@@ -87,11 +87,11 @@ kernel_pagedir:
 .align 4096
     .kpage_first_entry:
         .4byte 0x00000083 # First entry to avoid crash
-        .rept (KERNEL_PAGE_INDEX_START - 1)
+        .rept (KERNEL_PAGEDIR_INDEX_START - 1)
             .4byte 0x0
         .endr
     .kpage_kernel_entry:
-        .rept (1024 - KERNEL_PAGE_INDEX_START - 1)
+        .rept (1024 - KERNEL_PAGEDIR_INDEX_START - 1)
             .4byte 0x0
         .endr
     .kpage_last_entry:

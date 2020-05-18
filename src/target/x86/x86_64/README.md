@@ -12,9 +12,10 @@ The build actually assume that your host compiler is x64.
 ## ROADMAP
 
 - [X] Higher half loaded
-- [ ] Boot
-  - [ ] GDT
+- [X] Boot
+  - [X] GDT
   - [ ] Early Paging
+  - [ ] Long mode
   - [ ] IDT
   - [ ] TSS
   - [ ] SMP init

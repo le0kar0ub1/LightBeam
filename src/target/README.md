@@ -16,11 +16,12 @@ The array below reference the built plateform and their own documentation.
 |----------------------|----------------------------------------------------------------------|
 | `arm/raspi/raspi3`   | [raspberry3 multicore implementation](arm/raspi/raspi3/README.md)    |
 | `x86/i386`           | [i386 multicore implementation](x86/i386/README.md)                  |
-| `riscv/riscv64`      | [riscv64 generic boot implementation](riscv/riscv64/README.md)                    |
+| `riscv/riscv64`      | [riscv64 generic boot implementation](riscv/riscv64/README.md)       |
+| `x86/x86_64`         | [x86_64 multicore implementation](x86/i386/README.md)                |
 
 
 ## In The Scope
 
 | Plateform            | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
-| `x86/x86_64`         | [x86_64 multicore implementation](x86/i386/README.md)                |
+| `riscv/riscv64/???`  | riscv64 plateform                                                    |
