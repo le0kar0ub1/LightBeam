@@ -22,3 +22,16 @@ _start:
     # jmp kernelmain
 
     hlt
+
+/*
+** Our kernel stack
+*/
+
+.section .bss
+
+.global stack_top
+
+.align 1024
+stack_bottom:
+.lcomm stack, 0x1000 * 0x10
+stack_top:

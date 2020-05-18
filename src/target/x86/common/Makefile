@@ -6,12 +6,12 @@ BUILDER_HEADER		:=	x86 shared
 
 BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
-BUILDER_SOURCE_DIR	:=	drivers/vga			\
+BUILDER_SOURCE_DIR	:=	boot				\
+						#drivers/vga			\
 						drivers/serial		\
 						memory				\
 						system				\
 						init				\
-						boot				\
 						interrupts			\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)

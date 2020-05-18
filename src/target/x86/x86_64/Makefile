@@ -19,9 +19,9 @@ CCFLAGS		+=	-march=x86-64			\
 				-Wcast-align			\
 		  		#-msse4.1				\
 
-ASFLAGS		+=	--defsym sysz=64	\
+ASFLAGS		+=	--defsym sysz=64
 
-LDFLAGS		+=	-m elf_x86_64
+LDFLAGS		+=	#-m elf_x86_64
 
 # The library we are using
 # LDFLAGS			+=	$(TGTSHARED_OVRKRN)	\
@@ -46,7 +46,7 @@ all:	toolchainCheckup	arcbuild	lauchbuilder
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
-	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
+	#@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory
 
 toolchainCheckup:
@@ -57,5 +57,5 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,xorriso)
 
 run:
-	qemu-system-x86_64 -cdrom $(BUILDIR)/$(ISOKERN) \
-					-serial stdio
+	@qemu-system-x86_64 -cdrom $(BUILDIR)/$(ISOKERN) \
+						-serial stdio

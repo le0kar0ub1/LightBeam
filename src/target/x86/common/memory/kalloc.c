@@ -274,7 +274,7 @@ void kalloc_init(void)
     ** We mark a first block as free with a total of (0x1000 - (block_size * 2))
     ** The first allocation in init is page aligned, so we finaly lose no memory on alignement
     */
-    fstblk->attrib = -(0x1000 - (sizeof(block_t) * 2));
+    fstblk->attrib = -(int)(0x1000 - (sizeof(block_t) * 2));
 }
 
 /*

@@ -46,7 +46,7 @@ physaddr_t pmm_alloc_frame(void)
     ** Begin the research at the address 0x10000
     ** If a block of 8 is non totaly used, then we have found
     */
-    u32_t idx = 0x2;
+    uintptr idx = 0x2;
     u8_t  sub;
 
     spinlock_lock(&lock);

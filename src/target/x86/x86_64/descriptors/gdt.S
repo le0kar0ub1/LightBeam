@@ -9,12 +9,12 @@
 .align 16
 gdtptr:
     .2byte gdt_end - gdt_start - 1
-    .4byte gdt
+    .8byte gdt
 
 .align 16
 gdtptr_phys:
     .2byte gdt_end - gdt_start - 1
-    .4byte gdt - 0xFFFFFFFF
+    .4byte gdt - 0xFFFFFFFF80000000
 
 .section .data
 

@@ -1,5 +1,7 @@
 .code32
 
+.include "target/x86/common/boot.inc"
+
 .extern __BSS_START
 .extern __BSS_END
 
@@ -10,10 +12,11 @@
 */
 
 clear_bss:
-    movl $__BSS_START, %eax
+    LV2P $__BSS_START, %eax
+    LV2P $__BSS_END, %ebx
     .bssclear:
         movb $0x0, (%eax)
         incl %eax
-        cmpl $__BSS_END, %eax
+        cmpl %ebx, %eax
         jne .bssclear
     ret

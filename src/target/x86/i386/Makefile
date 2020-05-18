@@ -59,5 +59,5 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,xorriso)
 
 run:
-	qemu-system-i386 -cdrom $(BUILDIR)/$(ISOKERN) \
+	@qemu-system-i386 -cdrom $(BUILDIR)/$(ISOKERN) \
 					-serial stdio
