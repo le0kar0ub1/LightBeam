@@ -12,9 +12,9 @@
     movl \reg, \addr - __KERNEL_ADDR_TRNS
 .endm
 
-.equ MMU_PRESENT,     1 << 0
-.equ MMU_WRITABLE,    1 << 1
-.equ MMU_SZ_TWO_MB,   1 << 7
+.equ MMU_PRESENT,   (1 << 0)
+.equ MMU_WRITABLE,  (1 << 1)
+.equ MMU_SZ_TWO_MB, (1 << 7)
 
 .if sysz == 64
     .equ PAGE_ENTRY_NBR, 0x200

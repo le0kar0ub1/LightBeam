@@ -20,15 +20,8 @@ _start:
 
     call setup_paging
 
-    call initlm
-
-    ljmp $KERNEL_CODE_SELECTOR, $(prefacelm - __KERNEL_ADDR_TRNS)
-    prefacelm:
-
-    call setuplm
-
     # popl %ebx
-    jmp kernelmain
+    ljmp $KERNEL_CODE_SELECTOR, $(lmworld - __KERNEL_ADDR_TRNS)
 
     hlt
 

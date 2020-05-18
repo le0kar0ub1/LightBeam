@@ -1,24 +1,14 @@
+.code64
 
 .section .text
 
-.code32
+.global lmworld
 
-.global initlm
-
-initlm:
-    movl $0xC0000080, %eax
-    rdmsr
-    orl $((0x1 << 0x8) | (0x1 << 0xB)), %eax
-    wrmsr
-
-    ret
-
-.code64
-
-.global setuplm
-
-setuplm:
-
+lmworld:
+    hlt
+    movq $stack_top, %rsp
+    pushq 0x0
+    hlt
     lea .higher_half, %rax
     jmp *%rax
     .higher_half:
@@ -32,7 +22,6 @@ setuplm:
 
     # lgdt gdtptr
     # # Reload Boot Values
-    # movl $stack_top, %esp
     # subl $0x8, %esp # multiboot structure & caller address pushed
 
     # popl %ebx
@@ -40,4 +29,4 @@ setuplm:
     # mov $multiboot_virtaddr, %eax
     # mov %ebx, (%eax) # in our multiboot parser file
 
-    ret
+    jmp kernelmain

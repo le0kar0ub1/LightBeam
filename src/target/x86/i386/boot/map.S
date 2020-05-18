@@ -23,13 +23,13 @@ setup_paging:
     LV2P $kernel_pagetable, %edi
     xorl %edx, %edx
     movl $0x400, %ecx
-.loop_page:
-    movl %edx, %eax
-    orl $(MMU_PRESENT | MMU_WRITABLE), %eax
-    movl %eax, (%edi)
-    addl $0x1000, %edx
-    addl $0x4, %edi
-    loop .loop_page
+    .loop_page:
+        movl %edx, %eax
+        orl $(MMU_PRESENT | MMU_WRITABLE), %eax
+        movl %eax, (%edi)
+        addl $0x1000, %edx
+        addl $0x4, %edi
+        loop .loop_page
 
     LV2P $kernel_pagedir, %eax
     movl %eax, %cr3

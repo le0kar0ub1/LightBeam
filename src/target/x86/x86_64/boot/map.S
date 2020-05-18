@@ -19,30 +19,37 @@ setup_paging:
     LV2P $kernel_page_directory_pointer, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     SV2P %eax, .kernel_plm4_kernel_entry
+    #SV2P %eax, kernel_pml4
 
     LV2P $kernel_page_directory, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     LV2P $kernel_page_directory_pointer, %edi
     movl %eax, (KERNEL_PDP_INDEX_START * 8)(%edi)
+    #movl %eax, (%edi)
 
     LV2P $kernel_page_directory, %edi
     xorl %edx, %edx
-    movl $0x200, %ecx
-.loop_page:
-    movl %edx, %eax
-    orl $(MMU_PRESENT | MMU_WRITABLE | MMU_SZ_TWO_MB), %eax
-    movl %eax, (%edi)
-    addl $0x200000, %edx # 2MIB page
-    addl $0x8, %edi
-    loop .loop_page
+    orl $(MMU_PRESENT | MMU_WRITABLE | MMU_SZ_TWO_MB), %edx
+    movl $PAGE_ENTRY_NBR, %ecx
+    .loop_page:
+        movl %edx, (%edi)
+        addl $0x200000, %edx # 2MIB page
+        addl $0x8, %edi
+        loop .loop_page
 
     LV2P $kernel_pml4, %eax
     movl %eax, %cr3
 
     # Big page for now
     movl %cr4, %eax
-    orl $0b10000, %eax
+    orl $((1 << 4) | (1 << 7)), %eax
     movl %eax, %cr4
+
+    # long mode
+    movl $0xC0000080, %eax
+    rdmsr
+    orl $((0x1 << 0x8) | (0x1 << 0xB)), %eax
+    wrmsr
 
     # Paging & protected mode
     movl %cr0, %eax
@@ -66,32 +73,32 @@ setup_paging:
     .global .kernel_plm4_kernel_entry
     .global .kernel_plm4_last_entry
 
-kernel_pml4:
 .align 4096
+kernel_pml4:
     .kernel_plm4_first_entry:
-        .4byte 0x00000083 # First entry to avoid crash
+        .8byte 0x0000083
         .rept (KERNEL_PML4_INDEX_START - 1)
-            .4byte 0x0
+            .8byte 0x0
         .endr
     .kernel_plm4_kernel_entry:
-        .rept (512 - KERNEL_PML4_INDEX_START - 1)
-            .4byte 0x0
+        .rept (PAGE_ENTRY_NBR - KERNEL_PML4_INDEX_START - 1)
+            .8byte 0x0
         .endr
     .kernel_plm4_last_entry:
-        .4byte 0x0
+        .8byte 0x0
 
 .global kernel_page_directory_pointer
 
-kernel_page_directory_pointer:
 .align 4096
+kernel_page_directory_pointer:
     .rept PAGE_ENTRY_NBR
-        .8byte 0
+        .8byte 0x0
     .endr
 
 .global kernel_page_directory
 
-kernel_page_directory:
 .align 4096
+kernel_page_directory:
     .rept PAGE_ENTRY_NBR
-        .8byte 0
+        .8byte 0x0
     .endr
