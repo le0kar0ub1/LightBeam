@@ -17,7 +17,7 @@ _prebuild:
 	$(call EvalTargetMachine, $(TARGET))
 	@echo -e "\n *"
 	@echo -e "*  Building $(KERNEL)"
-	@echo -e " *"
+	@echo -e " *\n"
 
 # Lauch the build, clean & exit if failed
 _build:
@@ -43,6 +43,6 @@ help:
 	@echo "Handled target:"
 	@echo -e " $(addsuffix \n,$(HANDLED_PLATEFORM))"
 
-run:
+run: all
 	$(call EvalTargetMachine, $(TARGET))
 	@make run -C $(PROJECT_PATH)/$(ROOT_SRC_DIR)/$(TARGET_DIR)/$(TARGET) --no-print-directory -s

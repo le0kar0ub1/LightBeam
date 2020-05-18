@@ -66,9 +66,9 @@ interrupt_handler:
 .global isr_data_handler
 
 isr_data_handler:
-    .rept 256
-        .4byte 0x0
-    .endr
+.rept 256
+    .4byte 0x0
+.endr
 
 .section .text
 

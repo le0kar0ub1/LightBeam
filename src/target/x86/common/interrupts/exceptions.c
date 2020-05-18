@@ -30,7 +30,8 @@ static char const *exceptions[] =
 
 void exceptions_handler(struct intframe *frame)
 {
+    /* in case we change the gate type later */
     cli();
-    serial_printf("Exceptions occured: %x\n", exceptions[frame->int_num]);
+    serial_printf("Exceptions occured: %s\n", exceptions[frame->int_num]);
     hlt();
 }

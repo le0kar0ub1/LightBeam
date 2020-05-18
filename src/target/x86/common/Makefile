@@ -11,6 +11,8 @@ BUILDER_SOURCE_DIR	:=	drivers/vga			\
 						memory				\
 						system				\
 						init				\
+						boot				\
+						interrupts			\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 
