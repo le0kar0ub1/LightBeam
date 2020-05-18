@@ -14,14 +14,35 @@ _start:
 
     call sanity_multiboot
     call cpuid_detect
+    call lm_ckeckup
 
-    # call load_gdt
+    call load_gdt
 
     # call setup_paging
 
-    # jmp kernelmain
+    jmp kernelmain
 
     hlt
+
+/*
+** Load our GDT & then the kernel selectors
+*/
+
+load_gdt:
+    LV2P $gdtptr_phys, %eax
+    lgdt (%eax)
+
+    mov $KERNEL_DATA_SELECTOR, %ax
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+    mov %ax, %ss
+
+    ljmp $KERNEL_CODE_SELECTOR, $(.flush_codeselector - 0xFFFFFFFF80000000)
+.flush_codeselector:
+    ret
+
 
 /*
 ** Our kernel stack
