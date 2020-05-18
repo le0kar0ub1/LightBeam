@@ -101,14 +101,14 @@ static void generic_puts(char const *s)
         printf_handleWrite(s[i]);
 }
 
-static bool handle_caller_flg(char const **fmt, __builtin_va_list *ap)
+static bool handle_caller_flg(char const **fmt, __builtin_va_list ap)
 {
     for (u32_t i = 0; MLTCR_GET(callerhandlers)[i].flg; i++)
         if (strncmp(MLTCR_GET(callerhandlers)[i].flg, *fmt, strlen(MLTCR_GET(callerhandlers)[i].flg))) {
             if (MLTCR_GET(callerhandlers)[i].handler0)
                 MLTCR_GET(callerhandlers)[i].handler0();
             else if (MLTCR_GET(callerhandlers)[i].handler1)
-                MLTCR_GET(callerhandlers)[i].handler1(__builtin_va_arg(*ap, long));
+                MLTCR_GET(callerhandlers)[i].handler1(__builtin_va_arg(ap, long));
             else
                 return (false);
             *fmt += strlen(MLTCR_GET(callerhandlers)[i].flg) - 1;
@@ -180,11 +180,14 @@ static void printf_handleHashTag(u8_t base)
     }
 }
 
-static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
+static inline void generic_printf_hdlflg(char const **fmt, __builtin_va_list ap)
 {
     /* Caller flag wich can override the next one */
     if (MLTCR_GET(callerhandlers) && handle_caller_flg(fmt, ap))
-        return;
+    {
+        // skip the arg
+        __builtin_va_arg(ap, long);
+    }
     MLTCR_GET(align)  = false;
     MLTCR_GET(hshtag) = false;
     /* Formatter */
@@ -213,80 +216,80 @@ static void generic_printf_hdlflg(char const **fmt, __builtin_va_list *ap)
     /* flag handled by this generic printf */
     switch (**fmt) {
         case 's':
-            vcchar = __builtin_va_arg(*ap, char const *);
+            vcchar = __builtin_va_arg(ap, char const *);
             printf_handleStringFormatter(vcchar);
             generic_puts(vcchar);
             break;
         case 'u':
-            vuint = __builtin_va_arg(*ap, unsigned int);
+            vuint = __builtin_va_arg(ap, unsigned int);
             printf_handleIntegerFormatter((u64_t)vuint, 10);
             multibase_uput32(vuint, 10);
             break;
         case 'U':
-            vulong = __builtin_va_arg(*ap, unsigned long);
+            vulong = __builtin_va_arg(ap, unsigned long);
             printf_handleIntegerFormatter((u64_t)vulong, 10);
             multibase_uput32(vulong, 10);
             break;
         case 'h':
         case 'd':
         case 'i':
-            vint = __builtin_va_arg(*ap, int);
+            vint = __builtin_va_arg(ap, int);
             printf_handleIntegerFormatter((u64_t)vint, 10);
             multibase_put32(vint, 10);
             break;
         case 'x':
-            vint = __builtin_va_arg(*ap, int);
+            vint = __builtin_va_arg(ap, int);
             printf_handleHashTag(16);
             printf_handleIntegerFormatter((u64_t)vint, 16);
             multibase_put32(vint, 16);
             break;
         case 'o':
-            vint = __builtin_va_arg(*ap, int);
+            vint = __builtin_va_arg(ap, int);
             printf_handleHashTag(8);
             printf_handleIntegerFormatter((u64_t)vint, 8);
             multibase_put32(vint, 8);
             break;
         case 'b':
-            vint = __builtin_va_arg(*ap, int);
+            vint = __builtin_va_arg(ap, int);
             printf_handleHashTag(2);
             printf_handleIntegerFormatter((u64_t)vint, 2);
             multibase_put32(vint, 2);
             break;
         case 'l':
-            vlong = __builtin_va_arg(*ap, long);
+            vlong = __builtin_va_arg(ap, long);
             printf_handleIntegerFormatter((u64_t)vlong, 10);
             multibase_put64(vlong, 10);
             break;
         case 'X':
-            vlong = __builtin_va_arg(*ap, unsigned long);
+            vlong = __builtin_va_arg(ap, unsigned long);
             printf_handleHashTag(16);
             printf_handleIntegerFormatter((u64_t)vlong, 16);
             multibase_uput64(vlong, 16);
             break;
         case 'O':
-            vlong = __builtin_va_arg(*ap, long);
+            vlong = __builtin_va_arg(ap, long);
             printf_handleHashTag(8);
             printf_handleIntegerFormatter((u64_t)vlong, 8);
             multibase_put64(vlong, 8);
             break;
         case 'B':
-            vlong = __builtin_va_arg(*ap, long);
+            vlong = __builtin_va_arg(ap, long);
             printf_handleHashTag(2);
             printf_handleIntegerFormatter((u64_t)vlong, 2);
             multibase_put64(vlong, 2);
             break;
         case 'c':
-            printf_handleWrite((char)__builtin_va_arg(*ap, int));
+            printf_handleWrite((char)__builtin_va_arg(ap, int));
             break;
         case 'p':
-            vulong = (unsigned long)__builtin_va_arg(*ap, void *);
+            vulong = (unsigned long)__builtin_va_arg(ap, void *);
             printf_handleHashTag(16);
             printf_handleIntegerFormatter((u64_t)vulong, 16);
             multibase_uput64(vulong, 16);
             break;
         #ifdef DEADLOCK_IS_SOFUNNY
             case 'F': /* take care of DEADLOCK if the function called use this printf its' over */
-                __builtin_va_arg(*ap, void (*)(void))();
+                __builtin_va_arg(ap, void (*)(void))();
                 break;
         #endif
         case '%':
@@ -305,7 +308,123 @@ static void __generic_printf(char const *fmt, __builtin_va_list ap)
             printf_handleWrite(*fmt);
         } else {
             fmt++;
-            generic_printf_hdlflg(&fmt, &ap);
+            /* Caller flag wich can override the next one */
+            if (MLTCR_GET(callerhandlers) && handle_caller_flg(&fmt, ap))
+            {
+                // skip the arg
+                __builtin_va_arg(ap, long);
+            }
+            MLTCR_GET(align)  = false;
+            MLTCR_GET(hshtag) = false;
+            /* Formatter */
+            bool flag = true;
+            while (flag) {
+                switch (*fmt) {
+                    case '0':
+                        fmt += 0x1;
+                        MLTCR_GET(align) = printf_getAlignement(&fmt);
+                        break;
+                    case '#':
+                        fmt += 0x1;
+                        MLTCR_GET(hshtag) = true;
+                        break;
+                    default:
+                        flag = false;
+                        break;
+                }
+            }
+            /* Init handled variable */
+            int vint;
+            uint vuint;
+            long vlong;
+            unsigned long vulong;
+            char const *vcchar;
+            /* flag handled by this generic printf */
+            switch (*fmt) {
+                case 's':
+                    vcchar = __builtin_va_arg(ap, char const *);
+                    printf_handleStringFormatter(vcchar);
+                    generic_puts(vcchar);
+                    break;
+                case 'u':
+                    vuint = __builtin_va_arg(ap, unsigned int);
+                    printf_handleIntegerFormatter((u64_t)vuint, 10);
+                    multibase_uput32(vuint, 10);
+                    break;
+                case 'U':
+                    vulong = __builtin_va_arg(ap, unsigned long);
+                    printf_handleIntegerFormatter((u64_t)vulong, 10);
+                    multibase_uput32(vulong, 10);
+                    break;
+                case 'h':
+                case 'd':
+                case 'i':
+                    vint = __builtin_va_arg(ap, int);
+                    printf_handleIntegerFormatter((u64_t)vint, 10);
+                    multibase_put32(vint, 10);
+                    break;
+                case 'x':
+                    vint = __builtin_va_arg(ap, int);
+                    printf_handleHashTag(16);
+                    printf_handleIntegerFormatter((u64_t)vint, 16);
+                    multibase_put32(vint, 16);
+                    break;
+                case 'o':
+                    vint = __builtin_va_arg(ap, int);
+                    printf_handleHashTag(8);
+                    printf_handleIntegerFormatter((u64_t)vint, 8);
+                    multibase_put32(vint, 8);
+                    break;
+                case 'b':
+                    vint = __builtin_va_arg(ap, int);
+                    printf_handleHashTag(2);
+                    printf_handleIntegerFormatter((u64_t)vint, 2);
+                    multibase_put32(vint, 2);
+                    break;
+                case 'l':
+                    vlong = __builtin_va_arg(ap, long);
+                    printf_handleIntegerFormatter((u64_t)vlong, 10);
+                    multibase_put64(vlong, 10);
+                    break;
+                case 'X':
+                    vlong = __builtin_va_arg(ap, unsigned long);
+                    printf_handleHashTag(16);
+                    printf_handleIntegerFormatter((u64_t)vlong, 16);
+                    multibase_uput64(vlong, 16);
+                    break;
+                case 'O':
+                    vlong = __builtin_va_arg(ap, long);
+                    printf_handleHashTag(8);
+                    printf_handleIntegerFormatter((u64_t)vlong, 8);
+                    multibase_put64(vlong, 8);
+                    break;
+                case 'B':
+                    vlong = __builtin_va_arg(ap, long);
+                    printf_handleHashTag(2);
+                    printf_handleIntegerFormatter((u64_t)vlong, 2);
+                    multibase_put64(vlong, 2);
+                    break;
+                case 'c':
+                    printf_handleWrite((char)__builtin_va_arg(ap, int));
+                    break;
+                case 'p':
+                    vulong = (unsigned long)__builtin_va_arg(ap, void *);
+                    printf_handleHashTag(16);
+                    printf_handleIntegerFormatter((u64_t)vulong, 16);
+                    multibase_uput64(vulong, 16);
+                    break;
+                #ifdef DEADLOCK_IS_SOFUNNY
+                    case 'F': /* take care of DEADLOCK if the function called use this printf its' over */
+                        __builtin_va_arg(ap, void (*)(void))();
+                        break;
+                #endif
+                case '%':
+                    printf_handleWrite('%');
+                    break;
+                default: // unknow flag => print this
+                    printf_handleWrite('%');
+                    printf_handleWrite(*fmt);
+            }
         }
         fmt++;
     }

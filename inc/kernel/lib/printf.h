@@ -21,8 +21,7 @@ void generic_printf(void (*)(char const *, size_t), struct printfhandlers_t *, c
 *******************************
 ** void __generic_printf(char const *, __builtin_va_list);
 
-** void generic_printf_hdlflg(char const **, __builtin_va_list *);
-** bool handle_caller_flg(char const **, __builtin_va_list *);
+** bool handle_caller_flg(char const **, __builtin_va_list);
 ** void generic_puts(char const *);
 ** void multibase_put64(long, u8_t);
 ** void multibase_put32(int, u8_t);
