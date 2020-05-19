@@ -2,7 +2,7 @@
 #include "target/x86/common/system/apic.h"
 #include "target/x86/common/memory/kalloc.h"
 
-static void *apic = NULL;
+// static void *apic = NULL;
 
 //u32_t apic_get_id(void)
 //{
@@ -11,6 +11,6 @@ static void *apic = NULL;
 
 void apic_init(void)
 {
-    apic = kalloc_dev(APIC_REG_BASE_ADDR, KCONFIG_MMU_PAGESIZE);
-    assert(apic);
+    // apic = kalloc_dev(APIC_REG_BASE_ADDR, KCONFIG_MMU_PAGESIZE);
+    // assert(apic);
 }

@@ -12,8 +12,8 @@ BUILDER_SOURCE_DIR	:=	boot				\
 						drivers/serial		\
 						init				\
 						cpus				\
-						#system				\
-						memory				\
+						system				\
+						#memory				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

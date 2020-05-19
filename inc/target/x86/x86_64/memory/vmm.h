@@ -102,23 +102,23 @@ struct pt_entry_t
 
 struct pt_t
 {
-    struct pt_entry_t page[KCONFIG_MMU_PAGESIZE / sizeof(struct pt_entry_t)];
+    struct pt_entry_t entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pt_entry_t)];
 };
 
 struct pd_t
 {
-    struct pd_entry_t entry[KCONFIG_MMU_PAGESIZE / sizeof(struct pd_entry_t)];
+    struct pd_entry_t entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pd_entry_t)];
 };
 
 
 struct pdp_t
 {
-    struct pdp_entry_t entry[KCONFIG_MMU_PAGESIZE / sizeof(struct pdp_entry_t)];
+    struct pdp_entry_t entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pdp_entry_t)];
 };
 
 struct pml4_t
 {
-    struct pml4_entry_t entry[KCONFIG_MMU_PAGESIZE / sizeof(struct pml4_entry_t)];
+    struct pml4_entry_t entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pml4_entry_t)];
 };
 
 
