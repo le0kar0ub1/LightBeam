@@ -13,9 +13,9 @@ kernelmain:
     call run_inithooks
 
     movq $.imalive, %rdi
-    call vga_printf
+    call vga_puts
     movq $.imalive, %rdi
-    call serial_printf
+    call serial_puts
 
 okay:
     cli
