@@ -22,7 +22,7 @@ setup_paging:
 
     LV2P $kernel_pagetable, %edi
     xorl %edx, %edx
-    movl $0x400, %ecx
+    movl $PAGE_ENTRY_NBR, %ecx
     .loop_page:
         movl %edx, %eax
         orl $(MMU_PRESENT | MMU_WRITABLE), %eax
@@ -91,7 +91,7 @@ kernel_pagedir:
             .4byte 0x0
         .endr
     .kpage_kernel_entry:
-        .rept (1024 - KERNEL_PAGEDIR_INDEX_START - 1)
+        .rept (PAGE_ENTRY_NBR - KERNEL_PAGEDIR_INDEX_START - 1)
             .4byte 0x0
         .endr
     .kpage_last_entry:
@@ -100,6 +100,6 @@ kernel_pagedir:
 .global kernel_pagetable
 
 kernel_pagetable:
-    .rept 0x400
+    .rept PAGE_ENTRY_NBR
         .4byte 0x0
     .endr

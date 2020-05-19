@@ -4,7 +4,7 @@ The purpose of this project is to create some kernel base for several plateform.
 
 LightBeam is a little project without ambition that explore the OS development world.
 
-A documentation is provided [here](doc/tree.md). There are explanation on the project architecture.
+[A documentation is provided](doc/tree.md).
 
 <img src="doc/lightbeam.jpg" width="600" height="200">
 

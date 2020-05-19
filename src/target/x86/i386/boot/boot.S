@@ -58,5 +58,5 @@ load_gdt:
 
 .align 1024
 stack_bottom:
-.lcomm stack, 0x1000 * 0x10
+.lcomm stack, 0x1000 * 10
 stack_top:

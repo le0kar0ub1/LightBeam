@@ -17,11 +17,12 @@ CCFLAGS		+=	-march=x86-64			\
 				-fno-stack-protector 	\
 				-fno-builtin			\
 				-Wcast-align			\
+	  	  		-mcmodel=large 			\
 		  		#-msse4.1				\
 
 ASFLAGS		+=	--defsym sysz=64
 
-LDFLAGS		+=	#-m elf_x86_64
+LDFLAGS		+=	-m elf_x86_64
 
 # The library we are using
 # LDFLAGS			+=	$(TGTSHARED_OVRKRN)	\
@@ -56,6 +57,13 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,grub-mkrescue)
 	$(call EvalBinaryExistence,xorriso)
 
+ifeq ($(DEBUG),1)
+    QEMUOPT = -monitor stdio --no-reboot
+else
+    QEMUOPT = -serial stdio 
+endif
 run:
-	@qemu-system-x86_64 -cdrom $(BUILDIR)/$(ISOKERN) \
-						-serial stdio
+	@qemu-system-x86_64 -cdrom $(BUILDIR)/$(ISOKERN) 	\
+						-enable-kvm						\
+						$(QEMUOPT)						\
+						-m 4G							\
