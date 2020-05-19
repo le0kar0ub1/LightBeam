@@ -10,9 +10,10 @@ BUILDER_SOURCE_DIR	:=	boot				\
 						interrupts			\
 						drivers/vga			\
 						drivers/serial		\
-						#memory				\
-						system				\
 						init				\
+						cpus				\
+						#system				\
+						memory				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

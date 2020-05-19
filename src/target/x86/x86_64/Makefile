@@ -22,7 +22,10 @@ CCFLAGS		+=	-march=x86-64			\
 
 ASFLAGS		+=	--defsym sysz=64
 
+CCFLAGS		+= -D TGTARCH=ARCH_x86_64
+
 LDFLAGS		+=	-m elf_x86_64
+
 
 # The library we are using
 LDFLAGS			+=	$(TGTSHARED_OVRKRN)

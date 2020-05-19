@@ -8,11 +8,20 @@ kernelmain:
     call idt_init
     call idt_load
 
-    sti
-    mov $0x0, %rax
-    div %rax
+    #call multiboot_parse_tags
 
-    mov $0x2f592f412f4b2f4f, %rax
-    mov %rax, (__KERNEL_ADDR_TRNS + 0xB8000)
+    call run_inithooks
 
+    movq $.imalive, %rdi
+    call vga_printf
+    movq $.imalive, %rdi
+    call serial_printf
+
+okay:
+    cli
+    movl $0x2f4b2f4f, 0xB8000 + __KERNEL_ADDR_TRNS
+    movl $0x2f592f41, 0xB8004 + __KERNEL_ADDR_TRNS
     hlt
+
+.section .data
+.imalive: .asciz "Hello world\n"

@@ -3,6 +3,9 @@
 
 #include "lightbeam.h"
 
+#define ARCH_x86_64 64
+#define ARCH_i386   32
+
 #include "target/x86/common/asminline.h"
 #include "target/x86/common/atomic.h"
 #include "target/x86/common/cpus/cpuid.h"

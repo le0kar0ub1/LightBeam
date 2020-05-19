@@ -1,7 +1,7 @@
 #ifndef __INTERRUPTS_H_
 #define __INTERRUPTS_H_
 
-#include "lightbeam.h"
+#include "target/x86/x86.h"
 
 enum interruptsNumber
 {
@@ -55,28 +55,70 @@ enum interruptsNumber
     MAX_INT                 = 0x100,
 };
 
-struct intframe
-{
-    uintptr gs;
-    uintptr fs;
-    uintptr es;
-    uintptr ds;
-    uintptr edi;
-    uintptr esi;
-    uintptr ebp;
-    uintptr _popa_esp;
-    uintptr ebx;
-    uintptr edx;
-    uintptr ecx;
-    uintptr eax;
-    uintptr int_num;
-    uintptr err_code;
-    uintptr eip;
-    uintptr cs;
-    uintptr eflags;
-    uintptr esp;
-    uintptr ss;
-};
+#if TGTARCH == ARCH_x86_64
+    struct intframe
+    {
+        uintptr gs;
+        uintptr fs;
+        uintptr es;
+        uintptr ds;
+
+        uintptr r15;
+        uintptr r14;
+        uintptr r13;
+        uintptr r12;
+        uintptr r11;
+        uintptr r10;
+        uintptr r9;
+        uintptr r8;
+
+        uintptr rax;
+        uintptr rcx;
+        uintptr rdx;
+        uintptr rbx;
+        uintptr rsi;
+        uintptr rdi;
+
+        uintptr rbp;
+
+        uintptr int_num;
+        uintptr err_code;
+    
+        uintptr eip;
+        uintptr cs;
+        uintptr eflags;
+        uintptr esp;
+        uintptr ss;
+    };
+#elif TGTARCH == ARCH_i386
+    struct intframe
+    {
+        uintptr gs;
+        uintptr fs;
+        uintptr es;
+        uintptr ds;
+
+        uintptr edi;
+        uintptr esi;
+        uintptr ebp;
+        uintptr _popa_esp;
+        uintptr ebx;
+        uintptr edx;
+        uintptr ecx;
+        uintptr eax;
+
+        uintptr int_num;
+        uintptr err_code;
+
+        uintptr eip;
+        uintptr cs;
+        uintptr eflags;
+        uintptr esp;
+        uintptr ss;
+    };
+#else
+    #pragma error "Invalid x86 target arch"
+#endif
 
 void interrupt_dispatch(struct intframe *);
 void exceptions_handler(struct intframe *);

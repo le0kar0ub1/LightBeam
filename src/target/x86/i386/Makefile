@@ -23,6 +23,8 @@ CCFLAGS		+=	-m32					\
 ASFLAGS		+=	--32				\
 				--defsym sysz=32	\
 
+CCFLAGS		+= -D TGTARCH=ARCH_i386
+
 LDFLAGS		+=	-m elf_i386
 
 # The library we are using

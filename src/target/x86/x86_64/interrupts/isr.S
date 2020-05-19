@@ -11,21 +11,22 @@
 */
 
 interrupt_handler:
-    push %rbp
-    push %rdi
-    push %rsi
-    push %rbx
-    push %rdx
-    push %rcx
-    push %rax
-    push %r8
-    push %r9
-    push %r10
-    push %r11
-    push %r12
-    push %r13
-    push %r14
-    push %r15
+    pushq %rbp
+    pushq %rdi
+    pushq %rsi
+    pushq %rbx
+    pushq %rdx
+    pushq %rcx
+    pushq %rax
+
+    pushq %r8
+    pushq %r9
+    pushq %r10
+    pushq %r11
+    pushq %r12
+    pushq %r13
+    pushq %r14
+    pushq %r15
 
 
     mov %ds, %rax
@@ -43,11 +44,10 @@ interrupt_handler:
     movw %ax, %fs
     movw %ax, %gs
 
-    pushq %rsp
-
+    mov %rsp, %rdi
 
     /* Get the particular handler */
-    movq  32(%rsp), %rsi # int nbr
+    movq  152(%rsp), %rsi # int nbr
     imulq $0x4, %rsi
     movq  $isr_data_handler, %rax
     addq  %rsi, %rax
@@ -59,8 +59,6 @@ interrupt_handler:
 
 .back_to_isr:
 
-    addq $0x8, %rsp
-
     popq %rax
     mov %ax, %gs
     popq %rax
@@ -70,21 +68,21 @@ interrupt_handler:
     popq %rax
     mov %ax, %ds
 
-    pop %r15
-    pop %r14
-    pop %r13
-    pop %r12
-    pop %r11
-    pop %r10
-    pop %r9
-    pop %r8
-    pop %rax
-    pop %rcx
-    pop %rdx
-    pop %rbx
-    pop %rsi
-    pop %rdi
-    pop %rbp
+    popq %r15
+    popq %r14
+    popq %r13
+    popq %r12
+    popq %r11
+    popq %r10
+    popq %r9
+    popq %r8
+    popq %rax
+    popq %rcx
+    popq %rdx
+    popq %rbx
+    popq %rsi
+    popq %rdi
+    popq %rbp
 
     addq $0x10, %rsp
 
