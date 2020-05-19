@@ -19,7 +19,7 @@ setup_paging:
     LV2P $kernel_page_directory_pointer, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     SV2P %eax, .kernel_plm4_kernel_entry
-    SV2P %eax, .kernel_pml4_first_entry
+    SV2P %eax, kernel_pml4
 
     LV2P $kernel_page_directory, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
@@ -76,11 +76,9 @@ setup_paging:
 
 .align 4096
 kernel_pml4:
-    .kernel_pml4_first_entry:
-        #.8byte 0x0000083
-        .rept (KERNEL_PML4_INDEX_START)
-            .8byte 0x0
-        .endr
+    .rept KERNEL_PML4_INDEX_START
+        .8byte 0x0
+    .endr
     .kernel_plm4_kernel_entry:
         .rept (PAGE_ENTRY_NBR - KERNEL_PML4_INDEX_START - 1)
             .8byte 0x0

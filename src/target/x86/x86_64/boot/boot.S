@@ -11,7 +11,7 @@ _start:
     cld
     LV2P $stack_top, %esp
 
-    #pushl %ebx # phys multiboot structure
+    pushl %ebx # phys multiboot structure
 
     call sanity_multiboot
     call cpuid_detect
@@ -23,30 +23,10 @@ _start:
     LV2P $gdtptr_phys, %eax
     lgdt (%eax)
 
-    #popl %ebx
+    popl %ebx
     ljmp $KERNEL_CODE_SELECTOR, $(lmworld - __KERNEL_ADDR_TRNS)
 
     hlt
-
-/*
-** Load our GDT & then the kernel selector
-*/
-
-#load_gdt:
-#    LV2P $gdtptr_phys, %eax
-#    lgdt (%eax)
-#
-#    mov $KERNEL_DATA_SELECTOR, %ax
-#    mov %ax, %ds
-#    mov %ax, %es
-#    mov %ax, %fs
-#    mov %ax, %gs
-#    mov %ax, %ss
-#
-#    ljmp $KERNEL_CODE_SELECTOR, $(.flush_codeselector - __KERNEL_ADDR_TRNS)
-#.flush_codeselector:
-#    ret
-
 
 /*
 ** Our kernel stack
