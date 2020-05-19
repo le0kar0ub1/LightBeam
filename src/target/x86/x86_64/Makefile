@@ -25,7 +25,7 @@ ASFLAGS		+=	--defsym sysz=64
 LDFLAGS		+=	-m elf_x86_64
 
 # The library we are using
-# LDFLAGS			+=	$(TGTSHARED_OVRKRN)	\
+LDFLAGS			+=	$(TGTSHARED_OVRKRN)
 
 BUILDER_HEADER	:=	$(TGTARCH) target
 
@@ -47,7 +47,7 @@ all:	toolchainCheckup	arcbuild	lauchbuilder
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
-	#@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
+	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	@make -s -C $(TARGET2SHARED_DIR) --no-print-directory
 
 toolchainCheckup:

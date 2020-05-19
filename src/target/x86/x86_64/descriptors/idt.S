@@ -14,7 +14,7 @@ idt_start:
     .rept 256
         .2byte 0x0                  # Low 16 bits of ISR
         .2byte KERNEL_CODE_SELECTOR # Code selector
-        .byte  0x0
+        .byte  0x0                  # IST mechanism
         .byte  0x8E                 # Present, ring-0, 32-bits interrupt gate
         .2byte 0x0                  # Middle 16 bits of ISR
         .4byte 0x0                  # High 32 bits ISR
@@ -26,6 +26,7 @@ idt_end:
 
 .global idtptr
 
+.align 16
 idtptr:
     .2byte idt_end - idt_start - 0x1
     .8byte idt_start
@@ -47,9 +48,9 @@ idt_init:
     .fill_idt:
         movq %rsi, %rbx
         movw %bx, (%rdi)
-        shrl $0x10, %ebx 
+        shrq $0x10, %rbx 
         movw %bx, 6(%rdi)
-        shrl $0x10, %ebx
+        shrq $0x10, %rbx
         movl %ebx, 8(%rdi)
         addq $0x9, %rsi
         addq $0x10, %rdi 

@@ -27,11 +27,6 @@ interrupt_handler:
     push %r14
     push %r15
 
-    /* Get the particular handler */
-    movq  32(%rsp), %rsi # int nbr
-    imulq $0x4, %rsi
-    movq  $isr_data_handler, %rax
-    addq  %rsi, %rax
 
     mov %ds, %rax
     pushq %rax
@@ -49,6 +44,13 @@ interrupt_handler:
     movw %ax, %gs
 
     pushq %rsp
+
+
+    /* Get the particular handler */
+    movq  32(%rsp), %rsi # int nbr
+    imulq $0x4, %rsi
+    movq  $isr_data_handler, %rax
+    addq  %rsi, %rax
 
     cmpq $0x0, (%rax)
     jne .particular_handler
