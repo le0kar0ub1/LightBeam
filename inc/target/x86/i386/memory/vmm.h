@@ -4,7 +4,7 @@
 #include "target/x86/x86.h"
 #include "target/x86/common/memory/vmm.h"
 
-struct pagedir_entry
+struct pagedir_entry_t
 {
     union
     {
@@ -25,7 +25,7 @@ struct pagedir_entry
     };
 };
 
-struct pagetable_entry
+struct pagetable_entry_t
 {
     union
     {
@@ -47,18 +47,18 @@ struct pagetable_entry
     };
 };
 
-struct page_table
+struct page_table_t
 {
-    struct pagetable_entry entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pagetable_entry)];
+    struct pagetable_entry_t entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pagetable_entry_t)];
 };
 
-struct page_dir
+struct page_dir_t
 {
-    struct pagedir_entry entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pagedir_entry)];
+    struct pagedir_entry_t entries[KCONFIG_MMU_PAGESIZE / sizeof(struct pagedir_entry_t)];
 };
 
-static_assert(sizeof(struct page_table) == KCONFIG_MMU_PAGESIZE);
-static_assert(sizeof(struct page_dir) == KCONFIG_MMU_PAGESIZE);
+static_assert(sizeof(struct page_table_t) == KCONFIG_MMU_PAGESIZE);
+static_assert(sizeof(struct page_dir_t) == KCONFIG_MMU_PAGESIZE);
 
 bool arch_vmm_is_mapped(virtaddr_t virt);
 physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt);

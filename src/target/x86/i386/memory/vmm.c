@@ -7,14 +7,14 @@
 ** This functions are usable only in this file.
 */
 
-static inline struct page_dir *get_pagedir(void)
+static inline struct page_dir_t *get_pagedir(void)
 {
-    return ((struct page_dir *)0xFFFFF000ul);
+    return ((struct page_dir_t *)0xFFFFF000ul);
 }
 
-static inline struct page_table *get_pagetable(uint x)
+static inline struct page_table_t *get_pagetable(uint x)
 {
-    return ((struct page_table *)(0xFFC00000ul | (((x) & 0x3FF) << 12u)));
+    return ((struct page_table_t *)(0xFFC00000ul | (((x) & 0x3FF) << 12u)));
 }
 
 /*
@@ -58,9 +58,9 @@ physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt)
 
 mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
 {
-    struct pagedir_entry *pde;
-    struct pagetable_entry *pte;
-    struct page_table *pt;
+    struct pagedir_entry_t *pde;
+    struct pagetable_entry_t *pte;
+    struct page_table_t *pt;
 
     assert(IS_PAGE_ALIGNED(virt));
     assert(IS_PAGE_ALIGNED(phys));
@@ -108,8 +108,8 @@ mmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib)
 void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
 {
     assert(IS_PAGE_ALIGNED(virt));
-    struct pagedir_entry *pde;
-    struct pagetable_entry *pte;
+    struct pagedir_entry_t *pde;
+    struct pagetable_entry_t *pte;
 
     pde = &(get_pagedir()->entries[virt2pdIdx(virt)]);
     if (pde->present) {
@@ -142,7 +142,7 @@ void arch_vmm_init(void)
     /*
     ** Allocate all the kernel page directory entries 
     */
-    struct page_dir *pd = get_pagedir();
+    struct page_dir_t *pd = get_pagedir();
     virtaddr_t allocated;
     u32_t entry = virt2pdIdx(&__KERNEL_ADDR_TRNS);
     while (entry < 0x400)

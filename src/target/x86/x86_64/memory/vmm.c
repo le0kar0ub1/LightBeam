@@ -7,9 +7,38 @@
 ** This functions are usable only in this file.
 */
 
-static inline get_pagepml4(void)
+static inline struct pml4_t *get_pml4(void)
 {
-    return ((struct pml4_t *)0xff8000000000ul);
+    return (
+        (struct pml4_t *)0xfffffffff000ul
+    );
+}
+
+static inline struct pml4_t *get_pdp(uint pdp)
+{
+    return (
+        (struct pml4_t *)(0xffffffE00000ul | 
+        ((pdp & 0x1FF) << 30)
+    ));
+}
+
+static inline struct pml4_t *get_pd(uint pdp, uint pd)
+{
+    return (
+        (struct pml4_t *)(0xffffC0000000ul | 
+        ((pdp & 0x1FF) << 30) |
+        ((pd & 0x1FF) << 21)
+    ));
+}
+
+static inline struct pml4_t *get_pt(uint pdp, uint pd, uint pt)
+{
+    return (
+        (struct pml4_t *)(0xff8000000000ul | 
+        ((pdp & 0x1FF) << 30) | 
+        ((pd & 0x1FF) << 21) |
+        ((pt & 0x1FF) << 12)
+    ));
 }
 
 /*
