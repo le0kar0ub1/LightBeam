@@ -42,6 +42,41 @@ static inline struct pml4_t *get_pt(uint pdp, uint pd, uint pt)
 }
 
 /*
+** Idx/addr pagination get
+*/
+
+static inline uint virt2pml4Idx(virtaddr_t va)
+{
+    return (((uintptr)(va) >> 39) & 0x1FF);
+}
+
+static inline uint virt2pdpIdx(virtaddr_t va)
+{
+    return (((uintptr)(va) >> 30) & 0x1FF);
+}
+
+static inline uint virt2pdIdx(virtaddr_t va)
+{
+    return (((uintptr)(va) >> 21) & 0x1FF);
+}
+
+static inline uint virt2ptIdx(virtaddr_t va)
+{
+    return (((uintptr)(va) >> 12) & 0x1FF);
+}
+
+static inline virtaddr_t idx2addr(uint pml4idx, uint pdpidx, uint pdidx, uint ptidx)
+{
+    return ((virtaddr_t)(
+        ((uintptr)pml4idx << 39) |
+        ((uintptr)pdpidx  << 30) |
+        ((uintptr)pdidx   << 21) |
+        ((uintptr)ptidx   << 12)
+    ));
+}
+
+
+/*
 ** VMM can't be initcall()
 ** The PMM is handle by a boot_initcall() and is totaly shared
 */
