@@ -163,5 +163,5 @@ void arch_vmm_init(void)
 
 /*
 ** VMM can't be initcall()
-** The PMM is handle by a boot_initcall() and is totaly shared
+** The PMM is handled by a boot_initcall() and is totaly shared
 */

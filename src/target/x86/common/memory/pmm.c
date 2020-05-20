@@ -14,28 +14,28 @@ bool pmm_is_frame_allocated(physaddr_t frame)
     return (bitmap[PMM_BITMAP_ADDR2IDX(frame)] & PMM_BITMAP_ADDR2MASK(frame));
 }
 
-void pmm_mark_range_frame_as_allocated(physaddr_t srt, physaddr_t end)
+void pmm_mark_range_frame_as_allocated(physaddr_t start, physaddr_t end)
 {
-    assert(IS_PAGE_ALIGNED(srt));
+    assert(IS_PAGE_ALIGNED(start));
     assert(IS_PAGE_ALIGNED(end));
     spinlock_lock(&lock);
-    while (srt <= end)
+    while (start <= end)
     {
-        bitmap[PMM_BITMAP_ADDR2IDX(srt)] |= PMM_BITMAP_ADDR2MASK(srt);
-        srt += KCONFIG_MMU_PAGESIZE;
+        bitmap[PMM_BITMAP_ADDR2IDX(start)] |= PMM_BITMAP_ADDR2MASK(start);
+        start += KCONFIG_MMU_PAGESIZE;
     }
     spinlock_unlock(&lock);
 }
 
-void pmm_mark_range_frame_as_free(physaddr_t srt, physaddr_t end)
+void pmm_mark_range_frame_as_free(physaddr_t start, physaddr_t end)
 {
-    assert(IS_PAGE_ALIGNED(srt));
+    assert(IS_PAGE_ALIGNED(start));
     assert(IS_PAGE_ALIGNED(end));
     spinlock_lock(&lock);
-    while (srt <= end)
+    while (start <= end)
     {
-        bitmap[PMM_BITMAP_ADDR2IDX(srt)] &= ~PMM_BITMAP_ADDR2MASK(srt);
-        srt += KCONFIG_MMU_PAGESIZE;
+        bitmap[PMM_BITMAP_ADDR2IDX(start)] &= ~PMM_BITMAP_ADDR2MASK(start);
+        start += KCONFIG_MMU_PAGESIZE;
     }
     spinlock_unlock(&lock);
 }

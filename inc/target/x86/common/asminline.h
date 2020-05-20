@@ -57,6 +57,30 @@ static inline void set_cr3(uintptr cr3)
     asm volatile("mov %0, %%cr3" :: "r"(cr3));
 }
 
+static inline uintptr get_cr4(void)
+{
+    uintptr out;
+    asm volatile("mov %%cr4, %0" : "=a"(out));
+    return (out);
+}
+
+static inline void set_cr4(uintptr cr4)
+{
+    asm volatile("mov %0, %%cr4" :: "r"(cr4));
+}
+
+static inline uintptr get_cr0(void)
+{
+    uintptr out;
+    asm volatile("mov %%cr0, %0" : "=a"(out));
+    return (out);
+}
+
+static inline void set_cr0(uintptr cr0)
+{
+    asm volatile("mov %0, %%cr0" :: "r"(cr0));
+}
+
 
 static inline uint64 rdtsc(void)
 {

@@ -212,6 +212,11 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     }
 }
 
+/*
+** Will totaly remap the kernel with 4KiB page instead of 2MiB boot.
+** In fact, we reduce the DEAD memory size using this size while booting.
+*/
+
 void arch_vmm_init(void)
 {
     /*
@@ -228,28 +233,11 @@ void arch_vmm_init(void)
     vmm_init();
 
     /*
-    ** Allocate all the kernel page directory entries 
+    ** Allocate all the kernel pml4 entries 
     */
-    // struct page_dir_t *pd = get_pagedir();
-    // virtaddr_t allocated;
-    // u32_t entry = virt2pdIdx(&__KERNEL_ADDR_TRNS);
-    // while (entry < 0x400)
-    // {
-    //     if (!pd->entries[entry].present)
-    //     {
-    //         allocated = kalloc_aligned(KCONFIG_MMU_PAGESIZE, KCONFIG_MMU_PAGESIZE);
-    //         assert(allocated);
-    //         memset(allocated, 0x0, KCONFIG_MMU_PAGESIZE);
-    //         pd->entries[entry].value = (uintptr)allocated;
-    //         pd->entries[entry].present = true;
-    //         pd->entries[entry].rw = true;
-    //         invlpg(get_pagetable(entry));
-    //     }
-    //     entry++;
-    // }
 }
 
 /*
 ** VMM can't be initcall()
-** The PMM is handle by a boot_initcall() and is totaly shared
+** The PMM is handled by a boot_initcall() and is totaly shared
 */
