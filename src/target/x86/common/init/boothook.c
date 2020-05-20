@@ -10,7 +10,7 @@
 static void __boothook(void)
 {
     run_boot_initcalls();
-    // arch_vmm_init();
+    arch_vmm_init();
     helloFromLightBeam();
     // apic_init();
 }

@@ -212,7 +212,42 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     }
 }
 
-void arch_vmm_init(void) {}
+void arch_vmm_init(void)
+{
+    /*
+    ** For the kheap consistancy we must unmap all page behind the kernel
+    */
+    vmm_unmap(
+        ADD_TO_PTR(&__KERNEL_VIRT_END, KCONFIG_MMU_PAGESIZE),
+        (512 - virt2ptIdx(&__KERNEL_VIRT_END) - 1) * KCONFIG_MMU_PAGESIZE,
+        MUNMAP_DONTFREE
+    );
+    /*
+    ** Init the kernel allocator & the kernel VMM
+    */
+    vmm_init();
+
+    /*
+    ** Allocate all the kernel page directory entries 
+    */
+    // struct page_dir_t *pd = get_pagedir();
+    // virtaddr_t allocated;
+    // u32_t entry = virt2pdIdx(&__KERNEL_ADDR_TRNS);
+    // while (entry < 0x400)
+    // {
+    //     if (!pd->entries[entry].present)
+    //     {
+    //         allocated = kalloc_aligned(KCONFIG_MMU_PAGESIZE, KCONFIG_MMU_PAGESIZE);
+    //         assert(allocated);
+    //         memset(allocated, 0x0, KCONFIG_MMU_PAGESIZE);
+    //         pd->entries[entry].value = (uintptr)allocated;
+    //         pd->entries[entry].present = true;
+    //         pd->entries[entry].rw = true;
+    //         invlpg(get_pagetable(entry));
+    //     }
+    //     entry++;
+    // }
+}
 
 /*
 ** VMM can't be initcall()
