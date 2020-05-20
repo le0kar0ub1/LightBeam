@@ -1,5 +1,5 @@
-#ifndef __i386VMM_H_
-#define __i386VMM_H_
+#ifndef __x86_64VMM_H_
+#define __x86_64VMM_H_
 
 #include "target/x86/x86.h"
 #include "target/x86/common/memory/vmm.h"
@@ -12,17 +12,17 @@ struct pml4_entry_t
         {
             uint64 present : 1;
             uint64 rw : 1;
-            uint64 supervisor : 1;
-            uint64 PageWriteThrough : 1;
-            uint64 PageCacheDisable : 1;
-            uint64 Accessed : 1;
+            uint64 user : 1;
+            uint64 wtrough : 1;
+            uint64 cache : 1;
+            uint64 accessed : 1;
             uint64 dirty : 1;
-            uint64 pagesize : 1;
+            uint64 size : 1;
             uint64 global: 1;
-            uint64 Ignored2 : 3;
+            uint64 __unused1 : 3;
             uint64 frame : 40;
-            uint64 Ignored3 : 11;
-            uint64 ExecuteDisable : 1;
+            uint64 __unused2 : 11;
+            uint64 execDisable : 1;
         };
         uintptr value;
     };
@@ -36,17 +36,17 @@ struct pdp_entry_t
         {
             uint64 present : 1;
             uint64 rw : 1;
-            uint64 supervisor : 1;
-            uint64 PageWriteThrough : 1;
-            uint64 PageCacheDisable : 1;
-            uint64 Accessed : 1;
+            uint64 user : 1;
+            uint64 wtrough : 1;
+            uint64 cache : 1;
+            uint64 accessed : 1;
             uint64 dirty : 1;
-            uint64 pagesize : 1;
+            uint64 size : 1;
             uint64 global: 1;
-            uint64 Ignored2 : 3;
+            uint64 __unused1 : 3;
             uint64 frame : 40;
             uint64 Ignored3 : 11;
-            uint64 ExecuteDisable : 1;
+            uint64 execDisable : 1;
         };
         uintptr value;
     };
@@ -60,17 +60,17 @@ struct pd_entry_t
         {
             uint64 present : 1;
             uint64 rw : 1;
-            uint64 supervisor : 1;
-            uint64 PageWriteThrough : 1;
-            uint64 PageCacheDisable : 1;
-            uint64 Accessed : 1;
+            uint64 user : 1;
+            uint64 wtrough : 1;
+            uint64 cache : 1;
+            uint64 accessed : 1;
             uint64 dirty : 1;
-            uint64 pagesize : 1;
+            uint64 size : 1;
             uint64 global: 1;
-            uint64 Ignored2 : 3;
+            uint64 __unused1 : 3;
             uint64 frame : 40;
             uint64 Ignored3 : 11;
-            uint64 ExecuteDisable : 1;
+            uint64 execDisable : 1;
         };
         uintptr value;
     };
@@ -84,17 +84,17 @@ struct pt_entry_t
         {
             uint64 present : 1;
             uint64 rw : 1;
-            uint64 supervisor : 1;
-            uint64 PageWriteThrough : 1;
-            uint64 PageCacheDisable : 1;
-            uint64 Accessed : 1;
+            uint64 user : 1;
+            uint64 wtrough : 1;
+            uint64 cache : 1;
+            uint64 accessed : 1;
             uint64 dirty : 1;
-            uint64 pagesize : 1;
+            uint64 size : 1;
             uint64 global: 1;
-            uint64 Ignored2 : 3;
+            uint64 __unused1 : 3;
             uint64 frame : 40;
             uint64 Ignored3 : 11;
-            uint64 ExecuteDisable : 1;
+            uint64 execDisable : 1;
         };
         uintptr value;
     };

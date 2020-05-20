@@ -13,7 +13,7 @@ BUILDER_SOURCE_DIR	:=	boot				\
 						init				\
 						cpus				\
 						system				\
-						#memory				\
+						memory				\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

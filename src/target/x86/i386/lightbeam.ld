@@ -122,6 +122,7 @@ SECTIONS
         PROVIDE(__end_bss_ = .);
     }
     PROVIDE(__BSS_END = .);
+    PROVIDE(__BSS_SIZE = __BSS_END - __BSS_START);
 
     . = ALIGN(0x1000);
     PROVIDE(__KERNEL_VIRT_END = .);

@@ -17,7 +17,7 @@ static inline struct pml4_t *get_pml4(void)
 static inline struct pdp_t *get_pdp(uint pml4idx)
 {
     return (
-        (struct pdp_t *)(0xffffffE00000ul | 
+        (struct pdp_t *)(0xffffffE00000ul |
         ((pml4idx & 0x1FF) << 30)
     ));
 }
@@ -25,7 +25,7 @@ static inline struct pdp_t *get_pdp(uint pml4idx)
 static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 {
     return (
-        (struct pd_t *)(0xffffC0000000ul | 
+        (struct pd_t *)(0xffffC0000000ul |
         ((pml4idx & 0x1FF) << 30)        |
         ((pdpidx & 0x1FF) << 21)
     ));
@@ -34,8 +34,8 @@ static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 static inline struct pt_t *get_pt(uint pml4idx, uint pdpidx, uint pdidx)
 {
     return (
-        (struct pt_t *)(0xff8000000000ul | 
-        ((pml4idx & 0x1FF) << 30)        | 
+        (struct pt_t *)(0xff8000000000ul |
+        ((pml4idx & 0x1FF) << 30)        |
         ((pdpidx & 0x1FF) << 21)         |
         ((pdidx & 0x1FF) << 12)
     ));
@@ -92,6 +92,92 @@ bool arch_vmm_is_mapped(virtaddr_t virt)
         get_pt(virt2pml4Idx(virt), virt2pdpIdx(virt), virt2pdIdx(virt))->entries[virt2ptIdx(virt)].present
     );
 }
+
+physaddr_t arch_vmm_get_mapped_frame(virtaddr_t virt)
+{
+    assert(IS_PAGE_ALIGNED(virt));
+    if (
+        !get_pml4()->entries[virt2pml4Idx(virt)].present ||
+        !get_pdp(virt2pml4Idx(virt))->entries[virt2pdpIdx(virt)].present ||
+        !get_pd(virt2pml4Idx(virt), virt2pdpIdx(virt))->entries[virt2pdIdx(virt)].present
+    )
+        return (0x0);
+    return (
+        get_pt(virt2pml4Idx(virt), virt2pdpIdx(virt), virt2pdIdx(virt))->entries[virt2ptIdx(virt)].frame << 0xC
+    );
+}
+
+mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t attrib)
+{
+    // struct pml4_entry_t *pml4e;
+    // struct pdp_entry_t *pdpe;
+    // struct pd_entry_t *pde;
+    // struct pt_entry_t *pte;
+    // struct pdp_t *pdp;
+    // struct pd_t *pd;
+    // struct pt_t *pt;
+
+    // assert(IS_PAGE_ALIGNED(virt));
+    // assert(IS_PAGE_ALIGNED(phys));
+
+    // pml4e = &(get_pml4()->entries[virt2pml4Idx(virt)]);
+    // pdp = get_pdp(virt2pml4Idx(virt));
+    // if (!pml4e->present) {
+    //     pml4e->value = pmm_alloc_frame();
+    //     pml4e->present = true;
+    //     pml4e->user = true;
+    //     pml4e->rw = true;
+    //     pml4e->accessed = false;
+    //     invlpg(pdp);
+    //     memset(pdp, 0x0, KCONFIG_MMU_PAGESIZE);
+    // }
+
+    // pdpe = &(pdp->entries[virt2pdpIdx(virt)]);
+    // pd = get_pd(virt2pml4Idx(virt), virt2pdpIdx(virt));
+    // if (!pdpe->present) {
+    //     pdpe->value = pmm_alloc_frame();
+    //     pdpe->present = true;
+    //     pdpe->user = true;
+    //     pdpe->rw = true;
+    //     pdpe->accessed = false;
+    //     invlpg(pd);
+    //     memset(pd, 0x0, KCONFIG_MMU_PAGESIZE);
+    // }
+
+    // pde = &(pd->entries[virt2pdIdx(virt)]);
+    // pt = get_pt(virt2pml4Idx(virt), virt2pdpIdx(virt), virt2ptIdx(virt));
+    // if (!pde->present) {
+    //     pde->value = pmm_alloc_frame();
+    //     pde->present = true;
+    //     pde->user = true;
+    //     pde->rw = true;
+    //     pde->accessed = false;
+    //     invlpg(pt);
+    //     memset(pt, 0x0, KCONFIG_MMU_PAGESIZE);
+    // }
+
+    // pte = &(pt->entries[virt2ptIdx(virt)]);
+    // if (pte->present) {
+    //     if (pte->frame && MASK_MMAP_REMAP(attrib))
+    //         pmm_free_frame(pte->frame << 0xC);
+    //     else
+    //         return (VMM_ALREADY_MAPPED);
+    // }
+    // pte->value = phys;
+    // pte->present = true;
+    // pte->rw = MASK_MMAP_WRITE(attrib);
+    // pte->user = MASK_MMAP_USER(attrib);
+    // pte->accessed = false;
+    // pte->dirty = 0x0;
+    // invlpg(virt);
+    // return (VMM_SUCCESS);
+}
+
+mmstatus_t arch_vmm_map_virt(virtaddr_t virt, mmap_attrib_t attrib) {}
+
+void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib) {}
+
+void arch_vmm_init(void) {}
 
 /*
 ** VMM can't be initcall()

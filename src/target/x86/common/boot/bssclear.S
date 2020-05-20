@@ -5,11 +5,13 @@
 .extern __BSS_START
 .extern __BSS_END
 
-.global clear_bss
+.section .text
 
 /*
 ** BSS section clear
 */
+
+.global clear_bss
 
 clear_bss:
     LV2P $__BSS_START, %eax

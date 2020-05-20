@@ -3,7 +3,11 @@
 
 #include "target/x86/x86.h"
 
-#define PMM_TOTAL_FRAME (UINTPTR_MAX / KCONFIG_MMU_PAGESIZE)
+#if __UINTPTR_MAX__ == __UINT64_MAX__
+    #define PMM_TOTAL_FRAME ((1ul << 40ul) / KCONFIG_MMU_PAGESIZE)
+#else
+    #define PMM_TOTAL_FRAME (UINTPTR_MAX / KCONFIG_MMU_PAGESIZE)
+#endif
 #define PMM_BITMAP_SIZE (PMM_TOTAL_FRAME / 8)
 
 #define PMM_FRAME_ADDR_SHIFT 0xC
