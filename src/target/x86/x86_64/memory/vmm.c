@@ -212,13 +212,9 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     }
 }
 
-/*
-** Will totaly remap the kernel with 4KiB page instead of 2MiB boot.
-** In fact, we reduce the DEAD memory size using this size while booting.
-*/
-
 void arch_vmm_init(void)
 {
+    hlt();
     /*
     ** For the kheap consistancy we must unmap all page behind the kernel
     */

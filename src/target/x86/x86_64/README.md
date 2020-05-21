@@ -5,7 +5,7 @@ A multicore x86_64 kernel implementation using `grub` so far.
 
 Reference of [x86 common](../README.md).
 
-As explain, a part of the kernel is contained in other project directories.
+As explained, a part of the kernel is contained in other project directories.
 
 The build actually assume that your host compiler is x64.
 
@@ -14,9 +14,9 @@ The build actually assume that your host compiler is x64.
 - [X] Higher half loaded
 - [X] Boot
   - [X] GDT
-  - [ ] Early Paging
-  - [ ] Long mode
-  - [ ] IDT
+  - [X] Early Paging
+  - [X] Long mode
+  - [X] IDT
   - [ ] TSS
   - [ ] SMP init
 - [ ] Memory

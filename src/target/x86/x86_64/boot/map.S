@@ -27,14 +27,20 @@ setup_paging:
     movl %eax, (KERNEL_PDP_INDEX_START * 8)(%edi)
     movl %eax, (%edi)
 
+    LV2P $kernel_page_table, %eax
+    orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     LV2P $kernel_page_directory, %edi
+    movl %eax, (KERNEL_PD_INDEX_START * 8)(%edi)
+    movl %eax, (%edi)
+
+    LV2P $kernel_page_table, %edi
     xorl %edx, %edx
     movl $PAGE_ENTRY_NBR, %ecx
     .loop_page:
         movl %edx, %eax
-        orl $(MMU_PRESENT | MMU_WRITABLE | MMU_SZ_TWO_MB), %eax
+        orl $(MMU_PRESENT | MMU_WRITABLE), %eax
         movl %eax, (%edi)
-        addl $0x200000, %edx # 2MIB page
+        addl $0x1000, %edx # 2MIB page
         addl $0x8, %edi
         loop .loop_page
 
@@ -98,6 +104,12 @@ kernel_page_directory_pointer:
 
 .align 4096
 kernel_page_directory:
+    .rept PAGE_ENTRY_NBR
+        .8byte 0x0
+    .endr
+
+.align 4096
+kernel_page_table:
     .rept PAGE_ENTRY_NBR
         .8byte 0x0
     .endr
