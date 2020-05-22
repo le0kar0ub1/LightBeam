@@ -125,4 +125,6 @@ void exceptions_handler(struct intframe *);
 
 void pic_init(void);
 
+void pageFault_handler(struct intframe *frame);
+
 #endif

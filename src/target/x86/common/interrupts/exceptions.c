@@ -32,6 +32,14 @@ void exceptions_handler(struct intframe *frame)
 {
     /* in case we change the gate type later */
     cli();
-    serial_printf("Exceptions occured: %s\n", exceptions[frame->int_num]);
+    switch (frame->int_num)
+    {
+    case 0xE:
+        pageFault_handler(frame);
+        break;
+    default:
+        serial_printf("Exceptions occured: %s\n", exceptions[frame->int_num]);
+        break;
+    }
     hlt();
 }
