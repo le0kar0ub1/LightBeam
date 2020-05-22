@@ -30,24 +30,30 @@ setup_paging:
     LV2P $kernel_page_table, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     LV2P $kernel_page_directory, %edi
-    movl %eax, (KERNEL_PD_INDEX_START * 8)(%edi)
     movl %eax, (%edi)
+    addl $(KERNEL_PD_INDEX_START * 8), %edi
+    movl $40, %ecx
+    .loop_pd:
+        movl %eax, (%edi)
+        addl $PAGE_TOTAL_SZ, %eax
+        addl $0x8, %edi
+        loop .loop_pd
 
     LV2P $kernel_page_table, %edi
     xorl %edx, %edx
-    movl $PAGE_ENTRY_NBR, %ecx
+    movl $(40 * PAGE_ENTRY_NBR), %ecx
     .loop_page:
         movl %edx, %eax
         orl $(MMU_PRESENT | MMU_WRITABLE), %eax
         movl %eax, (%edi)
-        addl $0x1000, %edx # 2MIB page
-        addl $0x8, %edi
+        addl $PAGE_TOTAL_SZ, %edx
+        addl $8, %edi
         loop .loop_page
 
     LV2P $kernel_pml4, %eax
     movl %eax, %cr3
 
-    # PAE (useless bcs lm) & GP
+    # PAE & GP
     movl %cr4, %eax
     orl $((1 << 5) | (1 << 7)), %eax
     movl %eax, %cr4
@@ -110,6 +116,6 @@ kernel_page_directory:
 
 .align 4096
 kernel_page_table:
-    .rept PAGE_ENTRY_NBR
+    .rept (PAGE_ENTRY_NBR * 40)
         .8byte 0x0
     .endr

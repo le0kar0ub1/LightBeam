@@ -10,14 +10,14 @@
 static inline struct pml4_t *get_pml4(void)
 {
     return (
-        (struct pml4_t *)0xfffffffff000ul
+        (struct pml4_t *)0xFFFFFFFFFFFFF000ul
     );
 }
 
 static inline struct pdp_t *get_pdp(uint pml4idx)
 {
     return (
-        (struct pdp_t *)(0xffffffE00000ul |
+        (struct pdp_t *)(0xFFFFFFFFFFE00000ul |
         ((pml4idx & 0x1FF) << 30)
     ));
 }
@@ -25,8 +25,8 @@ static inline struct pdp_t *get_pdp(uint pml4idx)
 static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 {
     return (
-        (struct pd_t *)(0xffffC0000000ul |
-        ((pml4idx & 0x1FF) << 30)        |
+        (struct pd_t *)(0xFFFFFFFFC0000000ul |
+        ((pml4idx & 0x1FF) << 30)            |
         ((pdpidx & 0x1FF) << 21)
     ));
 }
@@ -34,9 +34,9 @@ static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 static inline struct pt_t *get_pt(uint pml4idx, uint pdpidx, uint pdidx)
 {
     return (
-        (struct pt_t *)(0xff8000000000ul |
-        ((pml4idx & 0x1FF) << 30)        |
-        ((pdpidx & 0x1FF) << 21)         |
+        (struct pt_t *)(0xFFFFFF8000000000ul |
+        ((pml4idx & 0x1FF) << 30)            |
+        ((pdpidx & 0x1FF) << 21)             |
         ((pdidx & 0x1FF) << 12)
     ));
 }
@@ -195,7 +195,8 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     struct pt_entry_t *pte;
 
     pml4e = &(get_pml4()->entries[virt2pml4Idx(virt)]);
-    if (!pml4e->present) 
+    vga_printf("%X %X\n", virt2pml4Idx(virt), pml4e);
+    if (!pml4e->present)
         return;
     pdpe = &(get_pdp(virt2pml4Idx(virt))->entries[virt2pdpIdx(virt)]);
     if (!pdpe->present)
@@ -214,15 +215,16 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
 
 void arch_vmm_init(void)
 {
-    hlt();
     /*
     ** For the kheap consistancy we must unmap all page behind the kernel
     */
     vmm_unmap(
         ADD_TO_PTR(&__KERNEL_VIRT_END, KCONFIG_MMU_PAGESIZE),
-        (512 - virt2ptIdx(&__KERNEL_VIRT_END) - 1) * KCONFIG_MMU_PAGESIZE,
+        // (512 - virt2ptIdx(&__KERNEL_VIRT_END) - 1) * KCONFIG_MMU_PAGESIZE,
+        4096,
         MUNMAP_DONTFREE
     );
+    hlt();
     /*
     ** Init the kernel allocator & the kernel VMM
     */

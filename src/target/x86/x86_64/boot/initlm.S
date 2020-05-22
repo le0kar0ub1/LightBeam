@@ -27,7 +27,7 @@ lmworld:
 
     addq $__KERNEL_ADDR_TRNS, %rbx # mb2 address
     pushq %rbx
-    # mov $multiboot_virtaddr, %rax
-    # mov %rbx, (%rax) # in our multiboot parser file
+    mov $multiboot_virtaddr, %rax
+    mov %rbx, (%rax) # in our multiboot parser file
 
     jmp kernelmain

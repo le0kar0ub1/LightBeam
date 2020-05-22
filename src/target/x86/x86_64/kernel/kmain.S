@@ -9,8 +9,7 @@ kernelmain:
     call idt_load
 
     #call multiboot_parse_tags
-
-    #call run_inithooks
+    call run_inithooks
 
     movq $.imalive, %rdi
     call vga_puts

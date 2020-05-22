@@ -17,7 +17,6 @@ _start:
     call cpuid_detect
     call lm_ckeckup
 
-
     call setup_paging
 
     LV2P $gdtptr_phys, %eax
