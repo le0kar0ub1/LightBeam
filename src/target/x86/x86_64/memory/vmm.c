@@ -195,7 +195,10 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     struct pt_entry_t *pte;
 
     pml4e = &(get_pml4()->entries[virt2pml4Idx(virt)]);
-    vga_printf("%X %X\n", virt2pml4Idx(virt), pml4e);
+    serial_printf("%X\n", get_pml4());
+    serial_printf("%X\n", pml4e);
+    serial_printf("PRESENT? %x\n", pml4e->present);
+    hlt();
     if (!pml4e->present)
         return;
     pdpe = &(get_pdp(virt2pml4Idx(virt))->entries[virt2pdpIdx(virt)]);

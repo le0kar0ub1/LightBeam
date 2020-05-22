@@ -16,15 +16,15 @@ void pageFault_handler(struct intframe *frame)
      vga_printf("Page Fault while accessing address : %#X\n", fault_addr);
      /* err_code num pushed by CPU give info on page fault */
      if (!(frame->err_code & ERR_PF_PRES))
-         vga_printf("    No present in memory\n");
+         vga_printf("    * No present in memory\n");
      if ((frame->err_code & ERR_PF_RW))
-         vga_printf("    Page is read only\n");
+         vga_printf("    * Page is read only\n");
      if ((frame->err_code & ERR_PF_USER))
-         vga_printf("    Kernel page access\n");
+         vga_printf("    * Kernel page access\n");
      if (frame->err_code & ERR_PF_RES)
-         vga_printf("    Overwritten CPU-reserved bits of page entry\n");
+         vga_printf("    * Overwritten CPU-reserved bits of page entry\n");
      if (frame->err_code & ERR_PF_INST)
-         vga_printf("    Instruction fetch\n");
+         vga_printf("    * Instruction fetch\n");
     vga_printf("Accesser fault address: %#X\n", frame->eip);
     vga_set_color(VGA_BLACK, VGA_WHITE);
     hlt();

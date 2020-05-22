@@ -10,19 +10,19 @@ struct pml4_entry_t
     {
         struct
         {
-            uint64 present : 1;
-            uint64 rw : 1;
-            uint64 user : 1;
-            uint64 wtrough : 1;
-            uint64 cache : 1;
-            uint64 accessed : 1;
-            uint64 dirty : 1;
-            uint64 size : 1;
-            uint64 global: 1;
-            uint64 __unused1 : 3;
-            uint64 frame : 40;
-            uint64 __unused2 : 11;
-            uint64 execDisable : 1;
+            uintptr present : 1;
+            uintptr rw : 1;
+            uintptr user : 1;
+            uintptr wtrough : 1;
+            uintptr cache : 1;
+            uintptr accessed : 1;
+            uintptr dirty : 1;
+            uintptr size : 1;
+            uintptr global: 1;
+            uintptr __unused1 : 3;
+            uintptr frame : 40;
+            uintptr __unused2 : 11;
+            uintptr execDisable : 1;
         };
         uintptr value;
     };
@@ -34,19 +34,19 @@ struct pdp_entry_t
     {
         struct
         {
-            uint64 present : 1;
-            uint64 rw : 1;
-            uint64 user : 1;
-            uint64 wtrough : 1;
-            uint64 cache : 1;
-            uint64 accessed : 1;
-            uint64 dirty : 1;
-            uint64 size : 1;
-            uint64 global: 1;
-            uint64 __unused1 : 3;
-            uint64 frame : 40;
-            uint64 Ignored3 : 11;
-            uint64 execDisable : 1;
+            uintptr present : 1;
+            uintptr rw : 1;
+            uintptr user : 1;
+            uintptr wtrough : 1;
+            uintptr cache : 1;
+            uintptr accessed : 1;
+            uintptr dirty : 1;
+            uintptr size : 1;
+            uintptr global: 1;
+            uintptr __unused1 : 3;
+            uintptr frame : 40;
+            uintptr Ignored3 : 11;
+            uintptr execDisable : 1;
         };
         uintptr value;
     };
@@ -58,19 +58,19 @@ struct pd_entry_t
     {
         struct
         {
-            uint64 present : 1;
-            uint64 rw : 1;
-            uint64 user : 1;
-            uint64 wtrough : 1;
-            uint64 cache : 1;
-            uint64 accessed : 1;
-            uint64 dirty : 1;
-            uint64 size : 1;
-            uint64 global: 1;
-            uint64 __unused1 : 3;
-            uint64 frame : 40;
-            uint64 Ignored3 : 11;
-            uint64 execDisable : 1;
+            uintptr present : 1;
+            uintptr rw : 1;
+            uintptr user : 1;
+            uintptr wtrough : 1;
+            uintptr cache : 1;
+            uintptr accessed : 1;
+            uintptr dirty : 1;
+            uintptr size : 1;
+            uintptr global: 1;
+            uintptr __unused1 : 3;
+            uintptr frame : 40;
+            uintptr Ignored3 : 11;
+            uintptr execDisable : 1;
         };
         uintptr value;
     };
@@ -82,19 +82,19 @@ struct pt_entry_t
     {
         struct
         {
-            uint64 present : 1;
-            uint64 rw : 1;
-            uint64 user : 1;
-            uint64 wtrough : 1;
-            uint64 cache : 1;
-            uint64 accessed : 1;
-            uint64 dirty : 1;
-            uint64 size : 1;
-            uint64 global: 1;
-            uint64 __unused1 : 3;
-            uint64 frame : 40;
-            uint64 Ignored3 : 11;
-            uint64 execDisable : 1;
+            uintptr present : 1;
+            uintptr rw : 1;
+            uintptr user : 1;
+            uintptr wtrough : 1;
+            uintptr cache : 1;
+            uintptr accessed : 1;
+            uintptr dirty : 1;
+            uintptr size : 1;
+            uintptr global: 1;
+            uintptr __unused1 : 3;
+            uintptr frame : 40;
+            uintptr Ignored3 : 11;
+            uintptr execDisable : 1;
         };
         uintptr value;
     };
