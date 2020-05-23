@@ -10,14 +10,14 @@
 static inline struct pml4_t *get_pml4(void)
 {
     return (
-        (struct pml4_t *)0xFFFFFFFFFFFFF000ul
+        (struct pml4_t *)0xffffff7fbfdfe000ul
     );
 }
 
 static inline struct pdp_t *get_pdp(uint pml4idx)
 {
     return (
-        (struct pdp_t *)(0xFFFFFFFFFFE00000ul |
+        (struct pdp_t *)((0xFFFFFFFFFFE00000ul & ~((1ul << 21ul) - 1)) |
         ((pml4idx & 0x1FF) << 30)
     ));
 }
@@ -25,7 +25,7 @@ static inline struct pdp_t *get_pdp(uint pml4idx)
 static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 {
     return (
-        (struct pd_t *)(0xFFFFFFFFC0000000ul |
+        (struct pd_t *)((0xFFFFFF7Fc0000000ul & ~((1ul << 30ul) - 1)) |
         ((pml4idx & 0x1FF) << 30)            |
         ((pdpidx & 0x1FF) << 21)
     ));
@@ -34,7 +34,7 @@ static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 static inline struct pt_t *get_pt(uint pml4idx, uint pdpidx, uint pdidx)
 {
     return (
-        (struct pt_t *)(0xFFFFFF8000000000ul |
+        (struct pt_t *)((0xFFFFFF0000000000ul & ~((1ul << 39ul) - 1)) |
         ((pml4idx & 0x1FF) << 30)            |
         ((pdpidx & 0x1FF) << 21)             |
         ((pdidx & 0x1FF) << 12)

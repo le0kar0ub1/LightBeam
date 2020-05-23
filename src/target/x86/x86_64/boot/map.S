@@ -11,10 +11,11 @@
 */
 
 setup_paging:
-    /* recursive mapping */
+    /* dafuck recursive mapping */
     LV2P $kernel_pml4, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
-    SV2P %eax, .kernel_plm4_last_entry
+    LV2P $kernel_pml4, %edi
+    movl %eax, (__RECURSIVE_MAPPING_IDX * 8)(%edi)
 
     LV2P $kernel_page_directory_pointer, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
@@ -84,7 +85,6 @@ setup_paging:
 .global kernel_pml4
     .global .kernel_pml4_first_entry
     .global .kernel_plm4_kernel_entry
-    .global .kernel_plm4_last_entry
 
 .align 4096
 kernel_pml4:
@@ -92,11 +92,9 @@ kernel_pml4:
         .8byte 0x0
     .endr
     .kernel_plm4_kernel_entry:
-        .rept (PAGE_ENTRY_NBR - KERNEL_PML4_INDEX_START - 1)
+        .rept (PAGE_ENTRY_NBR - KERNEL_PML4_INDEX_START)
             .8byte 0x0
         .endr
-    .kernel_plm4_last_entry:
-        .8byte 0x0
 
 .global kernel_page_directory_pointer
 
