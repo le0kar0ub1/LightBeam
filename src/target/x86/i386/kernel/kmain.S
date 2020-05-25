@@ -19,9 +19,6 @@ kernelmain:
     pushl $.imalive
     call  serial_printf
 
-    sti
-la:
-    jmp la
     hlt
 
 okay:

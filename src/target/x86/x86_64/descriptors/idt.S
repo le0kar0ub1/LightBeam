@@ -52,7 +52,7 @@ idt_init:
         movw %bx, 6(%rdi)
         shrq $0x10, %rbx
         movl %ebx, 8(%rdi)
-        addq $0x9, %rsi
+        addq $0xC, %rsi
         addq $0x10, %rdi 
         loop .fill_idt
     ret
