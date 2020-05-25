@@ -46,7 +46,7 @@ idt_init:
         movw %bx, (%edi)
         shrl $0x10, %ebx 
         movw %bx, 6(%edi)
-        addl $0x9, %esi
+        addl $0xC, %esi
         addl $0x8, %edi 
         loop .fill_idt
     ret

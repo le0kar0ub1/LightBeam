@@ -9,9 +9,7 @@ kernelmain:
     call idt_load
     call pic_init
 
-    # parse the multiboot header
     call multiboot_parse_tags
-
     call run_inithooks
 
     pushl $.imalive

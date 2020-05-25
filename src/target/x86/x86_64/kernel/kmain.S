@@ -17,9 +17,6 @@ kernelmain:
     movq $.imalive, %rdi
     call serial_puts
 
-    sti
-la:
-    jmp la
     hlt
 
 okay:
