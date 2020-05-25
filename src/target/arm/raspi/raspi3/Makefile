@@ -61,6 +61,9 @@ arcbuild:
 toolchainCheckup:
 	@echo ""
 	$(call EvalToolChainExistence,ARM AARCH64,$(AARCH64_ARMGNUDIR))
+	$(call EvalBinaryExistence,$(GNUBASE)$(AS))
+	$(call EvalBinaryExistence,$(GNUBASE)$(CC))
+	$(call EvalBinaryExistence,$(GNUBASE)$(LD))
 
 run:
 	@qemu-system-aarch64 -machine raspi3					\
