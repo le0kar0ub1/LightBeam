@@ -1,7 +1,7 @@
 #include "target/x86/x86.h"
-#include "target/x86/common/interrupts/interrupts.h"
+#include "target/x86/common/interrupts/pic.h"
 
-static void pic_outb(uchar port, uchar data)
+static void pic_outb(uint8 port, uint8 data)
 {
     outb(port, data);
     io_delay();

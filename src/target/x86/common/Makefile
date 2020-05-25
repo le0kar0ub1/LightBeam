@@ -6,14 +6,15 @@ BUILDER_HEADER		:=	x86 shared
 
 BUILDER_TYPE		:=	$(BUILDER_TYPE_STCLIB)
 
-BUILDER_SOURCE_DIR	:=	boot				\
-						interrupts			\
-						drivers/vga			\
-						drivers/serial		\
-						init				\
-						cpus				\
-						system				\
-						memory				\
+BUILDER_SOURCE_DIR	:=	boot					\
+						interrupts				\
+						drivers/vga				\
+						drivers/serial			\
+						drivers/ps2-keyboard	\
+						init					\
+						cpus					\
+						system					\
+						memory					\
 
 BUILDER_TARGET		:=	$(TGTSHARED_LIBPLT)
 

@@ -72,14 +72,14 @@ enum interruptsNumber
         uintptr r9;
         uintptr r8;
 
-        uintptr rax;
-        uintptr rcx;
-        uintptr rdx;
-        uintptr rbx;
-        uintptr rsi;
-        uintptr rdi;
+        uintptr eax;
+        uintptr ecx;
+        uintptr edx;
+        uintptr ebx;
+        uintptr esi;
+        uintptr edi;
 
-        uintptr rbp;
+        uintptr ebp;
 
         uintptr int_num;
         uintptr err_code;
