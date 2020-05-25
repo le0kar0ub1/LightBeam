@@ -17,27 +17,27 @@ static inline struct pml4_t *get_pml4(void)
 static inline struct pdp_t *get_pdp(uint pml4idx)
 {
     return (
-        (struct pdp_t *)((0xFFFFFFFFFFE00000ul & ~((1ul << 21ul) - 1)) |
-        ((pml4idx & 0x1FF) << 30)
+        (struct pdp_t *)((0xffffff7fbfdfe000ul & ~((1ul << 21ul) - 1)) |
+        (((uintptr)pml4idx & 0x1FF) << 12ul)
     ));
 }
 
 static inline struct pd_t *get_pd(uint pml4idx, uint pdpidx)
 {
     return (
-        (struct pd_t *)((0xFFFFFF7Fc0000000ul & ~((1ul << 30ul) - 1)) |
-        ((pml4idx & 0x1FF) << 30)            |
-        ((pdpidx & 0x1FF) << 21)
+        (struct pd_t *)((0xffffff7fbfdfe000ul & ~((1ul << 30ul) - 1)) |
+        (((uintptr)pml4idx & 0x1FF) << 21ul) |
+        (((uintptr)pdpidx & 0x1FF) << 12ul)
     ));
 }
 
 static inline struct pt_t *get_pt(uint pml4idx, uint pdpidx, uint pdidx)
 {
     return (
-        (struct pt_t *)((0xFFFFFF0000000000ul & ~((1ul << 39ul) - 1)) |
-        ((pml4idx & 0x1FF) << 30)            |
-        ((pdpidx & 0x1FF) << 21)             |
-        ((pdidx & 0x1FF) << 12)
+        (struct pt_t *)((0xffffff7fbfdfe000ul & ~((1ul << 39ul) - 1)) |
+        (((uintptr)pml4idx & 0x1FF) << 30ul) |
+        (((uintptr)pdpidx & 0x1FF) << 21ul) |
+        (((uintptr)pdidx & 0x1FF) << 12ul)
     ));
 }
 
@@ -67,12 +67,12 @@ static inline uint virt2ptIdx(virtaddr_t va)
 
 static inline virtaddr_t idx2addr(uint pml4idx, uint pdpidx, uint pdidx, uint ptidx)
 {
-    return ((virtaddr_t)(
-        ((uintptr)pml4idx << 39) |
-        ((uintptr)pdpidx  << 30) |
-        ((uintptr)pdidx   << 21) |
-        ((uintptr)ptidx   << 12)
-    ));
+    uintptr addr = ((uintptr)pml4idx << 39ul) | ((uintptr)pdpidx << 30ul) | 
+                   ((uintptr)pdidx << 21ul)   | ((uintptr)ptidx << 12ul);
+
+    if ((bool)(addr & (1ul << 48ul)) == 1)
+        addr |= ((1ul << 12ul) - 1) << 48ul;
+    return ((virtaddr_t)addr);
 }
 
 /*
@@ -195,10 +195,6 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     struct pt_entry_t *pte;
 
     pml4e = &(get_pml4()->entries[virt2pml4Idx(virt)]);
-    serial_printf("%X\n", get_pml4());
-    serial_printf("%X\n", pml4e);
-    serial_printf("PRESENT? %x\n", pml4e->present);
-    hlt();
     if (!pml4e->present)
         return;
     pdpe = &(get_pdp(virt2pml4Idx(virt))->entries[virt2pdpIdx(virt)]);
@@ -216,6 +212,8 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     }
 }
 
+extern uintptr kernel_pml4;
+
 void arch_vmm_init(void)
 {
     /*
@@ -223,16 +221,15 @@ void arch_vmm_init(void)
     */
     vmm_unmap(
         ADD_TO_PTR(&__KERNEL_VIRT_END, KCONFIG_MMU_PAGESIZE),
-        // (512 - virt2ptIdx(&__KERNEL_VIRT_END) - 1) * KCONFIG_MMU_PAGESIZE,
-        4096,
+        (512 - virt2ptIdx(&__KERNEL_VIRT_END) - 1) * KCONFIG_MMU_PAGESIZE,
         MUNMAP_DONTFREE
     );
-    hlt();
     /*
     ** Init the kernel allocator & the kernel VMM
     */
     vmm_init();
 
+    hlt();
     /*
     ** Allocate all the kernel pml4 entries 
     */

@@ -18,7 +18,7 @@ virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
             return (NULL);
         virt = ADD_TO_PTR(virt, KCONFIG_MMU_PAGESIZE);
     }
-    return (virt);
+    return (keep);
 }
 
 void vmm_unmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
