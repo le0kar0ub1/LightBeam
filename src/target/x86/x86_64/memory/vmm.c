@@ -145,7 +145,7 @@ mmstatus_t arch_vmm_map_phys(virtaddr_t virt, physaddr_t phys, mmap_attrib_t att
     }
 
     pde = &(pd->entries[virt2pdIdx(virt)]);
-    pt = get_pt(virt2pml4Idx(virt), virt2pdpIdx(virt), virt2ptIdx(virt));
+    pt = get_pt(virt2pml4Idx(virt), virt2pdpIdx(virt), virt2pdIdx(virt));
     if (!pde->present) {
         pde->value = pmm_alloc_frame();
         pde->present = true;
@@ -212,8 +212,6 @@ void arch_vmm_unmap(virtaddr_t virt, munmap_attrib_t attrib)
     }
 }
 
-extern uintptr kernel_pml4;
-
 void arch_vmm_init(void)
 {
     /*
@@ -229,7 +227,6 @@ void arch_vmm_init(void)
     */
     vmm_init();
 
-    hlt();
     /*
     ** Allocate all the kernel pml4 entries 
     */

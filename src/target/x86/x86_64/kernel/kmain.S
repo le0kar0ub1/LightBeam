@@ -8,13 +8,15 @@ kernelmain:
     call idt_init
     call idt_load
 
-    #call multiboot_parse_tags
+    call multiboot_parse_tags
     call run_inithooks
 
     movq $.imalive, %rdi
     call vga_puts
     movq $.imalive, %rdi
     call serial_puts
+
+    hlt
 
 okay:
     cli
