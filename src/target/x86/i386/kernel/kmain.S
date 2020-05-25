@@ -7,6 +7,7 @@
 kernelmain:
     call idt_init
     call idt_load
+    call pic_init
 
     # parse the multiboot header
     call multiboot_parse_tags
@@ -18,6 +19,9 @@ kernelmain:
     pushl $.imalive
     call  serial_printf
 
+    sti
+la:
+    jmp la
     hlt
 
 okay:

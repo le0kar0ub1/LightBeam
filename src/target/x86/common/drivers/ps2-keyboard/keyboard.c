@@ -181,7 +181,7 @@ void non_printable_fired(uchar getch)
         altgr = !altgr;
 }
 
-void keyboard_handler(struct intframe *frame)
+void ps2keyboard_handler(struct intframe *frame)
 {
     uchar getch = read_scan_code();
 

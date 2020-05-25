@@ -11,6 +11,6 @@ static inline uchar read_scan_code(void)
 
 void printable_fired(struct intframe *frame, uchar getch);
 void non_printable_fired(uchar getch);
-void keyboard_handler(struct intframe *frame);
+void ps2keyboard_handler(struct intframe *frame);
 
 #endif

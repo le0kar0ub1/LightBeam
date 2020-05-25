@@ -123,8 +123,10 @@ enum interruptsNumber
 void interrupt_dispatch(struct intframe *);
 void exceptions_handler(struct intframe *);
 
-void pic_init(void);
-
 void pageFault_handler(struct intframe *frame);
+
+void interrupt_register_handler(uint intnbr, void (*handler)(struct intframe *));
+void interrupt_unregister_handler(uint intnbr);
+void *interrupt_get_specific_handler(uint intnbr);
 
 #endif

@@ -105,36 +105,6 @@ isr_data_handler:
     .8byte 0x0
 .endr
 
-.section .text
-
-.global isr_register_handler
-
-/* void isr_register_handler(int nbr, void *func) */
-isr_register_handler:
-    pushq %rcx
-
-    movq  $isr_data_handler, %rcx
-    imulq $0x8, %rdi
-    addq  %rcx, %rdi
-    movq  %rsi, (%rcx)
-
-    popq %rcx
-    ret
-
-.global isr_unregister_handler
-
-/* void isr_unregister_handler(int nbr) */
-isr_unregister_handler:
-    pushq %rcx
-
-    movq  $isr_data_handler, %rcx
-    imulq $0x8, %rdi
-    addq  %rcx, %rdi
-    movq $0x0, (%rcx)
-
-    popq %rcx
-    ret
-
 /*
 ** GAS apparently not allow us to do .rept/.endr with an assigned increment
 ** So Yes, it's ugly

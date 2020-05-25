@@ -7,6 +7,7 @@
 kernelmain:
     call idt_init
     call idt_load
+    call pic_init
 
     call multiboot_parse_tags
     call run_inithooks
@@ -16,6 +17,9 @@ kernelmain:
     movq $.imalive, %rdi
     call serial_puts
 
+    sti
+la:
+    jmp la
     hlt
 
 okay:

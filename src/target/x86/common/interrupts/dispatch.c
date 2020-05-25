@@ -3,5 +3,10 @@
 
 void interrupt_dispatch(struct intframe *frame)
 {
-    exceptions_handler(frame);
+    void (*handler)(struct intframe *) = interrupt_get_specific_handler(frame->int_num);
+
+    if (handler)
+        handler(frame);
+    else
+        exceptions_handler(frame);
 }

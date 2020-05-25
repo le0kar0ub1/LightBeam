@@ -14,12 +14,6 @@ interrupt_handler:
     cli
     pushal
 
-    /* Get the particular handler */
-    movl  32(%esp), %esi # int nbr
-    imull $0x4, %esi
-    movl  $isr_data_handler, %eax
-    addl  %esi, %eax
-
     pushl %ds
     pushl %es
     pushl %fs
@@ -33,12 +27,7 @@ interrupt_handler:
 
     pushl %esp
 
-    cmpl $0x0, (%eax)
-    jne .particular_handler
-
     call interrupt_dispatch
-
-.back_to_isr:
 
     addl $0x4, %esp
 
@@ -52,66 +41,6 @@ interrupt_handler:
     addl $0x8, %esp
 
     iret
-
-.particular_handler:
-    call *(%eax)
-    jmp .back_to_isr
-
-/*
-** Particular handler registered here
-*/
-
-.section .data
-
-.global isr_data_handler
-
-isr_data_handler:
-.rept 256
-    .4byte 0x0
-.endr
-
-.section .text
-
-.global isr_register_handler
-
-/* void isr_register_handler(int nbr, void *func) */
-isr_register_handler:
-    push %ebp
-    mov %esp, %ebp
-
-    movl 0x8(%ebp), %ecx # int nbr
-    movl 0xc(%ebp), %esi # func
-
-    movl  $isr_data_handler, %edi
-    imull $0x4, %ecx
-    addl  %ecx, %edi
-
-    movl %esi, (%edi)
-.return_from_register:
-    add $0x8, %esp
-    pop %ebp
-
-    ret
-
-.global isr_unregister_handler
-
-/* void isr_unregister_handler(int nbr) */
-isr_unregister_handler:
-    push %ebp
-    mov %esp, %ebp
-
-    movl 0x8(%ebp), %ecx # int nbr
-
-    movl  $isr_data_handler, %edi
-    imull $0x4, %ecx
-    addl  %ecx, %edi
-
-    movl $0x0, (%edi)
-.return_from_unregister:
-    add $0x4, %esp
-    pop %ebp
-
-    ret
 
 /*
 ** GAS apparently not allow us to do .rept/.endr with an assigned increment
