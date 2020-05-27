@@ -19,5 +19,5 @@ The build actually assume that your host compiler is x64.
   - [X] IDT
   - [ ] TSS
   - [ ] SMP init
-- [ ] Memory
-  - [ ] VMM
+- [X] Memory
+  - [X] VMM

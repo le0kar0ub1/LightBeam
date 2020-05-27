@@ -11,14 +11,17 @@ Some objects below are also in the target-specific arch and interfaced with.
 
 - [ ] Drivers
   - [X] VGA 
-  - [ ] PS/2 Keyboard
+  - [X] PS/2 Keyboard
   - [ ] PS/2 Mouse
   - [ ] Timer
   - [ ] ...
-- [ ] Memory
+- [X] Memory
   - [X] PMM
   - [X] VMM
   - [X] Kernel allocator
+  - [ ] Abstractors
+    - [ ] Virtual segment
+    - [ ] Virtual address space
 - [ ] Multi-tasks system
   - [ ] Physical
     - [ ] CPUS exec routines
