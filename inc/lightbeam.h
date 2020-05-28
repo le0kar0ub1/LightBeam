@@ -1,5 +1,5 @@
-#ifndef _LIGHTBLEAM_H_
-#define _LIGHTBLEAM_H_
+#ifndef _LIGHTBEAM_H_
+#define _LIGHTBEAM_H_
 
 #include <stdarg.h>
 #include <stdint.h>

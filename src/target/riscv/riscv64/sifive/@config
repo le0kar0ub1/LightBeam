@@ -1,0 +1,7 @@
+/* Arch config */
+#define ARCH_DIMENSION 0x8
+
+#define KCONFIG_INITLEVEL    0x9
+
+/* Another */
+#define PRINTF_BUFFERED
