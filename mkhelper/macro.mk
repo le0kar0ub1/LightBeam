@@ -30,7 +30,7 @@ define EvalToolChainExistence
 endef
 
 define EvalBinaryExistence
-	$(if $(shell which $(1) 2> /dev/null),$(call INFO, Dependency found $(BoldMagenta)$(1)$(Blank)),$(call RAISE, Dependency not found $(BoldRed)$(1)$(Blank)))
+	$(if $(shell which $(1) 2> /dev/null),$(call INFO, Dependency found $(BoldMagenta)$(shell basename $(1))$(Blank)),$(call RAISE, Dependency not found $(BoldRed)$(shell basename $(1))$(Blank)))
 endef
 
 # Check if Plateform is valid (target arg)

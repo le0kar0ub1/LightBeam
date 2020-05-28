@@ -55,7 +55,7 @@ else
     QEMUOPT = -serial mon:stdio 
 endif
 run:
-	@qemu-system-riscv64 -machine virt 					\
+	@qemu-system-riscv64 -machine sifive_u 				\
 						-cpu rv64 						\
 						-bios none 						\
 						-kernel $(BUILDIR)/$(KERNEL) 	\
