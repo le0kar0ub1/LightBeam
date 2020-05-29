@@ -11,7 +11,6 @@ export GNUBASE	:=	riscv64-linux-gnu-
 CCFLAGS		+=	-mcmodel=medany 		\
 				-ffunction-sections		\
 				-fdata-sections			\
-				-Os						\
 
 ASFLAGS		+=	
 
@@ -22,7 +21,7 @@ LDFLAGS		+=	-nostartfiles 			\
 				-static
 
 # The library we are using
-# LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\
+LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\
 
 BUILDER_HEADER	:=	$(TGTARCH) target
 
@@ -34,7 +33,7 @@ BUILDER_SOURCE_DIR	=	boot			\
 						cpus			\
 						cpus/init		\
 						interrupts		\
-						drivers			\
+						drivers/uart	\
 						kernel
 
 .PHONY: all
@@ -44,7 +43,7 @@ all:	toolchainCheckup	arcbuild	lauchbuilder
 sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
-	# @make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
+	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
 	# @make -s -C $(TARGET2SHARED_DIR) --no-print-directory
 
 toolchainCheckup:

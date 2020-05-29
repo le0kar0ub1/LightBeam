@@ -3,7 +3,7 @@
 void __noreturn kmain(void);
 void __noreturn kmain(void)
 {
-    //FIRE_ASM("wfi");
-    run_initcalls();
     while(1);
+    uart_init();
+    uart_putc('Z');
 }
