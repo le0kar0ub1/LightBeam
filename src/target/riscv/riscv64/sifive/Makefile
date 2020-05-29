@@ -34,7 +34,8 @@ BUILDER_SOURCE_DIR	=	boot			\
 						cpus			\
 						cpus/init		\
 						interrupts		\
-						drivers
+						drivers			\
+						kernel
 
 .PHONY: all
 
