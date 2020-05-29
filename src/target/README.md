@@ -12,13 +12,13 @@ The array below reference the built plateform and their own documentation.
 
 ## Plateform Target
 
-| Plateform               | Description                                                                     |
-|-------------------------|---------------------------------------------------------------------------------|
-| `x86/i386`              | [i386 multicore implementation](x86/i386/README.md)                             |
-| `x86/x86_64`            | [x86_64 multicore implementation](x86/i386/README.md)                           |
-| `arm/raspi/raspi3`      | [raspberry3 multicore implementation](arm/raspi/raspi3/README.md)               |
-| `riscv/riscv64/generic` | [riscv64 generic boot implementation](riscv/riscv64/generic/README.md)          |
-| `riscv/riscv64/sifive`  | [riscv64 embedded system implementation](riscv/riscv64sifive/README.md)         |
+| Plateform               | Description                                                                              |
+|-------------------------|------------------------------------------------------------------------------------------|
+| `x86/i386`              | [i386 multicore implementation](x86/i386/README.md)                                      |
+| `x86/x86_64`            | [x86_64 multicore implementation](x86/i386/README.md)                                    |
+| `arm/raspi/raspi3`      | [raspberry3 multicore implementation](arm/raspi/raspi3/README.md)                        |
+| `riscv/riscv64/generic` | [riscv64 generic boot implementation](riscv/riscv64/generic/README.md)                   |
+| `riscv/riscv64/sifive`  | [riscv64 multiore embedded system implementation](riscv/riscv64sifive/README.md)         |
 
 
 ## In The Scope

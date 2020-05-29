@@ -10,3 +10,4 @@ Reference of [riscv common](../README.md).
 - [X] S/O the boot
  - [X] another interrupt handling
  - [X] maybe something else
+ - [X] hell SMP assembly setup

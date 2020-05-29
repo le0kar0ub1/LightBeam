@@ -16,6 +16,7 @@ SECTIONS
         *(.init.data)
         PROVIDE(__init_end = .);
     }
+
     .text :
     {
         PROVIDE(__text_start = .);
@@ -30,7 +31,7 @@ SECTIONS
     .sdata :
     {
         PROVIDE(__sdata_start = .);
-        PROVIDE(__global_pointer$ = . + 0x800);
+        PROVIDE(__global_pointer = . + 0x800);
         *(.sdata)
         PROVIDE(__sdata_end = .);
     }
