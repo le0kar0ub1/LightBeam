@@ -25,6 +25,8 @@ struct pmm_reserved_area
         .end = (e),                                                                           \
     }
 
+#define SOC_MMAP_RESERVED_AREA(n, s, e) PMM_RESERVE_AREA(n, s ,e)
+
 #define P2V(x) ((uintptr)x + (uintptr)&__KERNEL_ADDR_TRNS)
 #define V2P(x) ((uintptr)x - (uintptr)&__KERNEL_ADDR_TRNS)
 

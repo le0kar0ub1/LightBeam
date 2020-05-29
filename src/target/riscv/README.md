@@ -5,12 +5,6 @@
 
 This ISA is not much used to date but has potential to exploit.
 
-The problem is that, there is a lot of lacks in tools used for RISC-V developpement.
-
-Advanced in this world is so complicated and there are few information and precedent on the subject.
-
-By the way, we will try for the best.
-
 | Implementation    | Sub-Reference                              |
 |-------------------|--------------------------------------------|
 | riscv64 generic   | [rv64 generic](riscv64/generic/README.md)  |
