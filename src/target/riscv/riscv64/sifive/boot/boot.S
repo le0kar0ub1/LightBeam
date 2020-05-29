@@ -3,16 +3,17 @@
 .extern _vectors
 .extern __bss_start
 .extern __bss_size
+.extern __bss_end
 
 .section .init.text, "ax"
 
 _start:
     la sp, _stack_top
 
-    .option push
-    .option norelax
-        la gp, __global_pointer$
-    .option pop
+    # .option push
+    # .option norelax
+    #     la gp, __global_pointer$
+    # .option pop
 
     /* save hart id and dtb pointer */
     mv tp, a0

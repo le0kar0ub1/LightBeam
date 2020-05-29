@@ -3,26 +3,70 @@ ENTRY(_start)
 PROVIDE(__entry_point = 0x80000000);
 PROVIDE(ram_entry     = 0x80000000);
 
-MEMORY
-{
-    ram (wxa!ri) : org = 0x80000000, len = 128M
-}
-
 SECTIONS
 {
+    . = __entry_point;
+
+    .init :
+    {
+        PROVIDE(__init_start = .);
+        *(.init)
+        *(.boot)
+        *(.init.text)
+        *(.init.data)
+        PROVIDE(__init_end = .);
+    }
     .text :
     {
         PROVIDE(__text_start = .);
-        KEEP(*(.text.boot))
         *(.text)
-        *(.init.text)
-        *(.exit.text)
-        *(.iplt)
         *(.text.*)
         PROVIDE(__text_end = .);
-    } > ram
-    . = ALIGN(4096);
+    }
+
+    /*
+    ** RISCV relax au max
+    */
+    .sdata :
+    {
+        PROVIDE(__sdata_start = .);
+        PROVIDE(__global_pointer$ = . + 0x800);
+        *(.sdata)
+        PROVIDE(__sdata_end = .);
+    }
+
+    .srodata :
+    {
+        PROVIDE(__sdata_start = .);
+        PROVIDE(__global_pointer$ = . + 0x800);
+        *(.srodata)
+        PROVIDE(__sdata_end = .);
+    }
+
+
+    .rodata ALIGN(8) :
+    {
+        PROVIDE(__rodata_start = .);
+        *(.rodata)
+        PROVIDE(__rodata_end = .);
+    }
  
+    .data ALIGN(8) :
+    {
+        PROVIDE(__data_start = .);
+        *(.data)
+        PROVIDE(__data_end = .);
+    }
+ 
+    .bss :
+    {
+        PROVIDE(__bss_start = .);
+        bss = .;
+        *(.bss)
+        PROVIDE(__bss_end = .);
+        PROVIDE(__bss_size = __bss_end - __bss_start);
+    }
+
     .initcall ALIGN(8) :
     {
         PROVIDE(__initcall_start = .);
@@ -68,7 +112,7 @@ SECTIONS
         PROVIDE(__initcall9_end = .);
 
         PROVIDE(__initcall_end = .);
-    } > ram
+    }
 
     .inithook ALIGN(8) :
     {
@@ -94,40 +138,14 @@ SECTIONS
         KEEP(*(.inithook_9.text));
         PROVIDE(__inithook9 = .);
         PROVIDE(__inithook_end = .);
-    } > ram
+    }
 
     .ksymtab ALIGN(16) :
     {
         PROVIDE(__ksymtab_start = .);
         KEEP(*(.ksymtab.text))
         PROVIDE(__ksymtab_end = .);
-    } > ram
-
-    .rodata ALIGN(8) :
-    {
-        PROVIDE(__rodata_start = .);
-        *(.rodata)
-        PROVIDE(__rodata_end = .);
-    } > ram
-    . = ALIGN(4096);
- 
-    .data ALIGN(8) :
-    {
-        PROVIDE(__data_start = .);
-        *(.data)
-        PROVIDE(__data_end = .);
-    } > ram
-    . = ALIGN(4096);
- 
-    .bss :
-    {
-        PROVIDE(__bss_start = .);
-        bss = .;
-        *(.bss)
-        PROVIDE(__bss_end = .);
-        PROVIDE(__bss_size = __bss_end - __bss_start);
-    } > ram
-    . = ALIGN(4096);
+    }
 
     PROVIDE(__KEND = .);
 

@@ -10,12 +10,12 @@
 
 /*
 ** Two using choices:
-**   - Declare variable with the prefixed and assuming that you know in wich system you are
+**   - Declare variable with the prefix and assuming that you know in wich system you are
 **   - Using macro init/get/set with the KCONFIG_MAXCPUS define allow you to use it everywhere 
 */
 
 #if KCONFIG_MAXCPUS
-    /* The only function wich must be provide */
+    /* The only function which must be provide */
     int cpuGetId(void);
 
     typedef bool mltcr_bool_t[KCONFIG_MAXCPUS];
