@@ -21,6 +21,11 @@
 
 #define asmv __asm__ volatile /* fire asm instruction */
 
+#define FIRE_ASM(x)         \
+{                           \
+    asm volatile(x);        \
+};
+
 #define len(x) strlen(x)
 
 /* ALIGN ON A POWER OF 2 */
