@@ -21,7 +21,7 @@ The build is assured by a builder present at `builder/builder.mk` callable from 
 Define Some Variable:
 
   - `BUILDER_HEADER`    : The header wich will be print before the build
-  - `BUILDER_TYPE`      : The type of our build output [ *static library* | *binary* | *no link* ]
+  - `BUILDER_TYPE`      : The type of our build output [ *static library* | *binary & img* | *no link* | *ISO (x86 GRUB only)* ]
   - `BUILDER_TARGET`    : The output name (in case of library or binary output type)
   - `BUILDER_SOURCE_DIR`: The sources directories we want to compile
 

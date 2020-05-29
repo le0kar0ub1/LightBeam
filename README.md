@@ -1,6 +1,6 @@
 # LightBeam
 
-The purpose of this project is to create some kernel base for several plateform.
+The purpose of this project is to create some kernel base for several plateforms.
 
 LightBeam is a little project without ambition that explore the OS development world.
 
@@ -18,7 +18,7 @@ _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 Kernels are built using GNU toolchain from submodules git.
 
-For x86 the build actually assume that your host machine is of this architecture. An installer will be provided later.
+For x86 & RISCV the build actually assume that your host machine is of this architecture. An installer will be provided later.
 
 ## BUILD
 
@@ -37,7 +37,7 @@ Install QEMU from official [github repository](https://github.com/qemu/qemu).
 
 A configured run is provided for each plateform.
 
-`make TARGET=$PLATEFORM && make run TARGET=$PLATEFORM`
+`make run TARGET=$PLATEFORM`
 
 Check dependencies using the `make toolchain`.
 
