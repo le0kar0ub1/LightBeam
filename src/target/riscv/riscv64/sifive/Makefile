@@ -52,15 +52,15 @@ toolchainCheckup:
 	$(call EvalBinaryExistence,$(GNUBASE)ld)
 
 ifeq ($(DEBUG),1)
-    QEMUOPT = -monitor stdio --no-reboot
+    QEMUOPT = -monitor stdio
 else
     QEMUOPT = -serial mon:stdio 
 endif
 run:
 	@qemu-system-riscv64 -machine sifive_u 				\
 						-cpu rv64 						\
-						-bios none 						\
 						-kernel $(BUILDIR)/$(KERNEL) 	\
 						-smp 4 							\
 						-m 4G  							\
-						$(QEMUOPT)
+						$(QEMUOPT)						\
+						-bios none						\
