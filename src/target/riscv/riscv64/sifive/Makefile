@@ -31,6 +31,8 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_RAWKRN)
 BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	=	boot			\
+						cpus			\
+						cpus/init		\
 						interrupts		\
 						drivers
 

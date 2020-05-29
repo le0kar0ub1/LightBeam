@@ -38,12 +38,9 @@ typedef uint64_t        u64_t;
 typedef void *          virtaddr_t;
 typedef uintptr_t       physaddr_t;
 
-#if ARCH_DIMENSION == 4
-    typedef u32_t  archv_t;
-    typedef u32_t *archp_t;
-#else
-    typedef u64_t  archv_t;
-    typedef u64_t *archp_t;
-#endif
+typedef uintptr  archv_t;
+typedef uintptr *archp_t;
+
+typedef struct { volatile int counter; } atomic_t;
 
 #endif

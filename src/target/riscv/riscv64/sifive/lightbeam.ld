@@ -1,7 +1,7 @@
 ENTRY(_start)
 
 PROVIDE(__entry_point = 0x80000000);
-PROVIDE(ram_entry     = 0x80000000);
+PROVIDE(__ram_entry   = 0x80000000);
 
 SECTIONS
 {
@@ -39,7 +39,6 @@ SECTIONS
     .srodata :
     {
         PROVIDE(__sdata_start = .);
-        PROVIDE(__global_pointer$ = . + 0x800);
         *(.srodata)
         PROVIDE(__sdata_end = .);
     }

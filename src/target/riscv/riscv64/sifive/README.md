@@ -8,6 +8,18 @@ Reference of [riscv common](../README.md).
 ## ROADMAP
 
 - [X] S/O the boot
- - [X] another interrupt handling
- - [X] maybe something else
- - [X] hell SMP assembly setup
+  - [ ] some things to escape from the chaos
+  - [ ] fcking hell SMP assembly setup
+- [ ] Interrupt
+  - [ ] Something like a vector
+  - [ ] another ISR
+- [ ] Memory
+  - [ ] PMM
+  - [ ] VMM
+  - [ ] Allocator
+- [ ] Drivers
+  - [ ] GPIO
+  - [ ] UART
+  - [ ] DMA
+  - [ ] SD
+  - [ ] ...
