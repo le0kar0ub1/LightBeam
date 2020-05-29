@@ -17,7 +17,7 @@ ASFLAGS		+=
 LDFLAGS		+=	-nostartfiles 			\
 				-nostdlib 				\
 				-nodefaultlibs			\
-				#--gc-sections 			\
+				--gc-sections 			\
 				-static
 
 # The library we are using
