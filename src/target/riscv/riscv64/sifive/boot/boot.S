@@ -60,8 +60,8 @@ _start:
 
     # cpu get id and dichotomy
     csrr a0, mhartid
-    li a3, 1
-    bgeu a0, a3, coreXBoot
+    li a3, 0
+    bgt a0, a3, coreXBoot
     j core0boot
 
 coreXBoot:

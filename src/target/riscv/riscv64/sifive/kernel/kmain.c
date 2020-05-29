@@ -3,7 +3,7 @@
 void __noreturn kmain(void);
 void __noreturn kmain(void)
 {
-    while(1);
-    uart_init();
+    run_boot_initcalls();
     uart_putc('Z');
+    while(1);
 }
