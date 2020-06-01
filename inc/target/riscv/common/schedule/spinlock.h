@@ -1,5 +1,5 @@
-#ifndef __SPINLOCK_H_
-#define __SPINLOCK_H_
+#ifndef __ARCH_SPINLOCK_H_
+#define __ARCH_SPINLOCK_H_
 
 #include "kernel/def/typedef.h"
 #include "target/riscv/common/barrier.h"
