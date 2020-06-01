@@ -61,7 +61,7 @@ run:
 	@qemu-system-riscv64 -machine sifive_u 				\
 						-cpu rv64 						\
 						-kernel $(BUILDIR)/$(KERNEL) 	\
-						-smp 4 							\
+						-smp 5 							\
 						-m 4G  							\
 						$(QEMUOPT)						\
 						-bios none						\

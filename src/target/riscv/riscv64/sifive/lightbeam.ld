@@ -146,7 +146,7 @@ SECTIONS
     {
         . = ALIGN(16);
         PROVIDE(__stackcore__ = .);
-        . += __STACK_SIZE * 4;
+        . += __STACK_SIZE * 5;
     }
 
     .ksymtab ALIGN(16) :

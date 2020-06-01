@@ -10,5 +10,6 @@ void __noreturn kmain(void)
     clint_generate_interrupt(1);
     clint_generate_interrupt(2);
     clint_generate_interrupt(3);
+    clint_generate_interrupt(4);
     while(1);
 }
