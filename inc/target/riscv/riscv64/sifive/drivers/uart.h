@@ -3,6 +3,8 @@
 
 #include "target/riscv/riscv64/sifive/sifive.h"
 
+#include <stdarg.h>
+
 #define SIFIVE_UART_SIZE 0x1C
 
 struct uart_txdata_t
@@ -83,6 +85,10 @@ struct sifive_uart_t
 
 static_assert(sizeof(struct sifive_uart_t) == SIFIVE_UART_SIZE);
 
+char uart_getc(void);
 void uart_putc(char c);
+void uart_puts(char const *s);
+void uart_szputs(char const *s, size_t sz);
+void uart_kprint(char const *fmt, ...);
 
 #endif

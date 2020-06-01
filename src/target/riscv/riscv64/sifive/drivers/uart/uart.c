@@ -7,3 +7,21 @@ void uart_putc(char c)
     while (uart->txdata.status != 0);
     uart->txdata.data = c;
 }
+
+char uart_getc(void)
+{
+    while (uart->rxdata.status != 0);
+    return (uart->rxdata.data);
+}
+
+void uart_puts(char const *s)
+{
+    while (*s)
+        uart_putc(*s++);
+}
+
+void uart_szputs(char const *s, size_t sz)
+{
+    for (size_t i = 0; i < sz; i++)
+        uart_putc(s[i]);
+}
