@@ -6,7 +6,7 @@
 ** Also assuming that the kheap is fully continuous (not dumb)
 */
 
-static smplock_t lock = SMPLOCK_INIT();
+static spinlock_t lock = SPINLOCK_INIT();
 
 /* 
 ** The beginning and the actual size of our kheap wich his behind the kernel
@@ -137,12 +137,12 @@ static virtaddr_t __kalloc(size_t size, kallocattrib_t flag)
     if (!size)
         return (NULL);
     size = KHEAP_ALIGN(size);
-    smp_inc(&lock);
+    spinlock_lock(&lock);
     if (!(flag & KALLOC_FORCE_ALLOC))
         block = get_free_block(size);
     if (!block)
         block = extend_kheap(size);
-    smp_dec(&lock);
+    spinlock_unlock(&lock);
     return (BLK2ADDR(block));
 }
 
@@ -255,10 +255,10 @@ void kfree(virtaddr_t virt)
     block_t *blk = ADDR2BLK(virt);
 
     assert(blk);
-    smp_inc(&lock);
+    spinlock_lock(&lock);
     blk->attrib *= -1;
     merge_next_blocks(blk);
-    smp_dec(&lock);
+    spinlock_unlock(&lock);
 }
 
 void kalloc_init(void)

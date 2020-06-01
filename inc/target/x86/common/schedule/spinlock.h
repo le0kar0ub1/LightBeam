@@ -11,11 +11,7 @@
 
 typedef u32_t spinlock_t;
 
-#define SPINLOCK_DEFAULT() 0x0
-#define SPINLOCK_UNLOCK    0x0
-#define SPINLOCK_LOCK      0x1
-
-#define spinlock_init(x) (*x = SPINLOCK_DEFAULT())
+#define SPINLOCK_INIT() 0x0
 
 static inline void spinlock_lock(spinlock_t *spinlock)
 {

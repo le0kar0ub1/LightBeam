@@ -116,15 +116,15 @@ static void vga_putchar(int c)
     }
 }
 
-static smplock_t lock = SMPLOCK_INIT();
+static spinlock_t lock = SPINLOCK_INIT();
 
 void vga_szputs(char const *s, size_t sz)
 {
-    smp_inc(&lock);
+    spinlock_lock(&lock);
     for (size_t i = 0x0; s[i] &&  i < sz; i++)
         vga_putchar(s[i]);
     vga_cursor_update();
-    smp_dec(&lock);
+    spinlock_unlock(&lock);
 }
 
 /*

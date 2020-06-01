@@ -23,14 +23,14 @@ static void write_serial(char a)
     outb(COM1, a);
 }
 
-static smplock_t lock = SMPLOCK_INIT();
+static spinlock_t lock = SPINLOCK_INIT();
 
 void serial_szputs(char const *s, size_t sz)
 {
-    smp_inc(&lock);
+    spinlock_lock(&lock);
     for (u32_t i = 0x0; s[i] && i < sz; i++)
         write_serial(s[i]);
-    smp_dec(&lock);
+    spinlock_unlock(&lock);
 }
 
 /*

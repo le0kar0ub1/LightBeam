@@ -6,7 +6,7 @@
 /* Map the totality of the memory */
 static u8_t bitmap[PMM_BITMAP_SIZE];
 
-static spinlock_t lock = SPINLOCK_DEFAULT();
+static spinlock_t lock = SPINLOCK_INIT();
 
 bool pmm_is_frame_allocated(physaddr_t frame)
 {
