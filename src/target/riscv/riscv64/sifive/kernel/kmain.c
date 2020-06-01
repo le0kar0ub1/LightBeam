@@ -6,6 +6,7 @@ void __noreturn kmain(void);
 void __noreturn kmain(void)
 {
     run_boot_initcalls();
+    helloFromLightBeam();
     uart_kprint("Core %d booting others\n", cpuGetId());
     clint_generate_interrupt(1);
     clint_generate_interrupt(2);

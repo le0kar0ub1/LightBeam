@@ -30,6 +30,7 @@ BUILDER_TYPE	:=	$(BUILDER_TYPE_RAWKRN)
 BUILDER_TARGET	:=	$(BUILDIR)/$(KERNEL)
 
 BUILDER_SOURCE_DIR	=	boot			\
+						init			\
 						cpus			\
 						cpus/init		\
 						interrupts		\

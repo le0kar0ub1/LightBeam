@@ -1,5 +1,5 @@
-#ifndef __X86MEMORY_H_
-#define __X86MEMORY_H_
+#ifndef __KMEMORY_H_
+#define __KMEMORY_H_
 
 #include "kernel/def/typedef.h"
 #include "kernel/mm/align.h"

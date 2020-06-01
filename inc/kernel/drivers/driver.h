@@ -3,7 +3,7 @@
 
 struct driver_t
 {
-    char name;
+    char *name;
     void (*probe)(void);
     void (*remove)(void);
     void (*suspend)(void);
