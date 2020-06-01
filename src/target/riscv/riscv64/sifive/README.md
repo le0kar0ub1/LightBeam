@@ -14,18 +14,18 @@ The code start at `0x80000000` and we don't use the two previous stages.
 ## ROADMAP
 
 - [X] S/O the boot
-  - [ ] some things to escape from the chaos
-  - [ ] fcking hell SMP assembly setup
+  - [X] some things to escape from the chaos
+  - [X] SMP init
 - [ ] Interrupt
-  - [ ] Something like a vector
-  - [ ] another ISR
+  - [X] Interrupt vector
+  - [ ] ISR
 - [ ] Memory
   - [ ] PMM
   - [ ] VMM
   - [ ] Allocator
 - [ ] Drivers
   - [ ] GPIO
-  - [ ] UART
+  - [X] UART
   - [ ] DMA
   - [ ] SD
   - [ ] ...
