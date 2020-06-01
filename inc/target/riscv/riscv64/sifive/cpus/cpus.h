@@ -6,34 +6,12 @@
 #include "kernel/schedule/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
 
-enum CPUS_ID
-{
-    CPU0 = 0,
-    CPU1 = 1,
-    CPU2 = 2,
-    CPU3 = 3,
-    CPU4 = 4
-};
+typedef int cpuid_t;
 
-enum CPUS_STATE
-{
-    CPU_IS_SLEEPING = 0x1,
-    CPU_IS_WORKING  = 0x0
-};
+int cpuGetId(void);
 
 void cpuSheduler(void) __noreturn;
-bool cpuExecRoutine(enum CPUS_ID, void (*)(void));
-
-enum CPUS_STATE cpuGetState(enum CPUS_ID);
-enum CPUS_ID cpuGetSleepingOne(void);
-
-void uart_cpu_log(char const *);
-void uart_cpu_wrn(char const *);
-void uart_cpu_err(char const *);
-
-void rpifb_cpu_log(char const *);
-void rpifb_cpu_wrn(char const *);
-void rpifb_cpu_err(char const *);
+bool cpuExecRoutine(cpuid_t cpu, void (*)(void));
 
 void __deadloop(void);
 void __hang(void);

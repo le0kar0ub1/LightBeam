@@ -1,11 +1,15 @@
 #include "target/riscv/riscv64/sifive/sifive.h"
+#include "target/riscv/riscv64/sifive/soc/clint.h"
+#include "target/riscv/riscv64/sifive/drivers/uart.h"
 
 void __noreturn kmain(void);
 void __noreturn kmain(void)
 {
-    if (cpuGetId() == 0)
-        run_boot_initcalls();
-    uart_kprint("booting %d core\n", cpuGetId());
-    clint_set_msip(1);
+    run_boot_initcalls();
+    uart_kprint("Core %d booting others\n", cpuGetId());
+    clint_generate_interrupt(1);
+    // clint_generate_interrupt(2);
+    // clint_generate_interrupt(3);
+    // clint_generate_interrupt(4);
     while(1);
 }

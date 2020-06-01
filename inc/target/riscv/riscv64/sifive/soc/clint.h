@@ -37,4 +37,6 @@ u64_t clint_get_mtimecmp(int core);
 void clint_set_mtime(u64_t val);
 u64_t clint_get_mtime(void);
 
+#define clint_generate_interrupt(x) clint_set_msip(x)
+
 #endif

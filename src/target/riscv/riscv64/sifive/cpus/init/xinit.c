@@ -3,5 +3,5 @@
 void xinit(void);
 void xinit(void)
 {
-    uart_kprint("booting %d core\n", cpuGetId());
+    uart_kprint("booting core %d\n", cpuGetId());
 }
