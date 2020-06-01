@@ -141,11 +141,12 @@ SECTIONS
     }
 
     /* CORES STACK PROVIDING */
+    PROVIDE(__STACK_SIZE = 0x5000);
     .providestack ALIGN(16):
     {
         . = ALIGN(16);
         PROVIDE(__stackcore__ = .);
-        . += 0x4000 * 4;
+        . += __STACK_SIZE * 4;
     }
 
     .ksymtab ALIGN(16) :

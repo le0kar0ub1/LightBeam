@@ -93,14 +93,15 @@ coreXBoot:
 
     # stack setup
     csrr a0, mhartid
-    xor a1, a1, a1
-    addi a1, a1, 1
-    slli a1, a1, 14 # 0x4000
+    addi a0, a0, 1
+    la a1, __STACK_SIZE
     mul a0, a0, a1
     xor sp, sp, sp
-    ld sp, __stackcore__
+    la sp, __stackcore__
     add sp, sp, a0
 
 core0boot:
-    ld sp, __stackcore__
+    la sp, __stackcore__
+    la a1, __STACK_SIZE
+    add sp, sp, a1
     j kmain
