@@ -18,7 +18,7 @@ _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 Kernels are built using GNU toolchain from submodules git.
 
-For x86 & RISCV the build actually assume that your host machine is of this architecture. An installer will be provided later.
+For x86 the build actually assume that your host machine is of this architecture. An installer will be provided later.
 
 ## BUILD
 
@@ -44,6 +44,6 @@ Check dependencies using the `make toolchain`.
 
 ## EPILOGUE
 
-And, from the darkness, shine the light.
+A light beam in the dark.
 
 Feel free to fork, use, improve.
