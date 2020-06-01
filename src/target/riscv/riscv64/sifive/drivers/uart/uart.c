@@ -21,12 +21,12 @@ void uart_puts(char const *s)
         uart_putc(*s++);
 }
 
-SPINLOCK_INIT(lock);
+static spinlock_t lock = SPINLOCK_INIT();
 
 void uart_szputs(char const *s, size_t sz)
 {
-    spinlock_lock(&lock);
+    arch_spin_lock(&lock);
     for (size_t i = 0; i < sz; i++)
         uart_putc(s[i]);
-    spinlock_unlock(&lock);
+    arch_spin_unlock(&lock);
 }

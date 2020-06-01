@@ -1,7 +1,7 @@
-#ifndef _ASM_RISCV_BARRIER_H
-#define _ASM_RISCV_BARRIER_H
+#ifndef _RISCV_BARRIER_H
+#define _RISCV_BARRIER_H
 
-#define nop()		__asm__ __volatile__ ("nop")
+#define nop()	__asm__ __volatile__ ("nop")
 
 #define RISCV_ACQUIRE_BARRIER		"\tfence r , rw\n"
 #define RISCV_RELEASE_BARRIER		"\tfence rw,  w\n"
@@ -21,19 +21,17 @@
 
 #define __smp_store_release(p, v)					\
 do {									\
-	compiletime_assert_atomic_type(*p);				\
 	RISCV_FENCE(rw,w);						\
-	WRITE_ONCE(*p, v);						\
+	*p = v;						\
 } while (0)
 
 #define __smp_load_acquire(p)						\
 ({									\
-	typeof(*p) ___p1 = READ_ONCE(*p);				\
-	compiletime_assert_atomic_type(*p);				\
+	typeof(*p) ___p1 = *p;				\
 	RISCV_FENCE(r,rw);						\
 	___p1;								\
 })
 
 #define smp_mb__after_spinlock()	RISCV_FENCE(rw,rw)
 
-#endif /* _ASM_RISCV_BARRIER_H */
+#endif

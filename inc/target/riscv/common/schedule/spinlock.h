@@ -2,24 +2,45 @@
 #define __SPINLOCK_H_
 
 #include "kernel/def/typedef.h"
-#include "target/riscv/common/cmpxchg.h"
+#include "target/riscv/common/barrier.h"
 
-typedef atomic_t spinlock_t;
+typedef volatile int spinlock_t;
 
-#define SPINLOCK_DEFAULT() 0x0
-#define SPINLOCK_UNLOCK()  0x0
-#define SPINLOCK_LOCK()    0x1
+#define SPINLOCK_INIT() 0x0
 
-#define SPINLOCK_INIT(name) static spinlock_t name = { .counter = SPINLOCK_DEFAULT() }
-
-static inline void spinlock_lock(spinlock_t *spinlock)
+static inline bool arch_spin_is_locked(spinlock_t *lock)
 {
-    cmpxchg_acquire((int *)spinlock, 0, 1);
+    return (!(*lock == 0));
 }
 
-static inline void spinlock_unlock(spinlock_t *spinlock)
+static inline void arch_spin_unlock(spinlock_t *lock)
 {
-    cmpxchg_release((int *)spinlock, 1, 0);
+    __smp_store_release(lock, 0);
+}
+
+static inline int arch_spin_trylock(spinlock_t *lock)
+{
+    int tmp = 1, busy;
+
+    __asm__ __volatile__ (
+        "   amoswap.w %0, %2, %1\n"
+        RISCV_ACQUIRE_BARRIER
+        : "=r" (busy), "+A" (*lock)
+        : "r" (tmp)
+        : "memory");
+
+    return !busy;
+}
+
+static inline void arch_spin_lock(spinlock_t *lock)
+{
+    while (1)
+    {
+        if (arch_spin_is_locked(lock))
+            continue;
+        if (arch_spin_trylock(lock))
+            break;
+    }
 }
 
 #endif
