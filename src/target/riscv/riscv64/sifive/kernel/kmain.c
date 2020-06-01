@@ -3,7 +3,8 @@
 void __noreturn kmain(void);
 void __noreturn kmain(void)
 {
-    run_boot_initcalls();
-    uart_kprint("booting");
+    if (cpuGetId() == 0)
+        run_boot_initcalls();
+    uart_kprint("booting %d core\n", cpuGetId());
     while(1);
 }

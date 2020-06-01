@@ -88,17 +88,17 @@ coreXBoot:
 
 .coreXtriggered:
     # for now lets stop them
-    wfi
-    j .coreXtriggered
+    #wfi
+    #j .coreXtriggered
 
     # stack setup
     csrr a0, mhartid
     addi a0, a0, 1
     la a1, __STACK_SIZE
     mul a0, a0, a1
-    xor sp, sp, sp
     la sp, __stackcore__
     add sp, sp, a0
+    j kmain
 
 core0boot:
     la sp, __stackcore__

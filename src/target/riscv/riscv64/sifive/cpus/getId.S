@@ -3,5 +3,5 @@
 .global cpuGetId
 
 cpuGetId:
-    csrr x2, mhartid
+    csrr a0, mhartid
     ret
