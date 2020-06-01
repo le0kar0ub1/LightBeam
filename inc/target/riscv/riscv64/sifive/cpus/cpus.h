@@ -6,9 +6,7 @@
 #include "kernel/schedule/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
 
-typedef int cpuid_t;
-
-int cpuGetId(void);
+cpuid_t cpuGetId(void);
 
 void cpuSheduler(void) __noreturn;
 bool cpuExecRoutine(cpuid_t cpu, void (*)(void));

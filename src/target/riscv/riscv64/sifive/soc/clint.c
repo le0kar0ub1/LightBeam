@@ -5,10 +5,21 @@
 */
 void clint_set_msip(int core)
 {
-    if (core > 4)
+    if (core > KCONFIG_MAXCPUS - 1)
         return;
     u32_t *ptr = (u32_t *)(SOC_MMAP_START_RWA_CLINT);
     *(ptr + core) = 0b1;
+}
+
+/*
+** Reset msip to core X
+*/
+void clint_reset_msip(int core)
+{
+    if (core > KCONFIG_MAXCPUS - 1)
+        return;
+    u32_t *ptr = (u32_t *)(SOC_MMAP_START_RWA_CLINT);
+    *(ptr + core) = 0b0;
 }
 
 /*
@@ -16,7 +27,7 @@ void clint_set_msip(int core)
 */
 u32_t clint_get_msip(int core)
 {
-    if (core > 4)
+    if (core > KCONFIG_MAXCPUS - 1)
         return (0);
     u32_t *ptr = (u32_t *)(SOC_MMAP_START_RWA_CLINT);
     return (*(ptr + core));
@@ -27,7 +38,7 @@ u32_t clint_get_msip(int core)
 */
 void clint_set_mtimecmp(int core, u64_t val)
 {
-    if (core > 4)
+    if (core > KCONFIG_MAXCPUS - 1)
         return;
     u64_t *ptr = (u64_t *)(SOC_MMAP_START_RWA_CLINT + 0x4000);
     *(ptr + core) = val;
@@ -38,7 +49,7 @@ void clint_set_mtimecmp(int core, u64_t val)
 */
 u64_t clint_get_mtimecmp(int core)
 {
-    if (core > 4)
+    if (core > KCONFIG_MAXCPUS - 1)
         return (0);
     u64_t *ptr = (u64_t *)(SOC_MMAP_START_RWA_CLINT + 0x4000);
     return (*(ptr + core));

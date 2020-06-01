@@ -20,7 +20,7 @@ static inline void smp_inc(smplock_t *lck)
 
 static inline void smp_dec(smplock_t *lck)
 {
-    *lck = 0x0;
+    *lck -= 0x1;
 }
 
 #endif

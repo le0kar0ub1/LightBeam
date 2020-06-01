@@ -3,5 +3,9 @@
 
 #define KCONFIG_INITLEVEL    0x9
 
+/* Kconfig */
+#define KCONFIG_MAXCPUS     0x4
+#define KCONFIG_MAXTHREADS  0x20
+
 /* Another */
 #define PRINTF_BUFFERED

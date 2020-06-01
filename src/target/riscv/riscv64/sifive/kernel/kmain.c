@@ -8,8 +8,7 @@ void __noreturn kmain(void)
     run_boot_initcalls();
     uart_kprint("Core %d booting others\n", cpuGetId());
     clint_generate_interrupt(1);
-    // clint_generate_interrupt(2);
-    // clint_generate_interrupt(3);
-    // clint_generate_interrupt(4);
+    clint_generate_interrupt(2);
+    clint_generate_interrupt(3);
     while(1);
 }

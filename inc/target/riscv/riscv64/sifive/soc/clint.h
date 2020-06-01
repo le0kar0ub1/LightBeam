@@ -31,6 +31,7 @@ Address Width Attr. Description Notes
 */
 
 void clint_set_msip(int core);
+void clint_reset_msip(int core);
 u32_t clint_get_msip(int core);
 void clint_set_mtimecmp(int core, u64_t val);
 u64_t clint_get_mtimecmp(int core);

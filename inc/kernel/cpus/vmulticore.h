@@ -8,6 +8,8 @@
 ** So, automate it :)
 */
 
+typedef int cpuid_t;
+
 /*
 ** Two using choices:
 **   - Declare variable with the prefix and assuming that you know in wich system you are
@@ -16,7 +18,7 @@
 
 #if KCONFIG_MAXCPUS
     /* The only function which must be provide */
-    int cpuGetId(void);
+    cpuid_t cpuGetId(void);
 
     typedef bool mltcr_bool_t[KCONFIG_MAXCPUS];
 
