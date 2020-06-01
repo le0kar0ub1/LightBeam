@@ -75,7 +75,7 @@ coreXBoot:
         andi a2, a2, MIP_MSIP
         beqz a2, .coreXwait
 
-        li s1, 0x02000000
+        li s1, 0x02000000 # CLINT addr
         csrr s2, mhartid
         slli s2, s2, 2
         add s2, s2, s1
@@ -87,10 +87,6 @@ coreXBoot:
         j .coreXwait
 
 .coreXtriggered:
-    # for now lets stop them
-    #wfi
-    #j .coreXtriggered
-
     # stack setup
     csrr a0, mhartid
     addi a0, a0, 1
@@ -98,9 +94,10 @@ coreXBoot:
     mul a0, a0, a1
     la sp, __stackcore__
     add sp, sp, a0
-    j kmain
+    j xinit
 
 core0boot:
+    # stack setup
     la sp, __stackcore__
     la a1, __STACK_SIZE
     add sp, sp, a1
