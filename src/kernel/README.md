@@ -9,6 +9,7 @@ These source are generaly kernel tricks or global objects usable in the kernel w
 
 - [X] Init hooks
 - [X] Init calls
+- [X] Shareable library & printf
 - [ ] Kernel Symbol tab
 - [ ] External global scheduler & ressource manager
 - [ ] VMM/PMM Allocator
