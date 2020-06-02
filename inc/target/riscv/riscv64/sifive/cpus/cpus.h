@@ -17,18 +17,6 @@ void __deadloop(void);
 void __hang(void);
 void __scratch(void);
 
-struct cpustate_t
-{
-    enum CPU_STATE state;
-    struct cpuroutine_t
-    {
-        int (*routine)(int, char **);
-        int argc;
-        char **argv;
-        int status;
-    } routine;
-};
-
 int cpuGetState(cpuid_t core);
 void cpuSetState(cpuid_t core, enum CPU_STATE state);
 void cpuSetRoutine(cpuid_t core, int (*routine)(int, char **), int argc, char **argv);
