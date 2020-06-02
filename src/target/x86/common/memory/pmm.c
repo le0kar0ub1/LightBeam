@@ -1,7 +1,7 @@
 #include "target/x86/x86.h"
 #include "target/x86/common/memory/pmm.h"
 #include "target/x86/common/system/multiboot2.h"
-#include "target/x86/common/schedule/spinlock.h"
+#include "arch/x86/spinlock.h"
 
 /* Map the totality of the memory */
 static u8_t bitmap[PMM_BITMAP_SIZE];

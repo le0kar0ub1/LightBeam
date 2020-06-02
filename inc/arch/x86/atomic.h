@@ -2,7 +2,7 @@
 #define _ATOMIC_H_
 
 #include "lightbeam.h"
-#include "target/x86/common/asminline.h"
+#include "arch/x86/asminline.h"
 
 typedef volatile uint32 atomic32_t;
 typedef volatile uint64 atomic64_t;

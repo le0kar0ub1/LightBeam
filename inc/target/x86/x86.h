@@ -6,11 +6,11 @@
 #define ARCH_x86_64 64
 #define ARCH_i386   32
 
-#include "target/x86/common/asminline.h"
-#include "target/x86/common/atomic.h"
-#include "target/x86/common/cpus/cpuid.h"
+#include "arch/x86/asminline.h"
+#include "arch/x86/atomic.h"
+#include "arch/x86/spinlock.h"
 
-#include "target/x86/common/schedule/spinlock.h"
+#include "target/x86/common/cpus/cpuid.h"
 
 #include "target/x86/common/interrupts/interrupts.h"
 

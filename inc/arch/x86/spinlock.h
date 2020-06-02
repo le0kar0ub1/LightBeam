@@ -1,8 +1,8 @@
 #ifndef __SPINLOCK_H_
 #define __SPINLOCK_H_
 
-#include "target/x86/common/asminline.h"
-#include "target/x86/common/atomic.h"
+#include "arch/x86/asminline.h"
+#include "arch/x86/atomic.h"
 #include "kernel/def/typedef.h"
 
 /*
