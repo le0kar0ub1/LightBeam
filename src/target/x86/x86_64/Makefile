@@ -20,8 +20,6 @@ CCFLAGS		+=	-march=x86-64			\
 	  	  		-mcmodel=large 			\
 		  		#-msse4.1				\
 
-CCFLAGS		+= '-D TARGET_ARCH_INC=$(INCLUDE_DIR)/$(ARCH_DIR)/$(TARGET_ROOT)'
-
 ASFLAGS		+=	--defsym sysz=64
 
 CCFLAGS		+= -D TGTARCH=ARCH_x86_64

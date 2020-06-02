@@ -12,8 +12,6 @@ CCFLAGS		+=	-mcmodel=medany 		\
 				-ffunction-sections		\
 				-fdata-sections			\
 
-CCFLAGS		+= '-D TARGET_ARCH_INC=$(INCLUDE_DIR)/$(ARCH_DIR)/$(TARGET_ROOT)'
-
 ASFLAGS		+=	
 
 LDFLAGS		+=	-nostartfiles 			\

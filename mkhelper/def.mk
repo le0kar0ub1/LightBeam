@@ -94,17 +94,15 @@ export CCFLAGS	=	-I $(INCLUDE_DIR)					\
 					-Wno-unused-function				\
 					-static					 			\
 					# -Werror							\
-					-MD									\
-					-MP									\
-					-MF		dep.dep						\
 
 export ASFLAGS	=	-I	$(INCLUDE_DIR)						\
 
 # Compile-time Macro
-CFLAGS		+=	'-D PROJECT="$(PROJECT)"'			\
-				'-D TARGET="$(TARGET)"'				\
-				'-D TARGET_BASE="$(TARGET_BASE)"'	\
-				--D TARGET_ROOT="$(TARGET_ROOT)"'	\
+CCFLAGS		+=	'-D PROJECT="$(PROJECT)"'										\
+				'-D TARGET="$(TARGET)"'											\
+				'-D TARGET_BASE="$(TARGET_BASE)"'								\
+				'-D TARGET_ROOT="$(TARGET_ROOT)"'								\
+				'-D TARGET_ARCH_INC=$(INCLUDE_DIR)/$(ARCH_DIR)/$(TARGET_ROOT)'	\
 
 # Debug mode
 export 	CFLAGSDEBUG	= 	-D DEBUG \

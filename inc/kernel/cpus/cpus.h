@@ -6,9 +6,7 @@
 #include "kernel/def/generator.h"
 #include <stdarg.h>
 
-#ifdef TARGET_ARCH_INC
 #include GENERATE_HEADER_TARGET_ARCH(spinlock)
-#endif
 
 typedef int cpuid_t;
 

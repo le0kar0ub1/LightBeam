@@ -1,0 +1,19 @@
+#include "kernel/def/typedef.h"
+#include "kernel/def/keyword.h"
+#include "kernel/cpus/vmulticore.h"
+#include "target/aarch64/raspi/raspi3/drivers/fb.h"
+#include "target/aarch64/raspi/raspi3/cpus/cpus.h"
+#include "kernel/lib/printf.h"
+#include <stdarg.h>
+
+// smplock_t lock = SMPLOCK_INIT();
+
+void rpifb_kprint(char const *fmt, ...)
+{
+    // semaphore_inc(&lock);
+    __builtin_va_list ap;
+    __builtin_va_start(ap, fmt);
+    generic_vprintf(rpifb_szputs, NULL, fmt, ap);
+    __builtin_va_end(ap);
+    // semaphore_dec(&lock);
+}
