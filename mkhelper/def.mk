@@ -110,7 +110,8 @@ export QEMUDEBUG	=	-d in_asm,int,cpu
 
 # Compile-time Macro
 CFLAGS		+=	'-D PROJECT="$(PROJECT)"'			\
-				'-D TARGET="$(TARGET_BASE)"'
+				'-D TARGET="$(TARGET)"'				\
+				'-D TARGETBASE="$(TARGET_BASE)"'
 
 # Debug mode
 export 	CFLAGSDEBUG	= 	-D DEBUG \

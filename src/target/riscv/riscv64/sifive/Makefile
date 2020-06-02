@@ -12,7 +12,7 @@ CCFLAGS		+=	-mcmodel=medany 		\
 				-ffunction-sections		\
 				-fdata-sections			\
 
-CCFLAGS		+= -I $(INCLUDE_DIR)/target/riscv/common
+CCFLAGS		+= '-D TARGET_COMMON_INC=$(INCLUDE_DIR)/target/riscv/common'
 
 ASFLAGS		+=	
 

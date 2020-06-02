@@ -1,5 +1,5 @@
 #include "target/riscv/riscv64/sifive/drivers/uart.h"
-#include "target/riscv/common/schedule/spinlock.h"
+#include "target/riscv/common/spinlock.h"
 
 extern struct sifive_uart_t *uart;
 

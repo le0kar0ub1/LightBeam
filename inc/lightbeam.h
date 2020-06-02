@@ -13,6 +13,7 @@
 #include "kernel/def/bitfield.h"
 #include "kernel/def/operator.h"
 #include "kernel/def/macro.h"
+#include "kernel/def/generator.h"
 
 #include "kernel/init/inithooks.h"
 #include "kernel/init/initcalls.h"
