@@ -15,9 +15,9 @@ CCFLAGS		+=	-march=armv8-a 		\
 				#-mstrict-align
 
 # Particular MACRO flags
-CCFLAGS		+=	-D__ARM64_ARCH__ 	\
-				-D__CORTEX_A53__ 	\
-				-D__ARM64_NEON__
+CCFLAGS		+=	-D__ARM64_ARCH__ 											\
+				-D__CORTEX_A53__ 											\
+				-D__ARM64_NEON__											\
 
 # The library we use
 LDFLAGS		+=	$(TGTSHARED_LIBARC)					\
