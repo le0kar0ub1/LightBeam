@@ -10,8 +10,9 @@ enum CPU_STATE
 {
     CPU_IS_UNDEFINED  = 0,
     CPU_IS_BOOTED     = 1,
-    CPU_IS_RUNNING    = 2,
-    CPU_IS_STOPPED    = 3
+    CPU_IS_STOPPED    = 2,
+    CPU_IS_RUNNING    = 3,
+    CPU_IS_TRANSITION = 4,
 };
 
 #define CPU_LOG(x, ...) (uart_kprint("[CPU %d][LOG]: %s\n", cpuGetId(), x, ##__VA_ARGS__))

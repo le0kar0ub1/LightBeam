@@ -3,12 +3,12 @@
 /*
 ** Generate Software Interrupt to core X
 */
-void clint_set_msip(cpuid_t core)
+void clint_set_msip(cpuid_t core, u32_t val)
 {
     if (core > KCONFIG_MAXCPUS - 1)
         return;
     u32_t *ptr = (u32_t *)(SOC_MMAP_START_RWA_CLINT);
-    *(ptr + core) = 0b1;
+    *(ptr + core) = val;
 }
 
 /*
