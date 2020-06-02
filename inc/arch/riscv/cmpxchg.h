@@ -1,7 +1,7 @@
 #ifndef _ASM_RISCV_CMPXCHG_H
 #define _ASM_RISCV_CMPXCHG_H
 
-#include "target/riscv/common/barrier.h"
+#include "arch/riscv/barrier.h"
 
 #define __xchg_relaxed(ptr, new, size)					\
 ({									\

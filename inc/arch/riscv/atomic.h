@@ -1,7 +1,7 @@
 #ifndef _ASM_RISCV_ATOMIC_H
 #define _ASM_RISCV_ATOMIC_H
 
-#include "target/riscv/common/barrier.h"
+#include "arch/riscv/barrier.h"
 
 #define ATOMIC_INIT(i)    { (i) }
 

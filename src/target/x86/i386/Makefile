@@ -20,6 +20,8 @@ CCFLAGS		+=	-m32					\
 				-Wcast-align			\
 		  		#-msse4.1				\
 
+CCFLAGS		+= '-D TARGET_ARCH_INC=$(INCLUDE_DIR)/$(ARCH_DIR)/$(TARGET_ROOT)'
+
 ASFLAGS		+=	--32				\
 				--defsym sysz=32	\
 

@@ -3,11 +3,11 @@
 
 #include "lightbeam.h"
 
-#include "target/riscv/common/atomic.h"
-#include "target/riscv/common/barrier.h"
-#include "target/riscv/common/cmpxchg.h"
-#include "target/riscv/common/csr.h"
-#include "target/riscv/common/spinlock.h"
+#include "arch/riscv/atomic.h"
+#include "arch/riscv/barrier.h"
+#include "arch/riscv/cmpxchg.h"
+#include "arch/riscv/csr.h"
+#include "arch/riscv/spinlock.h"
 
 void PANIC(char const *, ...) __noreturn;
 

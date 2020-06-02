@@ -14,6 +14,7 @@ export MKHELPER_DIR	:=	$(shell realpath .)/mkhelper
 export PROJECT_PATH	:=	$(shell realpath .)
 
 export TARGET_BASE	:=	$(shell basename $(TARGET)/)
+export TARGET_ROOT	:=	$(shell echo $(TARGET) | cut -d / -f 1)
 
 # Root diretcories
 export ROOT_SRC_DIR	:=	src
@@ -99,19 +100,11 @@ export CCFLAGS	=	-I $(INCLUDE_DIR)					\
 
 export ASFLAGS	=	-I	$(INCLUDE_DIR)						\
 
-export QEMU-AARCH64		:=	qemu-system-aarch64
-export QEMU-ARM			:=	qemu-system-arm
-
-export QEMUFLAGS	=	-serial stdio	\
-						-show-cursor
-
-export QEMUDEBUG	=	-d in_asm,int,cpu
-
-
 # Compile-time Macro
 CFLAGS		+=	'-D PROJECT="$(PROJECT)"'			\
 				'-D TARGET="$(TARGET)"'				\
-				'-D TARGETBASE="$(TARGET_BASE)"'
+				'-D TARGET_BASE="$(TARGET_BASE)"'	\
+				--D TARGET_ROOT="$(TARGET_ROOT)"'	\
 
 # Debug mode
 export 	CFLAGSDEBUG	= 	-D DEBUG \

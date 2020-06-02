@@ -2,7 +2,7 @@
 #define __ARCH_SPINLOCK_H_
 
 #include "kernel/def/typedef.h"
-#include "target/riscv/common/barrier.h"
+#include "arch/riscv/barrier.h"
 
 typedef volatile int spinlock_t;
 

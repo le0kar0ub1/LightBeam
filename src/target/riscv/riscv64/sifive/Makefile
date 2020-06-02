@@ -4,7 +4,7 @@
 
 sinclude $(MKHELPER_DIR)/builder/def.mk
 
-export TGTARCH	:=	sifive
+export TGTARCH	:=	riscv
 
 export GNUBASE	:=	riscv64-linux-gnu-
 
@@ -12,7 +12,7 @@ CCFLAGS		+=	-mcmodel=medany 		\
 				-ffunction-sections		\
 				-fdata-sections			\
 
-CCFLAGS		+= '-D TARGET_COMMON_INC=$(INCLUDE_DIR)/target/riscv/common'
+CCFLAGS		+= '-D TARGET_ARCH_INC=$(INCLUDE_DIR)/$(ARCH_DIR)/$(TARGET_ROOT)'
 
 ASFLAGS		+=	
 
