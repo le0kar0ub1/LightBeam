@@ -64,29 +64,29 @@ _start:
     bgt a0, a3, coreXBoot
     j core0boot
 
-coreXBoot:
-    # Set MSIE bit to receive IPI
-    li a2, MIP_MSIP
-    csrw mie, a2
-    .coreXwait:
-        wfi
-        # Only start if MIP_MSIP is set
-        csrr a2, mip
-        andi a2, a2, MIP_MSIP
-        beqz a2, .coreXwait
+    coreXBoot:
+        # Set MSIE bit to receive IPI
+        li a2, MIP_MSIP
+        csrw mie, a2
+        .coreXwait:
+            wfi
+            # Only start if MIP_MSIP is set
+            csrr a2, mip
+            andi a2, a2, MIP_MSIP
+            beqz a2, .coreXwait
 
-        li s1, 0x02000000 # CLINT addr
-        csrr s2, mhartid
-        slli s2, s2, 2
-        add s2, s2, s1
-        sw zero, 0(s2)
-        fence
-        csrw mip, 0
-        li a2, 5
-        bltu a0, a2, .coreXtriggered
-        j .coreXwait
+            li s1, 0x02000000 # CLINT addr
+            csrr s2, mhartid
+            slli s2, s2, 2
+            add s2, s2, s1
+            sw zero, 0(s2)
+            fence
+            csrw mip, 0
+            li a2, 5
+            bltu a0, a2, coreXtriggered
+            j .coreXwait
 
-.coreXtriggered:
+coreXtriggered:
     # stack setup
     csrr a0, mhartid
     addi a0, a0, 1

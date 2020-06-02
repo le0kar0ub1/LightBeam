@@ -1,9 +1,8 @@
 /* Arch config */
 #define ARCH_DIMENSION 0x8
 
-#define KCONFIG_INITLEVEL    0x9
-
 /* Kconfig */
+#define KCONFIG_INITLEVEL   0x9
 #define KCONFIG_MAXCPUS     0x5
 #define KCONFIG_MAXTHREADS  0x20
 

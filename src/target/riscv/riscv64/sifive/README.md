@@ -11,6 +11,8 @@ There are no multi-level bootloading in our implementation.
 
 The code start at `0x80000000` and we don't use the two previous stages.
 
+Sifive havn't any integrated graphical interface, then we are using the UART.
+
 ## ROADMAP
 
 - [X] S/O the boot

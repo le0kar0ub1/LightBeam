@@ -141,7 +141,7 @@ SECTIONS
     }
 
     /* CORES STACK PROVIDING */
-    PROVIDE(__STACK_SIZE = 0x5000);
+    PROVIDE(__STACK_SIZE = 0x10000);
     .providestack ALIGN(16):
     {
         . = ALIGN(16);

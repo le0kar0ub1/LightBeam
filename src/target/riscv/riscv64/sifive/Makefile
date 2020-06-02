@@ -1,10 +1,10 @@
  #
-# Makefile Compiling object for riscv64 target
+# Makefile Compiling object for sifive target
  #
 
 sinclude $(MKHELPER_DIR)/builder/def.mk
 
-export TGTARCH	:=	riscv64
+export TGTARCH	:=	sifive
 
 export GNUBASE	:=	riscv64-linux-gnu-
 
@@ -21,7 +21,7 @@ LDFLAGS		+=	-nostartfiles 			\
 				-static
 
 # The library we are using
-LDFLAGS		+=	$(TGTSHARED_OVRKRN)	\
+LDFLAGS			+=	$(TGTSHARED_OVRKRN)
 
 BUILDER_HEADER	:=	$(TGTARCH) target
 
@@ -46,7 +46,6 @@ sinclude $(MKHELPER_DIR)/builder/builder.mk
 
 arcbuild:
 	@make -s -C $(OVRKRN_SHARED_SRC_DIR) --no-print-directory
-	# @make -s -C $(TARGET2SHARED_DIR) --no-print-directory
 
 toolchainCheckup:
 	$(call EvalBinaryExistence,$(GNUBASE)as)
