@@ -1,7 +1,7 @@
 #include "target/riscv/riscv64/sifive/soc/clint.h"
 
 /*
-** Generate Interrupt to core X
+** Generate Software Interrupt to core X
 */
 void clint_set_msip(int core)
 {

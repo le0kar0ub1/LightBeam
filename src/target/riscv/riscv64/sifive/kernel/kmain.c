@@ -7,10 +7,10 @@ void __noreturn kmain(void)
 {
     run_boot_initcalls();
     helloFromLightBeam();
-    uart_kprint("Core %d booting others\n", cpuGetId());
-    clint_generate_interrupt(1);
-    clint_generate_interrupt(2);
-    clint_generate_interrupt(3);
-    clint_generate_interrupt(4);
+    uart_kprint("Core %d booting others...\n", cpuGetId());
+    CLINT_RAISE_SOFT_INT(1);
+    CLINT_RAISE_SOFT_INT(2);
+    CLINT_RAISE_SOFT_INT(3);
+    CLINT_RAISE_SOFT_INT(4);
     while(1);
 }

@@ -1,7 +1,7 @@
 `/src/target/riscv/riscv64/generic`
 ==================================
 
-Reference of [riscv64 common](../README.md).
+Reference of [riscv common](../../README.md).
 
 ## ROADMAP
 
