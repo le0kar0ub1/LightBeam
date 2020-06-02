@@ -23,10 +23,21 @@ void __deadloop(void);
 void __hang(void);
 void __scratch(void);
 
-int cpuGetState(void);
-void cpuSetState(enum CPU_STATE state);
-void cpuSetRoutine(int core, void *routine);
-void *cpuGetRoutine(int core);
+struct cpustate_t
+{
+    enum CPU_STATE state;
+    struct cpuroutine_t
+    {
+        void (*entry)(int, char **);
+        int argc;
+        char **argv;
+    } routine;
+};
+
+int cpuGetState(int core);
+void cpuSetState(int core, enum CPU_STATE state);
+void cpuSetRoutine(int core, void *routine, int argc, char **argv);
+struct cpuroutine_t *cpuGetRoutine(int core);
 
 
 #endif

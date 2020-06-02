@@ -8,7 +8,7 @@
 void xinit(void);
 void xinit(void)
 {
-    cpuSetState(CPU_IS_BOOTED);
+    cpuSetState(cpuGetId(), CPU_IS_BOOTED);
     uart_kprint("Core %d booted\n", cpuGetId());
     cpuSheduler();
 }
