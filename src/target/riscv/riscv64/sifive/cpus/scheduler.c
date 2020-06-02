@@ -11,13 +11,16 @@ void cpuSheduler(void)
 
     while (1)
     {
+        CPU_LOG("LA");
         asm volatile("wfi");
         state = cpuGetState(cpuGetId());
         if (state != CPU_IS_STOPPED)
             continue;
         routine = cpuGetRoutine(cpuGetId());
-        if (!routine)
+        if (!routine || !routine->routine)
             continue;
-        routine->entry(routine->argc, routine->argv);
+        CPU_LOG("executing routine...");
+        routine->routine(routine->argc, routine->argv);
+        CPU_LOG("return status routine");
     }
 }

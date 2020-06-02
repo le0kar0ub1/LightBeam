@@ -3,7 +3,7 @@
 /*
 ** Generate Software Interrupt to core X
 */
-void clint_set_msip(int core)
+void clint_set_msip(cpuid_t core)
 {
     if (core > KCONFIG_MAXCPUS - 1)
         return;
@@ -14,7 +14,7 @@ void clint_set_msip(int core)
 /*
 ** Reset msip to core X
 */
-void clint_reset_msip(int core)
+void clint_reset_msip(cpuid_t core)
 {
     if (core > KCONFIG_MAXCPUS - 1)
         return;
@@ -25,7 +25,7 @@ void clint_reset_msip(int core)
 /*
 ** Get MSIP state core X
 */
-u32_t clint_get_msip(int core)
+u32_t clint_get_msip(cpuid_t core)
 {
     if (core > KCONFIG_MAXCPUS - 1)
         return (0);
@@ -36,7 +36,7 @@ u32_t clint_get_msip(int core)
 /*
 ** Setup mtimecmp core X
 */
-void clint_set_mtimecmp(int core, u64_t val)
+void clint_set_mtimecmp(cpuid_t core, u64_t val)
 {
     if (core > KCONFIG_MAXCPUS - 1)
         return;
@@ -47,7 +47,7 @@ void clint_set_mtimecmp(int core, u64_t val)
 /*
 ** Get mtimecmp core X
 */
-u64_t clint_get_mtimecmp(int core)
+u64_t clint_get_mtimecmp(cpuid_t core)
 {
     if (core > KCONFIG_MAXCPUS - 1)
         return (0);

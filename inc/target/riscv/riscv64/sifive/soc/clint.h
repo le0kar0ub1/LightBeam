@@ -5,6 +5,7 @@
 #include "kernel/def/keyword.h"
 
 #include "target/riscv/riscv64/sifive/soc/map.h"
+#include "target/riscv/riscv64/sifive/cpus/cpus.h"
 
 /*
 Address Width Attr. Description Notes
@@ -30,11 +31,11 @@ Address Width Attr. Description Notes
 0x20c000 Reserved
 */
 
-void clint_set_msip(int core);
-void clint_reset_msip(int core);
-u32_t clint_get_msip(int core);
-void clint_set_mtimecmp(int core, u64_t val);
-u64_t clint_get_mtimecmp(int core);
+void clint_set_msip(cpuid_t core);
+void clint_reset_msip(cpuid_t core);
+u32_t clint_get_msip(cpuid_t core);
+void clint_set_mtimecmp(cpuid_t core, u64_t val);
+u64_t clint_get_mtimecmp(cpuid_t core);
 void clint_set_mtime(u64_t val);
 u64_t clint_get_mtime(void);
 
