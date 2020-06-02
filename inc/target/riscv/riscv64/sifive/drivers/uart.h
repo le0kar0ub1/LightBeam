@@ -90,5 +90,6 @@ void uart_putc(char c);
 void uart_puts(char const *s);
 void uart_szputs(char const *s, size_t sz);
 void uart_kprint(char const *fmt, ...);
+void uart_kvprint(char const *fmt, __builtin_va_list ap);
 
 #endif

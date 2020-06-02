@@ -28,15 +28,20 @@ struct cpustate_t
     } routine;
 };
 
-void cpu_log(char const *fmt, ...);
-void cpu_wrn(char const *fmt, ...);
-void cpu_err(char const *fmt, ...);
+#define cpu_log(x, ...) (arch_cpu_log("[CPU %d][LOG]: %s\n", arch_cpu_get_id(), x, ##__VA_ARGS__))
+#define cpu_wrn(x, ...) (arch_cpu_wrn("[CPU %d][WRN]: %s\n", arch_cpu_get_id(), x, ##__VA_ARGS__))
+#define cpu_err(x, ...) (arch_cpu_err("[CPU %d][ERR]: %s\n", arch_cpu_get_id(), x, ##__VA_ARGS__))
 
-cpuid_t cpu_get_id(void);
+void arch_cpu_scheduler(void);
+void arch_cpu_log(char const *fmt, ...);
+void arch_cpu_wrn(char const *fmt, ...);
+void arch_cpu_err(char const *fmt, ...);
+void arch_cpu_halt(void);
+void arch_cpu_trigger_cpu(cpuid_t core);
+void arch_cpu_acquire_trigger_cpu(void);
 
-void cpu_trigger_cpu(cpuid_t core);
-void cpu_acquire_trigger_cpu(void);
-void cpu_halt(void);
+cpuid_t arch_cpu_get_id(void);
+
 
 void cpu_set_state(cpuid_t core, enum CPU_STATE state);
 enum CPU_STATE cpu_get_state(cpuid_t core);
@@ -45,5 +50,9 @@ struct cpuroutine_t *cpu_get_routine(cpuid_t core);
 
 void cpu_scheduler(void);
 void cpu_exec_routine(int core, int (*routine)(int, char **), int argc, char **argv);
+
+void __deadloop(void);
+void __hang(void);
+void __scratch(void);
 
 #endif

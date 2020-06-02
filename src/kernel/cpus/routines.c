@@ -9,6 +9,6 @@ void cpu_exec_routine(cpuid_t core, int (*routine)(int, char **), int argc, char
         return;
     cpu_set_state(core, CPU_IS_TRANSITION);
     cpu_set_routine(core, routine, argc, argv);
-    cpu_trigger_cpu(core);
+    arch_cpu_trigger_cpu(core);
 }
 #endif

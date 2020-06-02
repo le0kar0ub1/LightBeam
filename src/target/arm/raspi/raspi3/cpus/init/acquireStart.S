@@ -87,7 +87,7 @@ _CHECKEDUP:         .string "All CPUS acquired start.\n"
 /* CoresX acquire their are alive here */
 .section .text
 multicoresX_start:
-    bl cpuGetId
+    bl arch_cpu_get_id
 
     ldr x1, =_cpustate
     add x1, x1, x0

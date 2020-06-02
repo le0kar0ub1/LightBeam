@@ -8,7 +8,7 @@
 void xinit(void);
 void xinit(void)
 {
-    CPU_LOG("booted");
-    cpuSetState(cpuGetId(), CPU_IS_BOOTED);
-    cpuSheduler();
+    cpu_log("booted");
+    cpu_set_state(arch_cpu_get_id(), CPU_IS_BOOTED);
+    arch_cpu_scheduler();
 }

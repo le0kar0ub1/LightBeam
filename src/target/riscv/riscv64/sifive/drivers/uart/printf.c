@@ -10,3 +10,8 @@ void uart_kprint(char const *fmt, ...)
     generic_vprintf(uart_szputs, NULL, fmt, ap);
     __builtin_va_end(ap);
 }
+
+void uart_kvprint(char const *fmt, __builtin_va_list ap)
+{
+    generic_vprintf(uart_szputs, NULL, fmt, ap);
+}

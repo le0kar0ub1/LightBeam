@@ -1,7 +1,7 @@
 .section .text
 
-.global cpuGetId
+.global arch_cpu_get_id
 
-cpuGetId:
+arch_cpu_get_id:
     csrr a0, mhartid
     ret

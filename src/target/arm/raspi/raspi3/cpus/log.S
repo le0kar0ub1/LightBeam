@@ -9,7 +9,7 @@
 uart_cpu_log:
     prologue
     mov x2, x0
-    bl cpuGetId
+    bl arch_cpu_get_id
     mov x1, x0
     ldr x0, =_uart_cpulog
     bl uart_kprint
@@ -19,7 +19,7 @@ uart_cpu_log:
 uart_cpu_wrn:
     prologue
     mov x2, x0
-    bl cpuGetId
+    bl arch_cpu_get_id
     mov x1, x0
     ldr x0, =_uart_cpuwrn
     bl uart_kprint
@@ -29,7 +29,7 @@ uart_cpu_wrn:
 uart_cpu_err:
     prologue
     mov x2, x0
-    bl cpuGetId
+    bl arch_cpu_get_id
     mov x1, x0
     ldr x0, =_uart_cpuerr
     bl uart_kprint
@@ -51,7 +51,7 @@ _uart_cpuerr:   .string "[CPU %d] [ERR]: %s\n"
 rpifb_cpu_log:
     prologue
     mov x2, x0
-    bl cpuGetId
+    bl arch_cpu_get_id
     mov x1, x0
     ldr x0, =_rpifb_cpulog
     bl rpifb_kprint
@@ -61,7 +61,7 @@ rpifb_cpu_log:
 rpifb_cpu_wrn:
     prologue
     mov x2, x0
-    bl cpuGetId
+    bl arch_cpu_get_id
     mov x1, x0
     ldr x0, =_rpifb_cpuwrn
     bl rpifb_kprint
@@ -71,7 +71,7 @@ rpifb_cpu_wrn:
 rpifb_cpu_err:
     prologue
     mov x2, x0
-    bl cpuGetId
+    bl arch_cpu_get_id
     ldr x0, =_rpifb_cpuerr
     bl rpifb_kprint
     epilogue

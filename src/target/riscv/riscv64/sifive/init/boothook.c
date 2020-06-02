@@ -6,16 +6,16 @@ static void boothook(void)
 {
     run_boot_initcalls();
     helloFromLightBeam();
-    CPU_LOG("Im booting some friends...");
-    CLINT_RAISE_SOFT_INT(1);
-    while (cpuGetState(1) == CPU_IS_UNDEFINED);
-    CLINT_RAISE_SOFT_INT(2);
-    while (cpuGetState(2) == CPU_IS_UNDEFINED);
-    CLINT_RAISE_SOFT_INT(3);
-    while (cpuGetState(3) == CPU_IS_UNDEFINED);
-    CLINT_RAISE_SOFT_INT(4);
-    while (cpuGetState(4) == CPU_IS_UNDEFINED);
-    CPU_LOG("All my friends acquired start!");
+    cpu_log("Im booting some friends...");
+    arch_cpu_trigger_cpu(1);
+    while (cpu_get_state(1) == CPU_IS_UNDEFINED);
+    arch_cpu_trigger_cpu(2);
+    while (cpu_get_state(2) == CPU_IS_UNDEFINED);
+    arch_cpu_trigger_cpu(3);
+    while (cpu_get_state(3) == CPU_IS_UNDEFINED);
+    arch_cpu_trigger_cpu(4);
+    while (cpu_get_state(4) == CPU_IS_UNDEFINED);
+    cpu_log("All my friends acquired start!");
 }
 
 boot_inithook(boothook);

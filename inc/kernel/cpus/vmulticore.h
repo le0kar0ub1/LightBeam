@@ -17,7 +17,7 @@
 
 #if KCONFIG_MAXCPUS
     /* The only function which must be provide */
-    cpuid_t cpuGetId(void);
+    cpuid_t arch_cpu_get_id(void);
 
     typedef bool mltcr_bool_t[KCONFIG_MAXCPUS];
 
@@ -59,8 +59,8 @@
     #define MLTCR_INITX(type, x) type x[KCONFIG_MAXCPUS];
     #define MLTCR_VINITX(type, x, y) type x[KCONFIG_MAXCPUS] = {y};
 
-    #define MLTCR_SET(x, y) x[cpuGetId()] = y
-    #define MLTCR_GET(x)    x[cpuGetId()]
+    #define MLTCR_SET(x, y) x[arch_cpu_get_id()] = y
+    #define MLTCR_GET(x)    x[arch_cpu_get_id()]
 #else
     typedef bool mltcr_bool_t;
 

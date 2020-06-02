@@ -40,6 +40,6 @@ void clint_set_mtime(u64_t val);
 u64_t clint_get_mtime(void);
 
 #define CLINT_RAISE_SOFT_INT(x) clint_set_msip(x, 1)
-#define CLINT_ACQUIRE_SOFT_INT() clint_set_msip(cpuGetId(), 0)
+#define CLINT_ACQUIRE_SOFT_INT() clint_set_msip(arch_cpu_get_id(), 0)
 
 #endif
