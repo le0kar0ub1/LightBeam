@@ -24,6 +24,7 @@
 
 #include "kernel/schedule/semaphore.h"
 #include "kernel/cpus/vmulticore.h"
+#include "kernel/cpus/cpus.h"
 
 #include "kernel/lib/lib.h"
 #include "kernel/lib/printf.h"

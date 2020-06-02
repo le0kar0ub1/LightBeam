@@ -27,7 +27,7 @@ export ARCH_DIR		:=	arch
 export TARGET2SHARED_DIR	:=	../common
 
 # We Will provide the full path each time
-export INCLUDE_DIR =	-I $(realpath $(ROOT_INC_DIR))
+export INCLUDE_DIR =	$(realpath $(ROOT_INC_DIR))
 
 # Binary definition
 export PROJECT			:=	LightBeam
@@ -60,7 +60,7 @@ export RM	:=	rm -rf
 export BUILDEP	:=	dep.dep
 
 # Cleaner as possible
-export CCFLAGS	=	$(INCLUDE_DIR)						\
+export CCFLAGS	=	-I $(INCLUDE_DIR)					\
 					-Wall								\
 					-Wextra				 				\
 					-Wnested-externs					\
@@ -97,7 +97,7 @@ export CCFLAGS	=	$(INCLUDE_DIR)						\
 					-MP									\
 					-MF		dep.dep						\
 
-export ASFLAGS	=	$(INCLUDE_DIR)						\
+export ASFLAGS	=	-I	$(INCLUDE_DIR)						\
 
 export QEMU-AARCH64		:=	qemu-system-aarch64
 export QEMU-ARM			:=	qemu-system-arm

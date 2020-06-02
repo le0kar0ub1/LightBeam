@@ -5,6 +5,8 @@
 #include "kernel/def/keyword.h"
 #include <stdarg.h>
 
+#include "schedule/spinlock.h"
+
 typedef int cpuid_t;
 
 #ifdef KCONFIG_MAXCPUS

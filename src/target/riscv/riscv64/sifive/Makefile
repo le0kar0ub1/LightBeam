@@ -12,6 +12,8 @@ CCFLAGS		+=	-mcmodel=medany 		\
 				-ffunction-sections		\
 				-fdata-sections			\
 
+CCFLAGS		+= -I $(INCLUDE_DIR)/target/riscv/common
+
 ASFLAGS		+=	
 
 LDFLAGS		+=	-nostartfiles 			\
