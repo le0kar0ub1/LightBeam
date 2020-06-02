@@ -28,6 +28,13 @@ Sifive havn't any integrated graphical interface, then we are using the UART.
   - [ ] PMM
   - [ ] VMM
   - [ ] Allocator
+- [ ] Threads
+  - [X] Physical
+    - [X] Scheduler
+    - [X] Exec routines
+  - [ ] Virtual
+    - [X] Scheduler
+    - [ ] Exec routines
 - [ ] Drivers middle
   - [ ] DMA
   - [ ] SD
