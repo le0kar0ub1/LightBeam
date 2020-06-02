@@ -2,23 +2,25 @@
 
 .global cpuGetState
 
+# int cpuGetState(void);
 cpuGetState:
     csrr a0, mhartid
     la a1, cpuStateData
     add a1, a1, a0
-    lb a0, a1
+    lb a0, 0(a1)
     ret
 
 .global cpuSetState
-    csrr a0, mhartid
+
+# void cpuSetState(int);
+cpuSetState:
+    csrr a2, mhartid
     la a1, cpuStateData
-    add a1, a1, a0
-    sb a0, a1
+    add a1, a1, a2
+    sb a0, 0(a1)
     ret
 
 .section .data
-
-.global cpuStateData
 
 cpuStateData:
 .rept 5

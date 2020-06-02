@@ -15,4 +15,7 @@ void __deadloop(void);
 void __hang(void);
 void __scratch(void);
 
+int cpuGetState(void);
+void cpuSetState(int);
+
 #endif
