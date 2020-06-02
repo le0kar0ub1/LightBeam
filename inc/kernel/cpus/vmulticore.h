@@ -2,13 +2,12 @@
 #define __KVAR_MULTICORE_H
 
 #include "kernel/def/typedef.h"
+#include "kernel/cpus/cpus.h"
 
 /* 
 ** In multicore system number of variables must be duplicated by the number of CPUS
 ** So, automate it :)
 */
-
-typedef int cpuid_t;
 
 /*
 ** Two using choices:
