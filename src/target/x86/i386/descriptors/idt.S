@@ -8,6 +8,9 @@
 .global idt_start
 .global idt_end
 
+/*
+** IDT descriptor
+*/
 idt:
 idt_start:
     .rept 256
@@ -23,6 +26,9 @@ idt_end:
 
 .global idtptr
 
+/*
+** IDT ptr
+*/
 idtptr:
     .2byte idt_end - idt_start - 0x1
     .4byte idt_start
@@ -37,6 +43,9 @@ idt_load:
 
 .global idt_init
 
+/*
+** fill in the IDT with the ISR address
+*/
 idt_init:
     movl $isr, %esi
     movl $idt, %edi

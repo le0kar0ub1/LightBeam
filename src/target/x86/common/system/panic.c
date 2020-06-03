@@ -1,5 +1,8 @@
 #include "target/x86/x86.h"
 
+/*
+** kernel panic, no return
+*/
 void PANIC(char const *fmt, ...)
 {
     serial_printf("Kernel Panic: ");

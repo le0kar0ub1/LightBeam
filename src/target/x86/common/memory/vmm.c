@@ -2,9 +2,8 @@
 #include "target/x86/common/memory/kalloc.h"
 
 /*
-** Common VMM functions
+** Call the arch-dependant mmap to map X page
 */
-
 virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
 {
     virtaddr_t keep = virt;
@@ -21,6 +20,9 @@ virtaddr_t vmm_mmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
     return (keep);
 }
 
+/*
+** Call the arch-dependant mmap to unmap X page
+*/
 void vmm_unmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
 {
     virtaddr_t keep = virt;
@@ -35,6 +37,9 @@ void vmm_unmap(virtaddr_t virt, size_t sz, mmap_attrib_t attrib)
     }
 }
 
+/*
+** Call the arch-dependant to map a know virtual & physical address
+*/
 virtaddr_t vmm_mmap_dev(virtaddr_t virt, physaddr_t phys, size_t size, mmap_attrib_t attrib)
 {
     virtaddr_t keep = virt;

@@ -6,11 +6,17 @@
 
 .section .rodata
 
+/*
+** GDT virt ptr after pagination
+*/
 .align 16
 gdtptr:
     .2byte gdt_end - gdt_start - 1
     .4byte gdt
 
+/*
+** GDT phys ptr before pagination
+*/
 .align 16
 gdtptr_phys:
     .2byte gdt_end - gdt_start - 1
@@ -18,6 +24,9 @@ gdtptr_phys:
 
 .section .data
 
+/*
+** The original GDT 
+*/
 .align 16
 gdt:
 gdt_start:

@@ -31,7 +31,6 @@ _start:
 /*
 ** Load our GDT & then the kernel selectors
 */
-
 load_gdt:
     LV2P $gdtptr_phys, %eax
     lgdt (%eax)
@@ -47,15 +46,13 @@ load_gdt:
 .flush_codeselector:
     ret
 
-
-/*
-** Our kernel stack
-*/
-
 .section .bss
 
 .global stack_top
 
+/*
+** Our kernel stack
+*/
 .align 1024
 stack_bottom:
 .lcomm stack, 0x1000 * 10

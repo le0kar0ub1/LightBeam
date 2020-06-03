@@ -6,6 +6,11 @@
 
 .global lmworld
 
+/*
+** init long mode
+** reaload values
+** jump into kernel main
+*/
 lmworld:
     movw $KERNEL_DATA_SELECTOR, %ax
     movw %ax, %ds

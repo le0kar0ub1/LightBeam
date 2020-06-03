@@ -9,7 +9,7 @@ static u8_t bitmap[PMM_BITMAP_SIZE];
 static spinlock_t lock = SPINLOCK_INIT();
 
 /*
-** is the given frame allocated?
+** is the given frame allocated ?
 */
 bool pmm_is_frame_allocated(physaddr_t frame)
 {

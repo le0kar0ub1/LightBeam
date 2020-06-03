@@ -6,6 +6,10 @@
 
 .section .text
 
+/*
+** Check if long mode is supported
+** fatal feature
+*/
 lm_ckeckup:
     mov $0x80000000, %eax
     cpuid

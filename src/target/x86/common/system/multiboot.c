@@ -7,6 +7,9 @@ struct multiboot_info multiboot;
 
 uintptr multiboot_virtaddr = 0x0;
 
+/*
+** Parse the multiboot structure
+*/
 void multiboot_parse_tags(void)
 {
     if (!multiboot_virtaddr || multiboot_virtaddr & 0x7) {

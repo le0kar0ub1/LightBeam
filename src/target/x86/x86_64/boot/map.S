@@ -9,7 +9,6 @@
 /*
 ** Paging Set up
 */
-
 setup_paging:
     /* dafuck recursive mapping */
     LV2P $kernel_pml4, %eax

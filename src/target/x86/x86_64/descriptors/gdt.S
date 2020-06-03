@@ -6,7 +6,6 @@
 .global gdtptr_phys
 .global gdt
 
-
 .section .rodata
 
 .align 16

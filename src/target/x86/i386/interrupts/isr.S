@@ -3,10 +3,9 @@
 .include "target/x86/common/boot.inc"
 
 /*
-** GAS apparently not allow us to do .rept/.endr with an assigned increment
-** So Yes, it's ugly
+** GAS apparently not allow us to do .rept/.endr with an assigned increment, so Yes, it's ugly
+** Btw, the 256 interrupt gates
 */
-
 .section .text
 
 .global isr

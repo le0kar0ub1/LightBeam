@@ -7,19 +7,20 @@
 .global setup_paging
 
 /*
-** Paging Set up
+** Early Paging Set up
 */
-
 setup_paging:
-    /* recursive mapping */
+    # recursive mapping
     LV2P $kernel_pagedir, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     SV2P %eax, .kpage_last_entry
 
+    # pd in pt kernel index
     LV2P $kernel_pagetable, %eax
     orl $(MMU_PRESENT | MMU_WRITABLE), %eax
     SV2P %eax, .kpage_kernel_entry
 
+    # loop on pt to map the physical addr
     LV2P $kernel_pagetable, %edi
     xorl %edx, %edx
     movl $PAGE_ENTRY_NBR, %ecx
@@ -31,6 +32,7 @@ setup_paging:
         addl $0x4, %edi
         loop .loop_page
 
+    # load pd in cr3
     LV2P $kernel_pagedir, %eax
     movl %eax, %cr3
 
@@ -44,6 +46,7 @@ setup_paging:
     orl $0x80000001, %eax
     movl %eax, %cr0
 
+    # jmp in higher half
     lea .higher_half, %eax
     jmp *%eax
     .higher_half:
@@ -59,6 +62,7 @@ setup_paging:
     andl $~0b10000, %eax
     movl %eax, %cr4
 
+    # reaload the gdt
     lgdt gdtptr
 
     # Reload Boot Values
@@ -72,10 +76,6 @@ setup_paging:
 
     ret
 
-/*
-** Early Kernel paging data
-*/
-
 .section .data
 
 .global kernel_pagedir
@@ -83,6 +83,9 @@ setup_paging:
     .global .kpage_kernel_entry
     .global .kpage_last_entry
 
+/*
+** Early Kernel paging data
+*/
 kernel_pagedir:
 .align 4096
     .kpage_first_entry:

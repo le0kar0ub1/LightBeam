@@ -9,7 +9,6 @@
 /*
 ** Prepare dispatcher
 */
-
 interrupt_handler:
     pushq %rbp
     pushq %rdi

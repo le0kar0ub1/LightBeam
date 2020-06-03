@@ -44,7 +44,6 @@ static inline struct pt_t *get_pt(uint pml4idx, uint pdpidx, uint pdidx)
 /*
 ** Idx/addr pagination get
 */
-
 static inline uint virt2pml4Idx(virtaddr_t va)
 {
     return (((uintptr)(va) >> 39) & 0x1FF);
@@ -78,7 +77,6 @@ static inline virtaddr_t idx2addr(uint pml4idx, uint pdpidx, uint pdidx, uint pt
 /*
 ** x86_64 particular vmm functions management
 */
-
 bool arch_vmm_is_mapped(virtaddr_t virt)
 {
     assert(IS_PAGE_ALIGNED(virt));
