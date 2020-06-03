@@ -1,6 +1,6 @@
+#ifdef KCONFIG_MAXCPUS
 #include "kernel/cpus/cpus.h"
 
-#ifdef KCONFIG_MAXCPUS
 void cpu_scheduler(void)
 {
     struct cpuroutine_t *routine;

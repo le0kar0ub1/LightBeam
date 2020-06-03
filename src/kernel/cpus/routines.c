@@ -1,6 +1,5 @@
-#include "kernel/cpus/cpus.h"
-
 #ifdef KCONFIG_MAXCPUS
+#include "kernel/cpus/cpus.h"
 void cpu_exec_routine(cpuid_t core, int (*routine)(int, char **), int argc, char **argv)
 {
     if (core > KCONFIG_MAXCPUS - 1)

@@ -23,7 +23,6 @@ enum CPU_STATE
 struct cpustate_t
 {
     enum CPU_STATE state;
-    bool wait4run;
     struct cpuroutine_t
     {
         int (*routine)(int, char **);
