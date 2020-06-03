@@ -26,6 +26,9 @@ extern initcall_t __initcall7_end[];
 extern initcall_t __initcall8_end[];
 extern initcall_t __initcall9_end[];
 
+/*
+** Run all initcalls by level
+*/
 void run_initcalls(void)
 {
     initcall_t *hook;
@@ -38,6 +41,9 @@ void run_initcalls(void)
     }
 }
 
+/*
+** Run the given initcall level
+*/
 void run_initcall_level(u8_t lvl)
 {
     initcall_t *hook;

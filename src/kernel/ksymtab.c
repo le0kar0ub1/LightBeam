@@ -4,6 +4,9 @@
 extern struct symbol_t __ksymtab_start[];
 extern struct symbol_t __ksymtab_end[];
 
+/*
+** Search symbol in ksymtab by name
+*/
 static struct symbol_t *lookup_symbols_from_name(struct symbol_t *from, struct symbol_t *to, const char *name)
 {
     struct symbol_t *next;
@@ -20,6 +23,9 @@ static struct symbol_t *lookup_symbols_from_name(struct symbol_t *from, struct s
     return (NULL);
 }
 
+/*
+** Search symbol in ksymtab by addr
+*/
 static struct symbol_t *lookup_symbols_from_addr(struct symbol_t *from, struct symbol_t *to, void *addr)
 {
     struct symbol_t *next;
@@ -36,6 +42,9 @@ static struct symbol_t *lookup_symbols_from_addr(struct symbol_t *from, struct s
     return (NULL);
 }
 
+/*
+** Get symbol addr in ksymtab from name
+*/
 void *__symbol_get_addr(const char * name)
 {
     struct symbol_t * sym;
@@ -47,6 +56,9 @@ void *__symbol_get_addr(const char * name)
 }
 EXPORT_SYMBOL(__symbol_get_addr);
 
+/*
+** Get symbol name in ksymtab from addr
+*/
 char const *__symbol_get_name(void *addr)
 {
     struct symbol_t * sym;

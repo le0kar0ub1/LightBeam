@@ -20,6 +20,9 @@ extern inithook_t __inithook9[];
     hook = &(*__get_hooklevel(inithook, x));   \
     (*hook)();
 
+/*
+** Run all inithooks
+*/
 void run_inithooks(void)
 {
     inithook_t *hook;
@@ -32,6 +35,9 @@ void run_inithooks(void)
     }
 }
 
+/*
+** Run all inithooks until KCONFIG_INITLEVEL
+*/
 void run_inithooks_bylevel(void)
 {
     inithook_t *hook;

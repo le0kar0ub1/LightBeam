@@ -1,6 +1,11 @@
 #ifdef KCONFIG_MAXCPUS
+
 #include "kernel/cpus/cpus.h"
 
+/*
+** slave cpus infinite loop
+** EXecute a configured routine when triggered by the well arch-instruction
+*/
 void cpu_scheduler(void)
 {
     struct cpuroutine_t *routine;
