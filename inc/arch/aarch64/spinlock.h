@@ -12,12 +12,12 @@ typedef u32_t spinlock_t;
 
 #define SPINLOCK_INIT() 0x0
 
-static inline void spinlock_lock(spinlock_t *spinlock)
+static inline void arch_spin_lock(spinlock_t *spinlock)
 {
     while (atomic_cmp_exchange((atomic_t *)spinlock, 0, 1) != 0);
 }
 
-static inline void spinlock_unlock(spinlock_t *spinlock)
+static inline void arch_spin_unlock(spinlock_t *spinlock)
 {
     atomic_cmp_exchange((atomic_t *)spinlock, 1, 0);
 }

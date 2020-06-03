@@ -23,6 +23,7 @@ enum CPU_STATE
 struct cpustate_t
 {
     enum CPU_STATE state;
+    bool wait4run;
     struct cpuroutine_t
     {
         int (*routine)(int, char **);
@@ -53,6 +54,8 @@ void cpu_scheduler(void);
 
 void cpu_set_state(cpuid_t core, enum CPU_STATE state);
 enum CPU_STATE cpu_get_state(cpuid_t core);
+cpuid_t cpu_get_stopped_one(void);
+bool cpu_is_stopped(cpuid_t core);
 void cpu_set_routine(cpuid_t core, int (*routine)(int, char **), int argc, char **argv);
 struct cpuroutine_t *cpu_get_routine(cpuid_t core);
 

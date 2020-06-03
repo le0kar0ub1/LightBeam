@@ -4,6 +4,8 @@
 #include "kernel/def/typedef.h"
 #include "kernel/def/keyword.h"
 
+#include <stdarg.h>
+
 #include "target/aarch64/raspi/raspi3/drivers/colors-256.h"
 
 enum MODE256RGBCOLOR
@@ -101,6 +103,7 @@ void rpifb_printfhandler_modcolor(u64_t );
 void rpifb_printfhandler_bckcolor(void);
 void rpifb_printfhandler_noerasing(void);
 void rpifb_kprint(char const *, ...);
+void rpifb_kvprint(char const *fmt, __builtin_va_list ap);
 
 void rpifb_set_pos(u32_t, u32_t);
 u32_t rpifb_get_posx(void);

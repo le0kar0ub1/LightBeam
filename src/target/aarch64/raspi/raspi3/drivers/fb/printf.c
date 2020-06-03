@@ -6,14 +6,15 @@
 #include "kernel/lib/printf.h"
 #include <stdarg.h>
 
-// smplock_t lock = SMPLOCK_INIT();
-
 void rpifb_kprint(char const *fmt, ...)
 {
-    // semaphore_inc(&lock);
     __builtin_va_list ap;
     __builtin_va_start(ap, fmt);
     generic_vprintf(rpifb_szputs, NULL, fmt, ap);
     __builtin_va_end(ap);
-    // semaphore_dec(&lock);
+}
+
+void rpifb_kvprint(char const *fmt, __builtin_va_list ap)
+{
+    generic_vprintf(rpifb_szputs, NULL, fmt, ap);
 }
