@@ -1,6 +1,10 @@
 .code32
 
 .section .multiboot, "awdx"
+
+/*
+** THE multiboot header
+*/
 .balign 4
 mb_header:
     .4byte 0xE85250D6                 # magic

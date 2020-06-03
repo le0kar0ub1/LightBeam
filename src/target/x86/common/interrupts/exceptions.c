@@ -28,6 +28,10 @@ static char const *exceptions[] =
     [0x1E] = "Security exception",
 };
 
+/*
+** Print if an exception occured
+** Then halt the system
+*/
 void exceptions_handler(struct intframe *frame)
 {
     /* in case we change the gate type later */

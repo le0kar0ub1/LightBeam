@@ -4,6 +4,9 @@
 #include "target/x86/common/interrupts/pic.h"
 #include "target/x86/common/drivers/vga.h"
 
+/*
+** basic azerty keyset
+*/
 static uchar const azerty_keyset[128] =
 {
     0,
@@ -53,6 +56,9 @@ static uchar const azerty_keyset[128] =
     [26] = '^'
 };
 
+/*
+** altgr azerty keyset
+*/
 static uchar const azerty_keyset_altgr[128] =
 {
     0,
@@ -98,6 +104,9 @@ static uchar const azerty_keyset_altgr[128] =
     [57] = ' '
 };
 
+/*
+** capslock azerty keyset
+*/
 static uchar const azerty_keyset_capslock[128] =
 {
     0,
@@ -153,6 +162,9 @@ static bool caps = false;
 static bool ctrl = false;
 static bool altgr = false;
 
+/*
+** display a char on screen
+*/
 void printable_fired(struct intframe *frame, uchar getch)
 {
     if (caps_lock != caps)
@@ -165,6 +177,9 @@ void printable_fired(struct intframe *frame, uchar getch)
         vga_printf("%c", frame->eax);
 }
 
+/*
+** special touch handling
+*/
 void non_printable_fired(uchar getch)
 {
     if (getch == 0x2A || getch == 0x36) // caps on
@@ -181,6 +196,10 @@ void non_printable_fired(uchar getch)
         altgr = !altgr;
 }
 
+/*
+** Keyboard handler
+** called by the ISR when an interrupt is fired
+*/
 void ps2keyboard_handler(struct intframe *frame)
 {
     uchar getch = read_scan_code();

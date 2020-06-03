@@ -4,6 +4,9 @@
 
 .global early_vgaputs
 
+/*
+** VGA early put, used mostly for fatal errors
+*/
 early_vgaputs:
     push %edi
     push %eax

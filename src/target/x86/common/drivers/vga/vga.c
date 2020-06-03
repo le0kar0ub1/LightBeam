@@ -4,7 +4,6 @@
 /*
 ** VGA handling data
 */
-
 static struct vga vga =
 {
     .attrib = 0x0,
@@ -14,9 +13,8 @@ static struct vga vga =
 };
 
 /*
-** cursor Management 
+** enable the cursor
 */
-
 void vga_cursor_enable(uint8 start, uint8 end)
 {
     outb(CRTC_INDEX, 0x0A);
@@ -26,12 +24,18 @@ void vga_cursor_enable(uint8 start, uint8 end)
     outb(CRTC_DATA, (inb(CRTC_DATA) & 0xE0) | end);
 }
 
+/*
+** disable the cursor
+*/
 void vga_cursor_disable(void)
 {
     outb(CRTC_INDEX, 0x0A);
     outb(CRTC_DATA, 0x20);
 }
 
+/*
+** Synchronize the cursor with the virtual cursor
+*/
 static void vga_cursor_update(void)
 {
     uint pos = vga.posy * VGA_WIDTH + vga.posx;
@@ -41,6 +45,9 @@ static void vga_cursor_update(void)
     outb(0x3D5, pos);
 }
 
+/*
+** Set the screen cursor position
+*/
 uint16 vga_cursor_get_position(void)
 {
     uint16 pos = 0x0;
@@ -53,14 +60,16 @@ uint16 vga_cursor_get_position(void)
 }
 
 /*
-** VGA Management
+** VGA set the background & foreground color
 */
-
 void vga_set_color(enum vga_color bg, enum vga_color fg)
 {
     vga.attrib = ((bg << 0x4) | (fg & 0xF)) << 0x8;
 }
 
+/*
+** scroll one line
+*/
 static void vga_scroll(void)
 {
     void* start = (void *)ADD_TO_PTR(VGA_BUFFER_ADDRESS, VGA_WIDTH * 2);
@@ -73,6 +82,9 @@ static void vga_scroll(void)
     memsetw(start, vga.attrib | 0x20, VGA_WIDTH);
 }
 
+/*
+** fulle screen clear
+*/
 void vga_clear(void)
 {
     memsetw(vga.buff, vga.attrib | 0x20, VGA_WIDTH * VGA_HEIGHT);
@@ -81,6 +93,9 @@ void vga_clear(void)
     vga_cursor_update();
 }
 
+/*
+** Print a char
+*/
 static void vga_putchar(int c)
 {
     switch (c)
@@ -118,6 +133,9 @@ static void vga_putchar(int c)
 
 static spinlock_t lock = SPINLOCK_INIT();
 
+/*
+** The printf callable function
+*/
 void vga_szputs(char const *s, size_t sz)
 {
     spinlock_lock(&lock);
@@ -130,7 +148,6 @@ void vga_szputs(char const *s, size_t sz)
 /*
 ** Must Not Be Used
 */
-
 void vga_puts(char const *s)
 {
     while (*s) {

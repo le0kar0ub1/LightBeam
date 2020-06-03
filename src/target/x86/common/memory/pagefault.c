@@ -7,6 +7,9 @@
 #define ERR_PF_RES  0x8
 #define ERR_PF_INST 0x10
 
+/*
+** In case of page fault
+*/
 void pageFault_handler(struct intframe *frame)
 {
     /* Page faults in kernel space leads to death */

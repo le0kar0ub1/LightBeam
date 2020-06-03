@@ -8,12 +8,18 @@ static u8_t bitmap[PMM_BITMAP_SIZE];
 
 static spinlock_t lock = SPINLOCK_INIT();
 
+/*
+** is the given frame allocated?
+*/
 bool pmm_is_frame_allocated(physaddr_t frame)
 {
     assert(IS_PAGE_ALIGNED(frame));
     return (bitmap[PMM_BITMAP_ADDR2IDX(frame)] & PMM_BITMAP_ADDR2MASK(frame));
 }
 
+/*
+** mark all the frames as allocated between start & end address
+*/
 void pmm_mark_range_frame_as_allocated(physaddr_t start, physaddr_t end)
 {
     assert(IS_PAGE_ALIGNED(start));
@@ -27,6 +33,9 @@ void pmm_mark_range_frame_as_allocated(physaddr_t start, physaddr_t end)
     spinlock_unlock(&lock);
 }
 
+/*
+** mark all the frames as free between start & end address
+*/
 void pmm_mark_range_frame_as_free(physaddr_t start, physaddr_t end)
 {
     assert(IS_PAGE_ALIGNED(start));
@@ -40,6 +49,9 @@ void pmm_mark_range_frame_as_free(physaddr_t start, physaddr_t end)
     spinlock_unlock(&lock);
 }
 
+/*
+** Alloc ONE frame and return his address
+*/
 physaddr_t pmm_alloc_frame(void)
 {
     /*
@@ -67,6 +79,9 @@ physaddr_t pmm_alloc_frame(void)
     PANIC("Running out of physical memory");
 }
 
+/*
+** Free the given frame
+*/
 void pmm_free_frame(physaddr_t frame)
 {
     assert(IS_PAGE_ALIGNED(frame));

@@ -14,6 +14,9 @@
 
 .global sanity_multiboot
 
+/*
+** multiboot checkup
+*/
 sanity_multiboot:
     LV2P $_err_multiboot, %esi
     cmp $0x36d76289, %eax
@@ -22,6 +25,10 @@ sanity_multiboot:
 
 .global cpuid_detect
 
+/*
+** detect the cpuid
+** Is a fatal feature
+*/
 cpuid_detect:
     pushf
     pop %eax

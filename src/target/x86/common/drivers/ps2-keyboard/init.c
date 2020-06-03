@@ -2,6 +2,9 @@
 #include "target/x86/common/drivers/ps2-keyboard.h"
 #include "target/x86/common/interrupts/pic.h"
 
+/*
+** register the keyboard handler then unmask the keyboard IRQ
+*/
 static void ps2keyboard_init(void)
 {
     interrupt_register_handler(INT_IRQ1, ps2keyboard_handler);

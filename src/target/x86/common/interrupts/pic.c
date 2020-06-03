@@ -1,6 +1,9 @@
 #include "target/x86/x86.h"
 #include "target/x86/common/interrupts/pic.h"
 
+/*
+** outb & let a delay
+*/
 static void pic_outb(uint8 port, uint8 data)
 {
     outb(port, data);
@@ -10,7 +13,6 @@ static void pic_outb(uint8 port, uint8 data)
 /*
 ** Init then disable PIC
 */
-
 void pic_init(void)
 {
     /* Start init sequence in cascade mode */
