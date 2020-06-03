@@ -22,7 +22,7 @@ The Core of the raspi3 is the bcm2837 peripherals.
   - [ ] Interrupts
   - [ ] ...
 - [ ] Driver
-  - [X] UART 
+  - [X] UART
   - [X] FB
   - [X] Timer
   - [ ] DMA

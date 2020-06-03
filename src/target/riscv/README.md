@@ -7,5 +7,5 @@ This ISA is not much used to date but has potential to exploit.
 
 | Implementation    | Sub-Reference                              |
 |-------------------|--------------------------------------------|
-| riscv64 generic   | [rv64 generic](generic/README.md)  |
-| riscv64 sifive    | [rv64 sifive](sifive/README.md)    |
+| riscv64 generic   | [rv64 generic](generic/README.md)          |
+| riscv64 sifive    | [rv64 sifive](sifive/README.md)            |

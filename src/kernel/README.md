@@ -10,9 +10,9 @@ These source are generaly kernel tricks or global objects usable in the kernel w
 - [X] Init hooks
 - [X] Init calls
 - [X] Shareable library & printf
-- [X] SMP CPUs management (SO BAD SO FAR)
+- [X] SMP CPUs management (bad way so far)
 - [ ] Kernel Symbol tab
-- [ ] External global scheduler & ressource manager
 - [ ] VMM/PMM Allocator
 - [ ] Heap Allocator
+- [ ] External global scheduler & ressource manager
 - [ ] fileSystem
