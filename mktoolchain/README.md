@@ -1,7 +1,7 @@
 `mktoolchain`
-==============
+=============
 
-This directory is used as dependencies checker & installer.
+This directory is used as dependencies installer.
 
 If you does not have clone recursively this repository you must run `mktoolchain` shell script before build.
 
@@ -12,3 +12,7 @@ Currently handle only the ARM toolchain.
 _Using make rule:_ `make toolchain`.
 
 _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`.
+
+# ARM
+
+toolchain cloned from github.

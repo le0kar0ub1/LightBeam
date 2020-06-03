@@ -5,6 +5,7 @@ This directory is composed only of includable files for `make` work.
 
 | Path                 | Description                                      |
 |--------------------- |--------------------------------------------------|
+| `arch.mk`            | List of handled target                           |
 | `def.mk`             | Definition of static build variable              |
 | `macro.mk`           | Macro for build processus control                |
 | `toolchain.mk`       | Variable defined from used GNU toolchain         |

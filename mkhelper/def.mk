@@ -95,7 +95,7 @@ export CCFLAGS	=	-I $(INCLUDE_DIR)					\
 					-static					 			\
 					# -Werror							\
 
-export ASFLAGS	=	-I	$(INCLUDE_DIR)						\
+export ASFLAGS	=	-I	$(INCLUDE_DIR)					\
 
 # Compile-time Macro
 CCFLAGS		+=	'-D PROJECT="$(PROJECT)"'										\
