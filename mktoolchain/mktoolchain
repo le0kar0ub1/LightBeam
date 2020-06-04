@@ -12,6 +12,7 @@ source $MKTOOL/build-helpers
 require make
 require bc
 require bison
+require flex
 
 unfatalrequire makeinfo
 unfatalrequire qemu-system-aarch64

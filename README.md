@@ -18,7 +18,7 @@ _Using mktoolchain directly:_ `./mktoolchain/mktoolchain`
 
 Kernels are built using GNU toolchain from submodules git.
 
-For x86 the build actually assume that your host machine is of this architecture. An installer will be provided later.
+For x86 the build currently assume that your host machine is of this architecture. An installer will be provided later.
 
 ## BUILD
 
@@ -31,7 +31,7 @@ You can also run `make help` at root to see targetable plateform.
 
 ## RUN
 
-For virtual run I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for system X.
+For virtual run I advise to use [QEMU](https://www.qemu.org/docs/master/qemu-doc.html) for system-xxx.
 
 Install QEMU from official [github repository](https://github.com/qemu/qemu).
 
