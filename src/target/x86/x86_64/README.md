@@ -3,7 +3,7 @@
 
 A multicore x86_64 kernel implementation using `grub` so far.
 
-Reference of [x86 common](../README.md).
+Reference of [x86 common](..).
 
 As explained, a part of the kernel is contained in other project directories.
 

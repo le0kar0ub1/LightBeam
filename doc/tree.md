@@ -10,9 +10,9 @@ For more information, see sub-README referenced below.
 | `inc/arch`    | Architecture-specific headers                                |
 | `inc/kernel`  | Kernel generic/interface headers                             |
 | `inc/target`  | Target-specific Headers                                      |
-| `mkhelper`    | [*Make* build & definition helper](../mkhelper/README.md)    |
-| `mktoolchain` | [Dependencies management](../mktoolchain/README.md)          |
+| `mkhelper`    | [*Make* build & definition helper](../mkhelper)              |
+| `mktoolchain` | [Dependencies management](../mktoolchain)                    |
 | `src`         | Root directory sources                                       |
-| `src/arch`    | [Architecture-specific sources](../src/arch/README.md)       |
-| `src/kernel`  | [Kernel generic/interface sources](../src/kernel/README.md)  |
-| `src/target`  | [Target-specific sources](../src/target/README.md)           |
+| `src/arch`    | [Architecture-specific sources](../src/arch)                 |
+| `src/kernel`  | [Kernel generic/interface sources](../src/kernel)            |
+| `src/target`  | [Target-specific sources](../src/target)                     |
