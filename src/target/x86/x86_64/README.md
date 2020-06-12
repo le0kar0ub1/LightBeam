@@ -1,4 +1,4 @@
-`/src/target/x86/x86_64`
+`src/target/x86/x86_64`
 =========================
 
 A multicore x86_64 kernel implementation using `grub` so far.

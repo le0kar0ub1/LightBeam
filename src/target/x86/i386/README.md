@@ -1,4 +1,4 @@
-`/src/target/x86/i386`
+`src/target/x86/i386`
 =========================
 
 A multicore i386 kernel implementation using `grub` so far.

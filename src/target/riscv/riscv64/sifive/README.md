@@ -1,4 +1,4 @@
-`/src/target/riscv/riscv64/sifive`
+`src/target/riscv/riscv64/sifive`
 =================================
 
 riscv64 implementation for embedded system.

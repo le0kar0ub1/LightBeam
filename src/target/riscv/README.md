@@ -1,4 +1,4 @@
-`/src/target/riscv`
+`src/target/riscv`
 =================
 
 [RISC-V](https://riscv.org) is an open source hardware [ISA](https://en.wikipedia.org/wiki/Instruction_set_architecture) (Instruction Set Architecture) type [RISC](https://en.wikipedia.org/wiki/Reduced_instruction_set_computer) (Reduce Instruction Set Computer).

@@ -1,4 +1,4 @@
-`/src/target/riscv/riscv64/generic`
+`src/target/riscv/riscv64/generic`
 ==================================
 
 Reference of [riscv common](../..).

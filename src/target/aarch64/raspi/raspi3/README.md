@@ -1,4 +1,4 @@
-`/src/target/aarch64/raspi/raspi3`
+`src/target/aarch64/raspi/raspi3`
 =========================
 
 A multicore Raspberry3 kernel implementation.

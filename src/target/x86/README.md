@@ -1,4 +1,4 @@
-`/src/target/x86`
+`src/target/x86`
 =================
 
 Built-in [x86 bootloader](https://github.com/le0kar0ub1/SecondBreath) unused at time.
